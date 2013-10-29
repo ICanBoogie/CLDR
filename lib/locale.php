@@ -90,7 +90,7 @@ class Locale implements \ArrayAccess
 	 *
 	 * @var CalendarCollection
 	 */
-	protected $calendars;
+	private $calendars;
 
 	/**
 	 * Initializes the {@link $repository} and {@link $identity} properties.
