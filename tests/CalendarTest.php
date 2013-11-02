@@ -30,6 +30,11 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ICanBoogie\CLDR\Locale', self::$calendar->locale);
 	}
 
+	public function test_get_datetime_formatter()
+	{
+		$this->assertInstanceOf('ICanBoogie\CLDR\DateTimeFormatter', self::$calendar->datetime_formatter);
+	}
+
 	/**
 	 * @expectedException ICanBoogie\PropertyNotDefined
 	 */

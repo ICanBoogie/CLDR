@@ -17,6 +17,7 @@ use ICanBoogie\PropertyNotDefined;
  * Representation of a locale calendar.
  *
  * @property-read Locale $locale The locale this calendar is defined in.
+ * @property-read DataTimeFormatter $datetime_formatter A datetime formatter.
  *
  * @property-read string $standalone_abbreviated_days     Shortcut to `days/stand-alone/abbreviated`.
  * @property-read string $standalone_abbreviated_eras     Shortcut to `eras/eraAbbr`.
@@ -67,6 +68,13 @@ class Calendar extends \ArrayObject
 		parent::__construct($data);
 	}
 
+	/**
+	 * Datetime formatter.
+	 *
+	 * @var DateTimeFormatter
+	 */
+	private $datetime_formatter;
+
 	public function __get($property)
 	{
 		static $era_translation = array
@@ -80,6 +88,15 @@ class Calendar extends \ArrayObject
 		if ($property == 'locale')
 		{
 			return $this->locale;
+		}
+		else if ($property == 'datetime_formatter')
+		{
+			if (!$this->datetime_formatter)
+			{
+				$this->datetime_formatter = new DateTimeFormatter($this);
+			}
+
+			return $this->datetime_formatter;
 		}
 		else if (preg_match('#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#', $property, $matches))
 		{

@@ -4,9 +4,9 @@ The CLDR package provides a simple interface to the [Unicode Common Locale Data 
 When required, locale data is transparently retrieved from the [CLDR][] and cached for future
 usage.
 
-This package is not meant to provide an internationalization API but rather the means to obtain the
-data required for such an API. If you are looking for such an API, you might be interested in the
-[I18n library][].
+Although this package provides some internationalization features, currently it's main purpose is
+to provide the means to obtain locale data. If you are looking for an internationalization API
+you might be interested in the [I18n library][].
 
 Note: The package targets [CLDR version 24](http://cldr.unicode.org/index/downloads/cldr-24).
 
@@ -31,7 +31,7 @@ $repository = new Repository($provider);
 
 $locale = $repository->locales['fr'];
 
-echo $locale['ca-gregorian']['days']['format']['wide']['sun']; // dimanche
+echo $locale->calendars['gregorian']['days']['format']['wide']['sun']; // dimanche
 
 $repository->supplemental['calendarPreferenceData']['001']; // gregorian
 ```
@@ -49,6 +49,8 @@ provide magic properties to rapidly access days, eras, months and quarters:
 <?php
 
 $calendar = $repository->locales['fr']->calendars['gregorian'];
+# or
+$calendar = $repository->locales['fr']->calendar; // because "gregorian" is the default calendar for this locale
 
 $calender->standalone_abbreviated_days;
 # or $calender['days']['stand-alone']['abbreviated'];
@@ -90,9 +92,34 @@ $calender->wide_quarters;
 
 
 
+## Dates and Times
+
+Calendars provide a formatter for dates and times. A width, a skeleton or a pattern can be
+used for the formatting. The datetime can be specified as an Unix timestamp, a string or a 
+`DateTime` instance.
+
+```php
+<?php
+
+$datetime_formatter = $repository->locales['en']->calendar->datetime_formatter;
+$datetime = '2013-11-02 22:23:45';
+
+echo $datetime_formatter($datetime, "MMM d, y");                 // November 2, 2013 at 10:23:45 PM
+echo $datetime_formatter($datetime, "MMM d, y 'at' hh:mm:ss a"); // November 2, 2013 at 10:23:45 PM
+echo $datetime_formatter($datetime, 'full');                     // Saturday, November 2, 2013 at 10:23:45 PM CET
+echo $datetime_formatter($datetime, 'long');                     // November 2, 2013 at 10:23:45 PM CET
+echo $datetime_formatter($datetime, 'medium');                   // Nov 2, 2013, 10:23:45 PM
+echo $datetime_formatter($datetime, 'short');                    // 11/2/13, 10:23 PM
+echo $datetime_formatter($datetime, ':Ehm');                     // Sat 10:23 PM
+```
+
+
+
+
+
 ## Requirements
 
-The package requires PHP 5.3 or later.
+The package requires PHP 5.3 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
 
 
 
@@ -111,6 +138,11 @@ Create a `composer.json` file and run `php composer.phar install` command to ins
 	}
 }
 ```
+
+The following packages are required, you might want to check them out:
+
+- [icanboogie/common](https://github.com/ICanBoogie/Common)
+- [icanboogie/datetime](https://github.com/ICanBoogie/DateTime)
 
 
 

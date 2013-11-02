@@ -21,6 +21,7 @@ use ICanBoogie\PropertyNotDefined;
  * @property-read Repository $repository The repository provided during construct.
  * @property-read string $identity The identity of the locale.
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
+ * @property-read Calendar $calendar The prefered calendar for this locale.
  */
 class Locale implements \ArrayAccess
 {
@@ -86,13 +87,6 @@ class Locale implements \ArrayAccess
 	protected $sections = array();
 
 	/**
-	 * Collection of calendars.
-	 *
-	 * @var CalendarCollection
-	 */
-	private $calendars;
-
-	/**
 	 * Initializes the {@link $repository} and {@link $identity} properties.
 	 *
 	 * @param Repository $repository
@@ -111,6 +105,7 @@ class Locale implements \ArrayAccess
 			case 'repository': return $this->get_repository();
 			case 'identity':   return $this->get_identity();
 			case 'calendars':  return $this->get_calendars();
+			case 'calendar':  return $this->get_calendar();
 		}
 
 		throw new PropertyNotDefined(array($property, $this));
@@ -126,6 +121,18 @@ class Locale implements \ArrayAccess
 		return $this->identity;
 	}
 
+	/**
+	 * Collection of calendars.
+	 *
+	 * @var CalendarCollection
+	 */
+	private $calendars;
+
+	/**
+	 * Returns the calendars available for this locale.
+	 *
+	 * @return \ICanBoogie\CLDR\CalendarCollection
+	 */
 	protected function get_calendars()
 	{
 		if ($this->calendars)
@@ -134,6 +141,18 @@ class Locale implements \ArrayAccess
 		}
 
 		return $this->calendars = new CalendarCollection($this);
+	}
+
+	private $calendar;
+
+	protected function get_calendar()
+	{
+		if ($this->calendar)
+		{
+			return $this->calendar;
+		}
+
+		return $this->calendar = $this->get_calendars()->offsetGet('gregorian'); // TODO-20131101: use prefered data
 	}
 
 	public function offsetExists($offset)

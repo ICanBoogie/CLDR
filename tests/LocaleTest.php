@@ -35,6 +35,11 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ICanBoogie\CLDR\CalendarCollection', self::$locale->calendars);
 	}
 
+	public function test_get_calendar()
+	{
+		$this->assertInstanceOf('ICanBoogie\CLDR\Calendar', self::$locale->calendar);
+	}
+
 	/**
 	 * @expectedException ICanBoogie\PropertyNotDefined
 	 */
