@@ -1,20 +1,23 @@
 # CLDR [![Build Status](https://travis-ci.org/ICanBoogie/CLDR.png?branch=master)](https://travis-ci.org/ICanBoogie/CLDR)
 
-The CLDR package provides a simple interface to the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
-When required, locale data is transparently retrieved from the [CLDR][] and cached for future
-usage.
+The __CLDR__ package provides means to internationalize your application by leveraging the
+data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
 
-Although this package provides some internationalization features, currently it's main purpose is
-to provide the means to obtain locale data. If you are looking for an internationalization API
-you might be interested in the [I18n library][].
-
-Note: The package targets [CLDR version 24](http://cldr.unicode.org/index/downloads/cldr-24).
+The package target the [CLDR version 24](http://cldr.unicode.org/index/downloads/cldr-24) from
+which data is retrieved transparently when required.
 
 
 
 
 
-## Usage
+## Instanciating the repository
+
+The CLDR is represented by a [Repository][] instance, from which you can access
+the available locales or supplemental data. When necessary, the repository fetches the required
+data through a provider. You can use the default provider, or define your own.
+
+The following example demonstrates how such a repository is instantiated and how the
+available locales and supplemental data are accessed:
 
 ```php
 <?php
@@ -29,11 +32,47 @@ $provider = new Provider
 
 $repository = new Repository($provider);
 
+$english_locale = $repository->locales['en'];
+$french_locale = $repository->locales['fr'];
+
+$supplemental = $repository->supplemental;
+# reading the default calendar
+echo $supplemental['calendarPreferenceData']['001']; // gregorian
+```
+
+
+
+
+
+## Locales
+
+The data and conventions of a locale are represented by a [Locale][] instance, which is used as
+an array to access the various data such as calendars, characters, currencies, delimiters,
+languages, territories and more.
+
+```php
+<?php
+
 $locale = $repository->locales['fr'];
 
-echo $locale->calendars['gregorian']['days']['format']['wide']['sun']; // dimanche
+echo $locale['characters']['auxiliary'];      // [á å ä ã ā ē í ì ī ñ ó ò ö ø ú ǔ]
+echo $locale['delimiters']['quotationStart']; // «
+echo $locale['territories']['TF'];            // Terres australes françaises
+```
 
-$repository->supplemental['calendarPreferenceData']['001']; // gregorian
+Locales provide a collection of calendars, and the `calendar` property is often used to
+obtain the default calendar of a locale.
+
+```php
+<?php
+
+$locale = $repository->locales['fr'];
+
+echo $locale['ca-gregorian']['days']['format']['wide']['sun'];         // dimanche
+# or using the calendar collection
+echo $locale->calendars['gregorian']['days']['format']['wide']['sun']; // dimanche
+# or because 'gregorian' is the default calendar for this locale
+echo $locale->calendar['days']['format']['wide']['sun'];               // dimanche
 ```
 
 
@@ -50,6 +89,8 @@ provide magic properties to rapidly access days, eras, months and quarters:
 
 namespace ICanBoogie\CLDR;
 
+$calendar = new Calendar($repository->locales['fr'], $repository->locales['fr']['ca-gregorian']);
+# or
 $calendar = $repository->locales['fr']->calendars['gregorian'];
 # or
 $calendar = $repository->locales['fr']->calendar; // because "gregorian" is the default calendar for this locale
@@ -81,6 +122,26 @@ $calender->wide_quarters;
 
 
 
+### Dates and times formatters
+
+From a calendar you can obtain formatters for dates and times.
+
+The following example demonstrates how the dates and times formatters can be accessed and
+used.
+
+```php
+<?php
+
+$datetime = '2013-11-05 20:12:22 UTC';
+$calendar = $repository->locales['fr']->calendar;
+
+echo $calendar->datetime_formatter->format($datetime, 'long'); // mardi 5 novembre 2013 20:12:22 UTC
+echo $calendar->date_formatter->format($datetime, 'long');     // mardi 5 novembre 2013
+echo $calendar->time_formatter->format($datetime, 'long');     // 20:12:22 UTC
+```
+
+
+
 ## Dates and Times
 
 Calendars provide a formatter for dates and times. A width, a skeleton or a pattern can be
@@ -96,12 +157,12 @@ $formatter = new DateTimeFormatter($repository->locales['en']->calendar);
 # or
 $formatter = $repository->locales['en']->calendar->datetime_formatter;
 
-$datetime = '2013-11-02 22:23:45';
+$datetime = '2013-11-02 22:23:45 UTC';
 
-echo $formatter($datetime, "MMM d, y");                 // November 2, 2013 at 10:23:45 PM
+echo $formatter($datetime, "MMM d, y");                 // November 2, 2013
 echo $formatter($datetime, "MMM d, y 'at' hh:mm:ss a"); // November 2, 2013 at 10:23:45 PM
-echo $formatter($datetime, 'full');                     // Saturday, November 2, 2013 at 10:23:45 PM CET
-echo $formatter($datetime, 'long');                     // November 2, 2013 at 10:23:45 PM CET
+echo $formatter($datetime, 'full');                     // Saturday, November 2, 2013 at 10:23:45 PM UTC
+echo $formatter($datetime, 'long');                     // November 2, 2013 at 10:23:45 PM UTC
 echo $formatter($datetime, 'medium');                   // Nov 2, 2013, 10:23:45 PM
 echo $formatter($datetime, 'short');                    // 11/2/13, 10:23 PM
 echo $formatter($datetime, ':Ehm');                     // Sat 10:23 PM
@@ -149,10 +210,10 @@ $formatter = new TimeFormatter($repository->locales['en']->calendar);
 # or
 $formatter = $repository->locales['en']->calendar->time_formatter;
 
-$datetime = '2013-11-05 21:22:23';
+$datetime = '2013-11-05 21:22:23 UTC';
 
-echo $formatter($datetime, 'full');   // 9:22:23 PM CET
-echo $formatter($datetime, 'long');   // 9:22:23 PM CET
+echo $formatter($datetime, 'full');   // 9:22:23 PM UTC
+echo $formatter($datetime, 'long');   // 9:22:23 PM UTC
 echo $formatter($datetime, 'medium'); // 9:22:23 PM
 echo $formatter($datetime, 'short');  // 9:22 PM
 ```
@@ -264,4 +325,6 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the LICENSE file for
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/24/
 [I18n library]: https://github.com/ICanBoogie/I18n
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
+[Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
+[Locale]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Locale.html
 [LocalizedDateTime]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizedDateTime.html
