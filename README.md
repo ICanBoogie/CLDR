@@ -48,6 +48,8 @@ provide magic properties to rapidly access days, eras, months and quarters:
 ```php
 <?php
 
+namespace ICanBoogie\CLDR;
+
 $calendar = $repository->locales['fr']->calendars['gregorian'];
 # or
 $calendar = $repository->locales['fr']->calendar; // because "gregorian" is the default calendar for this locale
@@ -55,36 +57,23 @@ $calendar = $repository->locales['fr']->calendar; // because "gregorian" is the 
 $calender->standalone_abbreviated_days;
 # or $calender['days']['stand-alone']['abbreviated'];
 
+$calender->abbreviated_days;
+# or $calender['days']['format']['abbreviated'];
+```
+
+This works with days, eras, months, quarters and the following widths: `abbreviated`, `narrow`,
+`short`, and `wide`. Here are some examples:
+
+```php
+<?php
+
 $calender->standalone_abbreviated_eras;
-$calender->standalone_abbreviated_months;
-$calender->standalone_abbreviated_quarters;
-$calender->standalone_narrow_days;
-$calender->standalone_narrow_eras;
 $calender->standalone_narrow_months;
-$calender->standalone_narrow_quarters;
-$calender->standalone_short_days;
-$calender->standalone_short_eras;
-$calender->standalone_short_months;
 $calender->standalone_short_quarters;
 $calender->standalone_wide_days;
-$calender->standalone_wide_eras;
-$calender->standalone_wide_months;
-$calender->standalone_wide_quarters;
 $calender->abbreviated_days;
-$calender->abbreviated_eras;
-$calender->abbreviated_months;
-$calender->abbreviated_quarters;
-$calender->narrow_days;
-$calender->narrow_eras;
 $calender->narrow_months;
-$calender->narrow_quarters;
 $calender->short_days;
-$calender->short_eras;
-$calender->short_months;
-$calender->short_quarters;
-$calender->wide_days;
-$calender->wide_eras;
-$calender->wide_months;
 $calender->wide_quarters;
 ```
 
@@ -100,6 +89,8 @@ used for the formatting. The datetime can be specified as an Unix timestamp, a s
 
 ```php
 <?php
+
+namespace ICanBoogie\CLDR;
 
 $formatter = new DateTimeFormatter($repository->locales['en']->calendar);
 # or
@@ -127,6 +118,8 @@ Calendars provide a formatter for dates. A width or a pattern is used for the fo
 ```php
 <?php
 
+namespace ICanBoogie\CLDR;
+
 $formatter = new DateFormatter($repository->locales['en']->calendar);
 # or
 $formatter = $repository->locales['en']->calendar->date_formatter;
@@ -150,6 +143,8 @@ Calendars provide a formatter for times. A width or a pattern is used for the fo
 ```php
 <?php
 
+namespace ICanBoogie\CLDR;
+
 $formatter = new TimeFormatter($repository->locales['en']->calendar);
 # or
 $formatter = $repository->locales['en']->calendar->time_formatter;
@@ -162,6 +157,29 @@ echo $formatter($datetime, 'medium'); // 9:22:23 PM
 echo $formatter($datetime, 'short');  // 9:22 PM
 ```
 
+
+
+
+
+### Localized DateTime
+
+`DateTime` can be localized by wrapping them inside a [LocalizedDateTime][] instance:
+
+```php
+<?php
+
+namespace ICanBoogie\CLDR;
+
+$ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $repository->locales['fr']);
+
+echo $ldt->as_full;          // lundi 4 novembre 2013 20:21:22 UTC
+# or
+echo $ldt->format_as_full(); // lundi 4 novembre 2013 20:21:22 UTC
+
+echo $ldt->as_long;          // 4 novembre 2013 20:21:22 UTC
+echo $ldt->as_medium;        // 4 nov. 2013 20:21:22
+echo $ldt->as_short;         // 04/11/2013 20:21
+```
 
 
 
@@ -246,3 +264,4 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the LICENSE file for
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/24/
 [I18n library]: https://github.com/ICanBoogie/I18n
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
+[LocalizedDateTime]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizedDateTime.html
