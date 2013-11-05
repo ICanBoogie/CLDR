@@ -152,7 +152,7 @@ Calendars provide a formatter for times. A width or a pattern is used for the fo
 
 $formatter = new TimeFormatter($repository->locales['en']->calendar);
 # or
-$formatter = $repository->locales['en']->calendar->date_formatter;
+$formatter = $repository->locales['en']->calendar->time_formatter;
 
 $datetime = '2013-11-05 21:22:23';
 
