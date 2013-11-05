@@ -33,6 +33,22 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 	public function test_get_datetime_formatter()
 	{
 		$this->assertInstanceOf('ICanBoogie\CLDR\DateTimeFormatter', self::$calendar->datetime_formatter);
+
+		$this->assertSame(self::$calendar->datetime_formatter, self::$calendar->datetime_formatter);
+	}
+
+	public function test_get_date_formatter()
+	{
+		$this->assertInstanceOf('ICanBoogie\CLDR\DateFormatter', self::$calendar->date_formatter);
+
+		$this->assertSame(self::$calendar->date_formatter, self::$calendar->date_formatter);
+	}
+
+	public function test_get_time_formatter()
+	{
+		$this->assertInstanceOf('ICanBoogie\CLDR\TimeFormatter', self::$calendar->time_formatter);
+
+		$this->assertSame(self::$calendar->time_formatter, self::$calendar->time_formatter);
 	}
 
 	/**

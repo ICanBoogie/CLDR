@@ -75,6 +75,20 @@ class Calendar extends \ArrayObject
 	 */
 	private $datetime_formatter;
 
+	/**
+	 * Date formatter.
+	 *
+	 * @var DateFormatter
+	 */
+	private $date_formatter;
+
+	/**
+	 * Time formatter.
+	 *
+	 * @var TimeFormatter
+	 */
+	private $time_formatter;
+
 	public function __get($property)
 	{
 		static $era_translation = array
@@ -85,20 +99,41 @@ class Calendar extends \ArrayObject
 			'wide' => 'eraNames'
 		);
 
-		if ($property == 'locale')
+		switch ($property)
 		{
-			return $this->locale;
-		}
-		else if ($property == 'datetime_formatter')
-		{
-			if (!$this->datetime_formatter)
-			{
-				$this->datetime_formatter = new DateTimeFormatter($this);
-			}
+			case 'locale':
 
-			return $this->datetime_formatter;
+				return $this->locale;
+
+			case 'datetime_formatter':
+
+				if (!$this->datetime_formatter)
+				{
+					$this->datetime_formatter = new DateTimeFormatter($this);
+				}
+
+				return $this->datetime_formatter;
+
+			case 'date_formatter':
+
+				if (!$this->date_formatter)
+				{
+					$this->date_formatter = new DateFormatter($this);
+				}
+
+				return $this->date_formatter;
+
+			case 'time_formatter':
+
+				if (!$this->time_formatter)
+				{
+					$this->time_formatter = new TimeFormatter($this);
+				}
+
+				return $this->time_formatter;
 		}
-		else if (preg_match('#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#', $property, $matches))
+
+		if (preg_match('#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#', $property, $matches))
 		{
 			list(, $standalone, $width, $type) = $matches;
 

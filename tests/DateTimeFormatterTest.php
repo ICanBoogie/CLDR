@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\DateTime;
 
-class DateFormatterTest extends \PHPUnit_Framework_TestCase
+class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 {
 	static private $formatters = array();
 

@@ -101,17 +101,67 @@ used for the formatting. The datetime can be specified as an Unix timestamp, a s
 ```php
 <?php
 
-$datetime_formatter = $repository->locales['en']->calendar->datetime_formatter;
+$formatter = new DateTimeFormatter($repository->locales['en']->calendar);
+# or
+$formatter = $repository->locales['en']->calendar->datetime_formatter;
+
 $datetime = '2013-11-02 22:23:45';
 
-echo $datetime_formatter($datetime, "MMM d, y");                 // November 2, 2013 at 10:23:45 PM
-echo $datetime_formatter($datetime, "MMM d, y 'at' hh:mm:ss a"); // November 2, 2013 at 10:23:45 PM
-echo $datetime_formatter($datetime, 'full');                     // Saturday, November 2, 2013 at 10:23:45 PM CET
-echo $datetime_formatter($datetime, 'long');                     // November 2, 2013 at 10:23:45 PM CET
-echo $datetime_formatter($datetime, 'medium');                   // Nov 2, 2013, 10:23:45 PM
-echo $datetime_formatter($datetime, 'short');                    // 11/2/13, 10:23 PM
-echo $datetime_formatter($datetime, ':Ehm');                     // Sat 10:23 PM
+echo $formatter($datetime, "MMM d, y");                 // November 2, 2013 at 10:23:45 PM
+echo $formatter($datetime, "MMM d, y 'at' hh:mm:ss a"); // November 2, 2013 at 10:23:45 PM
+echo $formatter($datetime, 'full');                     // Saturday, November 2, 2013 at 10:23:45 PM CET
+echo $formatter($datetime, 'long');                     // November 2, 2013 at 10:23:45 PM CET
+echo $formatter($datetime, 'medium');                   // Nov 2, 2013, 10:23:45 PM
+echo $formatter($datetime, 'short');                    // 11/2/13, 10:23 PM
+echo $formatter($datetime, ':Ehm');                     // Sat 10:23 PM
 ```
+
+
+
+
+
+### Date formatter
+
+Calendars provide a formatter for dates. A width or a pattern is used for the formatting.
+
+```php
+<?php
+
+$formatter = new DateFormatter($repository->locales['en']->calendar);
+# or
+$formatter = $repository->locales['en']->calendar->date_formatter;
+
+$datetime = '2013-11-05 21:22:23';
+
+echo $formatter($datetime, 'full');   // Tuesday, November 5, 2013
+echo $formatter($datetime, 'long');   // November 5, 2013
+echo $formatter($datetime, 'medium'); // Nov 5, 2013
+echo $formatter($datetime, 'short');  // 11/5/13
+```
+
+
+
+
+
+### Time formatter
+
+Calendars provide a formatter for times. A width or a pattern is used for the formatting.
+
+```php
+<?php
+
+$formatter = new TimeFormatter($repository->locales['en']->calendar);
+# or
+$formatter = $repository->locales['en']->calendar->date_formatter;
+
+$datetime = '2013-11-05 21:22:23';
+
+echo $formatter($datetime, 'full');   // 9:22:23 PM CET
+echo $formatter($datetime, 'long');   // 9:22:23 PM CET
+echo $formatter($datetime, 'medium'); // 9:22:23 PM
+echo $formatter($datetime, 'short');  // 9:22 PM
+```
+
 
 
 
