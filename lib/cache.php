@@ -61,7 +61,7 @@ class FileCache implements Cache
 
 	public function __construct($root)
 	{
-		$this->root = $root . DIRECTORY_SEPARATOR;
+		$this->root = rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 	}
 
 	public function exists($path)
