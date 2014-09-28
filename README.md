@@ -1,4 +1,4 @@
-# CLDR [![Build Status](https://travis-ci.org/ICanBoogie/CLDR.png?branch=master)](https://travis-ci.org/ICanBoogie/CLDR)
+# CLDR [![Build Status](https://travis-ci.org/ICanBoogie/CLDR.svg?branch=master)](https://travis-ci.org/ICanBoogie/CLDR)
 
 The __CLDR__ package provides means to internationalize your application by leveraging the
 data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
@@ -308,7 +308,7 @@ clean the directory with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status](https://travis-ci.org/ICanBoogie/CLDR.png?branch=master)](https://travis-ci.org/ICanBoogie/CLDR)
+[![Build Status](https://travis-ci.org/ICanBoogie/CLDR.svg?branch=master)](https://travis-ci.org/ICanBoogie/CLDR)
 
 
 
