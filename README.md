@@ -246,6 +246,12 @@ echo $ldt->as_short;         // 04/11/2013 20:21
 
 
 
+----------
+
+
+
+
+
 ## Requirements
 
 The package requires PHP 5.3 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
@@ -316,7 +322,7 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 ## License
 
-ICanBoogie/CLDR is licensed under the New BSD License - See the LICENSE file for details.
+ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
 
 
 
