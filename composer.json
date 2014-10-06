@@ -5,6 +5,7 @@
 	"keywords": [ "i18n", "cldr" ],
 	"homepage": "http://icanboogie.org/",
 	"license": "BSD-3-Clause",
+
 	"authors": [
 		{
 			"name": "Olivier Laviale",
@@ -13,18 +14,31 @@
 			"role" : "Developer"
 		}
 	],
+
 	"support": {
+
 		"issues": "https://github.com/ICanBoogie/CLDR/issues",
 		"source": "https://github.com/ICanBoogie/CLDR"
+
 	},
+
 	"minimum-stability": "dev",
+
 	"require": {
+
 		"php": ">=5.3.0",
 		"ext-curl": "*",
 		"icanboogie/common": "*",
 		"icanboogie/datetime": "*"
+
 	},
+
 	"autoload": {
-		"classmap": [ "lib/" ]
+
+		"psr-4": {
+
+			"ICanBoogie\\CLDR\\": "lib"
+
+		}
 	}
 }

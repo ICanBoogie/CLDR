@@ -67,30 +67,3 @@ class Retriever
 		return $rc;
 	}
 }
-
-/**
- * Exception throw when a path does not exists on the CLDR source.
- *
- * @property-read string $path The path.
- */
-class ResourceNotFound extends \Exception
-{
-	private $path;
-
-	public function __construct($path, $code=500, \Exception $previous=null)
-	{
-		$this->path = $path;
-
-		parent::__construct("Path not defined: $path.", $code, $previous);
-	}
-
-	public function __get($property)
-	{
-		if ($property == 'path')
-		{
-			return $this->path;
-		}
-
-		throw new PropertyNotDefined(array($property, $this));
-	}
-}
