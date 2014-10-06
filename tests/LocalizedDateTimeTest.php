@@ -82,7 +82,7 @@ class LocalizedDateTimeTest extends \PHPUnit_Framework_TestCase
 			array('fr', 'db', "2013-11-04 20:21:22"),
 
 			array('en', 'atom', "2013-11-04T20:21:22+00:00"),
-			array('en', 'cookie', "Monday, 04-Nov-13 20:21:22 UTC"),
+			array('en', 'cookie', "Monday, 04-Nov-2013 20:21:22 UTC"),
 			array('en', 'iso8601', "2013-11-04T20:21:22Z"),
 			array('en', 'rfc822', "Mon, 04 Nov 13 20:21:22 GMT"),
 			array('en', 'rfc850', "Monday, 04-Nov-13 20:21:22 UTC"),
