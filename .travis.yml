@@ -13,4 +13,5 @@ matrix:
     - php: hhvm
 
 before_script:
-  - COMPOSER_ROOT_VERSION=dev-master composer --prefer-source --dev install
+  - composer self-update
+  - composer install --no-interaction --prefer-source --dev
