@@ -262,16 +262,10 @@ The package requires PHP 5.3 or later, and the [cURL extension](http://www.php.n
 
 ## Installation
 
-The recommended way to install this package is through [Composer](http://getcomposer.org/).
-Create a `composer.json` file and run `php composer.phar install` command to install it:
+The recommended way to install this package is through [Composer](http://getcomposer.org/):
 
-```json
-{
-	"minimum-stability": "dev",
-	"require": {
-		"icanboogie/cldr": "*"
-	}
-}
+```
+$ composer require icanboogie/cldr
 ```
 
 The following packages are required, you might want to check them out:
@@ -288,7 +282,7 @@ The following packages are required, you might want to check them out:
 The package is [available on GitHub](https://github.com/ICanBoogie/CLDR), its repository can be
 cloned with the following command line:
 
-	$ git clone git://github.com/ICanBoogie/CLDR.git
+	$ git clone https://github.com/ICanBoogie/CLDR.git
 
 
 

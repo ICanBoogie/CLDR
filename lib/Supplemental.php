@@ -11,6 +11,9 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\OffsetNotDefined;
+use ICanBoogie\OffsetNotWritable;
+
 /**
  * Representation of the "supplemental" section.
  *

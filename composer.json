@@ -28,8 +28,8 @@
 
 		"php": ">=5.3.0",
 		"ext-curl": "*",
-		"icanboogie/common": "*",
-		"icanboogie/datetime": "*"
+		"icanboogie/common": "~1.2",
+		"icanboogie/datetime": ">=1.0"
 
 	},
 

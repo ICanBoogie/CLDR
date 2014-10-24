@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\PropertyNotDefined;
+
 /**
  * Exception throw when a path does not exists on the CLDR source.
  *
