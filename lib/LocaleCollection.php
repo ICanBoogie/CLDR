@@ -33,7 +33,7 @@ class LocaleCollection implements \ArrayAccess
 	protected $collection = array();
 
 	/**
-	 * Initialiazes the {@link $repository} property.
+	 * Initializes the {@link $repository} property.
 	 *
 	 * @param Repository $repository Representation of a CLDR.
 	 */

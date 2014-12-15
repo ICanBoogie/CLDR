@@ -59,7 +59,7 @@ class Supplemental implements \ArrayAccess
 	);
 
 	/**
-	 * Representation of a CLRD repository.
+	 * Representation of a CLDR repository.
 	 *
 	 * @var Repository
 	 */

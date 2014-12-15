@@ -49,7 +49,7 @@ abstract class LocalizedObject
 	protected $options;
 
 	/**
-	 * Initializes the {@link $target], {@link $locale}, and {@link $options} perperties.
+	 * Initializes the {@link $target], {@link $locale}, and {@link $options} properties.
 	 *
 	 * @param mixed $target The object to localize.
 	 * @param Locale $locale The locale used by the formatter.

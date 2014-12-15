@@ -12,7 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 /**
- * Retrives sections from the CLDR source.
+ * Retrieves sections from the CLDR source.
  */
 class Retriever
 {

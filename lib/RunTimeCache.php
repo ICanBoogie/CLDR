@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 /**
  * A cache that only persists during the run time.
  *
- * This cache is meant to be used as a wrapper to more persistant cache:
+ * This cache is meant to be used as a wrapper to more persistent cache:
  *
  * <pre>
  * <?php

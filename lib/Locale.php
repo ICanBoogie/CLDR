@@ -21,7 +21,7 @@ use ICanBoogie\PropertyNotDefined;
  * @property-read Repository $repository The repository provided during construct.
  * @property-read string $identity The identity of the locale.
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
- * @property-read Calendar $calendar The prefered calendar for this locale.
+ * @property-read Calendar $calendar The preferred calendar for this locale.
  */
 class Locale implements \ArrayAccess
 {
@@ -131,7 +131,7 @@ class Locale implements \ArrayAccess
 	/**
 	 * Returns the calendars available for this locale.
 	 *
-	 * @return \ICanBoogie\CLDR\CalendarCollection
+	 * @return CalendarCollection
 	 */
 	protected function get_calendars()
 	{

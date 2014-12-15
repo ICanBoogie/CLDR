@@ -108,6 +108,8 @@ class Repository
 	 * Note: The method is forwarded to {@link Provider::fetch}.
 	 *
 	 * @param string $path
+	 *
+	 * @return array
 	 */
 	public function fetch($path)
 	{

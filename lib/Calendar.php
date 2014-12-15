@@ -17,7 +17,7 @@ use ICanBoogie\PropertyNotDefined;
  * Representation of a locale calendar.
  *
  * @property-read Locale $locale The locale this calendar is defined in.
- * @property-read DataTimeFormatter $datetime_formatter A datetime formatter.
+ * @property-read DateTimeFormatter $datetime_formatter A datetime formatter.
  *
  * @property-read string $standalone_abbreviated_days     Shortcut to `days/stand-alone/abbreviated`.
  * @property-read string $standalone_abbreviated_eras     Shortcut to `eras/eraAbbr`.

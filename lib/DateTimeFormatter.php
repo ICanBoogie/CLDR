@@ -323,7 +323,7 @@ class DateTimeFormatter
 	 * Quarter - Use one or two "Q" for the numerical quarter, three for the abbreviation, or four
 	 * for the full (wide) name. [1..2,3,4]
 	 *
-	 * @param \DateTime $datetime Datetime.
+	 * @param DateTime $datetime Datetime.
 	 * @param string $pattern Pattern.
 	 * @param int $length Number of repetition.
 	 *
@@ -346,7 +346,7 @@ class DateTimeFormatter
 	 * Stand-Alone Quarter - Use one or two "q" for the numerical quarter, three for the
 	 * abbreviation, or four for the full (wide) name. [1..2,3,4]
 	 *
-	 * @param array $date result of getdate().
+	 * @param DateTime $datetime Datetime.
 	 * @param string $pattern a pattern.
 	 * @param int $length Number of repetition.
 	 *
@@ -534,7 +534,6 @@ class DateTimeFormatter
  	 *
 	 * @param DateTime $datetime
 	 * @param string $pattern a pattern.
-	 * @param int $length Number of repetition.
 	 *
 	 * @return string
 	 */

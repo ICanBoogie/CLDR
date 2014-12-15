@@ -20,7 +20,7 @@ use ICanBoogie\OffsetNotWritable;
  * <?php
  *
  * $calendar_collection = $repository->locales['fr']->calendars;
- * $gregorian_callendar = $calendar_collection['gregorian'];
+ * $gregorian_calendar = $calendar_collection['gregorian'];
  * </pre>
  */
 class CalendarCollection implements \ArrayAccess
@@ -40,9 +40,9 @@ class CalendarCollection implements \ArrayAccess
 	protected $collection = array();
 
 	/**
-	 * Initialiazes the {@link $repository} property.
+	 * Initializes the {@link $locale} property.
 	 *
-	 * @param Repository $repository Representation of a CLDR.
+	 * @param Locale $locale Locale.
 	 */
 	public function __construct(Locale $locale)
 	{
