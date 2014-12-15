@@ -40,6 +40,10 @@ class DateFormatter extends DateTimeFormatter
 {
 	/**
 	 * Resolves widths defined in `dateFormats` (full, long, medium, short) into a pattern.
+	 *
+	 * @param string $pattern_or_width_or_skeleton
+	 *
+	 * @return string
 	 */
 	protected function resolve_pattern($pattern_or_width_or_skeleton)
 	{

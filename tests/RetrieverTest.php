@@ -25,7 +25,7 @@ class RetrieverTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\CLDR\ResourceNotFound
+	 * @expectedException \ICanBoogie\CLDR\ResourceNotFound
 	 */
 	public function test_retrieve_failure()
 	{

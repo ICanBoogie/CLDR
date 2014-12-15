@@ -14,12 +14,14 @@ namespace ICanBoogie\CLDR;
 /**
  * Cache interface
  */
-interface Cache
+interface CacheInterface
 {
 	/**
 	 * Checks if a key exists in the cache.
 	 *
 	 * @param string $key
+	 *
+	 * @return bool
 	 */
 	public function exists($key);
 
@@ -27,6 +29,8 @@ interface Cache
 	 * Retrieves the data specified by the key from the cache.
 	 *
 	 * @param string $key
+	 *
+	 * @return mixed
 	 */
 	public function retrieve($key);
 

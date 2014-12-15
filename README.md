@@ -10,7 +10,7 @@ which data is retrieved transparently when required.
 
 
 
-## Instanciating the repository
+## Instantiating the repository
 
 The CLDR is represented by a [Repository][] instance, from which you can access
 the available locales or supplemental data. When necessary, the repository fetches the required

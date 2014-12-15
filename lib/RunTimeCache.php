@@ -25,24 +25,19 @@ namespace ICanBoogie\CLDR;
  * $cache = new RunTimeCache(new FileCache('/path/to/cached_repository'));
  * </pre>
  */
-class RunTimeCache implements Cache
+class RunTimeCache implements CacheInterface
 {
 	private $cache = array();
 	private $static_cache;
 
-	public function __construct(Cache $static_cache)
+	public function __construct(CacheInterface $static_cache)
 	{
 		$this->static_cache = $static_cache;
 	}
 
 	public function exists($path)
 	{
-		if (array_key_exists($path, $this->cache))
-		{
-			return true;
-		}
-
-		return parent::exists($path);
+		return array_key_exists($path, $this->cache);
 	}
 
 	public function retrieve($path)

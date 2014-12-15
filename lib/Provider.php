@@ -11,12 +11,17 @@
 
 namespace ICanBoogie\CLDR;
 
+/**
+ * CLDR data provide.
+ *
+ * @package ICanBoogie\CLDR
+ */
 class Provider
 {
 	protected $cache;
 	protected $retriever;
 
-	public function __construct($cache, $retriever)
+	public function __construct(CacheInterface $cache, $retriever)
 	{
 		$this->cache = $cache;
 		$this->retriever = $retriever;

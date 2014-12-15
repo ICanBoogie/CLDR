@@ -21,7 +21,7 @@ class LocaleCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException BadMethodCallException
+	 * @expectedException \BadMethodCallException
 	 */
 	public function test_offsetExists()
 	{
@@ -29,7 +29,7 @@ class LocaleCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\OffsetNotWritable
+	 * @expectedException \ICanBoogie\OffsetNotWritable
 	 */
 	public function test_offsetSet()
 	{
@@ -37,7 +37,7 @@ class LocaleCollectionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ICanBoogie\OffsetNotWritable
+	 * @expectedException \ICanBoogie\OffsetNotWritable
 	 */
 	public function test_offsetUnset()
 	{

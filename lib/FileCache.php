@@ -22,7 +22,7 @@ namespace ICanBoogie\CLDR;
  * $cache = new FileCache('/path/to/cached_repository');
  * </pre>
  */
-class FileCache implements Cache
+class FileCache implements CacheInterface
 {
 	protected $root;
 

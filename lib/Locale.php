@@ -152,7 +152,7 @@ class Locale implements \ArrayAccess
 			return $this->calendar;
 		}
 
-		return $this->calendar = $this->get_calendars()->offsetGet('gregorian'); // TODO-20131101: use prefered data
+		return $this->calendar = $this->get_calendars()->offsetGet('gregorian'); // TODO-20131101: use preferred data
 	}
 
 	public function offsetExists($offset)

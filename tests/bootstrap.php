@@ -18,6 +18,9 @@ if (!file_exists(__DIR__ . '/repository'))
 	mkdir(__DIR__ . '/repository');
 }
 
+/**
+ * @return Repository
+ */
 function get_repository()
 {
 	static $repository;
