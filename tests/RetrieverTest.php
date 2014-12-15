@@ -17,7 +17,7 @@ class RetrieverTest extends \PHPUnit_Framework_TestCase
 	{
 		$r = new Retriever;
 
-		$json = $r('fr/characters');
+		$json = $r('main/fr/characters');
 		$this->assertStringStartsWith('{', $json);
 
 		$data = json_decode($json, true);

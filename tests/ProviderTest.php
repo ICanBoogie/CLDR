@@ -22,7 +22,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
 	public function test_sections()
 	{
-		$data = self::$provider->fetch('fr/ca-gregorian');
+		$data = self::$provider->fetch('main/fr/ca-gregorian');
 
 		$this->assertInternalType('array', $data);
 		$this->assertArrayHasKey('main', $data);

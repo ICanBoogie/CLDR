@@ -169,7 +169,7 @@ class Locale implements \ArrayAccess
 				throw new OffsetNotDefined(array($offset, $this));
 			}
 
-			$data = $this->repository->provider->fetch("{$this->identity}/{$offset}");
+			$data = $this->repository->provider->fetch("main/{$this->identity}/{$offset}");
 			$path = "main/{$this->identity}/" . self::$available_sections[$offset];
 			$path_parts = explode('/', $path);
 

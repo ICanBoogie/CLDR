@@ -16,7 +16,7 @@ namespace ICanBoogie\CLDR;
  */
 class Retriever
 {
-	protected $origin = 'http://www.unicode.org/repos/cldr-aux/json/24/';
+	protected $origin = 'http://www.unicode.org/repos/cldr-aux/json/26/';
 
 	/**
 	 * Initializes the {@link $origin} property if the `$origin` param is specified.

@@ -118,8 +118,8 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 			array('fr', '2012-02-13', 'L', '2'),
 			array('fr', '2012-02-13', 'LL', '02'),
-			array('fr', '2012-02-13', 'LLL', 'févr.'),
-			array('fr', '2012-02-13', 'LLLL', 'février'),
+			array('fr', '2012-02-13', 'LLL', 'Févr.'),
+			array('fr', '2012-02-13', 'LLLL', 'Février'),
 			array('fr', '2012-02-13', 'LLLLL', 'F'),
 
 			# test: fromat week of year
@@ -194,10 +194,10 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 			array('fr', '2012-06-01', 'c', '5'),
 			array('fr', '2012-06-01', 'cc', ''),
-			array('fr', '2012-06-01', 'ccc', 'ven.'),
-			array('fr', '2012-06-01', 'cccc', 'vendredi'),
+			array('fr', '2012-06-01', 'ccc', 'Ven.'),
+			array('fr', '2012-06-01', 'cccc', 'Vendredi'),
 			array('fr', '2012-06-01', 'ccccc', 'V'),
-			array('fr', '2012-06-01', 'cccccc', 'ven.'),
+			array('fr', '2012-06-01', 'cccccc', 'Ve'),
 
 			# test: format period
 
@@ -424,7 +424,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			array("M", "L", "10"),
 			array("Md", "d/M", "26/10"),
 			array("MEd", "E d/M", "sam. 26/10"),
-			array("MMM", "LLL", "oct."),
+			array("MMM", "LLL", "Oct."),
 			array("MMMd", "d MMM", "26 oct."),
 			array("MMMEd", "E d MMM", "sam. 26 oct."),
 			array("ms", "mm:ss", "08:30"),

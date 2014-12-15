@@ -3,7 +3,7 @@
 The __CLDR__ package provides means to internationalize your application by leveraging the
 data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
 
-The package target the [CLDR version 24](http://cldr.unicode.org/index/downloads/cldr-24) from
+The package target the [CLDR version 26](http://cldr.unicode.org/index/downloads/cldr-26) from
 which data is retrieved transparently when required.
 
 
@@ -322,7 +322,7 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 
 
 
-[CLDR]: http://www.unicode.org/repos/cldr-aux/json/24/
+[CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
 [I18n library]: https://github.com/ICanBoogie/I18n
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
 [Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
