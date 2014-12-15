@@ -35,6 +35,11 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ICanBoogie\CLDR\Supplemental', self::$repository->supplemental);
 	}
 
+	public function test_get_territories()
+	{
+		$this->assertInstanceOf('ICanBoogie\CLDR\TerritoryCollection', self::$repository->territories);
+	}
+
 	/**
 	 * @expectedException ICanBoogie\PropertyNotDefined
 	 */

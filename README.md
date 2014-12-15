@@ -79,6 +79,43 @@ echo $locale->calendar['days']['format']['wide']['sun'];               // dimanc
 
 
 
+## Territories
+
+The information about a territory is represented by a [Territory][] instance, which aggregates
+information that is actually scattered across the CLDR.
+
+```php
+<?php
+
+$territory = $repository->territories['FR'];
+
+echo $territory->currency;                          // EUR
+echo $territory->currency_at('1977-06-06');         // FRF
+echo $territory->currency_at('now');                // EUR
+
+echo $territory->language;                          // fr
+echo $territory->population;                        // 66259000
+
+echo $territory->name_as('fr-FR');                  // France
+echo $territory->name_as('it');                     // Francia
+echo $territory->name_as('ja');                     // フランス
+
+echo $territory->name_as_fr_FR;                     // France
+echo $territory->name_as_it;                        // Francia
+echo $territory->name_as_ja;                        // フランス
+
+echo $repository->territories['FR']->first_day;     // mon
+echo $repository->territories['EG']->first_day;     // sat
+echo $repository->territories['BS']->first_day;     // sun
+
+echo $repository->territories['AE']->weekend_start; // fri
+echo $repository->territories['AE']->weekend_end;   // sat
+```
+
+
+
+
+
 ## Calendars
 
 Calendars are represented by a [Calendar][] instance, they can be accessed as arrays, and also
@@ -328,3 +365,4 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 [Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
 [Locale]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Locale.html
 [LocalizedDateTime]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizedDateTime.html
+[Territory]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Territory.html

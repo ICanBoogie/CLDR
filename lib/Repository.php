@@ -24,11 +24,13 @@ use ICanBoogie\PropertyNotDefined;
  * $repository = new Repository($provider);
  *
  * var_dump($repository->locales['fr']);
+ * var_dump($repository->territories['FR']);
  * </pre>
  *
  * @property-read Provider $provider A CLDR provider.
  * @property-read LocaleCollection $locales Locale collection.
  * @property-read Supplemental $supplemental Representation of the "supplemental" section.
+ * @property-read TerritoryCollection $territories Territory collection.
  *
  * @see http://www.unicode.org/repos/cldr-aux/json/24/
  */
@@ -56,6 +58,13 @@ class Repository
 	protected $supplemental;
 
 	/**
+	 * Territory collection.
+	 *
+	 * @var TerritoryCollection
+	 */
+	private $territories;
+
+	/**
 	 * Initializes the {@link $provider} property.
 	 *
 	 * @param Provider $provider
@@ -72,6 +81,7 @@ class Repository
 			case 'provider':     return $this->get_provider();
 			case 'locales':      return $this->get_locales();
 			case 'supplemental': return $this->get_supplemental();
+			case 'territories':  return $this->get_territories();
 		}
 
 		throw new PropertyNotDefined(array($property, $this));
@@ -100,6 +110,16 @@ class Repository
 		}
 
 		return $this->supplemental = new Supplemental($this);
+	}
+
+	protected function get_territories()
+	{
+		if ($this->territories)
+		{
+			return $this->territories;
+		}
+
+		return $this->territories = new TerritoryCollection($this);
 	}
 
 	/**
