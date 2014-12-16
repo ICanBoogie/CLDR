@@ -89,6 +89,7 @@ information that is actually scattered across the CLDR.
 
 $territory = $repository->territories['FR'];
 
+echo $territory;                                    // FR
 echo $territory->currency;                          // EUR
 echo $territory->currency_at('1977-06-06');         // FRF
 echo $territory->currency_at('now');                // EUR

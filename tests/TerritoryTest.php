@@ -183,4 +183,11 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 		);
 	}
+
+	public function test_to_string()
+	{
+		$territory_code = 'US';
+		$territory = new Territory(get_repository(), $territory_code);
+		$this->assertEquals($territory_code, (string) $territory);
+	}
 }
