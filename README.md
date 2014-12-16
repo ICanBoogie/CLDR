@@ -159,6 +159,23 @@ $calender->wide_quarters;
 
 
 
+### Localized objects
+
+Instances can be localized using the `localize()` method of the [Locale][] class. The method tries
+its best to find a suitable _localizer_, and it helps if the class of the instance
+[LocalizationAwareInterface][].
+
+```php
+<?php
+
+$datetime = new \DateTime;
+$localized_datetime = $repository->locales['fr']->localize($datetime);
+```
+
+
+
+
+
 ### Dates and times formatters
 
 From a calendar you can obtain formatters for dates and times.
@@ -364,5 +381,6 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
 [Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
 [Locale]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Locale.html
+[LocalizationAwareInterface]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
 [LocalizedDateTime]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizedDateTime.html
 [Territory]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Territory.html

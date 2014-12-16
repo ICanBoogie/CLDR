@@ -210,4 +210,44 @@ class Locale implements \ArrayAccess
 	{
 		throw new OffsetNotWritable(array($offset, $this));
 	}
+
+	/**
+	 * Localize the specified source.
+	 *
+	 * @param object $source
+	 * @param array $options The options are passed to the localizer.
+	 *
+	 * @return mixed
+	 */
+	public function localize($source, array $options=array())
+	{
+		$constructor = $this->resolve_localize_constructor($source);
+
+		if ($constructor)
+		{
+			return call_user_func($constructor, $source, $this, $options);
+		}
+
+		throw new \LogicException("Unable to localize source");
+	}
+
+	private function resolve_localize_constructor($source)
+	{
+		$class = get_class($source);
+
+		if ($source instanceof LocalizeAwareInterface)
+		{
+			return $class . '::localize';
+		}
+
+		$base = basename(strtr($class, '\\', '/'));
+		$constructor = 'ICanBoogie\CLDR\Localized' . $base;
+
+		if (!class_exists($constructor))
+		{
+			return;
+		}
+
+		return $constructor . '::from';
+	}
 }

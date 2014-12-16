@@ -105,4 +105,45 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 			array('variants'               , 'localeDisplayNames/variants'              , 'ALUKU')
 		);
 	}
+
+	/**
+	 * @dataProvider provide_test_localize
+	 */
+	public function test_localize($expected, $source)
+	{
+		$localized = get_repository()->locales['fr']->localize($source);
+		$this->assertInstanceOf($expected, $localized);
+	}
+
+	public function provide_test_localize()
+	{
+		return array(
+
+			array( 'ICanBoogie\CLDR\LocalizedObject', new \ICanBoogie\DateTime ),
+			array( 'ICanBoogie\CLDR\LocaleTest\LocalizedLocalizable', new \ICanBoogie\CLDR\LocaleTest\Localizable )
+
+		);
+	}
+}
+
+namespace ICanBoogie\CLDR\LocaleTest;
+
+use ICanBoogie\CLDR\Locale;
+use ICanBoogie\CLDR\LocalizeAwareInterface;
+use ICanBoogie\CLDR\LocalizedObject;
+
+class Localizable implements LocalizeAwareInterface
+{
+	static public function localize($source, Locale $locale, array $options=array())
+	{
+		return new LocalizedLocalizable($source, $locale, $options);
+	}
+}
+
+class LocalizedLocalizable extends LocalizedObject
+{
+	protected function get_formatter()
+	{
+
+	}
 }
