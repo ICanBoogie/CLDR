@@ -22,6 +22,7 @@ use ICanBoogie\PropertyNotDefined;
  * @property-read string $identity The identity of the locale.
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
  * @property-read Calendar $calendar The preferred calendar for this locale.
+ * @property-read Numbers $numbers
  */
 class Locale implements \ArrayAccess
 {
@@ -105,7 +106,8 @@ class Locale implements \ArrayAccess
 			case 'repository': return $this->get_repository();
 			case 'identity':   return $this->get_identity();
 			case 'calendars':  return $this->get_calendars();
-			case 'calendar':  return $this->get_calendar();
+			case 'calendar':   return $this->get_calendar();
+			case 'numbers':    return $this->get_numbers();
 		}
 
 		throw new PropertyNotDefined(array($property, $this));
@@ -153,6 +155,21 @@ class Locale implements \ArrayAccess
 		}
 
 		return $this->calendar = $this->get_calendars()->offsetGet('gregorian'); // TODO-20131101: use preferred data
+	}
+
+	/**
+	 * @var Numbers
+	 */
+	private $numbers;
+
+	protected function get_numbers()
+	{
+		if (!$this->numbers)
+		{
+			$this->numbers = new Numbers($this, $this['numbers']);
+		}
+
+		return $this->numbers;
 	}
 
 	public function offsetExists($offset)
