@@ -18,6 +18,8 @@ use ICanBoogie\PropertyNotDefined;
  *
  * @property-read Locale $locale The locale this calendar is defined in.
  * @property-read DateTimeFormatter $datetime_formatter A datetime formatter.
+ * @property-read DateFormatter $date_formatter A date formatter.
+ * @property-read TimeFormatter $time_formatter A time formatter.
  *
  * @property-read string $standalone_abbreviated_days     Shortcut to `days/stand-alone/abbreviated`.
  * @property-read string $standalone_abbreviated_eras     Shortcut to `eras/eraAbbr`.
