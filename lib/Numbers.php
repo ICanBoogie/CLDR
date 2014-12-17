@@ -17,6 +17,7 @@ use ICanBoogie\PropertyNotDefined;
  * Representation of a locale numbers
  *
  * @property-read Locale $locale
+ * @property-read NumberFormatter $number_formatter
  * @property-read array $symbols Shortcuts to the `symbols-numberSystem-<defaultNumberingSystem>`.
  * @property-read array $decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>`.
  * @property-read array $short_decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/short/decimalFormats`.
@@ -36,6 +37,21 @@ class Numbers extends \ArrayObject
 	protected function get_locale()
 	{
 		return $this->locale;
+	}
+
+	/**
+	 * @var NumberFormatter
+	 */
+	private $number_formatter;
+
+	protected function get_number_formatter()
+	{
+		if (!$this->number_formatter)
+		{
+			$this->number_formatter = new NumberFormatter($this);
+		}
+
+		return $this->number_formatter;
 	}
 
 	protected function get_symbols()
