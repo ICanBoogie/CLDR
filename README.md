@@ -44,6 +44,32 @@ echo $supplemental['calendarPreferenceData']['001']; // gregorian
 
 
 
+### Localized objects
+
+Instances can be localized using the `localize()` method of the [Locale][] class. The method
+tries its best to find a suitable _localizer_, and it helps if the class of the instance
+[LocalizationAwareInterface][], or if a `ICanBoogie\CLDR\Localized<class_base_name>` class is
+defined. 
+
+```php
+<?php
+
+$datetime = new \DateTime;
+$localized_datetime = $repository->locales['fr']->localize($datetime);
+```
+
+Instances that can be localized usually implement the `localize()` method.
+
+```php
+<php
+
+echo $repository->territories['FR']->localize('fr')->name; // France
+```
+
+
+
+
+
 ## Locales
 
 The data and conventions of a locale are represented by a [Locale][] instance, which is used as
@@ -73,6 +99,25 @@ echo $locale['ca-gregorian']['days']['format']['wide']['sun'];         // dimanc
 echo $locale->calendars['gregorian']['days']['format']['wide']['sun']; // dimanche
 # or because 'gregorian' is the default calendar for this locale
 echo $locale->calendar['days']['format']['wide']['sun'];               // dimanche
+```
+
+
+
+
+
+## Localized locales
+
+A localized locale can be obtained with the `localize()` method, or the `localize()` method
+of the desired locale.
+
+```php
+<?php
+
+$locale = $repository->locales['fr'];
+
+echo $locale->localize('fr')->name;                         // Français
+# or
+echo $repository->locales['fr']->localize($locale)->name;   // Français
 ```
 
 
@@ -183,17 +228,22 @@ $calender->wide_quarters;
 
 
 
-### Localized objects
+### Dates and times formatters
 
-Instances can be localized using the `localize()` method of the [Locale][] class. The method tries
-its best to find a suitable _localizer_, and it helps if the class of the instance
-[LocalizationAwareInterface][].
+From a calendar you can obtain formatters for dates and times.
+
+The following example demonstrates how the dates and times formatters can be accessed and
+used.
 
 ```php
 <?php
 
-$datetime = new \DateTime;
-$localized_datetime = $repository->locales['fr']->localize($datetime);
+$datetime = '2013-11-05 20:12:22 UTC';
+$calendar = $repository->locales['fr']->calendar;
+
+echo $calendar->datetime_formatter->format($datetime, 'long'); // mardi 5 novembre 2013 20:12:22 UTC
+echo $calendar->date_formatter->format($datetime, 'long');     // mardi 5 novembre 2013
+echo $calendar->time_formatter->format($datetime, 'long');     // 20:12:22 UTC
 ```
 
 
@@ -225,9 +275,11 @@ of the desired locale.
 ```php
 <php
 
-$localized_euro = $euro->localize('fr');
+$currency = new Currency($repository, 'EUR')
+
+$localized_currency = $currency->localize('fr');
 # or
-$repository->locale['fr']->localize($euro);
+$localized_currency = $repository->locale['fr']->localize($currency);
 
 echo $localized_euro->name;             // euro
 echo $localized_euro->name(1);          // euro
@@ -235,26 +287,6 @@ echo $localized_euro->name(10);         // euros
 echo $localized_euro->format(12345.67); // 1 2345,67 €
 ```
 
-
-
-
-### Dates and times formatters
-
-From a calendar you can obtain formatters for dates and times.
-
-The following example demonstrates how the dates and times formatters can be accessed and
-used.
-
-```php
-<?php
-
-$datetime = '2013-11-05 20:12:22 UTC';
-$calendar = $repository->locales['fr']->calendar;
-
-echo $calendar->datetime_formatter->format($datetime, 'long'); // mardi 5 novembre 2013 20:12:22 UTC
-echo $calendar->date_formatter->format($datetime, 'long');     // mardi 5 novembre 2013
-echo $calendar->time_formatter->format($datetime, 'long');     // 20:12:22 UTC
-```
 
 
 

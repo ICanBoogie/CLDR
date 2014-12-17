@@ -120,7 +120,8 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 		return array(
 
 			array( 'ICanBoogie\CLDR\LocalizedObject', new \ICanBoogie\DateTime ),
-			array( 'ICanBoogie\CLDR\LocaleTest\LocalizedLocalizable', new \ICanBoogie\CLDR\LocaleTest\Localizable )
+			array( 'ICanBoogie\CLDR\LocalizedLocale', new Locale(get_repository(), 'fr') ),
+			array( 'ICanBoogie\CLDR\LocaleTest\LocalizedLocalizable', new \ICanBoogie\CLDR\LocaleTest\Localizable ),
 
 		);
 	}

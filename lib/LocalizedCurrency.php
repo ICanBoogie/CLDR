@@ -16,6 +16,7 @@ namespace ICanBoogie\CLDR;
  *
  * @package ICanBoogie\CLDR
  *
+ * @property-read Currency $target
  * @property-read string $name The localized name of the currency.
  * @property-read string $symbol The localized symbol of the currency.
  */
