@@ -3,8 +3,9 @@
 The __CLDR__ package provides means to internationalize your application by leveraging the
 data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
 
-The package target the [CLDR version 26](http://cldr.unicode.org/index/downloads/cldr-26) from
-which data is retrieved transparently when required.
+The package targets the [CLDR version 26](http://cldr.unicode.org/index/downloads/cldr-26), from
+which data is retrieved when required. A stack of cache can be used to store and retrieve these
+data.
 
 
 
