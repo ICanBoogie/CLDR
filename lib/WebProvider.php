@@ -14,21 +14,18 @@ namespace ICanBoogie\CLDR;
 /**
  * Retrieves sections from the CLDR source.
  */
-class Retriever
+class WebProvider implements ProviderInterface
 {
-	protected $origin = 'http://www.unicode.org/repos/cldr-aux/json/26/';
+	protected $origin;
 
 	/**
-	 * Initializes the {@link $origin} property if the `$origin` param is specified.
+	 * Initializes the {@link $origin} property.
 	 *
 	 * @param string $origin
 	 */
-	public function __construct($origin=null)
+	public function __construct($origin="http://www.unicode.org/repos/cldr-aux/json/26/")
 	{
-		if ($origin)
-		{
-			$this->origin = $origin;
-		}
+		$this->origin = $origin;
 	}
 
 	/**
@@ -40,7 +37,7 @@ class Retriever
 	 *
 	 * @return string
 	 */
-	public function __invoke($path)
+	public function provide($path)
 	{
 		$ch = curl_init($this->origin . $path . '.json');
 
@@ -64,6 +61,6 @@ class Retriever
 			throw new ResourceNotFound($path);
 		}
 
-		return $rc;
+		return json_decode($rc, true);
 	}
 }

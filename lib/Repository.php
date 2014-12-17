@@ -27,7 +27,7 @@ use ICanBoogie\PropertyNotDefined;
  * var_dump($repository->territories['FR']);
  * </pre>
  *
- * @property-read Provider $provider A CLDR provider.
+ * @property-read ProviderInterface $provider A CLDR provider.
  * @property-read LocaleCollection $locales Locale collection.
  * @property-read Supplemental $supplemental Representation of the "supplemental" section.
  * @property-read TerritoryCollection $territories Territory collection.
@@ -107,9 +107,9 @@ class Repository
 	/**
 	 * Initializes the {@link $provider} property.
 	 *
-	 * @param Provider $provider
+	 * @param ProviderInterface $provider
 	 */
-	public function __construct(Provider $provider)
+	public function __construct(ProviderInterface $provider)
 	{
 		$this->provider = $provider;
 	}
@@ -129,7 +129,7 @@ class Repository
 	/**
 	 * Fetches the data available at the specified path.
 	 *
-	 * Note: The method is forwarded to {@link Provider::fetch}.
+	 * Note: The method is forwarded to {@link Provider::provide}.
 	 *
 	 * @param string $path
 	 *
@@ -137,6 +137,6 @@ class Repository
 	 */
 	public function fetch($path)
 	{
-		return $this->provider->fetch($path);
+		return $this->provider->provide($path);
 	}
 }

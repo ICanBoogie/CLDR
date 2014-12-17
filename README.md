@@ -4,8 +4,7 @@ The __CLDR__ package provides means to internationalize your application by leve
 data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
 
 The package targets the [CLDR version 26](http://cldr.unicode.org/index/downloads/cldr-26), from
-which data is retrieved when required. A stack of cache can be used to store and retrieve these
-data.
+which data is retrieved when required.
 
 
 
@@ -13,25 +12,28 @@ data.
 
 ## Instantiating the repository
 
-The CLDR is represented by a [Repository][] instance, from which you can access
-the available locales or supplemental data. When necessary, the repository fetches the required
-data through a provider. You can use the default provider, or define your own.
+The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
+data is retrieved through a provider, and in order to avoid hitting the web with every request,
+a stack of them is used.
 
-The following example demonstrates how such a repository is instantiated and how the
-available locales and supplemental data are accessed:
+The following example demonstrates how a repository can be instantiated with a nice stack of
+providers. One fetches the data from the web, the other from the filesystem, and the last one
+from the runtime memory:
 
 ```php
 <?php
 
 namespace ICanBoogie\CLDR;
 
-$provider = new Provider
-(
-	new RunTimeCache(new FileCache('/path/to/cached_repository')),
-	new Retriever
-);
-
+$provider = new RunTimeProvider(new FileProvider(new WebProvider, "/path/to/storage"));
 $repository = new Repository($provider);
+```
+
+The following example demonstrates how the repository can be used to access locales and
+supplemental data:
+
+```php
+<?php
 
 $english_locale = $repository->locales['en'];
 $french_locale = $repository->locales['fr'];

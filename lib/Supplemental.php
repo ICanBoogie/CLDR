@@ -96,7 +96,7 @@ class Supplemental implements \ArrayAccess
 				throw new OffsetNotDefined(array($offset, $this));
 			}
 
-			$data = $this->repository->provider->fetch("supplemental/{$offset}");
+			$data = $this->repository->fetch("supplemental/{$offset}");
 			$path = 'supplemental/' . self::$available_sections[$offset];
 			$path_parts = explode('/', $path);
 

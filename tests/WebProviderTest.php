@@ -11,16 +11,14 @@
 
 namespace ICanBoogie\CLDR;
 
-class RetrieverTest extends \PHPUnit_Framework_TestCase
+class WebProviderTest extends \PHPUnit_Framework_TestCase
 {
-	public function test_retrieve_ok()
+	public function test_provide_ok()
 	{
-		$r = new Retriever;
+		$provider = new WebProvider;
 
-		$json = $r('main/fr/characters');
-		$this->assertStringStartsWith('{', $json);
-
-		$data = json_decode($json, true);
+		$data = $provider->provide('main/fr/characters');
+		$this->assertInternalType('array', $data);
 		$this->assertArrayHasKey('main', $data);
 	}
 
@@ -29,7 +27,8 @@ class RetrieverTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_retrieve_failure()
 	{
-		$r = new Retriever;
-		$r('undefined_locale/characters');
+		$provider = new WebProvider;
+
+		$provider->provide('undefined_locale/characters');
 	}
 }

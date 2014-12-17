@@ -27,8 +27,7 @@ function get_repository()
 
 	if (!$repository)
 	{
-		$provider = new Provider(new RunTimeCache(new FileCache(__DIR__ . '/repository')), new Retriever);
-		$repository = new Repository($provider);
+		$repository = new Repository(new RunTimeProvider(new FileProvider(new WebProvider, __DIR__ . '/repository')));
 	}
 
 	return $repository;

@@ -34,7 +34,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
 			array( 'currencies',   'ICanBoogie\CLDR\CurrencyCollection' ),
 			array( 'locales',      'ICanBoogie\CLDR\LocaleCollection' ),
-			array( 'provider',     'ICanBoogie\CLDR\Provider' ),
+			array( 'provider',     'ICanBoogie\CLDR\ProviderInterface' ),
 			array( 'supplemental', 'ICanBoogie\CLDR\Supplemental' ),
 			array( 'territories',  'ICanBoogie\CLDR\TerritoryCollection' ),
 
