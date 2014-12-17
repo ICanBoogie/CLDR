@@ -111,6 +111,11 @@ class Locale implements \ArrayAccess
 		throw new PropertyNotDefined(array($property, $this));
 	}
 
+	public function __toString()
+	{
+		return $this->code;
+	}
+
 	protected function get_repository()
 	{
 		return $this->repository;
