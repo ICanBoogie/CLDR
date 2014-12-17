@@ -31,38 +31,78 @@ use ICanBoogie\PropertyNotDefined;
  * @property-read LocaleCollection $locales Locale collection.
  * @property-read Supplemental $supplemental Representation of the "supplemental" section.
  * @property-read TerritoryCollection $territories Territory collection.
+ * @property-read CurrencyCollection $currencies Currency collection.
  *
  * @see http://www.unicode.org/repos/cldr-aux/json/24/
  */
 class Repository
 {
 	/**
-	 * A CLDR provider.
-	 *
 	 * @var Provider
 	 */
-	protected $provider;
+	private $provider;
+
+	protected function get_provider()
+	{
+		return $this->provider;
+	}
 
 	/**
-	 * Locale collection.
-	 *
 	 * @var LocaleCollection
 	 */
-	protected $locales;
+	private $locales;
+
+	protected function get_locales()
+	{
+		if ($this->locales)
+		{
+			return $this->locales;
+		}
+
+		return $this->locales = new LocaleCollection($this);
+	}
 
 	/**
-	 * Representation of the "supplemental" section.
-	 *
 	 * @var Supplemental
 	 */
-	protected $supplemental;
+	private $supplemental;
+
+	protected function get_supplemental()
+	{
+		if ($this->supplemental)
+		{
+			return $this->supplemental;
+		}
+
+		return $this->supplemental = new Supplemental($this);
+	}
 
 	/**
-	 * Territory collection.
-	 *
 	 * @var TerritoryCollection
 	 */
 	private $territories;
+
+	protected function get_territories()
+	{
+		if ($this->territories)
+		{
+			return $this->territories;
+		}
+
+		return $this->territories = new TerritoryCollection($this);
+	}
+
+	private $currencies;
+
+	protected function get_currencies()
+	{
+		if (!$this->currencies)
+		{
+			$this->currencies = new CurrencyCollection($this);
+		}
+
+		return $this->currencies;
+	}
 
 	/**
 	 * Initializes the {@link $provider} property.
@@ -76,50 +116,14 @@ class Repository
 
 	public function __get($property)
 	{
-		switch ($property)
+		$method = 'get_' . $property;
+
+		if (method_exists($this, $method))
 		{
-			case 'provider':     return $this->get_provider();
-			case 'locales':      return $this->get_locales();
-			case 'supplemental': return $this->get_supplemental();
-			case 'territories':  return $this->get_territories();
+			return $this->$method();
 		}
 
 		throw new PropertyNotDefined(array($property, $this));
-	}
-
-	protected function get_provider()
-	{
-		return $this->provider;
-	}
-
-	protected function get_locales()
-	{
-		if ($this->locales)
-		{
-			return $this->locales;
-		}
-
-		return $this->locales = new LocaleCollection($this);
-	}
-
-	protected function get_supplemental()
-	{
-		if ($this->supplemental)
-		{
-			return $this->supplemental;
-		}
-
-		return $this->supplemental = new Supplemental($this);
-	}
-
-	protected function get_territories()
-	{
-		if ($this->territories)
-		{
-			return $this->territories;
-		}
-
-		return $this->territories = new TerritoryCollection($this);
 	}
 
 	/**

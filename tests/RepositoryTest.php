@@ -20,24 +20,25 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 		self::$repository = get_repository();
 	}
 
-	public function test_get_provider()
+	/**
+	 * @dataProvider provide_test_properties_type
+	 */
+	public function test_properties_type($property, $expected)
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Provider', self::$repository->provider);
+		$this->assertInstanceOf($expected, self::$repository->$property);
 	}
 
-	public function test_get_locales()
+	public function provide_test_properties_type()
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\LocaleCollection', self::$repository->locales);
-	}
+		return array(
 
-	public function test_get_supplemental()
-	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Supplemental', self::$repository->supplemental);
-	}
+			array( 'currencies',   'ICanBoogie\CLDR\CurrencyCollection' ),
+			array( 'locales',      'ICanBoogie\CLDR\LocaleCollection' ),
+			array( 'provider',     'ICanBoogie\CLDR\Provider' ),
+			array( 'supplemental', 'ICanBoogie\CLDR\Supplemental' ),
+			array( 'territories',  'ICanBoogie\CLDR\TerritoryCollection' ),
 
-	public function test_get_territories()
-	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\TerritoryCollection', self::$repository->territories);
+		);
 	}
 
 	/**

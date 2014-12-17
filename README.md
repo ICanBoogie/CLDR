@@ -177,6 +177,41 @@ $localized_datetime = $repository->locales['fr']->localize($datetime);
 
 
 
+## Currencies
+
+Currencies are represented by instances of [Currency][]. You can create the instance yourself or
+get one through the currency collection.
+
+```php
+<php
+
+$euro = new Currency($repository, 'EUR')
+# or
+$euro = $repository->currencies['EUR'];
+```
+
+
+
+
+
+### Localized currencies
+
+A localized currency is obtained from a [Currency][] with the `localize()` method:
+
+```php
+<php
+
+$localized_euro = $euro->localize('fr');
+
+echo $localized_euro->name;             // euro
+echo $localized_euro->name(1);          // euro
+echo $localized_euro->name(10);         // euros
+echo $localized_euro->format(12345.67); // 1 2345,67 €
+```
+
+
+
+
 ### Dates and times formatters
 
 From a calendar you can obtain formatters for dates and times.
@@ -380,6 +415,7 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
 [I18n library]: https://github.com/ICanBoogie/I18n
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
+[Currency]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Currency.html
 [Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
 [Locale]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Locale.html
 [LocalizationAwareInterface]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
