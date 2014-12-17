@@ -47,7 +47,7 @@ echo $supplemental['calendarPreferenceData']['001']; // gregorian
 ### Localized objects
 
 Instances can be localized using the `localize()` method of the [Locale][] class. The method
-tries its best to find a suitable _localizer_, and it helps if the class of the instance
+tries its best to find a suitable _localizer_, and it helps if the instance to localize implements
 [LocalizationAwareInterface][], or if a `ICanBoogie\CLDR\Localized<class_base_name>` class is
 defined. 
 
@@ -61,7 +61,7 @@ $localized_datetime = $repository->locales['fr']->localize($datetime);
 Instances that can be localized usually implement the `localize()` method.
 
 ```php
-<php
+<?php
 
 echo $repository->territories['FR']->localize('fr')->name; // France
 ```
