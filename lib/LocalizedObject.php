@@ -100,6 +100,13 @@ abstract class LocalizedObject
 				return $this->formatter;
 		}
 
+		$method = 'get_' . $property;
+
+		if (method_exists($this, $method))
+		{
+			return $this->$method();
+		}
+
 		throw new PropertyNotDefined(array($property, $this));
 	}
 
