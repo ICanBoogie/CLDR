@@ -25,9 +25,9 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ICanBoogie\CLDR\Repository', self::$locale->repository);
 	}
 
-	public function test_get_identity()
+	public function test_get_code()
 	{
-		$this->assertEquals('fr', self::$locale->identity);
+		$this->assertEquals('fr', self::$locale->code);
 	}
 
 	public function test_get_calendars()

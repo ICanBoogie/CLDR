@@ -19,7 +19,7 @@ use ICanBoogie\PropertyNotDefined;
  * Representation of a locale.
  *
  * @property-read Repository $repository The repository provided during construct.
- * @property-read string $identity The identity of the locale.
+ * @property-read string $code The ISO code of the locale.
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
  * @property-read Calendar $calendar The preferred calendar for this locale.
  * @property-read Numbers $numbers
@@ -74,11 +74,9 @@ class Locale implements \ArrayAccess
 	protected $repository;
 
 	/**
-	 * CLDR identity.
-	 *
 	 * @var string
 	 */
-	protected $identity;
+	protected $code;
 
 	/**
 	 * Loaded sections.
@@ -88,15 +86,15 @@ class Locale implements \ArrayAccess
 	protected $sections = array();
 
 	/**
-	 * Initializes the {@link $repository} and {@link $identity} properties.
+	 * Initializes the {@link $repository} and {@link $code} properties.
 	 *
 	 * @param Repository $repository
-	 * @param string $identity Locale identifier.
+	 * @param string $code The ISO code of the locale.
 	 */
-	public function __construct(Repository $repository, $identity)
+	public function __construct(Repository $repository, $code)
 	{
 		$this->repository = $repository;
-		$this->identity = $identity;
+		$this->code = $code;
 	}
 
 	public function __get($property)
@@ -104,7 +102,7 @@ class Locale implements \ArrayAccess
 		switch ($property)
 		{
 			case 'repository': return $this->get_repository();
-			case 'identity':   return $this->get_identity();
+			case 'code':       return $this->get_code();
 			case 'calendars':  return $this->get_calendars();
 			case 'calendar':   return $this->get_calendar();
 			case 'numbers':    return $this->get_numbers();
@@ -118,9 +116,9 @@ class Locale implements \ArrayAccess
 		return $this->repository;
 	}
 
-	protected function get_identity()
+	protected function get_code()
 	{
-		return $this->identity;
+		return $this->code;
 	}
 
 	/**
@@ -186,8 +184,8 @@ class Locale implements \ArrayAccess
 				throw new OffsetNotDefined(array($offset, $this));
 			}
 
-			$data = $this->repository->provider->fetch("main/{$this->identity}/{$offset}");
-			$path = "main/{$this->identity}/" . self::$available_sections[$offset];
+			$data = $this->repository->provider->fetch("main/{$this->code}/{$offset}");
+			$path = "main/{$this->code}/" . self::$available_sections[$offset];
 			$path_parts = explode('/', $path);
 
 			foreach ($path_parts as $part)

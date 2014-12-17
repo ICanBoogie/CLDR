@@ -28,6 +28,6 @@ class LocalizedLocale extends LocalizedObject
 
 	protected function get_name()
 	{
-		return $this->locale['languages'][$this->target->identity];
+		return $this->locale['languages'][$this->target->code];
 	}
 }
