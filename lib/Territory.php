@@ -181,7 +181,12 @@ class Territory
 			$rc = $name;
 		}
 
-		return $rc;
+		if (!$rc)
+		{
+			return $rc;
+		}
+
+		return new Currency($this->repository, $rc);
 	}
 
 	/*
