@@ -21,6 +21,9 @@ namespace ICanBoogie\CLDR;
  */
 class LocalizedCurrency extends LocalizedObject
 {
+	const PATTERN_STANDARD = 'standard';
+	const PATTERN_ACCOUNTING = 'accounting';
+
 	/**
 	 * Returns the formatter to use to format the target object.
 	 *
@@ -28,7 +31,7 @@ class LocalizedCurrency extends LocalizedObject
 	 */
 	protected function get_formatter()
 	{
-		// TODO: Return a CurrencyFormatter instance.
+		return new CurrencyFormatter($this->locale->numbers, $this);
 	}
 
 	/**
@@ -62,5 +65,26 @@ class LocalizedCurrency extends LocalizedObject
 	protected function get_symbol()
 	{
 		return $this->locale['currencies'][$this->target->code]['symbol'];
+	}
+
+	public function format($number, $pattern=self::PATTERN_STANDARD, array $options=array())
+	{
+		return $this->formatter->format($number, $this->resolve_pattern($pattern), $options);
+	}
+
+	protected function resolve_pattern($pattern)
+	{
+		switch ($pattern)
+		{
+			case self::PATTERN_STANDARD:
+
+				return $this->locale->numbers->currency_formats['standard'];
+
+			case self::PATTERN_ACCOUNTING:
+
+				return $this->locale->numbers->currency_formats['accounting'];
+		}
+
+		return $pattern;
 	}
 }

@@ -40,4 +40,28 @@ class LocalizedCurrencyTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ICanBoogie\CLDR\LocalizedCurrency', $localized);
 		$this->assertEquals("Irish Pound", $localized->name);
 	}
+
+	/**
+	 * @dataProvider provide_test_format
+	 */
+	public function test_format($currency_code, $locale_code, $number, $expected)
+	{
+		$currency = new Currency(get_repository(), $currency_code);
+		$localized = $currency->localize($locale_code);
+		$this->assertEquals($expected, $localized->format($number));
+	}
+
+	public function provide_test_format()
+	{
+		return array(
+
+			array('IEP', 'fr', 123456.789, "123 456,79 £IE"),
+			array('IEP', 'en', 123456.789, "IEP123,456.79"),
+			array('EUR', 'fr', 123456.789, "123 456,79 €"),
+			array('EUR', 'en', 123456.789, "€123,456.79"),
+			array('USD', 'fr', 123456.789, "123 456,79 \$US"),
+			array('USD', 'en', 123456.789, "\$123,456.79"),
+
+		);
+	}
 }
