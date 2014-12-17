@@ -44,36 +44,10 @@ echo $supplemental['calendarPreferenceData']['001']; // gregorian
 
 
 
-### Localized objects
-
-Instances can be localized using the `localize()` method of the [Locale][] class. The method
-tries its best to find a suitable _localizer_, and it helps if the instance to localize implements
-[LocalizationAwareInterface][], or if a `ICanBoogie\CLDR\Localized<class_base_name>` class is
-defined. 
-
-```php
-<?php
-
-$datetime = new \DateTime;
-$localized_datetime = $repository->locales['fr']->localize($datetime);
-```
-
-Instances that can be localized usually implement the `localize()` method.
-
-```php
-<?php
-
-echo $repository->territories['FR']->localize('fr')->name; // France
-```
-
-
-
-
-
 ## Locales
 
-The data and conventions of a locale are represented by a [Locale][] instance, which is used as
-an array to access the various data such as calendars, characters, currencies, delimiters,
+The data and conventions of a locale are represented by a [Locale][] instance, which can be used
+as an array to access various raw data such as calendars, characters, currencies, delimiters,
 languages, territories and more.
 
 ```php
@@ -105,7 +79,35 @@ echo $locale->calendar['days']['format']['wide']['sun'];               // dimanc
 
 
 
-## Localized locales
+### Localized objects
+
+Locales are also often used to localize instances such as [Currency][], [Territory][], or even
+[Locale][]. The method `localize` is used to localize instances. The method
+tries its best to find a suitable _localizer_, and it helps if the instance to localize implements
+[LocalizationAwareInterface][], or if a `ICanBoogie\CLDR\Localized<class_base_name>` class is
+defined.
+
+```php
+<?php
+
+$datetime = new \DateTime;
+$localized_datetime = $repository->locales['fr']->localize($datetime);
+echo get_class($localized_datetime); // ICanBoogie\CLDR\LocalizedDateTime
+```
+
+Instances that can be localized usually implement the `localize()` method.
+
+```php
+<?php
+
+echo $repository->territories['FR']->localize('fr')->name; // France
+```
+
+
+
+
+
+### Localized locales
 
 A localized locale can be obtained with the `localize()` method, or the `localize()` method
 of the desired locale.
@@ -118,67 +120,6 @@ $locale = $repository->locales['fr'];
 echo $locale->localize('fr')->name;                         // Français
 # or
 echo $repository->locales['fr']->localize($locale)->name;   // Français
-```
-
-
-
-
-
-## Territories
-
-The information about a territory is represented by a [Territory][] instance, which aggregates
-information that is actually scattered across the CLDR.
-
-```php
-<?php
-
-$territory = $repository->territories['FR'];
-
-echo $territory;                                    // FR
-echo $territory->currency;                          // EUR
-echo $territory->currency_at('1977-06-06');         // FRF
-echo $territory->currency_at('now');                // EUR
-
-echo $territory->language;                          // fr
-echo $territory->population;                        // 66259000
-
-echo $territory->name_as('fr-FR');                  // France
-echo $territory->name_as('it');                     // Francia
-echo $territory->name_as('ja');                     // フランス
-
-echo $territory->name_as_fr_FR;                     // France
-echo $territory->name_as_it;                        // Francia
-echo $territory->name_as_ja;                        // フランス
-
-echo $repository->territories['FR']->first_day;     // mon
-echo $repository->territories['EG']->first_day;     // sat
-echo $repository->territories['BS']->first_day;     // sun
-
-echo $repository->territories['AE']->weekend_start; // fri
-echo $repository->territories['AE']->weekend_end;   // sat
-```
-
-
-
-
-
-### Localized territories
-
-A localized territory can be obtained with the `localize()` method, or the `localize()` method of
-the desired locale.
-
-```php
-<?php
-
-$territory = $repository->territories['FR'];
-
-$localized_territory = $territory->localize('fr');
-# or
-$localized_territory = $repository->locales['fr']->localize($territory);
-
-echo $territory->localize('fr')->name;   // France
-echo $territory->localize('it')->name;   // Francia
-echo $territory->localize('ja')->name;   // フランス
 ```
 
 
@@ -246,46 +187,6 @@ echo $calendar->date_formatter->format($datetime, 'long');     // mardi 5 novemb
 echo $calendar->time_formatter->format($datetime, 'long');     // 20:12:22 UTC
 ```
 
-
-
-
-
-## Currencies
-
-Currencies are represented by instances of [Currency][]. You can create the instance yourself or
-get one through the currency collection.
-
-```php
-<php
-
-$euro = new Currency($repository, 'EUR')
-# or
-$euro = $repository->currencies['EUR'];
-```
-
-
-
-
-
-### Localized currencies
-
-A localized currency can be obtained with the `localize()` method, or the `localize()` method
-of the desired locale.
-
-```php
-<php
-
-$currency = new Currency($repository, 'EUR')
-
-$localized_currency = $currency->localize('fr');
-# or
-$localized_currency = $repository->locale['fr']->localize($currency);
-
-echo $localized_euro->name;             // euro
-echo $localized_euro->name(1);          // euro
-echo $localized_euro->name(10);         // euros
-echo $localized_euro->format(12345.67); // 1 2345,67 €
-```
 
 
 
@@ -393,6 +294,107 @@ echo $ldt->as_medium;        // 4 nov. 2013 20:21:22
 echo $ldt->as_short;         // 04/11/2013 20:21
 ```
 
+
+
+
+
+## Territories
+
+The information about a territory is represented by a [Territory][] instance, which aggregates
+information that is actually scattered across the CLDR.
+
+```php
+<?php
+
+$territory = $repository->territories['FR'];
+
+echo $territory;                                    // FR
+echo $territory->currency;                          // EUR
+echo $territory->currency_at('1977-06-06');         // FRF
+echo $territory->currency_at('now');                // EUR
+
+echo $territory->language;                          // fr
+echo $territory->population;                        // 66259000
+
+echo $territory->name_as('fr-FR');                  // France
+echo $territory->name_as('it');                     // Francia
+echo $territory->name_as('ja');                     // フランス
+
+echo $territory->name_as_fr_FR;                     // France
+echo $territory->name_as_it;                        // Francia
+echo $territory->name_as_ja;                        // フランス
+
+echo $repository->territories['FR']->first_day;     // mon
+echo $repository->territories['EG']->first_day;     // sat
+echo $repository->territories['BS']->first_day;     // sun
+
+echo $repository->territories['AE']->weekend_start; // fri
+echo $repository->territories['AE']->weekend_end;   // sat
+```
+
+
+
+
+
+### Localized territories
+
+A localized territory can be obtained with the `localize()` method, or the `localize()` method of
+the desired locale.
+
+```php
+<?php
+
+$territory = $repository->territories['FR'];
+
+$localized_territory = $territory->localize('fr');
+# or
+$localized_territory = $repository->locales['fr']->localize($territory);
+
+echo $territory->localize('fr')->name;   // France
+echo $territory->localize('it')->name;   // Francia
+echo $territory->localize('ja')->name;   // フランス
+```
+
+
+
+
+
+## Currencies
+
+Currencies are represented by instances of [Currency][]. You can create the instance yourself or
+get one through the currency collection.
+
+```php
+<php
+
+$euro = new Currency($repository, 'EUR')
+# or
+$euro = $repository->currencies['EUR'];
+```
+
+
+
+
+
+### Localized currencies
+
+A localized currency can be obtained with the `localize()` method, or the `localize()` method
+of the desired locale.
+
+```php
+<php
+
+$currency = new Currency($repository, 'EUR')
+
+$localized_currency = $currency->localize('fr');
+# or
+$localized_currency = $repository->locale['fr']->localize($currency);
+
+echo $localized_euro->name;             // euro
+echo $localized_euro->name(1);          // euro
+echo $localized_euro->name(10);         // euros
+echo $localized_euro->format(12345.67); // 1 2345,67 €
+```
 
 
 
