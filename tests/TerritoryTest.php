@@ -190,4 +190,11 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertEquals($territory_code, (string) $territory);
 	}
+
+	public function test_localize()
+	{
+		$territory = new Territory(get_repository(), 'FR');
+
+		$this->assertInstanceOf('ICanBoogie\CLDR\LocalizedTerritory', $territory->localize('fr'));
+	}
 }

@@ -117,6 +117,29 @@ echo $repository->territories['AE']->weekend_end;   // sat
 
 
 
+### Localized territories
+
+A localized territory can be obtained with the `localize()` method, or the `localize()` method of
+the desired locale.
+
+```php
+<?php
+
+$territory = $repository->territories['FR'];
+
+$localized_territory = $territory->localize('fr');
+# or
+$localized_territory = $repository->locales['fr']->localize($territory);
+
+echo $territory->localize('fr')->name;   // France
+echo $territory->localize('it')->name;   // Francia
+echo $territory->localize('ja')->name;   // フランス
+```
+
+
+
+
+
 ## Calendars
 
 Calendars are represented by a [Calendar][] instance, they can be accessed as arrays, and also
@@ -196,12 +219,15 @@ $euro = $repository->currencies['EUR'];
 
 ### Localized currencies
 
-A localized currency is obtained from a [Currency][] with the `localize()` method:
+A localized currency can be obtained with the `localize()` method, or the `localize()` method
+of the desired locale.
 
 ```php
 <php
 
 $localized_euro = $euro->localize('fr');
+# or
+$repository->locale['fr']->localize($euro);
 
 echo $localized_euro->name;             // euro
 echo $localized_euro->name(1);          // euro
@@ -314,7 +340,8 @@ echo $formatter($datetime, 'short');  // 9:22 PM
 
 ### Localized DateTime
 
-`DateTime` can be localized by wrapping them inside a [LocalizedDateTime][] instance:
+`DateTime` can be localized by wrapping them inside a [LocalizedDateTime][] instance, or by using
+the `localize` method of the desired locale: 
 
 ```php
 <?php
@@ -322,6 +349,8 @@ echo $formatter($datetime, 'short');  // 9:22 PM
 namespace ICanBoogie\CLDR;
 
 $ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $repository->locales['fr']);
+# or
+$ldt = $repository->locales['fr']->localize(new \DateTime('2013-11-04 20:21:22 UTC'));
 
 echo $ldt->as_full;          // lundi 4 novembre 2013 20:21:22 UTC
 # or

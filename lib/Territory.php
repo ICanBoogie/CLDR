@@ -300,7 +300,7 @@ class Territory
 	/**
 	 * Whether the territory contains the specified territory.
 	 *
-	 * @param $code
+	 * @param string $code
 	 *
 	 * @return bool
 	 */
@@ -317,10 +317,27 @@ class Territory
 		return false;
 	}
 
+	/**
+	 * Return the name of the territory localized according to the specified locale code.
+	 *
+	 * @param string $locale_code The ISO code of the locale.
+	 *
+	 * @return string
+	 */
 	public function name_as($locale_code)
 	{
-		$locale = $this->repository->locales[$locale_code];
+		return $this->localize($locale_code)->name;
+	}
 
-		return $locale['territories'][$this->code];
+	/**
+	 * Localize the currency.
+	 *
+	 * @param string $locale_code
+	 *
+	 * @return LocalizedCurrency
+	 */
+	public function localize($locale_code)
+	{
+		return $this->repository->locales[$locale_code]->localize($this);
 	}
 }
