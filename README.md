@@ -393,10 +393,10 @@ $localized_currency = $currency->localize('fr');
 # or
 $localized_currency = $repository->locale['fr']->localize($currency);
 
-echo $localized_euro->name;             // euro
-echo $localized_euro->name(1);          // euro
-echo $localized_euro->name(10);         // euros
-echo $localized_euro->format(12345.67); // 1 2345,67 €
+echo $localized_currency->name;             // euro
+echo $localized_currency->name(1);          // euro
+echo $localized_currency->name(10);         // euros
+echo $localized_currency->format(12345.67); // 1 2345,67 €
 ```
 
 
