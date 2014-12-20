@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\PropertyNotDefined;
-
 /**
  * Representation of a localized object.
  *
@@ -36,6 +34,9 @@ abstract class LocalizedObject
 		return new static($source, $locale, $options);
 	}
 
+	use AccessorTrait;
+	use LocalePropertyTrait;
+
 	/**
 	 * The object to localize.
 	 *
@@ -47,8 +48,6 @@ abstract class LocalizedObject
 	{
 		return $this->target;
 	}
-
-	use LocalePropertyTrait;
 
 	/**
 	 * Options.
@@ -69,26 +68,5 @@ abstract class LocalizedObject
 		$this->target = $target;
 		$this->locale = $locale;
 		$this->options = $options;
-	}
-
-	/**
-	 * Support for the {@link $target}, {@link $locale}, and {@link $formatter} properties.
-	 *
-	 * @param string $property
-	 *
-	 * @throws PropertyNotDefined in attempt to get a property that is not supported.
-	 *
-	 * @return mixed
-	 */
-	public function __get($property)
-	{
-		$method = 'get_' . $property;
-
-		if (method_exists($this, $method))
-		{
-			return $this->$method();
-		}
-
-		throw new PropertyNotDefined([ $property, $this ]);
 	}
 }

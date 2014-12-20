@@ -38,7 +38,7 @@ class LocalizedDateTimeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \ICanBoogie\PropertyNotDefined
+	 * @expectedException \ICanBoogie\PropertyNotReadable
 	 */
 	public function test_get_options()
 	{
