@@ -25,12 +25,7 @@ use ICanBoogie\OffsetNotWritable;
  */
 class CalendarCollection implements \ArrayAccess
 {
-	/**
-	 * Representation of a locale.
-	 *
-	 * @var Locale
-	 */
-	protected $repository;
+	use LocalePropertyTrait;
 
 	/**
 	 * Calendar instances.

@@ -20,24 +20,12 @@ use ICanBoogie\OffsetNotWritable;
  */
 class TerritoryCollection implements \ArrayAccess
 {
-	/**
-	 * Representation of a CLDR.
-	 *
-	 * @var Repository
-	 */
-	protected $repository;
+	use AccessorTrait;
+	use RepositoryPropertyTrait;
+	use CollectionTrait;
 
 	/**
-	 * Territory instances.
-	 *
-	 * @var Territory[]
-	 */
-	protected $collection = array();
-
-	/**
-	 * Initializes the {@link $repository} property.
-	 *
-	 * @param Repository $repository Representation of a CLDR.
+	 * @param Repository $repository
 	 */
 	public function __construct(Repository $repository)
 	{
@@ -59,13 +47,4 @@ class TerritoryCollection implements \ArrayAccess
 		return $this->collection[$offset];
 	}
 
-	public function offsetSet($offset, $value)
-	{
-		throw new OffsetNotWritable(array($offset, $this));
-	}
-
-	public function offsetUnset($offset)
-	{
-		throw new OffsetNotWritable(array($offset, $this));
-	}
 }

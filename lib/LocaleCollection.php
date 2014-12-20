@@ -11,31 +11,17 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\OffsetNotWritable;
-
 /**
  * Representation of a locale collection.
  */
 class LocaleCollection implements \ArrayAccess
 {
-	/**
-	 * Representation of a CLDR.
-	 *
-	 * @var Repository
-	 */
-	protected $repository;
+	use AccessorTrait;
+	use RepositoryPropertyTrait;
+	use CollectionTrait;
 
 	/**
-	 * Locale instances.
-	 *
-	 * @var Locale[]
-	 */
-	protected $collection = array();
-
-	/**
-	 * Initializes the {@link $repository} property.
-	 *
-	 * @param Repository $repository Representation of a CLDR.
+	 * @param Repository $repository
 	 */
 	public function __construct(Repository $repository)
 	{
@@ -55,15 +41,5 @@ class LocaleCollection implements \ArrayAccess
 		}
 
 		return $this->collection[$offset];
-	}
-
-	public function offsetSet($offset, $value)
-	{
-		throw new OffsetNotWritable(array($offset, $this));
-	}
-
-	public function offsetUnset($offset)
-	{
-		throw new OffsetNotWritable(array($offset, $this));
 	}
 }

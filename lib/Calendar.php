@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\PropertyNotDefined;
-
 /**
  * Representation of a locale calendar.
  *
@@ -56,12 +54,32 @@ use ICanBoogie\PropertyNotDefined;
  */
 class Calendar extends \ArrayObject
 {
+	use AccessorTrait;
+	use LocalePropertyTrait;
+
 	/**
-	 * Representation of the locale defining this calendar.
-	 *
-	 * @var Locale
+	 * @return DateTimeFormatter
 	 */
-	protected $locale;
+	protected function lazy_get_datetime_formatter()
+	{
+		return new DateTimeFormatter($this);
+	}
+
+	/**
+	 * @return DateFormatter
+	 */
+	protected function lazy_get_date_formatter()
+	{
+		return new DateFormatter($this);
+	}
+
+	/**
+	 * @return TimeFormatter
+	 */
+	protected function lazy_get_time_formatter()
+	{
+		return new TimeFormatter($this);
+	}
 
 	public function __construct(Locale $locale, array $data)
 	{
@@ -69,27 +87,6 @@ class Calendar extends \ArrayObject
 
 		parent::__construct($data);
 	}
-
-	/**
-	 * Datetime formatter.
-	 *
-	 * @var DateTimeFormatter
-	 */
-	private $datetime_formatter;
-
-	/**
-	 * Date formatter.
-	 *
-	 * @var DateFormatter
-	 */
-	private $date_formatter;
-
-	/**
-	 * Time formatter.
-	 *
-	 * @var TimeFormatter
-	 */
-	private $time_formatter;
 
 	public function __get($property)
 	{
@@ -100,40 +97,6 @@ class Calendar extends \ArrayObject
 			'short' => 'eraAbbr',
 			'wide' => 'eraNames'
 		);
-
-		switch ($property)
-		{
-			case 'locale':
-
-				return $this->locale;
-
-			case 'datetime_formatter':
-
-				if (!$this->datetime_formatter)
-				{
-					$this->datetime_formatter = new DateTimeFormatter($this);
-				}
-
-				return $this->datetime_formatter;
-
-			case 'date_formatter':
-
-				if (!$this->date_formatter)
-				{
-					$this->date_formatter = new DateFormatter($this);
-				}
-
-				return $this->date_formatter;
-
-			case 'time_formatter':
-
-				if (!$this->time_formatter)
-				{
-					$this->time_formatter = new TimeFormatter($this);
-				}
-
-				return $this->time_formatter;
-		}
 
 		if (preg_match('#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#', $property, $matches))
 		{
@@ -158,6 +121,6 @@ class Calendar extends \ArrayObject
 			}
 		}
 
-		throw new PropertyNotDefined(array($property, $this));
+		return $this->__object_get($property);
 	}
 }

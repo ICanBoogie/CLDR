@@ -17,7 +17,8 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 	static public function setupBeforeClass()
 	{
-		self::$calendar = get_repository()->locales['fr']->calendars['gregorian'];
+		$repository = new Repository(create_provider_stack());
+		self::$calendar = $repository->locales['fr']->calendars['gregorian'];
 	}
 
 	public function test_instanceof()
@@ -25,30 +26,26 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ICanBoogie\CLDR\Calendar', self::$calendar);
 	}
 
-	public function test_get_locale()
+	/**
+	 * @dataProvider provider_test_property_instanceof
+	 */
+	public function test_property_instanceof($property, $expected)
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Locale', self::$calendar->locale);
+		$instance = self::$calendar->$property;
+		$this->assertInstanceOf($expected, $instance);
+		$this->assertSame($instance, self::$calendar->$property);
 	}
 
-	public function test_get_datetime_formatter()
+	public function provider_test_property_instanceof()
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\DateTimeFormatter', self::$calendar->datetime_formatter);
+		return [
 
-		$this->assertSame(self::$calendar->datetime_formatter, self::$calendar->datetime_formatter);
-	}
+			[ 'locale',             'ICanBoogie\CLDR\Locale' ],
+			[ 'datetime_formatter', 'ICanBoogie\CLDR\DateTimeFormatter' ],
+			[ 'date_formatter',     'ICanBoogie\CLDR\DateFormatter' ],
+			[ 'time_formatter',     'ICanBoogie\CLDR\TimeFormatter' ]
 
-	public function test_get_date_formatter()
-	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\DateFormatter', self::$calendar->date_formatter);
-
-		$this->assertSame(self::$calendar->date_formatter, self::$calendar->date_formatter);
-	}
-
-	public function test_get_time_formatter()
-	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\TimeFormatter', self::$calendar->time_formatter);
-
-		$this->assertSame(self::$calendar->time_formatter, self::$calendar->time_formatter);
+		];
 	}
 
 	/**

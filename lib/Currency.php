@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\PropertyNotDefined;
-
 /**
  * A currency.
  *
@@ -26,15 +24,9 @@ use ICanBoogie\PropertyNotDefined;
  */
 class Currency
 {
-	/**
-	 * @var Repository
-	 */
-	protected $repository;
-
-	/**
-	 * @var string
-	 */
-	protected $code;
+	use AccessorTrait;
+	use RepositoryPropertyTrait;
+	use CodePropertyTrait;
 
 	/**
 	 * @param Repository $repository
@@ -48,29 +40,15 @@ class Currency
 
 	public function __get($property)
 	{
-		switch ($property)
+		if (in_array($property, [ 'digits', 'rounding', 'cash_digits', 'cash_rounding' ]))
 		{
-			case 'code':
+			$data = $this->$repository->supplemental['currencyData'][$this->code];
+			$offset = '_' . $property;
 
-				return $this->code;
-
-			case 'digits':
-			case 'rounding':
-			case 'cash_digits':
-			case 'cash_rounding':
-
-				$data = $this->$repository->supplemental['currencyData'][$this->code];
-				$offset = '_' . $property;
-
-				return isset($data[$offset]) ? (int) $data[$offset] : null;
+			return isset($data[$offset]) ? (int) $data[$offset] : null;
 		}
 
-		throw new PropertyNotDefined(array( $property, $this ));
-	}
-
-	public function __toString()
-	{
-		return $this->code;
+		return $this->__object_get($property);
 	}
 
 	/**

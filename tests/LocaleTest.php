@@ -20,29 +20,32 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 		self::$locale = new Locale(get_repository(), 'fr');
 	}
 
-	public function test_get_repository()
-	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Repository', self::$locale->repository);
-	}
-
 	public function test_get_code()
 	{
 		$this->assertEquals('fr', self::$locale->code);
 	}
 
-	public function test_get_calendars()
+	/**
+	 * @dataProvider provide_test_properties_instanceof
+	 */
+	public function test_properties_instanceof($property, $expected)
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\CalendarCollection', self::$locale->calendars);
+		$locale = new Locale(get_repository(), 'fr');
+		$instance = $locale->$property;
+		$this->assertInstanceOf($expected, $instance);
+		$this->assertSame($instance, $locale->$property);
 	}
 
-	public function test_get_calendar()
+	public function provide_test_properties_instanceof()
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Calendar', self::$locale->calendar);
-	}
+		return [
 
-	public function test_get_numbers()
-	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Numbers', self::$locale->numbers);
+			[ 'repository', 'ICanBoogie\CLDR\Repository' ],
+			[ 'calendars', 'ICanBoogie\CLDR\CalendarCollection' ],
+			[ 'calendar', 'ICanBoogie\CLDR\Calendar' ],
+			[ 'numbers', 'ICanBoogie\CLDR\Numbers' ]
+
+		];
 	}
 
 	/**

@@ -58,12 +58,7 @@ class Supplemental implements \ArrayAccess
 		'windowsZones'           => 'windowsZones'
 	);
 
-	/**
-	 * Representation of a CLDR repository.
-	 *
-	 * @var Repository
-	 */
-	protected $repository;
+	use RepositoryPropertyTrait;
 
 	/**
 	 * Loaded sections.
@@ -75,7 +70,7 @@ class Supplemental implements \ArrayAccess
 	/**
 	 * Initializes the {@link $repository} property.
 	 *
-	 * @param Repository $repository Representation of a CLDR.
+	 * @param Repository $repository
 	 */
 	public function __construct(Repository $repository)
 	{

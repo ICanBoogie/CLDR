@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\PropertyNotDefined;
-
 /**
  * Representation of a CLDR.
  *
@@ -37,71 +35,51 @@ use ICanBoogie\PropertyNotDefined;
  */
 class Repository
 {
+	use AccessorTrait;
+
 	/**
-	 * @var Provider
+	 * @var ProviderInterface
 	 */
 	private $provider;
 
+	/**
+	 * @return ProviderInterface
+	 */
 	protected function get_provider()
 	{
 		return $this->provider;
 	}
 
 	/**
-	 * @var LocaleCollection
+	 * @return LocaleCollection
 	 */
-	private $locales;
-
-	protected function get_locales()
+	protected function lazy_get_locales()
 	{
-		if ($this->locales)
-		{
-			return $this->locales;
-		}
-
-		return $this->locales = new LocaleCollection($this);
+		return new LocaleCollection($this);
 	}
 
 	/**
-	 * @var Supplemental
+	 * @return Supplemental
 	 */
-	private $supplemental;
-
-	protected function get_supplemental()
+	protected function lazy_get_supplemental()
 	{
-		if ($this->supplemental)
-		{
-			return $this->supplemental;
-		}
-
-		return $this->supplemental = new Supplemental($this);
+		return new Supplemental($this);
 	}
 
 	/**
-	 * @var TerritoryCollection
+	 * @return TerritoryCollection
 	 */
-	private $territories;
-
-	protected function get_territories()
+	protected function lazy_get_territories()
 	{
-		if ($this->territories)
-		{
-			return $this->territories;
-		}
-
-		return $this->territories = new TerritoryCollection($this);
+		return new TerritoryCollection($this);
 	}
 
-	private $currencies;
-
-	protected function get_currencies()
+	/**
+	 * @return CurrencyCollection
+	 */
+	protected function lazy_get_currencies()
 	{
-		if (!$this->currencies)
-		{
-			$this->currencies = new CurrencyCollection($this);
-		}
-
-		return $this->currencies;
+		return new CurrencyCollection($this);
 	}
 
 	/**
@@ -112,18 +90,6 @@ class Repository
 	public function __construct(ProviderInterface $provider)
 	{
 		$this->provider = $provider;
-	}
-
-	public function __get($property)
-	{
-		$method = 'get_' . $property;
-
-		if (method_exists($this, $method))
-		{
-			return $this->$method();
-		}
-
-		throw new PropertyNotDefined(array($property, $this));
 	}
 
 	/**

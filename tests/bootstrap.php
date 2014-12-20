@@ -19,6 +19,14 @@ if (!file_exists(__DIR__ . '/repository'))
 }
 
 /**
+ * @return ProviderInterface
+ */
+function create_provider_stack()
+{
+	return new RunTimeProvider(new FileProvider(new WebProvider, __DIR__ . '/repository'));
+}
+
+/**
  * @return Repository
  */
 function get_repository()
@@ -27,7 +35,7 @@ function get_repository()
 
 	if (!$repository)
 	{
-		$repository = new Repository(new RunTimeProvider(new FileProvider(new WebProvider, __DIR__ . '/repository')));
+		$repository = new Repository(create_provider_stack());
 	}
 
 	return $repository;

@@ -410,7 +410,7 @@ echo $localized_euro->format(12345.67); // 1 2345,67 €
 
 ## Requirements
 
-The package requires PHP 5.3 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
+The package requires PHP 5.4 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
 
 
 

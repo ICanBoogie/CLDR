@@ -12,7 +12,6 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\OffsetNotDefined;
-use ICanBoogie\OffsetNotWritable;
 
 /**
  * A currency collection.
@@ -34,15 +33,9 @@ use ICanBoogie\OffsetNotWritable;
  */
 class CurrencyCollection implements \ArrayAccess
 {
-	/**
-	 * @var Repository
-	 */
-	protected $repository;
-
-	/**
-	 * @var Currency[]
-	 */
-	protected $collection;
+	use AccessorTrait;
+	use RepositoryPropertyTrait;
+	use CollectionTrait;
 
 	/**
 	 * @param Repository $repository
@@ -101,26 +94,5 @@ class CurrencyCollection implements \ArrayAccess
 		}
 
 		return $this->collection[$currency_code] = new Currency($this->repository, $currency_code);
-	}
-
-	/**
-	 * @param string $currency_code
-	 * @param mixed $value
-	 *
-	 * @throw OffsetNotWritable in attempt to set the offset.
-	 */
-	public function offsetSet($currency_code, $value)
-	{
-		throw new OffsetNotWritable(array( $currency_code, $this ));
-	}
-
-	/**
-	 * @param string $currency_code
-	 *
-	 * @throw OffsetNotWritable in attempt to unset the offset.
-	 */
-	public function offsetUnset($currency_code)
-	{
-		throw new OffsetNotWritable(array( $currency_code, $this ));
 	}
 }

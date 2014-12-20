@@ -29,29 +29,15 @@ use ICanBoogie\PropertyNotDefined;
  */
 class Numbers extends \ArrayObject
 {
-	/**
-	 * @var Locale
-	 */
-	protected $locale;
-
-	protected function get_locale()
-	{
-		return $this->locale;
-	}
+	use AccessorTrait;
+	use LocalePropertyTrait;
 
 	/**
-	 * @var NumberFormatter
+	 * @return NumberFormatter
 	 */
-	private $number_formatter;
-
-	protected function get_number_formatter()
+	protected function lazy_get_number_formatter()
 	{
-		if (!$this->number_formatter)
-		{
-			$this->number_formatter = new NumberFormatter($this);
-		}
-
-		return $this->number_formatter;
+		return new NumberFormatter($this);
 	}
 
 	protected function get_symbols()
@@ -105,17 +91,5 @@ class Numbers extends \ArrayObject
 		$this->locale = $locale;
 
 		parent::__construct($data);
-	}
-
-	public function __get($property)
-	{
-		$method = 'get_' . $property;
-
-		if (method_exists($this, $method))
-		{
-			return $this->$method();
-		}
-
-		throw new PropertyNotDefined(array($property, $this));
 	}
 }

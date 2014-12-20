@@ -66,17 +66,9 @@ class Locale implements \ArrayAccess
 		'variants'               => 'localeDisplayNames/variants'
 	);
 
-	/**
-	 * Representation of a CLDR.
-	 *
-	 * @var Repository
-	 */
-	protected $repository;
-
-	/**
-	 * @var string
-	 */
-	protected $code;
+	use AccessorTrait;
+	use RepositoryPropertyTrait;
+	use CodePropertyTrait;
 
 	/**
 	 * Loaded sections.
@@ -97,82 +89,28 @@ class Locale implements \ArrayAccess
 		$this->code = $code;
 	}
 
-	public function __get($property)
-	{
-		switch ($property)
-		{
-			case 'repository': return $this->get_repository();
-			case 'code':       return $this->get_code();
-			case 'calendars':  return $this->get_calendars();
-			case 'calendar':   return $this->get_calendar();
-			case 'numbers':    return $this->get_numbers();
-		}
-
-		throw new PropertyNotDefined(array($property, $this));
-	}
-
-	public function __toString()
-	{
-		return $this->code;
-	}
-
-	protected function get_repository()
-	{
-		return $this->repository;
-	}
-
-	protected function get_code()
-	{
-		return $this->code;
-	}
-
 	/**
-	 * Collection of calendars.
-	 *
-	 * @var CalendarCollection
-	 */
-	private $calendars;
-
-	/**
-	 * Returns the calendars available for this locale.
-	 *
 	 * @return CalendarCollection
 	 */
-	protected function get_calendars()
+	protected function lazy_get_calendars()
 	{
-		if ($this->calendars)
-		{
-			return $this->calendars;
-		}
-
-		return $this->calendars = new CalendarCollection($this);
-	}
-
-	private $calendar;
-
-	protected function get_calendar()
-	{
-		if ($this->calendar)
-		{
-			return $this->calendar;
-		}
-
-		return $this->calendar = $this->get_calendars()->offsetGet('gregorian'); // TODO-20131101: use preferred data
+		return new CalendarCollection($this);
 	}
 
 	/**
-	 * @var Numbers
+	 * @return Calendar
 	 */
-	private $numbers;
-
-	protected function get_numbers()
+	protected function lazy_get_calendar()
 	{
-		if (!$this->numbers)
-		{
-			$this->numbers = new Numbers($this, $this['numbers']);
-		}
+		return $this->calendars['gregorian']; // TODO-20131101: use preferred data
+	}
 
-		return $this->numbers;
+	/**
+	 * @return Numbers
+	 */
+	protected function lazy_get_numbers()
+	{
+		return new Numbers($this, $this['numbers']);
 	}
 
 	public function offsetExists($offset)

@@ -19,7 +19,10 @@ use ICanBoogie\PropertyNotDefined;
  *
  * @package ICanBoogie\CLDR
  *
- * @property-read string $currency The current ISO 4217 currency code.
+ * @property-read array $containment The `territoryContainment` data.
+ * @property-read array $info The `territoryInfo` data.
+ * @property-read array $currencies The currencies available in the country.
+ * @property-read string $currency The current currency.
  * @property-read string $first_day The code of the first day of the week for the territory.
  * @property-read string $weekend_start The code of the first day of the weekend.
  * @property-read string $weekend_end The code of the last day of the weekend.
@@ -32,27 +35,14 @@ use ICanBoogie\PropertyNotDefined;
  */
 class Territory
 {
-	/**
-	 * @var Repository
-	 */
-	protected $repository;
-
-	/**
-	 * The ISO code of the territory.
-	 *
-	 * @var string
-	 */
-	protected $code;
-
-	protected function get_code()
-	{
-		return $this->code;
-	}
+	use AccessorTrait;
+	use RepositoryPropertyTrait;
+	use CodePropertyTrait;
 
 	/**
 	 * Initialize the {@link $repository} and {@link $code} properties.
 	 *
-	 * @param Repository $repository The CLDR.
+	 * @param Repository $repository
 	 * @param string $code The ISO code of the territory.
 	 */
 	public function __construct(Repository $repository, $code)
@@ -61,20 +51,8 @@ class Territory
 		$this->code = $code;
 	}
 
-	public function __toString()
-	{
-		return $this->code;
-	}
-
 	public function __get($property)
 	{
-		$method = 'get_' . $property;
-
-		if (method_exists($this, $method))
-		{
-			return $this->$method();
-		}
-
 		if (strpos($property, 'name_as_') === 0)
 		{
 			$locale_code = substr($property, strlen('name_as_'));
@@ -83,18 +61,16 @@ class Territory
 			return $this->name_as($locale_code);
 		}
 
-		throw new PropertyNotDefined(array( $property, $this ));
+		return $this->__object_get($property);
 	}
 
-	private $containment;
-
-	protected function get_containment()
+	/**
+	 * Return the `territoryContainment` data.
+	 *
+	 * @return array
+	 */
+	protected function lazy_get_containment()
 	{
-		if ($this->containment)
-		{
-			return $this->containment;
-		}
-
 		$code = $this->code;
 		$data = $this->repository->supplemental['territoryContainment'];
 
@@ -103,23 +79,16 @@ class Territory
 			throw new NoTerritoryData;
 		}
 
-		return $this->containment = $data[$code];
+		return $data[$code];
 	}
-
-	private $currencies;
 
 	/**
 	 * Returns the currencies used throughout the history of the territory.
 	 *
 	 * @return array
 	 */
-	protected function get_currencies()
+	protected function lazy_get_currencies()
 	{
-		if ($this->currencies)
-		{
-			return $this->currencies;
-		}
-
 		$code = $this->code;
 		$data = $this->repository->supplemental['currencyData'];
 
@@ -128,27 +97,23 @@ class Territory
 			throw new NoTerritoryData;
 		}
 
-		return $this->currencies = $data['region'][$code];
-	}
-
-	private $currency;
-
-	protected function get_currency()
-	{
-		if ($this->currency)
-		{
-			return $this->currency;
-		}
-
-		return $this->currency = $this->currency_at();
+		return $data['region'][$code];
 	}
 
 	/**
-	 * Return the ISO 4217 code of the currency used in the territory at a point in time.
+	 * @return Currency
+	 */
+	protected function lazy_get_currency()
+	{
+		return $this->currency_at();
+	}
+
+	/**
+	 * Return the currency used in the territory at a point in time.
 	 *
 	 * @param \DateTime|mixed $date
 	 *
-	 * @return string
+	 * @return Currency
 	 */
 	public function currency_at($date=null)
 	{
@@ -158,7 +123,7 @@ class Territory
 		}
 
 		$date = DateTime::from($date)->as_date;
-		$currencies = $this->get_currencies();
+		$currencies = $this->currencies;
 		$from = null;
 
 		$rc = false;
@@ -231,19 +196,13 @@ class Territory
 		return $this->get_week_data('weekendEnd');
 	}
 
-	/*
+	/**
+	 * Return the `territoryInfo` data.
 	 *
+	 * @return array
 	 */
-
-	private $info;
-
-	protected function get_info()
+	protected function lazy_get_info()
 	{
-		if ($this->info)
-		{
-			return $this->info;
-		}
-
 		$code = $this->code;
 		$data = $this->repository->supplemental['territoryInfo'];
 
@@ -252,10 +211,8 @@ class Territory
 			throw new NoTerritoryData;
 		}
 
-		return $this->info = $data[$code];
+		return $data[$code];
 	}
-
-	private $language;
 
 	/**
 	 * Return the ISO code of the official language of the territory.
@@ -263,14 +220,9 @@ class Territory
 	 * @return string|bool The ISO code of the official language, or `false' if it cannot be
 	 * determined.
 	 */
-	protected function get_language()
+	protected function lazy_get_language()
 	{
-		if ($this->language)
-		{
-			return $this->language;
-		}
-
-		$info = $this->get_info();
+		$info = $this->info;
 
 		foreach ($info['languagePopulation'] as $language => $lp)
 		{
@@ -279,7 +231,7 @@ class Territory
 				continue;
 			}
 
-			return $this->language = $language;
+			return $language;
 		}
 
 		return false;
@@ -292,7 +244,7 @@ class Territory
 	 */
 	protected function get_population()
 	{
-		$info = $this->get_info();
+		$info = $this->info;
 
 		return (int) $info['_population'];
 	}
@@ -308,7 +260,7 @@ class Territory
 	{
 		try
 		{
-			$containment = $this->get_containment();
+			$containment = $this->containment;
 
 			return in_array($code, $containment['_contains']);
 		}
