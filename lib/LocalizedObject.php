@@ -22,6 +22,15 @@ use ICanBoogie\PropertyNotDefined;
  */
 abstract class LocalizedObject
 {
+	/**
+	 * Creates a localized instance from the specified source and location.
+	 *
+	 * @param $source
+	 * @param Locale $locale
+	 * @param array $options
+	 *
+	 * @return LocalizedObject A localized instance.
+	 */
 	static public function from($source, Locale $locale, array $options=[])
 	{
 		return new static($source, $locale, $options);
@@ -33,6 +42,11 @@ abstract class LocalizedObject
 	 * @var mixed
 	 */
 	protected $target;
+
+	protected function get_target()
+	{
+		return $this->target;
+	}
 
 	use LocalePropertyTrait;
 
@@ -75,20 +89,14 @@ abstract class LocalizedObject
 	 */
 	public function __get($property)
 	{
-		switch ($property)
+		if ($property == 'formatter')
 		{
-			case 'target':
+			if (!$this->formatter)
+			{
+				$this->formatter = $this->get_formatter();
+			}
 
-				return $this->target;
-
-			case 'formatter':
-
-				if (!$this->formatter)
-				{
-					$this->formatter = $this->get_formatter();
-				}
-
-				return $this->formatter;
+			return $this->formatter;
 		}
 
 		$method = 'get_' . $property;
