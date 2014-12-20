@@ -14,7 +14,7 @@ which data is retrieved when required.
 
 The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
 data is retrieved through a provider, and in order to avoid hitting the web with every request,
-a stack of them is used.
+a stack of them is used, each with its own caching strategies.
 
 The following example demonstrates how a repository can be instantiated with a nice stack of
 providers. One fetches the data from the web, the other from the filesystem, and the last one
@@ -23,7 +23,10 @@ from the runtime memory:
 ```php
 <?php
 
-namespace ICanBoogie\CLDR;
+use ICanBoogie\CLDR\FileProvider;
+use ICanBoogie\CLDR\Repository;
+use ICanBoogie\CLDR\RunTimeProvider;
+use ICanBoogie\CLDR\WebProvider;
 
 $provider = new RunTimeProvider(new FileProvider(new WebProvider, "/path/to/storage"));
 $repository = new Repository($provider);
@@ -137,7 +140,7 @@ provide magic properties to rapidly access days, eras, months and quarters:
 ```php
 <?php
 
-namespace ICanBoogie\CLDR;
+use ICanBoogie\CLDR\Calendar;
 
 $calendar = new Calendar($repository->locales['fr'], $repository->locales['fr']['ca-gregorian']);
 # or
@@ -203,7 +206,7 @@ used for the formatting. The datetime can be specified as an Unix timestamp, a s
 ```php
 <?php
 
-namespace ICanBoogie\CLDR;
+use ICanBoogie\CLDR\DateTimeFormatter;
 
 $formatter = new DateTimeFormatter($repository->locales['en']->calendar);
 # or
@@ -231,7 +234,7 @@ Calendars provide a formatter for dates. A width or a pattern is used for the fo
 ```php
 <?php
 
-namespace ICanBoogie\CLDR;
+use ICanBoogie\CLDR\DateFormatter;
 
 $formatter = new DateFormatter($repository->locales['en']->calendar);
 # or
@@ -256,7 +259,7 @@ Calendars provide a formatter for times. A width or a pattern is used for the fo
 ```php
 <?php
 
-namespace ICanBoogie\CLDR;
+use ICanBoogie\CLDR\TimeFormatter;
 
 $formatter = new TimeFormatter($repository->locales['en']->calendar);
 # or
@@ -282,7 +285,7 @@ the `localize` method of the desired locale:
 ```php
 <?php
 
-namespace ICanBoogie\CLDR;
+use ICanBoogie\CLDR\LocalizedDateTime;
 
 $ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $repository->locales['fr']);
 # or
@@ -370,6 +373,8 @@ get one through the currency collection.
 ```php
 <php
 
+use ICanBoogie\CLDR\Currency;
+
 $euro = new Currency($repository, 'EUR')
 # or
 $euro = $repository->currencies['EUR'];
@@ -386,6 +391,8 @@ of the desired locale.
 
 ```php
 <php
+
+use ICanBoogie\CLDR\Currency;
 
 $currency = new Currency($repository, 'EUR')
 
