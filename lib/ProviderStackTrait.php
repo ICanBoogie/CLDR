@@ -42,4 +42,4 @@ trait ProviderStackTrait
 		return $data;
 	}
 }
-∑
+
