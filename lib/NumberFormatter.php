@@ -52,7 +52,7 @@ class NumberFormatter
 		return explode('.', (string) $number);
 	}
 
-	static private $tokenize_cache = array();
+	static private $tokenize_cache = [];
 
 	/**
 	 * Parses a given string pattern.
@@ -71,13 +71,14 @@ class NumberFormatter
 			return self::$tokenize_cache[$cache_key];
 		}
 
-		$format = array
-		(
+		$format = [
+
 			'positivePrefix' => '',
 			'positiveSuffix' => '',
 			'negativePrefix' => '',
 			'negativeSuffix' => ''
-		);
+
+		];
 
 		#
 		# Positive and negative patterns
@@ -203,13 +204,14 @@ class NumberFormatter
 		return self::$tokenize_cache[$cache_key] = $format;
 	}
 
-	protected $default_symbols = array
-	(
+	protected $default_symbols = [
+
 		'group' => ',',
 		'decimal' => '.',
 		'plus_sign' => '+',
 		'minus_sign' => '-'
-	);
+
+	];
 
 	/**
 	 * @var Numbers
@@ -223,7 +225,7 @@ class NumberFormatter
 
 	protected function default_format_options_for($number)
 	{
-		return array(
+		return [
 
 			'decimalDigits' => 0,
 	        'maxDecimalDigits' => 0,
@@ -237,7 +239,7 @@ class NumberFormatter
 			'multiplier' => 1,
 			'currency_symbol' => null
 
-		);
+		];
 	}
 
 	/**
@@ -252,7 +254,7 @@ class NumberFormatter
 	 *
 	 * @return string The formatted number.
 	 */
-	public function format($number, $pattern, array $options=array())
+	public function format($number, $pattern, array $options=[])
 	{
 		$options += self::tokenize($pattern, "-") + $this->default_format_options_for($number);
 
@@ -271,18 +273,18 @@ class NumberFormatter
 	 * This is the method that does actual number formatting.
 	 * @param array $format format with the following structure:
 	 * <pre>
-	 * array(
+	 * [
 	 * 	'decimalDigits'=>2,     // number of required digits after decimal point; 0s will be padded if not enough digits; if -1, it means we should drop decimal point
 	 *  'maxDecimalDigits'=>3,  // maximum number of digits after decimal point. Additional digits will be truncated.
 	 * 	'integerDigits'=>1,     // number of required digits before decimal point; 0s will be padded if not enough digits
 	 * 	'groupSize1'=>3,        // the primary grouping size; if 0, it means no grouping
-	 * 	'groupSize2'=>0,        // the secondary grouping size; if 0, it means no secondary grouping
+	 * 	'groupSize2'=>0,        // the secondary grouping size; if 0,git  it means no secondary grouping
 	 * 	'positivePrefix'=>'+',  // prefix to positive number
 	 * 	'positiveSuffix'=>'',   // suffix to positive number
 	 * 	'negativePrefix'=>'(',  // prefix to negative number
 	 * 	'negativeSuffix'=>')',  // suffix to negative number
 	 * 	'multiplier'=>1,        // 100 for percent, 1000 for per mille
-	 * );
+	 * ];
 	 * </pre>
 	 * @param mixed $value the number to be formatted
 	 * @return string the formatted result
@@ -340,9 +342,11 @@ class NumberFormatter
 			$number = $format['positivePrefix'] . $integer . $decimal . $format['positiveSuffix'];
 		}
 
-		return strtr($number, array(
+		return strtr($number, [
+
 			'%' => $this->numbers->symbols['percentSign'],
-			'‰' => $this->numbers->symbols['perMille'] )
-		);
+			'‰' => $this->numbers->symbols['perMille']
+
+		]);
 	}
 }

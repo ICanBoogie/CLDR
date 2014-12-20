@@ -90,13 +90,14 @@ class Calendar extends \ArrayObject
 
 	public function __get($property)
 	{
-		static $era_translation = array
-		(
+		static $era_translation = [
+
 			'abbreviated' => 'eraAbbr',
 			'narrow' => 'eraNarrow',
 			'short' => 'eraAbbr',
 			'wide' => 'eraNames'
-		);
+
+		];
 
 		if (preg_match('#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#', $property, $matches))
 		{

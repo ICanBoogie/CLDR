@@ -55,26 +55,27 @@ class CalendarCollectionTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_get()
 	{
-		return array
-		(
-			array('buddhist'),
-			array('chinese'),
-			array('coptic'),
-			array('dangi'),
-			array('ethiopic-amete-alem'),
-			array('ethiopic'),
-			array('generic'),
-			array('gregorian'),
-			array('hebrew'),
-			array('indian'),
-			array('islamic-civil'),
-			array('islamic-rgsa'),
-			array('islamic-tbla'),
-			array('islamic-umalqura'),
-			array('islamic'),
-			array('japanese'),
-			array('persian'),
-			array('roc')
-		);
+		return [
+
+			[ 'buddhist' ],
+			[ 'chinese' ],
+			[ 'coptic' ],
+			[ 'dangi' ],
+			[ 'ethiopic-amete-alem' ],
+			[ 'ethiopic' ],
+			[ 'generic' ],
+			[ 'gregorian' ],
+			[ 'hebrew' ],
+			[ 'indian' ],
+			[ 'islamic-civil' ],
+			[ 'islamic-rgsa' ],
+			[ 'islamic-tbla' ],
+			[ 'islamic-umalqura' ],
+			[ 'islamic' ],
+			[ 'japanese' ],
+			[ 'persian' ],
+			[ 'roc' ]
+
+		];
 	}
 }

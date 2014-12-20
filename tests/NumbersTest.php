@@ -27,16 +27,16 @@ class NumbersTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_shortcuts()
 	{
-		return array(
+		return [
 
-			array('fr', 'symbols', 'symbols-numberSystem-latn'),
-			array('fr', 'decimal_formats', 'decimalFormats-numberSystem-latn'),
-			array('fr', 'scientific_formats', 'scientificFormats-numberSystem-latn'),
-			array('fr', 'percent_formats', 'percentFormats-numberSystem-latn'),
-			array('fr', 'currency_formats', 'currencyFormats-numberSystem-latn'),
-			array('fr', 'misc_patterns', 'miscPatterns-numberSystem-latn')
+			[ 'fr', 'symbols', 'symbols-numberSystem-latn' ],
+			[ 'fr', 'decimal_formats', 'decimalFormats-numberSystem-latn' ],
+			[ 'fr', 'scientific_formats', 'scientificFormats-numberSystem-latn' ],
+			[ 'fr', 'percent_formats', 'percentFormats-numberSystem-latn' ],
+			[ 'fr', 'currency_formats', 'currencyFormats-numberSystem-latn' ],
+			[ 'fr', 'misc_patterns', 'miscPatterns-numberSystem-latn' ]
 
-		);
+		];
 	}
 
 	/**
@@ -53,11 +53,11 @@ class NumbersTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_decimal_width_shortcuts()
 	{
-		return array(
+		return [
 
-			array('fr', 'short_decimal_formats', 'decimalFormats-numberSystem-latn', 'short'),
-			array('fr', 'long_decimal_formats', 'decimalFormats-numberSystem-latn', 'long')
+			[ 'fr', 'short_decimal_formats', 'decimalFormats-numberSystem-latn', 'short' ],
+			[ 'fr', 'long_decimal_formats', 'decimalFormats-numberSystem-latn', 'long' ]
 
-		);
+		];
 	}
 }

@@ -29,8 +29,8 @@ class DateTimeFormatter
 	 *
 	 * @var array
 	 */
-	static protected $formatters = array
-	(
+	static protected $formatters = [
+
 		'G' => 'format_era',
 		'y' => 'format_year',
 //		'Y' => Year (in "Week of Year" based calendars).
@@ -59,7 +59,8 @@ class DateTimeFormatter
 		'z' => 'format_timezone',
 		'Z' => 'format_timezone',
 		'v' => 'format_timezone'
-	);
+
+	];
 
 	/**
 	 * Parses the datetime format pattern.
@@ -70,14 +71,14 @@ class DateTimeFormatter
 	 */
 	static protected function tokenize($pattern)
 	{
-		static $formats = array();
+		static $formats = [];
 
 		if (isset($formats[$pattern]))
 		{
 			return $formats[$pattern];
 		}
 
-		$tokens = array();
+		$tokens = [];
 		$is_literal = false;
 		$literal = '';
 
@@ -118,7 +119,7 @@ class DateTimeFormatter
 				$l = $j-$i;
 				$p = str_repeat($c, $l);
 
-				$tokens[] = isset(self::$formatters[$c]) ? array(self::$formatters[$c], $p, $l) : $p;
+				$tokens[] = isset(self::$formatters[$c]) ? [ self::$formatters[$c], $p, $l ] : $p;
 
 				$i = $j - 1;
 			}
@@ -165,7 +166,7 @@ class DateTimeFormatter
 			return $this->calendar;
 		}
 
-		throw new PropertyNotDefined(array($property, $this));
+		throw new PropertyNotDefined([ $property, $this ]);
 	}
 
 	/**
@@ -239,14 +240,14 @@ class DateTimeFormatter
 				$pattern = $available_formats[$skeleton];
 			}
 		}
-		else if (in_array($pattern = $pattern_or_width_or_skeleton, array('full', 'long', 'medium', 'short')))
+		else if (in_array($pattern = $pattern_or_width_or_skeleton, [ 'full', 'long', 'medium', 'short' ]))
 		{
 			$calendar = $this->calendar;
 			$width = $pattern = $pattern_or_width_or_skeleton;
 			$datetime_pattern = $calendar['dateTimeFormats'][$width];
 			$date_pattern = $calendar['dateFormats'][$width];
 			$time_pattern = $calendar['timeFormats'][$width];
-			$pattern = strtr($datetime_pattern, array('{1}' => $date_pattern, '{0}' => $time_pattern));
+			$pattern = strtr($datetime_pattern, [ '{1}' => $date_pattern, '{0}' => $time_pattern ]);
 		}
 
 		return $pattern;
@@ -539,8 +540,8 @@ class DateTimeFormatter
 	 */
 	protected function format_day_in_week(DateTime $datetime, $pattern)
 	{
-		static $translate = array
-		(
+		static $translate = [
+
 			1 => 'mon',
 			2 => 'tue',
 			3 => 'wed',
@@ -548,7 +549,8 @@ class DateTimeFormatter
 			5 => 'fri',
 			6 => 'sat',
 			7 => 'sun'
-		);
+
+		];
 
 		$day = $datetime->weekday;
 

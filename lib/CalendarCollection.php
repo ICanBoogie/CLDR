@@ -32,7 +32,7 @@ class CalendarCollection implements \ArrayAccess
 	 *
 	 * @var Calendar[]
 	 */
-	protected $collection = array();
+	protected $collection = [];
 
 	/**
 	 * Initializes the {@link $locale} property.
@@ -61,11 +61,11 @@ class CalendarCollection implements \ArrayAccess
 
 	public function offsetSet($offset, $value)
 	{
-		throw new OffsetNotWritable(array($offset, $this));
+		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 
 	public function offsetUnset($offset)
 	{
-		throw new OffsetNotWritable(array($offset, $this));
+		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 }

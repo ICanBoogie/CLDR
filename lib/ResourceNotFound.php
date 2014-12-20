@@ -36,6 +36,6 @@ class ResourceNotFound extends \Exception
 			return $this->path;
 		}
 
-		throw new PropertyNotDefined(array($property, $this));
+		throw new PropertyNotDefined([ $property, $this ]);
 	}
 }

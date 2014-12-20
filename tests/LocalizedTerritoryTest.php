@@ -26,12 +26,12 @@ class LocalizedTerritoryTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_get_name()
 	{
-		return array(
+		return [
 
-			array( 'fr', 'AC', "Île de l’Ascension" ),
-			array( 'en', 'AC', "Ascension Island" ),
-			array( 'ja', 'AC', "アセンション島" ),
+			[ 'fr', 'AC', "Île de l’Ascension" ],
+			[ 'en', 'AC', "Ascension Island" ],
+			[ 'ja', 'AC', "アセンション島" ],
 
-		);
+		];
 	}
 }

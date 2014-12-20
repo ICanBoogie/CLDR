@@ -41,14 +41,12 @@ class WebProvider implements ProviderInterface
 	{
 		$ch = curl_init($this->origin . $path . '.json');
 
-		curl_setopt_array
-		(
-			$ch, array
-			(
-				CURLOPT_FAILONERROR => true,
-				CURLOPT_RETURNTRANSFER => 1
-			)
-		);
+		curl_setopt_array($ch, [
+
+			CURLOPT_FAILONERROR => true,
+			CURLOPT_RETURNTRANSFER => 1
+
+		]);
 
 		$rc = curl_exec($ch);
 

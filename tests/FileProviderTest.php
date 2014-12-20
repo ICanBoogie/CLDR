@@ -30,7 +30,7 @@ class FileProviderTest extends \PHPUnit_Framework_TestCase
 			unlink($root . 'some--path');
 		}
 
-		$expected = array('from http' => true );
+		$expected = [ 'from http' => true ];
 
 		$stub = $this->getMockBuilder('ICanBoogie\CLDR\WebProvider')
 			->getMock();

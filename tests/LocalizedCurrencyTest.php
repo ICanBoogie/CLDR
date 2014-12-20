@@ -53,15 +53,15 @@ class LocalizedCurrencyTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_format()
 	{
-		return array(
+		return [
 
-			array('IEP', 'fr', 123456.789, "123 456,79 £IE"),
-			array('IEP', 'en', 123456.789, "IEP123,456.79"),
-			array('EUR', 'fr', 123456.789, "123 456,79 €"),
-			array('EUR', 'en', 123456.789, "€123,456.79"),
-			array('USD', 'fr', 123456.789, "123 456,79 \$US"),
-			array('USD', 'en', 123456.789, "\$123,456.79"),
+			[ 'IEP', 'fr', 123456.789, "123 456,79 £IE" ],
+			[ 'IEP', 'en', 123456.789, "IEP123,456.79" ],
+			[ 'EUR', 'fr', 123456.789, "123 456,79 €" ],
+			[ 'EUR', 'en', 123456.789, "€123,456.79" ],
+			[ 'USD', 'fr', 123456.789, "123 456,79 \$US" ],
+			[ 'USD', 'en', 123456.789, "\$123,456.79" ],
 
-		);
+		];
 	}
 }

@@ -26,8 +26,8 @@ use ICanBoogie\PropertyNotDefined;
  */
 class Locale implements \ArrayAccess
 {
-	static private $available_sections = array
-	(
+	static private $available_sections = [
+
 		'ca-buddhist'            => 'dates/calendars/buddhist',
 		'ca-chinese'             => 'dates/calendars/chinese',
 		'ca-coptic'              => 'dates/calendars/coptic',
@@ -64,7 +64,8 @@ class Locale implements \ArrayAccess
 		'transformNames'         => 'localeDisplayNames/transformNames',
 		'units'                  => 'units',
 		'variants'               => 'localeDisplayNames/variants'
-	);
+
+	];
 
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
@@ -75,7 +76,7 @@ class Locale implements \ArrayAccess
 	 *
 	 * @var array
 	 */
-	protected $sections = array();
+	protected $sections = [];
 
 	/**
 	 * Initializes the {@link $repository} and {@link $code} properties.
@@ -124,7 +125,7 @@ class Locale implements \ArrayAccess
 		{
 			if (empty(self::$available_sections[$offset]))
 			{
-				throw new OffsetNotDefined(array($offset, $this));
+				throw new OffsetNotDefined([ $offset, $this ]);
 			}
 
 			$data = $this->repository->fetch("main/{$this->code}/{$offset}");
@@ -144,12 +145,12 @@ class Locale implements \ArrayAccess
 
 	public function offsetSet($offset, $value)
 	{
-		throw new OffsetNotWritable(array($offset, $this));
+		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 
 	public function offsetUnset($offset)
 	{
-		throw new OffsetNotWritable(array($offset, $this));
+		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 
 	/**
@@ -160,7 +161,7 @@ class Locale implements \ArrayAccess
 	 *
 	 * @return mixed
 	 */
-	public function localize($source, array $options=array())
+	public function localize($source, array $options=[])
 	{
 		$constructor = $this->resolve_localize_constructor($source);
 

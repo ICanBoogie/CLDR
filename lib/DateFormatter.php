@@ -47,7 +47,7 @@ class DateFormatter extends DateTimeFormatter
 	 */
 	protected function resolve_pattern($pattern_or_width_or_skeleton)
 	{
-		static $widths = array('full', 'long', 'medium', 'short');
+		static $widths = [ 'full', 'long', 'medium', 'short' ];
 
 		if (in_array($pattern_or_width_or_skeleton, $widths))
 		{

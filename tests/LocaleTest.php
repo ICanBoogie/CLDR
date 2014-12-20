@@ -68,45 +68,46 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_sections()
 	{
-		return array
-		(
-			array('ca-buddhist'            , 'dates/calendars/buddhist'                 , 'months'),
-			array('ca-chinese'             , 'dates/calendars/chinese'                  , 'months'),
-			array('ca-coptic'              , 'dates/calendars/coptic'                   , 'months'),
-			array('ca-dangi'               , 'dates/calendars/dangi'                    , 'months'),
-			array('ca-ethiopic-amete-alem' , 'dates/calendars/ethiopic-amete-alem'      , 'months'),
-			array('ca-ethiopic'            , 'dates/calendars/ethiopic'                 , 'months'),
-			array('ca-generic'             , 'dates/calendars/generic'                  , 'months'),
-			array('ca-gregorian'           , 'dates/calendars/gregorian'                , 'months'),
-			array('ca-hebrew'              , 'dates/calendars/hebrew'                   , 'months'),
-			array('ca-indian'              , 'dates/calendars/indian'                   , 'months'),
-			array('ca-islamic-civil'       , 'dates/calendars/islamic-civil'            , 'months'),
-			array('ca-islamic-rgsa'        , 'dates/calendars/islamic-rgsa'             , 'months'),
-			array('ca-islamic-tbla'        , 'dates/calendars/islamic-tbla'             , 'months'),
-			array('ca-islamic-umalqura'    , 'dates/calendars/islamic-umalqura'         , 'months'),
-			array('ca-islamic'             , 'dates/calendars/islamic'                  , 'months'),
-			array('ca-japanese'            , 'dates/calendars/japanese'                 , 'months'),
-			array('ca-persian'             , 'dates/calendars/persian'                  , 'months'),
-			array('ca-roc'                 , 'dates/calendars/roc'                      , 'months'),
-			array('characters'             , 'characters'                               , 'exemplarCharacters'),
-			array('contextTransforms'      , 'contextTransforms'                        , 'day-format-except-narrow'),
-			array('currencies'             , 'numbers/currencies'                       , 'ADP'),
-			array('dateFields'             , 'dates/fields'                             , 'era'),
-			array('delimiters'             , 'delimiters'                               , 'quotationStart'),
-			array('languages'              , 'localeDisplayNames/languages'             , 'aa'),
-			array('layout'                 , 'layout'                                   , 'orientation'),
-			array('listPatterns'           , 'listPatterns'                             , 'listPattern-type-standard'),
-			array('localeDisplayNames'     , 'localeDisplayNames'                       , 'localeDisplayPattern'),
-			array('measurementSystemNames' , 'localeDisplayNames/measurementSystemNames', 'metric'),
-			array('numbers'                , 'numbers'                                  , 'defaultNumberingSystem'),
-			array('posix'                  , 'posix'                                    , 'messages'),
-			array('scripts'                , 'localeDisplayNames/scripts'               , 'Afak'),
-			array('territories'            , 'localeDisplayNames/territories'           , 'AC'),
-			array('timeZoneNames'          , 'dates/timeZoneNames'                      , 'hourFormat'),
-			array('transformNames'         , 'localeDisplayNames/transformNames'        , 'BGN'),
-			array('units'                  , 'units'                                    , 'long'),
-			array('variants'               , 'localeDisplayNames/variants'              , 'ALUKU')
-		);
+		return [
+
+			[ 'ca-buddhist'            , 'dates/calendars/buddhist'                 , 'months' ],
+			[ 'ca-chinese'             , 'dates/calendars/chinese'                  , 'months' ],
+			[ 'ca-coptic'              , 'dates/calendars/coptic'                   , 'months' ],
+			[ 'ca-dangi'               , 'dates/calendars/dangi'                    , 'months' ],
+			[ 'ca-ethiopic-amete-alem' , 'dates/calendars/ethiopic-amete-alem'      , 'months' ],
+			[ 'ca-ethiopic'            , 'dates/calendars/ethiopic'                 , 'months' ],
+			[ 'ca-generic'             , 'dates/calendars/generic'                  , 'months' ],
+			[ 'ca-gregorian'           , 'dates/calendars/gregorian'                , 'months' ],
+			[ 'ca-hebrew'              , 'dates/calendars/hebrew'                   , 'months' ],
+			[ 'ca-indian'              , 'dates/calendars/indian'                   , 'months' ],
+			[ 'ca-islamic-civil'       , 'dates/calendars/islamic-civil'            , 'months' ],
+			[ 'ca-islamic-rgsa'        , 'dates/calendars/islamic-rgsa'             , 'months' ],
+			[ 'ca-islamic-tbla'        , 'dates/calendars/islamic-tbla'             , 'months' ],
+			[ 'ca-islamic-umalqura'    , 'dates/calendars/islamic-umalqura'         , 'months' ],
+			[ 'ca-islamic'             , 'dates/calendars/islamic'                  , 'months' ],
+			[ 'ca-japanese'            , 'dates/calendars/japanese'                 , 'months' ],
+			[ 'ca-persian'             , 'dates/calendars/persian'                  , 'months' ],
+			[ 'ca-roc'                 , 'dates/calendars/roc'                      , 'months' ],
+			[ 'characters'             , 'characters'                               , 'exemplarCharacters' ],
+			[ 'contextTransforms'      , 'contextTransforms'                        , 'day-format-except-narrow' ],
+			[ 'currencies'             , 'numbers/currencies'                       , 'ADP' ],
+			[ 'dateFields'             , 'dates/fields'                             , 'era' ],
+			[ 'delimiters'             , 'delimiters'                               , 'quotationStart' ],
+			[ 'languages'              , 'localeDisplayNames/languages'             , 'aa' ],
+			[ 'layout'                 , 'layout'                                   , 'orientation' ],
+			[ 'listPatterns'           , 'listPatterns'                             , 'listPattern-type-standard' ],
+			[ 'localeDisplayNames'     , 'localeDisplayNames'                       , 'localeDisplayPattern' ],
+			[ 'measurementSystemNames' , 'localeDisplayNames/measurementSystemNames', 'metric' ],
+			[ 'numbers'                , 'numbers'                                  , 'defaultNumberingSystem' ],
+			[ 'posix'                  , 'posix'                                    , 'messages' ],
+			[ 'scripts'                , 'localeDisplayNames/scripts'               , 'Afak' ],
+			[ 'territories'            , 'localeDisplayNames/territories'           , 'AC' ],
+			[ 'timeZoneNames'          , 'dates/timeZoneNames'                      , 'hourFormat' ],
+			[ 'transformNames'         , 'localeDisplayNames/transformNames'        , 'BGN' ],
+			[ 'units'                  , 'units'                                    , 'long' ],
+			[ 'variants'               , 'localeDisplayNames/variants'              , 'ALUKU' ]
+
+		];
 	}
 
 	/**
@@ -120,13 +121,13 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_localize()
 	{
-		return array(
+		return [
 
-			array( 'ICanBoogie\CLDR\LocalizedObject', new \ICanBoogie\DateTime ),
-			array( 'ICanBoogie\CLDR\LocalizedLocale', new Locale(get_repository(), 'fr') ),
-			array( 'ICanBoogie\CLDR\LocaleTest\LocalizedLocalizable', new \ICanBoogie\CLDR\LocaleTest\Localizable ),
+			[ 'ICanBoogie\CLDR\LocalizedObject', new \ICanBoogie\DateTime ],
+			[ 'ICanBoogie\CLDR\LocalizedLocale', new Locale(get_repository(), 'fr') ],
+			[ 'ICanBoogie\CLDR\LocaleTest\LocalizedLocalizable', new \ICanBoogie\CLDR\LocaleTest\Localizable ],
 
-		);
+		];
 	}
 }
 
@@ -138,7 +139,7 @@ use ICanBoogie\CLDR\LocalizedObject;
 
 class Localizable implements LocalizeAwareInterface
 {
-	static public function localize($source, Locale $locale, array $options=array())
+	static public function localize($source, Locale $locale, array $options=[])
 	{
 		return new LocalizedLocalizable($source, $locale, $options);
 	}

@@ -26,15 +26,15 @@ class LocalizedLocaleTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_get_name()
 	{
-		return array(
+		return [
 
-			array( 'fr', 'fr',    "français" ),
-			array( 'fr', 'fr-CA', "français canadien" ),
-			array( 'en', 'fr',    "French" ),
-			array( 'en', 'fr-CA', "Canadian French" ),
-			array( 'fr', 'nl',    "néerlandais" ),
-			array( 'fr', 'nl-BE', "flamand" ),
+			[ 'fr', 'fr',    "français" ],
+			[ 'fr', 'fr-CA', "français canadien" ],
+			[ 'en', 'fr',    "French" ],
+			[ 'en', 'fr-CA', "Canadian French" ],
+			[ 'fr', 'nl',    "néerlandais" ],
+			[ 'fr', 'nl-BE', "flamand" ],
 
-		);
+		];
 	}
 }

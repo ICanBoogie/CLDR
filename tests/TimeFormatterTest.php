@@ -33,21 +33,22 @@ class TimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_format()
 	{
-		return array
-		(
-			array('en', '2013-11-05 21:22:23', 'full', '9:22:23 PM CET'),
-			array('en', '2013-11-05 21:22:23', 'long', '9:22:23 PM CET'),
-			array('en', '2013-11-05 21:22:23', 'medium', '9:22:23 PM'),
-			array('en', '2013-11-05 21:22:23', 'short', '9:22 PM'),
+		return [
 
-			array('fr', '2013-11-05 21:22:23', 'full', '21:22:23 CET'),
-			array('fr', '2013-11-05 21:22:23', 'long', '21:22:23 CET'),
-			array('fr', '2013-11-05 21:22:23', 'medium', '21:22:23'),
-			array('fr', '2013-11-05 21:22:23', 'short', '21:22'),
+			[ 'en', '2013-11-05 21:22:23', 'full', '9:22:23 PM CET' ],
+			[ 'en', '2013-11-05 21:22:23', 'long', '9:22:23 PM CET' ],
+			[ 'en', '2013-11-05 21:22:23', 'medium', '9:22:23 PM' ],
+			[ 'en', '2013-11-05 21:22:23', 'short', '9:22 PM' ],
+
+			[ 'fr', '2013-11-05 21:22:23', 'full', '21:22:23 CET' ],
+			[ 'fr', '2013-11-05 21:22:23', 'long', '21:22:23 CET' ],
+			[ 'fr', '2013-11-05 21:22:23', 'medium', '21:22:23' ],
+			[ 'fr', '2013-11-05 21:22:23', 'short', '21:22' ],
 
 			# datetime patterns must be supported too
-			array('en', '2013-11-05 21:22:23', ':GyMMMEd', 'Tue, Nov 5, 2013 AD'),
-			array('fr', '2013-11-05 21:22:23', 'd MMMM y', '5 novembre 2013')
-		);
+			[ 'en', '2013-11-05 21:22:23', ':GyMMMEd', 'Tue, Nov 5, 2013 AD' ],
+			[ 'fr', '2013-11-05 21:22:23', 'd MMMM y', '5 novembre 2013' ]
+
+		];
 	}
 }

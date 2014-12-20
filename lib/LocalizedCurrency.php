@@ -68,7 +68,7 @@ class LocalizedCurrency extends LocalizedObject
 		return $this->locale['currencies'][$this->target->code]['symbol'];
 	}
 
-	public function format($number, $pattern=self::PATTERN_STANDARD, array $options=array())
+	public function format($number, $pattern=self::PATTERN_STANDARD, array $options=[])
 	{
 		return $this->formatter->format($number, $this->resolve_pattern($pattern), $options);
 	}

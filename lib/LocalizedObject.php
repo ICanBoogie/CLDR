@@ -22,7 +22,7 @@ use ICanBoogie\PropertyNotDefined;
  */
 abstract class LocalizedObject
 {
-	static public function from($source, Locale $locale, array $options=array())
+	static public function from($source, Locale $locale, array $options=[])
 	{
 		return new static($source, $locale, $options);
 	}
@@ -55,7 +55,7 @@ abstract class LocalizedObject
 	 * @param Locale $locale The locale used by the formatter.
 	 * @param array $options Some options.
 	 */
-	public function __construct($target, Locale $locale, array $options=array())
+	public function __construct($target, Locale $locale, array $options=[])
 	{
 		$this->target = $target;
 		$this->locale = $locale;
@@ -107,7 +107,7 @@ abstract class LocalizedObject
 			return $this->$method();
 		}
 
-		throw new PropertyNotDefined(array($property, $this));
+		throw new PropertyNotDefined([ $property, $this ]);
 	}
 
 	/**

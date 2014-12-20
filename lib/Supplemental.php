@@ -29,8 +29,8 @@ use ICanBoogie\OffsetNotWritable;
  */
 class Supplemental implements \ArrayAccess
 {
-	static private $available_sections = array
-	(
+	static private $available_sections = [
+
 		'calendarData'           => 'calendarData',
 		'calendarPreferenceData' => 'calendarPreferenceData',
 		'characterFallbacks'     => 'characters/character-fallback',
@@ -56,7 +56,8 @@ class Supplemental implements \ArrayAccess
 		'timeData'               => 'timeData',
 		'weekData'               => 'weekData',
 		'windowsZones'           => 'windowsZones'
-	);
+
+	];
 
 	use RepositoryPropertyTrait;
 
@@ -65,7 +66,7 @@ class Supplemental implements \ArrayAccess
 	 *
 	 * @var array
 	 */
-	protected $sections = array();
+	protected $sections = [];
 
 	/**
 	 * Initializes the {@link $repository} property.
@@ -88,7 +89,7 @@ class Supplemental implements \ArrayAccess
 		{
 			if (empty(self::$available_sections[$offset]))
 			{
-				throw new OffsetNotDefined(array($offset, $this));
+				throw new OffsetNotDefined([ $offset, $this ]);
 			}
 
 			$data = $this->repository->fetch("supplemental/{$offset}");
@@ -108,11 +109,11 @@ class Supplemental implements \ArrayAccess
 
 	public function offsetSet($offset, $value)
 	{
-		throw new OffsetNotWritable(array($offset, $this));
+		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 
 	public function offsetUnset($offset)
 	{
-		throw new OffsetNotWritable(array($offset, $this));
+		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 }

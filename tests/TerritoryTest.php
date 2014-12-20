@@ -46,13 +46,13 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_get_currency()
 	{
-		return array(
+		return [
 
-			array( 'EUR', 'FR' ),
-			array( 'MMK', 'MM' ),
-			array( 'USD', 'US' )
+			[ 'EUR', 'FR' ],
+			[ 'MMK', 'MM' ],
+			[ 'USD', 'US' ]
 
-		);
+		];
 	}
 
 	/**
@@ -66,18 +66,18 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_currency_at()
 	{
-		return array(
+		return [
 
-			array( 'EUR', 'FR', null ),
-			array( 'EUR', 'FR', 'now' ),
-			array( 'EUR', 'FR', DateTime::now() ),
-			array( 'FRF', 'FR', '1960-01-01' ),
-			array( 'FRF', 'FR', '1977-06-06' ),
-			array( 'FRF', 'FR', DateTime::from('1977-06-06') ),
-			array( 'USS', 'US', DateTime::from('1234-06-06') ),
-			array( 'USD', 'US', '1792-01-01' )
+			[ 'EUR', 'FR', null ],
+			[ 'EUR', 'FR', 'now' ],
+			[ 'EUR', 'FR', DateTime::now() ],
+			[ 'FRF', 'FR', '1960-01-01' ],
+			[ 'FRF', 'FR', '1977-06-06' ],
+			[ 'FRF', 'FR', DateTime::from('1977-06-06') ],
+			[ 'USS', 'US', DateTime::from('1234-06-06') ],
+			[ 'USD', 'US', '1792-01-01' ]
 
-		);
+		];
 	}
 
 	/**
@@ -91,13 +91,13 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_get_language()
 	{
-		return array(
+		return [
 
-			array( 'fr', 'FR' ),
-			array( 'en', 'US' ),
-			array( 'es', 'ES' )
+			[ 'fr', 'FR' ],
+			[ 'en', 'US' ],
+			[ 'es', 'ES' ]
 
-		);
+		];
 	}
 
 	public function test_get_population()
@@ -117,14 +117,14 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_name_as()
 	{
-		return array(
+		return [
 
-			array( "France",  "FR", "fr" ),
-			array( "France",  "FR", "fr-BE" ),
-			array( "Francia", "FR", "it" ),
-			array( "フランス", "FR", "ja" )
+			[ "France",  "FR", "fr" ],
+			[ "France",  "FR", "fr-BE" ],
+			[ "Francia", "FR", "it" ],
+			[ "フランス", "FR", "ja" ]
 
-		);
+		];
 	}
 
 	/**
@@ -138,14 +138,14 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_get_name_as()
 	{
-		return array(
+		return [
 
-			array( "France",  "FR", "fr" ),
-			array( "France",  "FR", "fr_BE" ),
-			array( "Francia", "FR", "it" ),
-			array( "フランス", "FR", "ja" )
+			[ "France",  "FR", "fr" ],
+			[ "France",  "FR", "fr_BE" ],
+			[ "Francia", "FR", "it" ],
+			[ "フランス", "FR", "ja" ]
 
-		);
+		];
 	}
 
 	/**
@@ -159,29 +159,29 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_get_property()
 	{
-		return array(
+		return [
 
 			# first_day
 
-			array( "mon",  "FR", 'first_day' ),
-			array( "sat",  "EG", 'first_day' ),
-			array( "sun",  "BS", 'first_day' ),
-			array( "fri",  "MV", 'first_day' ),
+			[ "mon",  "FR", 'first_day' ],
+			[ "sat",  "EG", 'first_day' ],
+			[ "sun",  "BS", 'first_day' ],
+			[ "fri",  "MV", 'first_day' ],
 
 			# weekend_start
 
-			array( "sat",  "FR", 'weekend_start' ),
-			array( "fri",  "AE", 'weekend_start' ),
-			array( "thu",  "AF", 'weekend_start' ),
-			array( "sun",  "IN", 'weekend_start' ),
+			[ "sat",  "FR", 'weekend_start' ],
+			[ "fri",  "AE", 'weekend_start' ],
+			[ "thu",  "AF", 'weekend_start' ],
+			[ "sun",  "IN", 'weekend_start' ],
 
 			# weekend_end
 
-			array( "sun",  "FR", 'weekend_end' ),
-			array( "sat",  "AE", 'weekend_end' ),
-			array( "fri",  "AF", 'weekend_end' )
+			[ "sun",  "FR", 'weekend_end' ],
+			[ "sat",  "AE", 'weekend_end' ],
+			[ "fri",  "AF", 'weekend_end' ]
 
-		);
+		];
 	}
 
 	public function test_to_string()

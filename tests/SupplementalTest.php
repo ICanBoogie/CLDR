@@ -37,33 +37,34 @@ class SupplementalTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_sections()
 	{
-		return array
-		(
-			array('calendarData'           , 'buddhist'),
-			array('calendarPreferenceData' , 'AE'),
-			array('characterFallbacks'     , 'U+00AD'),
-			array('codeMappings'           , 'AA'),
-			array('currencyData'           , 'fractions'),
-			array('dayPeriods'             , 'bg'),
-			array('gender'                 , 'personList'),
-			array('languageData'           , 'aa'),
-			array('languageMatching'       , 'written'),
-			array('likelySubtags'          , 'aa'),
-			array('measurementData'        , 'measurementSystem'),
-			array('metaZones'              , 'metazoneInfo'),
-			array('numberingSystems'       , 'armn'),
-			array('ordinals'               , 'af'),
-			array('parentLocales'          , 'parentLocale'),
-			array('plurals'                , 'af'),
-			array('postalCodeData'         , 'AD'),
-			array('primaryZones'           , 'CL'),
-			array('references'             , 'R1000'),
-			array('telephoneCodeData'      , 'AC'),
-			array('territoryContainment'   , 'EU'),
-			array('territoryInfo'          , 'AC'),
-			array('timeData'               , 'AD'),
-			array('weekData'               , 'minDays'),
-			array('windowsZones'           , 'mapTimezones')
-		);
+		return [
+
+			[ 'calendarData'           , 'buddhist' ],
+			[ 'calendarPreferenceData' , 'AE' ],
+			[ 'characterFallbacks'     , 'U+00AD' ],
+			[ 'codeMappings'           , 'AA' ],
+			[ 'currencyData'           , 'fractions' ],
+			[ 'dayPeriods'             , 'bg' ],
+			[ 'gender'                 , 'personList' ],
+			[ 'languageData'           , 'aa' ],
+			[ 'languageMatching'       , 'written' ],
+			[ 'likelySubtags'          , 'aa' ],
+			[ 'measurementData'        , 'measurementSystem' ],
+			[ 'metaZones'              , 'metazoneInfo' ],
+			[ 'numberingSystems'       , 'armn' ],
+			[ 'ordinals'               , 'af' ],
+			[ 'parentLocales'          , 'parentLocale' ],
+			[ 'plurals'                , 'af' ],
+			[ 'postalCodeData'         , 'AD' ],
+			[ 'primaryZones'           , 'CL' ],
+			[ 'references'             , 'R1000' ],
+			[ 'telephoneCodeData'      , 'AC' ],
+			[ 'territoryContainment'   , 'EU' ],
+			[ 'territoryInfo'          , 'AC' ],
+			[ 'timeData'               , 'AD' ],
+			[ 'weekData'               , 'minDays' ],
+			[ 'windowsZones'           , 'mapTimezones' ]
+
+		];
 	}
 }

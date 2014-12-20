@@ -19,7 +19,7 @@ class RunTimeProvider implements ProviderInterface, CacheInterface
 {
 	use ProviderStackTrait;
 
-	private $store = array();
+	private $store = [];
 
 	public function exists($path)
 	{

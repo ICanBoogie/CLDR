@@ -18,5 +18,5 @@ interface LocalizeAwareInterface
 	 *
 	 * @return LocalizedObject
 	 */
-	static public function localize($source, Locale $locale, array $options = array());
+	static public function localize($source, Locale $locale, array $options=[]);
 }

@@ -35,16 +35,16 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_round_to()
 	{
-		return array(
+		return [
 
-			array( 12, 0, 12 ),
-			array( 12.2, 0, 12 ),
-			array( 12.5, 0, 13 ),
-			array( 12.25, 1, 12.3 ),
-			array( 12.25, 2, 12.25 ),
-			array( 12.25, 3, 12.25 ),
+			[ 12, 0, 12 ],
+			[ 12.2, 0, 12 ],
+			[ 12.5, 0, 13 ],
+			[ 12.25, 1, 12.3 ],
+			[ 12.25, 2, 12.25 ],
+			[ 12.25, 3, 12.25 ],
 
-		);
+		];
 	}
 
 	/**
@@ -59,16 +59,16 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_parse_number()
 	{
-		return array(
+		return [
 
-			array( 12, 0, array('12')),
-			array( 12.2, 0, array('12')),
-			array( 12.5, 0, array('13')),
-			array( 12.25, 1, array('12', '3')),
-			array( 12.25, 2, array('12', '25')),
-			array( 12.25, 3, array('12', '250')),
+			[ 12, 0, [ '12' ] ],
+			[ 12.2, 0, [ '12' ] ],
+			[ 12.5, 0, [ '13' ] ],
+			[ 12.25, 1, [ '12', '3' ] ],
+			[ 12.25, 2, [ '12', '25' ] ],
+			[ 12.25, 3, [ '12', '250' ] ],
 
-		);
+		];
 	}
 
 	/**
@@ -82,18 +82,18 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 
 	public function provide_test_format()
 	{
-		return array(
+		return [
 
-			array( 'en',   123,      '#',           "123"      ),
-			array( 'en',  -123,      '#',          "-123"      ),
-			array( 'en',   123,      '#;-#',        "123"      ),
-			array( 'en',  -123,      '#;-#',       "-123"      ),
-			array( 'en',  4123.37,   '#,#00.#0',  "4,123.37"   ),
-			array( 'fr',  4123.37,   '#,#00.#0',  "4 123,37"   ),
-			array( 'fr', -4123.37,   '#,#00.#0', "-4 123,37"   ),
-			array( 'en',      .3789, '#0.#0 %',      "37.89 %" ),
-			array( 'fr',      .3789, '#0.#0 %',      "37,89 %" ),
+			[ 'en',   123,      '#',           "123" ],
+			[ 'en',  -123,      '#',          "-123" ],
+			[ 'en',   123,      '#;-#',        "123" ],
+			[ 'en',  -123,      '#;-#',       "-123" ],
+			[ 'en',  4123.37,   '#,#00.#0',  "4,123.37" ],
+			[ 'fr',  4123.37,   '#,#00.#0',  "4 123,37" ],
+			[ 'fr', -4123.37,   '#,#00.#0', "-4 123,37" ],
+			[ 'en',      .3789, '#0.#0 %',      "37.89 %" ],
+			[ 'fr',      .3789, '#0.#0 %',      "37,89 %" ],
 
-		);
+		];
 	}
 }

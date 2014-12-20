@@ -90,7 +90,7 @@ class CurrencyCollection implements \ArrayAccess
 
 		if (!$this->offsetExists($currency_code))
 		{
-			throw new OffsetNotDefined(array( $currency_code, $this ));
+			throw new OffsetNotDefined([ $currency_code, $this ]);
 		}
 
 		return $this->collection[$currency_code] = new Currency($this->repository, $currency_code);

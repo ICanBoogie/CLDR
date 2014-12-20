@@ -27,12 +27,12 @@ class CurrencyFormatter extends NumberFormatter
 		parent::__construct($numbers);
 	}
 
-	public function format($number, $pattern, array $options=array())
+	public function format($number, $pattern, array $options=[])
 	{
-		return parent::format($number, $pattern, $options + array(
+		return parent::format($number, $pattern, $options + [
 
 			'currency_symbol' => $this->localized_currency->symbol
 
-		));
+		]);
 	}
 }

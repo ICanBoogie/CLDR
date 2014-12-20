@@ -62,7 +62,7 @@ class LocalizedDateTime extends LocalizedObject
 			case 'as_long':
 			case 'as_medium':
 			case 'as_short':
-				return call_user_func(array($this, 'format_' . $property));
+				return call_user_func([ $this, 'format_' . $property ]);
 		}
 
 		try
@@ -91,7 +91,7 @@ class LocalizedDateTime extends LocalizedObject
 				return $this->format(substr($method, 10));
 		}
 
-		return call_user_func_array(array($this->target, $method), $arguments);
+		return call_user_func_array([ $this->target, $method ], $arguments);
 	}
 
 	public function __toString()
