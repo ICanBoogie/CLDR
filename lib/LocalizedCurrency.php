@@ -20,7 +20,7 @@ namespace ICanBoogie\CLDR;
  * @property-read string $name The localized name of the currency.
  * @property-read string $symbol The localized symbol of the currency.
  */
-class LocalizedCurrency extends LocalizedObject
+class LocalizedCurrency extends LocalizedObjectWithFormatter
 {
 	const PATTERN_STANDARD = 'standard';
 	const PATTERN_ACCOUNTING = 'accounting';
@@ -30,7 +30,7 @@ class LocalizedCurrency extends LocalizedObject
 	 *
 	 * @return mixed
 	 */
-	protected function get_formatter()
+	protected function lazy_get_formatter()
 	{
 		return new CurrencyFormatter($this->locale->numbers, $this);
 	}

@@ -42,14 +42,14 @@ use ICanBoogie\PropertyNotDefined;
  * @method string format_as_medium() format_as_medium() Formats the instance according to the `medium` datetime pattern.
  * @method string format_as_short() format_as_short() Formats the instance according to the `short` datetime pattern.
  */
-class LocalizedDateTime extends LocalizedObject
+class LocalizedDateTime extends LocalizedObjectWithFormatter
 {
 	/**
 	 * Returns the formatter.
 	 *
 	 * @return DateTimeFormatter
 	 */
-	protected function get_formatter()
+	protected function lazy_get_formatter()
 	{
 		return $this->locale->calendar->datetime_formatter;
 	}

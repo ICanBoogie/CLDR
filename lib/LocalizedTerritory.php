@@ -21,11 +21,6 @@ namespace ICanBoogie\CLDR;
  */
 class LocalizedTerritory extends LocalizedObject
 {
-	protected function get_formatter()
-	{
-		// TODO: NOT USED
-	}
-
 	protected function get_name()
 	{
 		return $this->locale['territories'][$this->target->code];

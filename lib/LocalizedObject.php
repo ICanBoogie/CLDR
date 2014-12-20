@@ -72,13 +72,6 @@ abstract class LocalizedObject
 	}
 
 	/**
-	 * The formatter used ot format the target object.
-	 *
-	 * @var mixed
-	 */
-	private $formatter;
-
-	/**
 	 * Support for the {@link $target}, {@link $locale}, and {@link $formatter} properties.
 	 *
 	 * @param string $property
@@ -89,16 +82,6 @@ abstract class LocalizedObject
 	 */
 	public function __get($property)
 	{
-		if ($property == 'formatter')
-		{
-			if (!$this->formatter)
-			{
-				$this->formatter = $this->get_formatter();
-			}
-
-			return $this->formatter;
-		}
-
 		$method = 'get_' . $property;
 
 		if (method_exists($this, $method))
@@ -108,11 +91,4 @@ abstract class LocalizedObject
 
 		throw new PropertyNotDefined([ $property, $this ]);
 	}
-
-	/**
-	 * Returns the formatter to use to format the target object.
-	 *
-	 * @return mixed
-	 */
-	abstract protected function get_formatter();
 }
