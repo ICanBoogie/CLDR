@@ -17,6 +17,8 @@ namespace ICanBoogie\CLDR;
  */
 class FileProvider implements ProviderInterface, CacheInterface
 {
+	use ProviderStackTrait;
+
 	/**
 	 * Create a store key from a CLDR path.
 	 *
@@ -35,11 +37,6 @@ class FileProvider implements ProviderInterface, CacheInterface
 	 * @var string
 	 */
 	protected $root;
-
-	/**
-	 * @var ProviderInterface
-	 */
-	protected $provider;
 
 	/**
 	 * @param ProviderInterface $provider Fallback provider.
@@ -78,27 +75,5 @@ class FileProvider implements ProviderInterface, CacheInterface
 		$filename = $this->root . $key;
 
 		file_put_contents($filename, json_encode($data));
-	}
-
-	/**
-	 * The section path, following the pattern "<identity>/<section>".
-	 *
-	 * @param string $path
-	 *
-	 * @throws ResourceNotFound when the specified path does not exists on the CLDR source.
-	 *
-	 * @return string
-	 */
-	public function provide($path)
-	{
-		if ($this->exists($path))
-		{
-			return $this->retrieve($path);
-		}
-
-		$data = $this->provider->provide($path);
-		$this->store($path, $data);
-
-		return $data;
 	}
 }

@@ -17,16 +17,9 @@ namespace ICanBoogie\CLDR;
  */
 class RunTimeProvider implements ProviderInterface, CacheInterface
 {
-	private $store = array();
-	private $provider;
+	use ProviderStackTrait;
 
-	/**
-	 * @param ProviderInterface $provider Fallback provider.
-	 */
-	public function __construct(ProviderInterface $provider)
-	{
-		$this->provider = $provider;
-	}
+	private $store = array();
 
 	public function exists($path)
 	{
@@ -46,27 +39,5 @@ class RunTimeProvider implements ProviderInterface, CacheInterface
 	public function store($path, $data)
 	{
 		$this->store[$path] = $data;
-	}
-
-	/**
-	 * The section path, following the pattern "<identity>/<section>".
-	 *
-	 * @param string $path
-	 *
-	 * @throws ResourceNotFound when the specified path does not exists on the CLDR source.
-	 *
-	 * @return string
-	 */
-	public function provide($path)
-	{
-		if ($this->exists($path))
-		{
-			return $this->retrieve($path);
-		}
-
-		$data = $this->provider->provide($path);
-		$this->store($path, $data);
-
-		return $data;
 	}
 }
