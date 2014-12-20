@@ -34,12 +34,7 @@ abstract class LocalizedObject
 	 */
 	protected $target;
 
-	/**
-	 * The locale used by the formatter.
-	 *
-	 * @var Locale
-	 */
-	protected $locale;
+	use LocalePropertyTrait;
 
 	/**
 	 * Options.
@@ -85,10 +80,6 @@ abstract class LocalizedObject
 			case 'target':
 
 				return $this->target;
-
-			case 'locale':
-
-				return $this->locale;
 
 			case 'formatter':
 
