@@ -409,6 +409,42 @@ echo $localized_currency->format(12345.67); // 1 2345,67 €
 
 
 
+
+## List formatting
+
+[ListFormatter][] can be used to format variable-length lists of things such as
+"Monday, Tuesday, Friday, and Saturday".
+
+```php
+<?php
+
+use ICanBoogie\CLDR\ListFormatter;
+
+$list_patterns = [
+
+	'start' => "{0}, {1}",
+	'middle' => "{0}, {1}",
+	'end' => "{0}, and {1}",
+	'2' =>  "{0} and {1}"
+
+];
+
+$formatter = new ListFormatter;
+
+$formatter([ "Monday" ], $list_patterns);
+// Monday
+$formatter([ "Monday", "Tuesday" ], $list_patterns);
+// Monday and Tuesday
+$formatter([ "Monday", "Tuesday", "Friday" ], $list_patterns);
+// Monday, Tuesday, and Friday
+$formatter([ "Monday", "Tuesday", "Friday", "Saturday" ], $list_patterns);
+// Monday, Tuesday, Friday, and Saturday
+```
+
+
+
+
+
 ----------
 
 
@@ -490,6 +526,7 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
 [Currency]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Currency.html
 [Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
+[ListFormatter]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.ListFormatter.html
 [Locale]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Locale.html
 [LocalizationAwareInterface]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
 [LocalizedDateTime]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizedDateTime.html
