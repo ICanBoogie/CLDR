@@ -20,6 +20,17 @@ namespace ICanBoogie\CLDR;
  */
 class ListFormatter
 {
+	use AccessorTrait;
+	use RepositoryPropertyTrait;
+
+	/**
+	 * @param Repository $repository
+	 */
+	public function __construct(Repository $repository=null)
+	{
+		$this->repository = $repository;
+	}
+
 	/**
 	 * Formats a variable-length lists of things.
 	 *
@@ -96,5 +107,24 @@ class ListFormatter
 			'{1}' => $v1
 
 		]);
+	}
+
+	/**
+	 * Localize the instance.
+	 *
+	 * @param $locale_code
+	 *
+	 * @return LocalizedListFormatter
+	 *
+	 * @throw \LogicException when the instance was created without a repository.
+	 */
+	public function localize($locale_code)
+	{
+		if (!$this->repository)
+		{
+			throw new \LogicException("The instance was created without a repository.");
+		}
+
+		return $this->repository->locales[$locale_code]->localize($this);
 	}
 }

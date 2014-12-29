@@ -125,7 +125,8 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
 			[ 'ICanBoogie\CLDR\LocalizedObject', new \ICanBoogie\DateTime ],
 			[ 'ICanBoogie\CLDR\LocalizedLocale', new Locale(get_repository(), 'fr') ],
-			[ 'ICanBoogie\CLDR\LocaleTest\LocalizedLocalizable', new \ICanBoogie\CLDR\LocaleTest\Localizable ],
+			[ 'ICanBoogie\CLDR\LocalizedListFormatter', new ListFormatter ],
+			[ 'ICanBoogie\CLDR\LocaleTest\LocalizedLocalizable', new \ICanBoogie\CLDR\LocaleTest\Localizable ]
 
 		];
 	}

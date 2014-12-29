@@ -445,6 +445,38 @@ $formatter([ "Monday", "Tuesday", "Friday", "Saturday" ], $list_patterns);
 
 
 
+### Localized list formatting
+
+A localized list formatter can be obtained with the `localize()` method (if the instance was
+created with a repository), or the `localize()` method of the desired locale. By default, the
+list is formatted with the "standard" type, but more types are available, and you can also
+provide your own list patterns.
+
+```php
+<?php
+
+use ICanBoogie\CLDR\ListFormatter;
+
+$formatter = new ListFormatter($repository);
+
+$localized_formatter = $formatter->localize('fr');
+# or
+$localized_formatter = $repository->locales['fr']->format($formatter);
+# or
+$localized_formatter = new LocalizedListFormatter($formatter, $repository->locales['fr']);
+
+$localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ]);
+# or
+$localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], 'standard');
+# or
+$localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], LocalizedListFormatter::TYPE_STANDARD);
+// lundi, mardi, vendredi et samedi
+```
+
+
+
+
+
 ----------
 
 

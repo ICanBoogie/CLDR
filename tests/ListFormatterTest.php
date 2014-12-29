@@ -13,8 +13,8 @@ class ListFormatterTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_format($list, $list_patterns, $expected)
 	{
-		$lp = new ListFormatter;
-		$this->assertSame($expected, $lp($list, $list_patterns));
+		$formatter = new ListFormatter;
+		$this->assertSame($expected, $formatter($list, $list_patterns));
 	}
 
 	public function provide_test_format()
@@ -54,5 +54,20 @@ class ListFormatterTest extends \PHPUnit_Framework_TestCase
 			[ [ 'un', 'deux', 'trois', 'quatre', 'cinq' ], $lp2, "un, deux, trois, quatre et cinq" ]
 
 		];
+	}
+
+	/**
+	 * @expectedException \LogicException
+	 */
+	public function test_localize_without_repository()
+	{
+		$formatter = new ListFormatter;
+		$formatter->localize('es');
+	}
+
+	public function test_localize()
+	{
+		$formatter = new ListFormatter(get_repository());
+		$this->assertInstanceOf('ICanBoogie\CLDR\LocalizedListFormatter', $formatter->localize('es'));
 	}
 }
