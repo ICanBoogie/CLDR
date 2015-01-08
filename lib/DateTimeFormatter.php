@@ -170,6 +170,19 @@ class DateTimeFormatter
 	}
 
 	/**
+	 * Alias to the {@link format()} method.
+	 *
+	 * @param mixed $datetime
+	 * @param string $pattern_or_width_or_skeleton
+	 *
+	 * @return string
+	 */
+	public function __invoke($datetime, $pattern_or_width_or_skeleton)
+	{
+		return $this->format($datetime, $pattern_or_width_or_skeleton);
+	}
+
+	/**
 	 * Formats a date according to a pattern.
 	 *
 	 * <pre>
@@ -251,14 +264,6 @@ class DateTimeFormatter
 		}
 
 		return $pattern;
-	}
-
-	/**
-	 * Alias to the {@link format()} method.
-	 */
-	public function __invoke($datetime, $pattern_or_width_or_skeleton)
-	{
-		return $this->format($datetime, $pattern_or_width_or_skeleton);
 	}
 
 	/*

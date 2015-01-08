@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\OffsetNotWritable;
-
 /**
  * Representation of a territory collection.
  *

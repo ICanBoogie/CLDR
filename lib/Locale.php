@@ -13,7 +13,6 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\OffsetNotWritable;
 use ICanBoogie\OffsetNotDefined;
-use ICanBoogie\PropertyNotDefined;
 
 /**
  * Representation of a locale.

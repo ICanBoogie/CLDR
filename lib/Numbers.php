@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\PropertyNotDefined;
-
 /**
  * Representation of a locale numbers
  *

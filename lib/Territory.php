@@ -12,7 +12,6 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\DateTime;
-use ICanBoogie\PropertyNotDefined;
 
 /**
  * A territory.
