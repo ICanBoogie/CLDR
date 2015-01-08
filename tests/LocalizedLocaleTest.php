@@ -37,4 +37,12 @@ class LocalizedLocaleTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	public function test_localize()
+	{
+		$locale = new Locale(get_repository(), 'fr');
+		$localized = $locale->localize('es');
+		$this->assertInstanceOf('ICanBoogie\CLDR\LocalizedLocale', $localized);
+		$this->assertEquals("francés", $localized->name);
+	}
 }

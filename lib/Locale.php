@@ -156,18 +156,24 @@ class Locale implements \ArrayAccess
 	/**
 	 * Localize the specified source.
 	 *
-	 * @param object $source
+	 * @param object|string $source_or_code The source to localize, or the locale code to localize
+	 * this instance.
 	 * @param array $options The options are passed to the localizer.
 	 *
 	 * @return mixed
 	 */
-	public function localize($source, array $options=[])
+	public function localize($source_or_code, array $options=[])
 	{
-		$constructor = $this->resolve_localize_constructor($source);
+		if (is_string($source_or_code))
+		{
+			return $this->repository->locales[$source_or_code]->localize($this, $options);
+		}
+
+		$constructor = $this->resolve_localize_constructor($source_or_code);
 
 		if ($constructor)
 		{
-			return call_user_func($constructor, $source, $this, $options);
+			return call_user_func($constructor, $source_or_code, $this, $options);
 		}
 
 		throw new \LogicException("Unable to localize source");
