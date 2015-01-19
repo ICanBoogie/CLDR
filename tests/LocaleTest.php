@@ -130,6 +130,14 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_empty_identifier()
+	{
+		new Locale(get_repository(), '');
+	}
 }
 
 namespace ICanBoogie\CLDR\LocaleTest;

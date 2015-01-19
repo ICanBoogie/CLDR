@@ -85,6 +85,11 @@ class Locale implements \ArrayAccess
 	 */
 	public function __construct(Repository $repository, $code)
 	{
+		if (!$code)
+		{
+			throw new \InvalidArgumentException("Locale identifier cannot be empty.");
+		}
+
 		$this->repository = $repository;
 		$this->code = $code;
 	}

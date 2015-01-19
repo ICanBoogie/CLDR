@@ -49,4 +49,12 @@ class LocaleCollectionTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ICanBoogie\CLDR\Locale', self::$collection['fr']);
 		$this->assertInstanceOf('ICanBoogie\CLDR\Locale', self::$collection['en']);
 	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_empty_identifier()
+	{
+		self::$collection[''];
+	}
 }
