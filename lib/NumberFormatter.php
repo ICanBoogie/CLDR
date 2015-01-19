@@ -177,4 +177,23 @@ class NumberFormatter
 
 		]);
 	}
+
+	/**
+	 * Localize the instance.
+	 *
+	 * @param $locale_code
+	 *
+	 * @return LocalizedNumberFormatter
+	 *
+	 * @throw \LogicException when the instance was created without a repository.
+	 */
+	public function localize($locale_code)
+	{
+		if (!$this->repository)
+		{
+			throw new \LogicException("The instance was created without a repository.");
+		}
+
+		return $this->repository->locales[$locale_code]->localize($this);
+	}
 }

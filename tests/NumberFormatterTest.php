@@ -97,4 +97,10 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	public function test_localize()
+	{
+		$formatter = new NumberFormatter(get_repository());
+		$this->assertInstanceOf('ICanBoogie\CLDR\LocalizedNumberFormatter', $formatter->localize('fr'));
+	}
 }
