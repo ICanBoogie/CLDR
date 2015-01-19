@@ -60,4 +60,26 @@ class NumbersTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	/**
+	 * @dataProvider provide_test_get_decimal_format
+	 */
+	public function test_get_decimal_format($locale_code, $expected)
+	{
+		$locale = get_repository()->locales[$locale_code];
+		$numbers = new Numbers($locale, $locale['numbers']);
+
+		$this->assertEquals($expected, $numbers->decimal_format);
+	}
+
+	public function provide_test_get_decimal_format()
+	{
+		return [
+
+			[ 'en', "#,##0.###" ],
+			[ 'fr', "#,##0.###" ],
+			[ 'ja', "#,##0.###" ]
+
+		];
+	}
 }

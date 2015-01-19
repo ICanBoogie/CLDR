@@ -18,6 +18,7 @@ namespace ICanBoogie\CLDR;
  * @property-read NumberFormatter $number_formatter
  * @property-read array $symbols Shortcuts to the `symbols-numberSystem-<defaultNumberingSystem>`.
  * @property-read array $decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>`.
+ * @property-read array $decimal_format Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/standard`.
  * @property-read array $short_decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/short/decimalFormats`.
  * @property-read array $long_decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/long/decimalFormats`.
  * @property-read array $scientific_formats Shortcuts to the `scientificFormats-numberSystem-<defaultNumberingSystem>`.
@@ -46,6 +47,11 @@ class Numbers extends \ArrayObject
 	protected function get_decimal_formats()
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']];
+	}
+
+	protected function get_decimal_format()
+	{
+		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['standard'];
 	}
 
 	protected function get_short_decimal_formats()
