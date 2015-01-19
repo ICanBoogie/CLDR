@@ -40,10 +40,12 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 	{
 		return [
 
-			[ 'repository', 'ICanBoogie\CLDR\Repository' ],
-			[ 'calendars', 'ICanBoogie\CLDR\CalendarCollection' ],
-			[ 'calendar', 'ICanBoogie\CLDR\Calendar' ],
-			[ 'numbers', 'ICanBoogie\CLDR\Numbers' ]
+			[ 'repository',       'ICanBoogie\CLDR\Repository' ],
+			[ 'calendars',        'ICanBoogie\CLDR\CalendarCollection' ],
+			[ 'calendar',         'ICanBoogie\CLDR\Calendar' ],
+			[ 'numbers',          'ICanBoogie\CLDR\Numbers' ],
+			[ 'number_formatter', 'ICanBoogie\CLDR\LocalizedNumberFormatter' ],
+			[ 'list_formatter',   'ICanBoogie\CLDR\LocalizedListFormatter' ]
 
 		];
 	}

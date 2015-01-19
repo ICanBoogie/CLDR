@@ -22,6 +22,8 @@ use ICanBoogie\OffsetNotDefined;
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
  * @property-read Calendar $calendar The preferred calendar for this locale.
  * @property-read Numbers $numbers
+ * @property-read LocalizedNumberFormatter $number_formatter
+ * @property-read LocalizedListFormatter $list_formatter
  */
 class Locale implements \ArrayAccess
 {
@@ -116,6 +118,22 @@ class Locale implements \ArrayAccess
 	protected function lazy_get_numbers()
 	{
 		return new Numbers($this, $this['numbers']);
+	}
+
+	/**
+	 * @return LocalizedNumberFormatter
+	 */
+	protected function lazy_get_number_formatter()
+	{
+		return $this->localize($this->repository->number_formatter);
+	}
+
+	/**
+	 * @return LocalizedListFormatter
+	 */
+	protected function lazy_get_list_formatter()
+	{
+		return $this->localize($this->repository->list_formatter);
 	}
 
 	public function offsetExists($offset)
