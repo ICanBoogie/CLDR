@@ -15,7 +15,6 @@ namespace ICanBoogie\CLDR;
  * Representation of a locale numbers
  *
  * @property-read Locale $locale
- * @property-read NumberFormatter $number_formatter
  * @property-read array $symbols Shortcuts to the `symbols-numberSystem-<defaultNumberingSystem>`.
  * @property-read array $decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>`.
  * @property-read array $decimal_format Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/standard`.
@@ -30,14 +29,6 @@ class Numbers extends \ArrayObject
 {
 	use AccessorTrait;
 	use LocalePropertyTrait;
-
-	/**
-	 * @return NumberFormatter
-	 */
-	protected function lazy_get_number_formatter()
-	{
-		return new NumberFormatter($this);
-	}
 
 	protected function get_symbols()
 	{
