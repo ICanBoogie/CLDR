@@ -76,8 +76,9 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_format($locale_code, $number, $pattern, $expected)
 	{
-		$formatter = new NumberFormatter(get_repository()->locales[$locale_code]->numbers);
-		$this->assertSame($expected, $formatter->format($number, $pattern));
+		$formatter = new NumberFormatter();
+		$symbols = get_repository()->locales[$locale_code]->numbers->symbols;
+		$this->assertSame($expected, $formatter->format($number, $pattern, $symbols));
 	}
 
 	public function provide_test_format()

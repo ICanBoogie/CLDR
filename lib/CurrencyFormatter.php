@@ -20,19 +20,14 @@ class CurrencyFormatter extends NumberFormatter
 {
 	protected $localized_currency;
 
-	public function __construct(Numbers $numbers, LocalizedCurrency $localized_currency)
+	public function format($number, $pattern, array $symbols=[])
 	{
-		$this->localized_currency = $localized_currency;
+		$symbols += [
 
-		parent::__construct($numbers);
-	}
+			'currencySymbol' => "¤"
 
-	public function format($number, $pattern, array $options=[])
-	{
-		return parent::format($number, $pattern, $options + [
+		];
 
-			'currency_symbol' => $this->localized_currency->symbol
-
-		]);
+		return str_replace("¤", $symbols['currencySymbol'], parent::format($number, $pattern, $symbols));
 	}
 }

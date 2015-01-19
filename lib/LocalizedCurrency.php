@@ -32,7 +32,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 */
 	protected function lazy_get_formatter()
 	{
-		return new CurrencyFormatter($this->locale->numbers, $this);
+		return new CurrencyFormatter($this->locale->repository);
 	}
 
 	/**
@@ -58,6 +58,8 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 		return $this->locale['currencies'][$this->target->code][$offset];
 	}
 
+	private $_symbol;
+
 	/**
 	 * Return the localized symbol of the currency.
 	 *
@@ -65,12 +67,23 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 */
 	protected function get_symbol()
 	{
-		return $this->locale['currencies'][$this->target->code]['symbol'];
+		if ($this->_symbol)
+		{
+			return $this->_symbol;
+		}
+
+		return $this->_symbol = $this->locale['currencies'][$this->target->code]['symbol'];
 	}
 
-	public function format($number, $pattern=self::PATTERN_STANDARD, array $options=[])
+	public function format($number, $pattern=self::PATTERN_STANDARD, array $symbols=[])
 	{
-		return $this->formatter->format($number, $this->resolve_pattern($pattern), $options);
+		$symbols += $this->locale->numbers->symbols + [
+
+			'currencySymbol' => $this->symbol
+
+		];
+
+		return $this->formatter->format($number, $this->resolve_pattern($pattern), $symbols);
 	}
 
 	protected function resolve_pattern($pattern)
