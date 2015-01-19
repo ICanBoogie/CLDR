@@ -2,6 +2,8 @@
 
 The __CLDR__ package provides means to internationalize your application by leveraging the
 data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
+It provides many useful locale information and data (such as locale names for territories,
+languages, days…) as well as many formatters for numbers, currencies, date amd times, lists…
 
 The package targets the [CLDR version 26](http://cldr.unicode.org/index/downloads/cldr-26), from
 which data is retrieved when required.
@@ -14,9 +16,9 @@ which data is retrieved when required.
 
 The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
 data is retrieved through a provider, and in order to avoid hitting the web with every request,
-a stack of them is used, each with its own caching strategies.
+a chain of providers is used, each with its own caching strategies.
 
-The following example demonstrates how a repository can be instantiated with a nice stack of
+The following example demonstrates how a repository can be instantiated with a nice chain of
 providers. One fetches the data from the web, the other from the filesystem, and the last one
 from the runtime memory:
 
@@ -387,7 +389,7 @@ $euro = $repository->currencies['EUR'];
 ### Localized currencies
 
 A localized currency can be obtained with the `localize()` method, or the `localize()` method
-of the desired locale.
+of the desired locale, it is often used to format a currency using the convention of a locale.
 
 ```php
 <php
@@ -403,7 +405,7 @@ $localized_currency = $repository->locale['fr']->localize($currency);
 echo $localized_currency->name;             // euro
 echo $localized_currency->name(1);          // euro
 echo $localized_currency->name(10);         // euros
-echo $localized_currency->format(12345.67); // 1 2345,67 €
+echo $localized_currency->format(12345.67); // 12 345,67 €
 ```
 
 
@@ -461,7 +463,7 @@ $formatter = new ListFormatter($repository);
 
 $localized_formatter = $formatter->localize('fr');
 # or
-$localized_formatter = $repository->locales['fr']->format($formatter);
+$localized_formatter = $repository->locales['fr']->localize($formatter);
 # or
 $localized_formatter = new LocalizedListFormatter($formatter, $repository->locales['fr']);
 

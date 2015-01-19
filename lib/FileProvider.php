@@ -17,7 +17,7 @@ namespace ICanBoogie\CLDR;
  */
 class FileProvider implements ProviderInterface, CacheInterface
 {
-	use ProviderStackTrait;
+	use ProviderChainTrait;
 
 	/**
 	 * Create a store key from a CLDR path.

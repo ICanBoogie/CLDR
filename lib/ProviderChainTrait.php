@@ -3,11 +3,11 @@
 namespace ICanBoogie\CLDR;
 
 /**
- * A trait for stackable providers which also implement {@link CacheInterface}.
+ * A trait for chained providers which also implement {@link CacheInterface}.
  *
  * @package ICanBoogie\CLDR
  */
-trait ProviderStackTrait
+trait ProviderChainTrait
 {
 	/**
 	 * @var ProviderInterface

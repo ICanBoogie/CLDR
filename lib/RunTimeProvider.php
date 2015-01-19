@@ -17,7 +17,7 @@ namespace ICanBoogie\CLDR;
  */
 class RunTimeProvider implements ProviderInterface, CacheInterface
 {
-	use ProviderStackTrait;
+	use ProviderChainTrait;
 
 	private $store = [];
 
