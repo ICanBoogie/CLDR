@@ -30,6 +30,8 @@ namespace ICanBoogie\CLDR;
  * @property-read Supplemental $supplemental Representation of the "supplemental" section.
  * @property-read TerritoryCollection $territories Territory collection.
  * @property-read CurrencyCollection $currencies Currency collection.
+ * @property-read NumberFormatter $number_formatter.
+ * @property-read ListFormatter $list_formatter.
  *
  * @see http://www.unicode.org/repos/cldr-aux/json/24/
  */
@@ -80,6 +82,22 @@ class Repository
 	protected function lazy_get_currencies()
 	{
 		return new CurrencyCollection($this);
+	}
+
+	/**
+	 * @return NumberFormatter
+	 */
+	protected function lazy_get_number_formatter()
+	{
+		return new NumberFormatter($this);
+	}
+
+	/**
+	 * @return ListFormatter
+	 */
+	protected function lazy_get_list_formatter()
+	{
+		return new ListFormatter($this);
 	}
 
 	/**
