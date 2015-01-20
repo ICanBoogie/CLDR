@@ -3,7 +3,7 @@
 The __CLDR__ package provides means to internationalize your application by leveraging the
 data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
 It provides many useful locale information and data (such as locale names for territories,
-languages, days…) as well as many formatters for numbers, currencies, date amd times, lists…
+languages, days…) as well as formatters for numbers, currencies, date and times, lists…
 
 The package targets the [CLDR version 26](http://cldr.unicode.org/index/downloads/cldr-26), from
 which data is retrieved when required.
@@ -412,6 +412,77 @@ echo $localized_currency->format(12345.67); // 12 345,67 €
 
 
 
+## Number formatting
+
+[NumberFormatter][] can be used to format numbers.
+
+```php
+<?php
+
+use ICanBoogie\CLDR\NumberFormatter;
+
+$formatter = new NumberFormatter;
+$formatter(4123.37, "#,#00.#0");
+// 4,123.37
+$formatter(.3789, "#0.#0 %");
+// 37.89 %
+```
+
+**Note:** You can also obtained a number formatter, or format a number from the repository.
+
+```php
+<?php
+
+$number_formatter = $repository->number_formatter;
+echo $repository->format_number(123456.78);
+```
+
+
+
+
+
+
+## Localized number formatting
+
+A localized number formatter can be obtained with the `localize()` method (if the instance was
+created with a repository), or the `localize()` method of the desired locale. By default, the
+list is formatted with the _standard_ type, but you can also provide your own pattern.
+
+```php
+<?php
+
+use ICanBoogie\CLDR\NumberFormatter;
+
+$formatter = new NumberFormatter($repository);
+
+$localized_formatter = $formatter->localize('fr');
+# or
+$localized_formatter = $repository->locales['fr']->localize($formatter);
+# or
+$localized_formatter = new LocalizedNumberFormatter($formatter, $repository->locales['fr']);
+
+$localized_formatter(123456.78);
+// 123 456,78
+$formatter->localize('en')->format(123456.78);
+// 123,456.78
+```
+
+**Note:** You can also obtained a localized number formatter, or format a number from a locale.
+
+```php
+<?php
+
+$localized_number_formatter = $repository->locales['fr']->number_formatter;
+echo $repository->locales['fr']->format_number(123456.78);
+```
+
+
+
+
+
+
+
+
 ## List formatting
 
 [ListFormatter][] can be used to format variable-length lists of things such as
@@ -442,6 +513,16 @@ $formatter([ "Monday", "Tuesday", "Friday" ], $list_patterns);
 $formatter([ "Monday", "Tuesday", "Friday", "Saturday" ], $list_patterns);
 // Monday, Tuesday, Friday, and Saturday
 ```
+
+**Note:** You can also obtained a list formatter, or format a list from the repository.
+
+```php
+<?php
+
+$list_formatter = $repository->list_formatter;
+echo $repository->format_list([ "Monday", "Tuesday", "Friday" ], $list_patterns);
+```
+
 
 
 
@@ -474,6 +555,16 @@ $localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], 'standard');
 $localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], LocalizedListFormatter::TYPE_STANDARD);
 // lundi, mardi, vendredi et samedi
 ```
+
+**Note:** You can also obtained a localized list formatter, or format a list from a locale.
+
+```php
+<?php
+
+$localized_list_formatter = $repository->locales['fr']->list_formatter;
+echo $repository->locales['fr']->format_list([ "Monday", "Tuesday", "Friday" ]);
+```
+
 
 
 
