@@ -19,6 +19,7 @@ use ICanBoogie\OffsetNotDefined;
  *
  * @property-read Repository $repository The repository provided during construct.
  * @property-read string $code The ISO code of the locale.
+ * @property-read string $language The language code.
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
  * @property-read Calendar $calendar The preferred calendar for this locale.
  * @property-read Numbers $numbers
@@ -94,6 +95,16 @@ class Locale implements \ArrayAccess
 
 		$this->repository = $repository;
 		$this->code = $code;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_language()
+	{
+		list($language) = explode('-', $this->code, 2);
+
+		return $language;
 	}
 
 	/**

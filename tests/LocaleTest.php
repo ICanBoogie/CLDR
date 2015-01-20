@@ -26,6 +26,27 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider provide_test_get_language
+	 */
+	public function test_get_language($locale_code, $expected)
+	{
+		$locale = new Locale(get_repository(), $locale_code);
+
+		$this->assertEquals($expected, $locale->language);
+	}
+
+	public function provide_test_get_language()
+	{
+		return [
+
+			[ 'fr', 'fr' ],
+			[ 'fr-FR', 'fr' ],
+			[ 'fr-FR-u-ca-gregorian', 'fr' ],
+
+		];
+	}
+
+	/**
 	 * @dataProvider provide_test_properties_instanceof
 	 */
 	public function test_properties_instanceof($property, $expected)
