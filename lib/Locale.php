@@ -220,4 +220,34 @@ class Locale implements \ArrayAccess
 
 		return $constructor . '::from';
 	}
+
+	/**
+	 * Formats a number using {@link $number_formatter}.
+	 *
+	 * @param number $number
+	 * @param string|null $pattern
+	 * @param array $symbols
+	 *
+	 * @return string
+	 *
+	 * @see LocalizedNumberFormatter::format
+	 */
+	public function format_number($number, $pattern=null, array $symbols=[])
+	{
+		return $this->number_formatter->format($number, $pattern, $symbols);
+	}
+
+	/**
+	 * Formats a variable-length lists of things using {@link $list_formatter}.
+	 *
+	 * @param array $list The list to format.
+	 * @param array|string $list_patterns_or_type A list patterns or a list patterns type (one
+	 * of `LocalizedListFormatter::TYPE_*`).
+	 *
+	 * @return string
+	 */
+	public function format_list(array $list, $list_patterns_or_type=LocalizedListFormatter::TYPE_STANDARD)
+	{
+		return $this->list_formatter->format($list, $list_patterns_or_type);
+	}
 }

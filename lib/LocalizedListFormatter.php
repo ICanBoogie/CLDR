@@ -30,7 +30,7 @@ class LocalizedListFormatter extends LocalizedObject
 	 *
 	 * @param array $list The list to format.
 	 * @param array|string $list_patterns_or_type A list patterns or a list patterns type (one
-	 * of TYPE_*).
+	 * of `TYPE_*`).
 	 *
 	 * @return string
 	 */
