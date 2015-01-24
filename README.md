@@ -569,6 +569,31 @@ echo $repository->locales['fr']->format_list([ "Monday", "Tuesday", "Friday" ]);
 
 
 
+## Autoconfig support
+
+The Autoconfig feature of [ICanBoogie][] is supported and the following things are provided:
+
+- `ICanBoogie\Core::lazy_get_cldr_provider`: A lazy getter that returns a chain of providers. A
+[FileProvider][] instance is used in the chain and is configured to use
+"`ICanBoogie\REPOSITORY`/cache" as cache directory.
+
+- `ICanBoogie\Core::lazy_get_cldr`: A lazy getter that returns a [Repository][] instance created
+with the CLDR provider.
+
+- `ICanBoogie\Core::set_locale`: Sets the locale used by the application.
+
+- `ICanBoogie\Core::get_locale`: Returns the locale used by the application.
+
+```php
+<?php
+
+$app->locale = 'fr';
+echo $app->locale->name; // France
+```
+
+
+
+
 
 ----------
 
@@ -648,6 +673,7 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
 [I18n library]: https://github.com/ICanBoogie/I18n
+[ICanBoogie]: https://github.com/ICanBoogie/ICanBoogie
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
 [Currency]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Currency.html
 [Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
