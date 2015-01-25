@@ -72,7 +72,7 @@ class Hooks
 
 		if (!($locale instanceof Locale))
 		{
-			$locale = self::$locale = $app->cldr[$locale];
+			$locale = self::$locale = $app->cldr->locales[$locale ?: 'en'];
 		}
 
 		return $locale;
