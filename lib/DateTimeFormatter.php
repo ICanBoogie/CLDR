@@ -12,7 +12,6 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\DateTime;
-use ICanBoogie\PropertyNotDefined;
 
 /**
  * Provides date and time localization.

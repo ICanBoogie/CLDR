@@ -92,7 +92,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 * The special patterns {@link PATTERN_STANDARD} and {@link PATTERN_ACCOUNTING} are resolved
 	 * from the currency formats.
 	 *
-	 * @param $pattern
+	 * @param string $pattern
 	 *
 	 * @return string
 	 */
