@@ -17,7 +17,7 @@ namespace ICanBoogie\CLDR;
  * @property-read Locale $locale
  * @property-read array $symbols Shortcuts to the `symbols-numberSystem-<defaultNumberingSystem>`.
  * @property-read array $decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>`.
- * @property-read array $decimal_format Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/standard`.
+ * @property-read string $decimal_format Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/standard`.
  * @property-read array $short_decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/short/decimalFormats`.
  * @property-read array $long_decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/long/decimalFormats`.
  * @property-read array $scientific_formats Shortcuts to the `scientificFormats-numberSystem-<defaultNumberingSystem>`.

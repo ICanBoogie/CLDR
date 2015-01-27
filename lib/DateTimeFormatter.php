@@ -244,7 +244,7 @@ class DateTimeFormatter
 		else if (in_array($pattern = $pattern_or_width_or_skeleton, [ 'full', 'long', 'medium', 'short' ]))
 		{
 			$calendar = $this->calendar;
-			$width = $pattern = $pattern_or_width_or_skeleton;
+			$width = $pattern_or_width_or_skeleton;
 			$datetime_pattern = $calendar['dateTimeFormats'][$width];
 			$date_pattern = $calendar['dateFormats'][$width];
 			$time_pattern = $calendar['timeFormats'][$width];
@@ -291,7 +291,7 @@ class DateTimeFormatter
 	 * Year. Normally the length specifies the padding, but for two letters it also specifies the
 	 * maximum length. [1..n]
 	 *
-	 * @param Datetime $datetime
+	 * @param DateTime $datetime
 	 * @param string $pattern a pattern.
 	 * @param int $length Number of repetition.
 	 *
@@ -443,7 +443,7 @@ class DateTimeFormatter
 	 * @param string $pattern a pattern.
 	 * @param int $length Number of repetition.
 	 *
-	 * @return integer week of month
+	 * @return int|false Week of month, of `false` if `$length` is greater than 1.
 	 */
 	protected function format_week_of_month(DateTime $datetime, $pattern, $length)
 	{
@@ -451,6 +451,8 @@ class DateTimeFormatter
 		{
 			return ceil($datetime->day / 7);
 		}
+
+		return false;
 	}
 
 	/*
@@ -508,7 +510,7 @@ class DateTimeFormatter
 	 * @param string $pattern a pattern.
 	 * @param int $length Number of repetition.
 	 *
-	 * @return int
+	 * @return int|false Day of week in mounth, or `false` if `$length` is greater than 1.
 	 */
 	protected function format_day_of_week_in_month(DateTime $datetime, $pattern, $length)
 	{
@@ -516,6 +518,8 @@ class DateTimeFormatter
 		{
 			return floor(($datetime->day + 6) / 7);
 		}
+
+		return false;
 	}
 
 	/*
@@ -665,8 +669,8 @@ class DateTimeFormatter
 	 * Hour [0-11]. When used in a skeleton, only matches K or h, see above. Use KK for zero
 	 * padding. [1..2]
 	 *
-	 * @param DateTime $datetime.
-	 * @param string $pattern a pattern.
+	 * @param DateTime $datetime
+	 * @param string $pattern A pattern.
 	 * @param int $length Number of repetition.
 	 *
 	 * @return integer hours in AM/PM format.
@@ -775,7 +779,7 @@ class DateTimeFormatter
 	/**
 	 * Time Zone.
 	 *
-	 * @param DateTime $datetime.
+	 * @param DateTime $datetime
 	 * @param string $pattern a pattern.
 	 * @param int $length Number of repetition.
 	 *

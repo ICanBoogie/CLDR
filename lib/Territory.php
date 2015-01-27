@@ -123,8 +123,6 @@ class Territory
 
 		$date = DateTime::from($date)->as_date;
 		$currencies = $this->currencies;
-		$from = null;
-
 		$rc = false;
 
 		foreach ($currencies as $currency)
@@ -157,6 +155,13 @@ class Territory
 	 * weekData
 	 */
 
+	/**
+	 * Returns week data.
+	 *
+	 * @param string $which Week data code.
+	 *
+	 * @return array
+	 */
 	private function get_week_data($which)
 	{
 		$code = $this->code;
@@ -263,7 +268,12 @@ class Territory
 
 			return in_array($code, $containment['_contains']);
 		}
-		catch (NoTerritoryData $e) {}
+		catch (NoTerritoryData $e)
+		{
+			#
+			# If there is no territory data we just return false.
+			#
+		}
 
 		return false;
 	}

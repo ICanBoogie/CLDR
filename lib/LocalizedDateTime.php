@@ -99,6 +99,13 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 		return (string) $this->target;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param string|null $pattern
+	 *
+	 * @return string
+	 */
 	public function format($pattern=null)
 	{
 		return $this->formatter->format($this->target, $pattern);

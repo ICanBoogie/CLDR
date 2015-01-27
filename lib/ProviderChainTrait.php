@@ -22,6 +22,10 @@ trait ProviderChainTrait
 		$this->provider = $provider;
 	}
 
+	abstract public function exists($path);
+	abstract public function retrieve($path);
+	abstract public function store($path, $data);
+
 	/**
 	 * The section path, following the pattern "<identity>/<section>".
 	 *

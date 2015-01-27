@@ -38,7 +38,7 @@ class LocalizedNumberFormatter extends LocalizedObject
 	 * Formats a number.
 	 *
 	 * @param number $number The number to format.
-	 * @param null $pattern
+	 * @param string|null $pattern
 	 * @param array $symbols Symbols used to format the number.
 	 *
 	 * @return string

@@ -42,7 +42,7 @@ class Currency
 	{
 		if (in_array($property, [ 'digits', 'rounding', 'cash_digits', 'cash_rounding' ]))
 		{
-			$data = $this->$repository->supplemental['currencyData'][$this->code];
+			$data = $this->repository->supplemental['currencyData'][$this->code];
 			$offset = '_' . $property;
 
 			return isset($data[$offset]) ? (int) $data[$offset] : null;

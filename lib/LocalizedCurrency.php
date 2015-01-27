@@ -28,7 +28,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	/**
 	 * Returns the formatter to use to format the target object.
 	 *
-	 * @return mixed
+	 * @return CurrencyFormatter
 	 */
 	protected function lazy_get_formatter()
 	{
@@ -86,6 +86,16 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 		return $this->formatter->format($number, $this->resolve_pattern($pattern), $symbols);
 	}
 
+	/**
+	 * Resolve a pattern.
+	 *
+	 * The special patterns {@link PATTERN_STANDARD} and {@link PATTERN_ACCOUNTING} are resolved
+	 * from the currency formats.
+	 *
+	 * @param $pattern
+	 *
+	 * @return string
+	 */
 	protected function resolve_pattern($pattern)
 	{
 		switch ($pattern)

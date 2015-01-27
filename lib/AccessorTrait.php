@@ -53,7 +53,11 @@ trait AccessorTrait
 				throw new PropertyNotReadable([ $property, $this ]);
 			}
 		}
-		catch (\ReflectionException $e) { }
+		catch (\ReflectionException $e)
+		{
+			# Reflection exceptions don't matter here, it's probably because the property
+			# doesn't exist.
+		}
 
 		if (method_exists($this, 'set_' . $property))
 		{

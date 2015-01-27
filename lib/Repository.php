@@ -25,13 +25,13 @@ namespace ICanBoogie\CLDR;
  * var_dump($repository->territories['FR']);
  * </pre>
  *
- * @property-read ProviderInterface $provider A CLDR provider.
- * @property-read LocaleCollection $locales Locale collection.
- * @property-read Supplemental $supplemental Representation of the "supplemental" section.
- * @property-read TerritoryCollection $territories Territory collection.
- * @property-read CurrencyCollection $currencies Currency collection.
- * @property-read NumberFormatter $number_formatter.
- * @property-read ListFormatter $list_formatter.
+ * @property-read ProviderInterface $provider
+ * @property-read LocaleCollection $locales
+ * @property-read Supplemental $supplemental
+ * @property-read TerritoryCollection $territories
+ * @property-read CurrencyCollection $currencies
+ * @property-read NumberFormatter $number_formatter
+ * @property-read ListFormatter $list_formatter
  *
  * @see http://www.unicode.org/repos/cldr-aux/json/24/
  */
