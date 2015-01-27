@@ -24,6 +24,8 @@ use ICanBoogie\PropertyNotDefined;
  */
 class DateTimeFormatter
 {
+	use AccessorTrait;
+
 	/**
 	 * Pattern characters mapping to the corresponding translator methods.
 	 *
@@ -140,6 +142,11 @@ class DateTimeFormatter
 	 */
 	protected $calendar;
 
+	protected function get_calendar()
+	{
+		return $this->calendar;
+	}
+
 	/**
 	 * Initializes the {@link $calendar} property.
 	 *
@@ -148,25 +155,6 @@ class DateTimeFormatter
 	public function __construct(Calendar $calendar)
 	{
 		$this->calendar = $calendar;
-	}
-
-	/**
-	 * Support of the {@link $calendar} magic property.
-	 *
-	 * @param string $property
-	 *
-	 * @throws PropertyNotDefined in attempt to get an undefined and unsupported property.
-	 *
-	 * @return mixed
-	 */
-	public function __get($property)
-	{
-		if ($property === 'calendar')
-		{
-			return $this->calendar;
-		}
-
-		throw new PropertyNotDefined([ $property, $this ]);
 	}
 
 	/**
