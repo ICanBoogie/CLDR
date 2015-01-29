@@ -20,13 +20,15 @@
 		"source": "https://github.com/ICanBoogie/CLDR"
 	},
 
-	"minimum-stability": "dev",
-
 	"require": {
 		"php": ">=5.4.0",
 		"ext-curl": "*",
 		"icanboogie/common": "~1.2",
 		"icanboogie/datetime": ">=1.0"
+	},
+
+	"require-dev": {
+		"predis/predis": "~1.0"
 	},
 
 	"autoload": {

@@ -30,9 +30,59 @@ use ICanBoogie\CLDR\Repository;
 use ICanBoogie\CLDR\RunTimeProvider;
 use ICanBoogie\CLDR\WebProvider;
 
-$provider = new RunTimeProvider(new FileProvider(new WebProvider, "/path/to/storage"));
+$provider = new RunTimeProvider
+(
+	new FileProvider
+	(
+		new WebProvider, "/path/to/storage"
+	)
+);
+
 $repository = new Repository($provider);
 ```
+
+
+
+
+
+### Using Redis to cache data
+
+A [Redis](http://redis.io/) client can be added to the chain of providers, You just need to
+provide a client instance.
+
+```php
+<?php
+
+use ICanBoogie\CLDR\FileProvider;
+use ICanBoogie\CLDR\PredisProvider;
+use ICanBoogie\CLDR\Repository;
+use ICanBoogie\CLDR\RunTimeProvider;
+use ICanBoogie\CLDR\WebProvider;
+
+$provider = new RunTimeProvider
+(
+	new PredisProvider
+	(
+		new FileProvider
+		(
+			new WebProvider, "/path/to/storage"
+		),
+		
+		$redis_client
+	)
+);
+
+$repository = new Repository($provider);
+```
+
+
+
+
+
+## Accessing the repository
+
+The repository can be accessed like a big array. It also provides interfaces to the most important
+data such as locales, territories, numbers, currencies…
 
 The following example demonstrates how the repository can be used to access locales and
 supplemental data:
