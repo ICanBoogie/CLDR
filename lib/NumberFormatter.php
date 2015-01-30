@@ -137,16 +137,6 @@ class NumberFormatter
 			$decimal = '';
 		}
 
-		if ($pattern->decimal_digits > strlen($decimal))
-		{
-			$decimal = str_pad($decimal, $pattern->decimal_digits, '0');
-		}
-
-		if (strlen($decimal))
-		{
-			$decimal = $symbols['decimal'] . $decimal;
-		}
-
 		$integer = str_pad($integer, $pattern->integer_digits, '0', STR_PAD_LEFT);
 		$group_size1 = $pattern->group_size1;
 
@@ -161,13 +151,25 @@ class NumberFormatter
 			$integer = ltrim(implode($symbols['group'], str_split($str1, $size))) . $symbols['group'] . $str2;
 		}
 
+		if ($pattern->decimal_digits > strlen($decimal))
+		{
+			$decimal = str_pad($decimal, $pattern->decimal_digits, '0');
+		}
+
+		if (strlen($decimal))
+		{
+			$decimal = $symbols['decimal'] . $decimal;
+		}
+
+		$number = $integer . $decimal;
+
 		if ($negative)
 		{
-			$number = $pattern->negative_prefix . $integer . $decimal . $pattern->negative_suffix;
+			$number = $pattern->negative_prefix . $number . $pattern->negative_suffix;
 		}
 		else
 		{
-			$number = $pattern->positive_prefix . $integer . $decimal . $pattern->positive_suffix;
+			$number = $pattern->positive_prefix . $number . $pattern->positive_suffix;
 		}
 
 		return strtr($number, [
