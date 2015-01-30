@@ -126,17 +126,22 @@ class Territory
 	 *
 	 * @param \DateTime|mixed $date
 	 *
-	 * @return Currency
+	 * @return Currency|false
 	 */
-	public function currency_at($date=null)
+	public function currency_at($date = null)
 	{
-		if (!$date)
+		$rc = $this->find_currency_at($this->currencies, DateTime::from($date ?: 'now')->as_date);
+
+		if (!$rc)
 		{
-			$date = 'now';
+			return false;
 		}
 
-		$date = DateTime::from($date)->as_date;
-		$currencies = $this->currencies;
+		return new Currency($this->repository, $rc);
+	}
+
+	private function find_currency_at(array $currencies, $normalized_date)
+	{
 		$rc = false;
 
 		foreach ($currencies as $currency)
@@ -144,12 +149,12 @@ class Territory
 			$name = key($currency);
 			$interval = current($currency);
 
-			if (isset($interval['_from']) && $interval['_from'] > $date)
+			if (isset($interval['_from']) && $interval['_from'] > $normalized_date)
 			{
 				continue;
 			}
 
-			if (isset($interval['_to']) && $interval['_to'] < $date)
+			if (isset($interval['_to']) && $interval['_to'] < $normalized_date)
 			{
 				continue;
 			}
@@ -157,12 +162,7 @@ class Territory
 			$rc = $name;
 		}
 
-		if (!$rc)
-		{
-			return $rc;
-		}
-
-		return new Currency($this->repository, $rc);
+		return $rc;
 	}
 
 	/*

@@ -44,6 +44,8 @@ use ICanBoogie\PropertyNotDefined;
  */
 class LocalizedDateTime extends LocalizedObjectWithFormatter
 {
+	static private $format_widths = [ 'full', 'long', 'medium', 'short' ];
+
 	/**
 	 * Returns the formatter.
 	 *
@@ -56,13 +58,9 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 
 	public function __get($property)
 	{
-		switch ($property)
+		if (strpos($property, 'as_') === 0 && in_array($width = substr($property, 3), self::$format_widths))
 		{
-			case 'as_full':
-			case 'as_long':
-			case 'as_medium':
-			case 'as_short':
-				return call_user_func([ $this, 'format_' . $property ]);
+			return $this->{ 'format_as_' . $width }();
 		}
 
 		try
@@ -82,13 +80,9 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 
 	public function __call($method, $arguments)
 	{
-		switch ($method)
+		if (strpos($method, 'format_as_') === 0 && in_array($width = substr($method, 10), self::$format_widths))
 		{
-			case 'format_as_full':
-			case 'format_as_long':
-			case 'format_as_medium':
-			case 'format_as_short':
-				return $this->format(substr($method, 10));
+			return $this->format($width);
 		}
 
 		return call_user_func_array([ $this->target, $method ], $arguments);
@@ -106,7 +100,7 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 	 *
 	 * @return string
 	 */
-	public function format($pattern=null)
+	public function format($pattern = null)
 	{
 		return $this->formatter->format($this->target, $pattern);
 	}
