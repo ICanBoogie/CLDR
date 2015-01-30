@@ -16,7 +16,8 @@ namespace ICanBoogie\CLDR;
  */
 class WebProvider implements ProviderInterface
 {
-	protected $origin;
+	private $origin;
+	private $connection;
 
 	/**
 	 * Initializes the {@link $origin} property.
@@ -26,6 +27,30 @@ class WebProvider implements ProviderInterface
 	public function __construct($origin="http://www.unicode.org/repos/cldr-aux/json/26/")
 	{
 		$this->origin = $origin;
+	}
+
+	/**
+	 * Returns a reusable connection.
+	 *
+	 * @return resource
+	 */
+	private function obtain_connection()
+	{
+		if ($this->connection)
+		{
+			return $this->connection;
+		}
+
+		$connection = curl_init();
+
+		curl_setopt_array($connection, [
+
+			CURLOPT_FAILONERROR => true,
+			CURLOPT_RETURNTRANSFER => 1
+
+		]);
+
+		return $this->connection = $connection;
 	}
 
 	/**
@@ -39,20 +64,13 @@ class WebProvider implements ProviderInterface
 	 */
 	public function provide($path)
 	{
-		$ch = curl_init($this->origin . $path . '.json');
+		$connection = $this->obtain_connection();
 
-		curl_setopt_array($ch, [
+		curl_setopt($connection, CURLOPT_URL, $this->origin . $path . '.json');
 
-			CURLOPT_FAILONERROR => true,
-			CURLOPT_RETURNTRANSFER => 1
+		$rc = curl_exec($connection);
 
-		]);
-
-		$rc = curl_exec($ch);
-
-		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-		curl_close($ch);
+		$http_code = curl_getinfo($connection, CURLINFO_HTTP_CODE);
 
 		if ($http_code != 200)
 		{
