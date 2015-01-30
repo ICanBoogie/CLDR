@@ -41,19 +41,10 @@ class DateFormatter extends DateTimeFormatter
 	/**
 	 * Resolves widths defined in `dateFormats` (full, long, medium, short) into a pattern.
 	 *
-	 * @param string $pattern_or_width_or_skeleton
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	protected function resolve_pattern($pattern_or_width_or_skeleton)
 	{
-		static $widths = [ 'full', 'long', 'medium', 'short' ];
-
-		if (in_array($pattern_or_width_or_skeleton, $widths))
-		{
-			return $this->calendar['dateFormats'][$pattern_or_width_or_skeleton];
-		}
-
-		return parent::resolve_pattern($pattern_or_width_or_skeleton);
+		return parent::resolve_pattern($this->resolve_width($pattern_or_width_or_skeleton, 'dateFormats'));
 	}
 }
