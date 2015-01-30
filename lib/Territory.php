@@ -126,7 +126,7 @@ class Territory
 	 *
 	 * @param \DateTime|mixed $date
 	 *
-	 * @return Currency|false
+	 * @return Currency
 	 */
 	public function currency_at($date = null)
 	{
@@ -134,7 +134,7 @@ class Territory
 
 		if (!$code)
 		{
-			return false;
+			return null;
 		}
 
 		return new Currency($this->repository, $code);
@@ -146,7 +146,7 @@ class Territory
 	 * @param array $currencies
 	 * @param string $normalized_date
 	 *
-	 * @return string|bool
+	 * @return string
 	 */
 	private function find_currency_at(array $currencies, $normalized_date)
 	{
