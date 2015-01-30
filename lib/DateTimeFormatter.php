@@ -253,6 +253,26 @@ class DateTimeFormatter
 		return $pattern;
 	}
 
+	/**
+	 * Resolves widths (full, long, medium, short) into a pattern.
+	 *
+	 * @param string $pattern_or_width_or_skeleton
+	 * @param string $from Width Source e.g. "timeFormats".
+	 *
+	 * @return string
+	 */
+	protected function resolve_width($pattern_or_width_or_skeleton, $from)
+	{
+		static $widths = [ 'full', 'long', 'medium', 'short' ];
+
+		if (in_array($pattern_or_width_or_skeleton, $widths))
+		{
+			return $this->calendar[$from][$pattern_or_width_or_skeleton];
+		}
+
+		return $pattern_or_width_or_skeleton;
+	}
+
 	/*
 	 * era (G)
 	 */

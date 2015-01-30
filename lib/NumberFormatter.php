@@ -21,8 +21,19 @@ class NumberFormatter
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 
+	static private $default_symbols = [
+
+		'decimal' => ".",
+		'group' => ",",
+		'percentSign' => "%",
+		'plusSign' => "+",
+		'minusSign' => "-",
+		'perMille' => "‰"
+
+	];
+
 	/**
-	 * Return the precision of a number.
+	 * Returns the precision of a number.
 	 *
 	 * @param $number
 	 *
@@ -96,78 +107,27 @@ class NumberFormatter
 	 *
 	 * @return string The formatted number.
 	 */
-	public function format($number, $pattern, array $symbols=[])
+	public function format($number, $pattern, array $symbols = [])
 	{
 		if (!($pattern instanceof NumberPattern))
 		{
 			$pattern = NumberPattern::from($pattern);
 		}
 
-		$symbols += [
+		$symbols += self::$default_symbols;
 
-			'decimal' => ".",
-			'group' => ",",
-			'percentSign' => "%",
-			'plusSign' => "+",
-			'minusSign' => "-",
-			'perMille' => "‰"
+		list($integer, $decimal) = $pattern->parse_number($number);
 
-		];
+		$formatted_integer = $pattern->format_integer_with_group($integer, $symbols['group']);
+		$formatted_number = $pattern->format_integer_with_decimal($formatted_integer, $decimal, $symbols['decimal']);
 
-		#
-
-		$negative = $number < 0;
-		$number = abs($number * $pattern->multiplier);
-
-		if ($pattern->max_decimal_digits >= 0)
+		if ($number < 0)
 		{
-			$number = round($number, $pattern->max_decimal_digits);
-		}
-
-		$number = "$number";
-
-		if (($pos = strpos($number, '.')) !== false)
-		{
-			$integer = substr($number, 0, $pos);
-			$decimal = substr($number, $pos + 1);
+			$number = $pattern->negative_prefix . $formatted_number . $pattern->negative_suffix;
 		}
 		else
 		{
-			$integer = $number;
-			$decimal = '';
-		}
-
-		if ($pattern->decimal_digits > strlen($decimal))
-		{
-			$decimal = str_pad($decimal, $pattern->decimal_digits, '0');
-		}
-
-		if (strlen($decimal))
-		{
-			$decimal = $symbols['decimal'] . $decimal;
-		}
-
-		$integer = str_pad($integer, $pattern->integer_digits, '0', STR_PAD_LEFT);
-		$group_size1 = $pattern->group_size1;
-
-		if ($group_size1 > 0 && strlen($integer) > $pattern->group_size1)
-		{
-			$group_size2 = $pattern->group_size2;
-
-			$str1 = substr($integer, 0, -$group_size1);
-			$str2 = substr($integer, -$group_size1);
-			$size = $group_size2 > 0 ? $group_size2 : $group_size1;
-			$str1 = str_pad($str1, (int) ((strlen($str1) + $size - 1) / $size) * $size, ' ', STR_PAD_LEFT);
-			$integer = ltrim(implode($symbols['group'], str_split($str1, $size))) . $symbols['group'] . $str2;
-		}
-
-		if ($negative)
-		{
-			$number = $pattern->negative_prefix . $integer . $decimal . $pattern->negative_suffix;
-		}
-		else
-		{
-			$number = $pattern->positive_prefix . $integer . $decimal . $pattern->positive_suffix;
+			$number = $pattern->positive_prefix . $formatted_number . $pattern->positive_suffix;
 		}
 
 		return strtr($number, [

@@ -1,4 +1,6 @@
-# CLDR [![Build Status](https://travis-ci.org/ICanBoogie/CLDR.svg?branch=master)](https://travis-ci.org/ICanBoogie/CLDR)
+# CLDR
+
+[![Build Status][]](https://travis-ci.org/ICanBoogie/CLDR) [![Code Quality][]](https://scrutinizer-ci.com/g/ICanBoogie/CLDR/?branch=master)
 
 The __CLDR__ package provides means to internationalize your application by leveraging the
 data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
@@ -54,14 +56,14 @@ provide a client instance.
 <?php
 
 use ICanBoogie\CLDR\FileProvider;
-use ICanBoogie\CLDR\PredisProvider;
+use ICanBoogie\CLDR\RedisProvider;
 use ICanBoogie\CLDR\Repository;
 use ICanBoogie\CLDR\RunTimeProvider;
 use ICanBoogie\CLDR\WebProvider;
 
 $provider = new RunTimeProvider
 (
-	new PredisProvider
+	new RedisProvider
 	(
 		new FileProvider
 		(
@@ -707,7 +709,7 @@ clean the directory with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status](https://travis-ci.org/ICanBoogie/CLDR.svg?branch=master)](https://travis-ci.org/ICanBoogie/CLDR)
+[![Build Status][]](https://travis-ci.org/ICanBoogie/CLDR)
 
 
 
@@ -721,14 +723,18 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 
 
 
+[Build Status]: https://travis-ci.org/ICanBoogie/CLDR.svg?branch=master
+[Code Quality]: https://scrutinizer-ci.com/g/ICanBoogie/CLDR/badges/quality-score.png?b=master
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
 [I18n library]: https://github.com/ICanBoogie/I18n
 [ICanBoogie]: https://github.com/ICanBoogie/ICanBoogie
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
 [Currency]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Currency.html
+[FileProvider]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.FileProvider.html
 [Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
 [ListFormatter]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.ListFormatter.html
 [Locale]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Locale.html
 [LocalizationAwareInterface]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
 [LocalizedDateTime]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizedDateTime.html
+[NumberFormatter]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.NumberFormatter.html
 [Territory]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Territory.html

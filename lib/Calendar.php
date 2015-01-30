@@ -57,6 +57,15 @@ class Calendar extends \ArrayObject
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
+	static private $era_translation = [
+
+		'abbreviated' => 'eraAbbr',
+		'narrow' => 'eraNarrow',
+		'short' => 'eraAbbr',
+		'wide' => 'eraNames'
+
+	];
+
 	/**
 	 * @return DateTimeFormatter
 	 */
@@ -90,15 +99,6 @@ class Calendar extends \ArrayObject
 
 	public function __get($property)
 	{
-		static $era_translation = [
-
-			'abbreviated' => 'eraAbbr',
-			'narrow' => 'eraNarrow',
-			'short' => 'eraAbbr',
-			'wide' => 'eraNames'
-
-		];
-
 		if (preg_match('#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#', $property, $matches))
 		{
 			list(, $standalone, $width, $type) = $matches;
@@ -107,19 +107,17 @@ class Calendar extends \ArrayObject
 
 			if ($type == 'eras')
 			{
-				return $this->$property = $data[$era_translation[$width]];
+				return $this->$property = $data[self::$era_translation[$width]];
 			}
-			else
+
+			$data = $data[$standalone ? 'stand-alone' : 'format'];
+
+			if ($width == 'short' && empty($data[$width]))
 			{
-				$data = $data[$standalone ? 'stand-alone' : 'format'];
-
-				if ($width == 'short' && empty($data[$width]))
-				{
-					$width = 'abbreviated';
-				}
-
-				return $this->$property = $data[$width];
+				$width = 'abbreviated';
 			}
+
+			return $this->$property = $data[$width];
 		}
 
 		return $this->__object_get($property);

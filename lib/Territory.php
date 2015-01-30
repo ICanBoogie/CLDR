@@ -64,14 +64,18 @@ class Territory
 	}
 
 	/**
-	 * Return the `territoryContainment` data.
+	 * Retrieve a territory section from supplemental.
 	 *
-	 * @return array
+	 * @param string $section
+	 *
+	 * @return mixed
+	 *
+	 * @throws NoTerritoryData in attempt to retrieve data that is not defined for a territory.
 	 */
-	protected function lazy_get_containment()
+	private function retrieve_from_supplemental($section)
 	{
 		$code = $this->code;
-		$data = $this->repository->supplemental['territoryContainment'];
+		$data = $this->repository->supplemental[$section];
 
 		if (empty($data[$code]))
 		{
@@ -79,6 +83,16 @@ class Territory
 		}
 
 		return $data[$code];
+	}
+
+	/**
+	 * Return the `territoryContainment` data.
+	 *
+	 * @return array
+	 */
+	protected function lazy_get_containment()
+	{
+		return $this->retrieve_from_supplemental('territoryContainment');
 	}
 
 	/**
@@ -114,28 +128,39 @@ class Territory
 	 *
 	 * @return Currency
 	 */
-	public function currency_at($date=null)
+	public function currency_at($date = null)
 	{
-		if (!$date)
+		$code = $this->find_currency_at($this->currencies, DateTime::from($date ?: 'now')->as_date);
+
+		if (!$code)
 		{
-			$date = 'now';
+			return null;
 		}
 
-		$date = DateTime::from($date)->as_date;
-		$currencies = $this->currencies;
+		return new Currency($this->repository, $code);
+	}
+
+	/**
+	 * Return the currency in a list used at a point in time.
+	 *
+	 * @param array $currencies
+	 * @param string $normalized_date
+	 *
+	 * @return string
+	 */
+	private function find_currency_at(array $currencies, $normalized_date)
+	{
 		$rc = false;
 
 		foreach ($currencies as $currency)
 		{
 			$name = key($currency);
 			$interval = current($currency);
+			$_from = null;
+			$_to = null;
+			extract($interval);
 
-			if (isset($interval['_from']) && $interval['_from'] > $date)
-			{
-				continue;
-			}
-
-			if (isset($interval['_to']) && $interval['_to'] < $date)
+			if (($_from && $_from > $normalized_date) || ($_to && $_to < $normalized_date))
 			{
 				continue;
 			}
@@ -143,12 +168,7 @@ class Territory
 			$rc = $name;
 		}
 
-		if (!$rc)
-		{
-			return $rc;
-		}
-
-		return new Currency($this->repository, $rc);
+		return $rc;
 	}
 
 	/*
@@ -207,15 +227,7 @@ class Territory
 	 */
 	protected function lazy_get_info()
 	{
-		$code = $this->code;
-		$data = $this->repository->supplemental['territoryInfo'];
-
-		if (empty($data[$code]))
-		{
-			throw new NoTerritoryData;
-		}
-
-		return $data[$code];
+		return $this->retrieve_from_supplemental('territoryInfo');
 	}
 
 	/**
