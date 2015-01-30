@@ -64,14 +64,18 @@ class Territory
 	}
 
 	/**
-	 * Return the `territoryContainment` data.
+	 * Retrieve a territory section from supplemental.
 	 *
-	 * @return array
+	 * @param string $section
+	 *
+	 * @return mixed
+	 *
+	 * @throws NoTerritoryData in attempt to retrieve data that is not defined for a territory.
 	 */
-	protected function lazy_get_containment()
+	private function retrieve_from_supplemental($section)
 	{
 		$code = $this->code;
-		$data = $this->repository->supplemental['territoryContainment'];
+		$data = $this->repository->supplemental[$section];
 
 		if (empty($data[$code]))
 		{
@@ -79,6 +83,16 @@ class Territory
 		}
 
 		return $data[$code];
+	}
+
+	/**
+	 * Return the `territoryContainment` data.
+	 *
+	 * @return array
+	 */
+	protected function lazy_get_containment()
+	{
+		return $this->retrieve_from_supplemental('territoryContainment');
 	}
 
 	/**
@@ -207,15 +221,7 @@ class Territory
 	 */
 	protected function lazy_get_info()
 	{
-		$code = $this->code;
-		$data = $this->repository->supplemental['territoryInfo'];
-
-		if (empty($data[$code]))
-		{
-			throw new NoTerritoryData;
-		}
-
-		return $data[$code];
+		return $this->retrieve_from_supplemental('territoryInfo');
 	}
 
 	/**
