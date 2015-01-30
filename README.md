@@ -54,14 +54,14 @@ provide a client instance.
 <?php
 
 use ICanBoogie\CLDR\FileProvider;
-use ICanBoogie\CLDR\PredisProvider;
+use ICanBoogie\CLDR\RedisProvider;
 use ICanBoogie\CLDR\Repository;
 use ICanBoogie\CLDR\RunTimeProvider;
 use ICanBoogie\CLDR\WebProvider;
 
 $provider = new RunTimeProvider
 (
-	new PredisProvider
+	new RedisProvider
 	(
 		new FileProvider
 		(

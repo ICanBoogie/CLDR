@@ -11,31 +11,26 @@
 
 namespace ICanBoogie\CLDR;
 
-use Predis\Client as Client;
-
 /**
  * Provides CLDR data from a Redis client, and falls back to a specified provider when the data
  * is not available.
  *
  * @package ICanBoogie\CLDR
  */
-class PredisProvider implements ProviderInterface, CacheInterface
+class RedisProvider implements ProviderInterface, CacheInterface
 {
 	use ProviderChainTrait;
 
-	/**
-	 * @var Client
-	 */
-	private $client;
+	private $redis;
 
 	/**
 	 * @param ProviderInterface $provider Fallback provider.
-	 * @param Client $client
+	 * @param object $redis
 	 */
-	public function __construct(ProviderInterface $provider, Client $client)
+	public function __construct(ProviderInterface $provider, $redis)
 	{
 		$this->provider = $provider;
-		$this->client = $client;
+		$this->redis = $redis;
 	}
 
 	/**
@@ -59,7 +54,7 @@ class PredisProvider implements ProviderInterface, CacheInterface
 	 */
 	public function exists($key)
 	{
-		return $this->client->exists($this->path_to_key($key));
+		return $this->redis->exists($this->path_to_key($key));
 	}
 
 	/**
@@ -76,7 +71,7 @@ class PredisProvider implements ProviderInterface, CacheInterface
 			return null;
 		}
 
-		return json_decode($this->client->get($this->path_to_key($key)), true);
+		return json_decode($this->redis->get($this->path_to_key($key)), true);
 	}
 
 	/**
@@ -87,6 +82,6 @@ class PredisProvider implements ProviderInterface, CacheInterface
 	 */
 	public function store($key, $data)
 	{
-		$this->client->set($this->path_to_key($key), json_encode($data));
+		$this->redis->set($this->path_to_key($key), json_encode($data));
 	}
 }
