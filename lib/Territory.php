@@ -130,16 +130,24 @@ class Territory
 	 */
 	public function currency_at($date = null)
 	{
-		$rc = $this->find_currency_at($this->currencies, DateTime::from($date ?: 'now')->as_date);
+		$code = $this->find_currency_at($this->currencies, DateTime::from($date ?: 'now')->as_date);
 
-		if (!$rc)
+		if (!$code)
 		{
 			return false;
 		}
 
-		return new Currency($this->repository, $rc);
+		return new Currency($this->repository, $code);
 	}
 
+	/**
+	 * Return the currency in a list used at a point in time.
+	 *
+	 * @param array $currencies
+	 * @param string $normalized_date
+	 *
+	 * @return string|bool
+	 */
 	private function find_currency_at(array $currencies, $normalized_date)
 	{
 		$rc = false;
@@ -148,13 +156,11 @@ class Territory
 		{
 			$name = key($currency);
 			$interval = current($currency);
+			$_from = null;
+			$_to = null;
+			extract($interval);
 
-			if (isset($interval['_from']) && $interval['_from'] > $normalized_date)
-			{
-				continue;
-			}
-
-			if (isset($interval['_to']) && $interval['_to'] < $normalized_date)
+			if (($_from && $_from > $normalized_date) || ($_to && $_to < $normalized_date))
 			{
 				continue;
 			}
