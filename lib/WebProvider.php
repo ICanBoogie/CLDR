@@ -30,7 +30,7 @@ class WebProvider implements ProviderInterface
 	}
 
 	/**
-	 * Returns a reusable connection.
+	 * Returns a reusable cURL connection.
 	 *
 	 * @return resource
 	 */
