@@ -730,9 +730,11 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 [ICanBoogie]: https://github.com/ICanBoogie/ICanBoogie
 [Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
 [Currency]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Currency.html
+[FileProvider]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.FileProvider.html
 [Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
 [ListFormatter]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.ListFormatter.html
 [Locale]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Locale.html
 [LocalizationAwareInterface]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
 [LocalizedDateTime]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizedDateTime.html
+[NumberFormatter]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.NumberFormatter.html
 [Territory]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Territory.html
