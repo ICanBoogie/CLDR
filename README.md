@@ -621,32 +621,6 @@ echo $repository->locales['fr']->format_list([ "Monday", "Tuesday", "Friday" ]);
 
 
 
-## Autoconfig support
-
-The Autoconfig feature of [ICanBoogie][] is supported and the following things are provided:
-
-- `ICanBoogie\Core::lazy_get_cldr_provider`: A lazy getter that returns a chain of providers. A
-[FileProvider][] instance is used in the chain and is configured to use
-"`ICanBoogie\REPOSITORY`/cache" as cache directory.
-
-- `ICanBoogie\Core::lazy_get_cldr`: A lazy getter that returns a [Repository][] instance created
-with the CLDR provider.
-
-- `ICanBoogie\Core::set_locale`: Sets the locale used by the application.
-
-- `ICanBoogie\Core::get_locale`: Returns the locale used by the application.
-
-```php
-<?php
-
-$app->locale = 'fr';
-echo $app->locale->name; // France
-```
-
-
-
-
-
 ----------
 
 

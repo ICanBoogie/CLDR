@@ -31,11 +31,5 @@
 		"psr-4": {
 			"ICanBoogie\\CLDR\\": "lib"
 		}
-	},
-
-	"extra": {
-		"icanboogie": {
-			"config-path": "config"
-		}
 	}
 }
