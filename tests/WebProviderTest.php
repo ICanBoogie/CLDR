@@ -28,7 +28,17 @@ class WebProviderTest extends \PHPUnit_Framework_TestCase
 	public function test_retrieve_failure()
 	{
 		$provider = new WebProvider;
+		$path = 'undefined_locale/characters';
 
-		$provider->provide('undefined_locale/characters');
+		try
+		{
+			$provider->provide($path);
+		}
+		catch (ResourceNotFound $e)
+		{
+			$this->assertEquals($path, $e->path);
+
+			throw $e;
+		}
 	}
 }
