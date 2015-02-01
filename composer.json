@@ -23,8 +23,8 @@
 	"require": {
 		"php": ">=5.4.0",
 		"ext-curl": "*",
-		"icanboogie/common": "~1.2",
-		"icanboogie/datetime": ">=1.0"
+		"icanboogie/common": "~1.2.2",
+		"icanboogie/datetime": "~1.1.1"
 	},
 
 	"autoload": {
