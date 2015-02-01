@@ -1,6 +1,11 @@
 # CLDR
 
-[![Build Status][]](https://travis-ci.org/ICanBoogie/CLDR) [![Code Quality][]](https://scrutinizer-ci.com/g/ICanBoogie/CLDR/?branch=master)
+[![Release](https://img.shields.io/github/release/ICanBoogie/CLDR.svg)](https://github.com/ICanBoogie/CLDR/releases)
+[![Build Status](https://img.shields.io/travis/ICanBoogie/CLDR/master.svg)](http://travis-ci.org/ICanBoogie/CLDR)
+[![HHVM](https://img.shields.io/hhvm/icanboogie/cldr.svg)](http://hhvm.h4cc.de/package/icanboogie/cldr)
+[![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/CLDR/master.svg)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR)
+[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/CLDR/master.svg)](https://coveralls.io/r/ICanBoogie/CLDR)
+[![Packagist](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
 
 The __CLDR__ package provides means to internationalize your application by leveraging the
 data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
@@ -683,7 +688,8 @@ clean the directory with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
-[![Build Status][]](https://travis-ci.org/ICanBoogie/CLDR)
+[![Build Status](https://img.shields.io/travis/ICanBoogie/CLDR/master.svg)](https://travis-ci.org/ICanBoogie/CLDR)
+[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/CLDR/master.svg)](https://coveralls.io/r/ICanBoogie/CLDR)
 
 
 
@@ -697,8 +703,6 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 
 
 
-[Build Status]: https://travis-ci.org/ICanBoogie/CLDR.svg?branch=master
-[Code Quality]: https://scrutinizer-ci.com/g/ICanBoogie/CLDR/badges/quality-score.png?b=master
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
 [I18n library]: https://github.com/ICanBoogie/I18n
 [ICanBoogie]: https://github.com/ICanBoogie/ICanBoogie
