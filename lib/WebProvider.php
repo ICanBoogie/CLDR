@@ -11,11 +11,15 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Storage\Storage;
+
 /**
  * Retrieves sections from the CLDR source.
  */
-class WebProvider implements Provider
+class WebProvider implements Storage, Provider
 {
+	use ProviderStorageBinding;
+
 	private $origin;
 	private $connection;
 
@@ -24,9 +28,68 @@ class WebProvider implements Provider
 	 *
 	 * @param string $origin
 	 */
-	public function __construct($origin="http://www.unicode.org/repos/cldr-aux/json/26/")
+	public function __construct($origin = "http://www.unicode.org/repos/cldr-aux/json/26/")
 	{
 		$this->origin = $origin;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function store($key, $value, $ttl = null)
+	{
+		# does nothing
+	}
+
+	/**
+	 * The section path, following the pattern "<identity>/<section>".
+	 *
+	 * @param string $key
+	 *
+	 * @return string
+	 *
+	 * @throws ResourceNotFound when the specified path does not exists on the CLDR source.
+	 */
+	public function retrieve($key)
+	{
+		$connection = $this->obtain_connection();
+
+		curl_setopt($connection, CURLOPT_URL, $this->origin . $key . '.json');
+
+		$rc = curl_exec($connection);
+
+		$http_code = curl_getinfo($connection, CURLINFO_HTTP_CODE);
+
+		if ($http_code != 200)
+		{
+			throw new ResourceNotFound($key);
+		}
+
+		return json_decode($rc, true);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function eliminate($key)
+	{
+		# does nothing
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function exists($key)
+	{
+		# does nothing
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function clear()
+	{
+		# does nothing
 	}
 
 	/**
@@ -51,32 +114,5 @@ class WebProvider implements Provider
 		]);
 
 		return $this->connection = $connection;
-	}
-
-	/**
-	 * The section path, following the pattern "<identity>/<section>".
-	 *
-	 * @param string $path
-	 *
-	 * @throws ResourceNotFound when the specified path does not exists on the CLDR source.
-	 *
-	 * @return string
-	 */
-	public function provide($path)
-	{
-		$connection = $this->obtain_connection();
-
-		curl_setopt($connection, CURLOPT_URL, $this->origin . $path . '.json');
-
-		$rc = curl_exec($connection);
-
-		$http_code = curl_getinfo($connection, CURLINFO_HTTP_CODE);
-
-		if ($http_code != 200)
-		{
-			throw new ResourceNotFound($path);
-		}
-
-		return json_decode($rc, true);
 	}
 }

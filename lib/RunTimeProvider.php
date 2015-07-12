@@ -11,33 +11,12 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Storage\RunTimeStorage;
+
 /**
- * Provides CLDR data from an array, and falls back to a specified provider when the data
- * is not available.
+ * Provides CLDR data from an array.
  */
-class RunTimeProvider implements Provider, Cache
+class RunTimeProvider extends RunTimeStorage implements Provider
 {
-	use ProviderChainTrait;
-
-	private $store = [];
-
-	public function exists($path)
-	{
-		return array_key_exists($path, $this->store);
-	}
-
-	public function retrieve($path)
-	{
-		if (!$this->exists($path))
-		{
-			return;
-		}
-
-		return $this->store[ $path ];
-	}
-
-	public function store($path, $data)
-	{
-		$this->store[$path] = $data;
-	}
+	use ProviderStorageBinding;
 }

@@ -11,69 +11,34 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Storage\FileStorage;
+
 /**
- * Provides CLDR data from the filesystem, and falls back to a specified provider when the data
- * is not available.
+ * Provides CLDR data from the filesystem.
  */
-class FileProvider implements Provider, Cache
+class FileProvider extends FileStorage implements Provider
 {
-	use ProviderChainTrait;
-
 	/**
-	 * Create a store key from a CLDR path.
-	 *
-	 * @param string $path A CLDR path.
-	 *
-	 * @return string A store key.
+	 * @inheritdoc
 	 */
-	static private function path_to_key($path)
+	protected function serialize($value)
 	{
-		return str_replace('/', '--', $path);
+		return json_encode($value);
 	}
 
 	/**
-	 * The directory where files are stored.
-	 *
-	 * @var string
+	 * @inheritdoc
 	 */
-	protected $root;
+	protected function unserialize($value)
+	{
+		return json_decode($value, true);
+	}
 
 	/**
-	 * @param Provider $provider Fallback provider.
-	 * @param string $directory Path to the directory where cached files are stored.
+	 * @inheritdoc
 	 */
-	public function __construct(Provider $provider, $directory)
+	public function provide($path)
 	{
-		$this->root = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-		$this->provider = $provider;
-	}
-
-	public function exists($path)
-	{
-		$key = self::path_to_key($path);
-		$filename = $this->root . $key;
-
-		return file_exists($filename);
-	}
-
-	public function retrieve($path)
-	{
-		$key = self::path_to_key($path);
-		$filename = $this->root . $key;
-
-		if (!file_exists($filename))
-		{
-			return;
-		}
-
-		return json_decode(file_get_contents($filename), true);
-	}
-
-	public function store($path, $data)
-	{
-		$key = self::path_to_key($path);
-		$filename = $this->root . $key;
-
-		file_put_contents($filename, json_encode($data));
+		return $this->retrieve($path);
 	}
 }

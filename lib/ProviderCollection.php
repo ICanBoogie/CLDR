@@ -11,14 +11,15 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Storage\RedisStorage;
+use ICanBoogie\Storage\StorageCollection;
 
-/**
- * Provides CLDR data from a Redis client.
- *
- * @package ICanBoogie\CLDR
- */
-class RedisProvider extends RedisStorage implements Provider
+class ProviderCollection extends StorageCollection implements Provider
 {
-	use ProviderStorageBinding;
+	/**
+	 * @inheritdoc
+	 */
+	public function provide($path)
+	{
+		return $this->retrieve($path);
+	}
 }

@@ -18,7 +18,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_properties_instanceof($property, $expected)
 	{
-		$repository = new Repository(create_provider_stack());
+		$repository = new Repository(create_provider_collection());
 		$instance = $repository->$property;
 		$this->assertInstanceOf($expected, $instance);
 		$this->assertSame($instance, $repository->$property);

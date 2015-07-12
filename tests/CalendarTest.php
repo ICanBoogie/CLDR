@@ -17,7 +17,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 	static public function setupBeforeClass()
 	{
-		$repository = new Repository(create_provider_stack());
+		$repository = new Repository(create_provider_collection());
 		self::$calendar = $repository->locales['fr']->calendars['gregorian'];
 	}
 

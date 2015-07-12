@@ -23,61 +23,26 @@ which data is retrieved when required.
 
 The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
 data is retrieved through a provider, and in order to avoid hitting the web with every request,
-a chain of providers is used, each with its own caching strategies.
+a collection of providers is used, each with its own caching strategies.
 
-The following example demonstrates how a repository can be instantiated with a nice chain of
-providers. One fetches the data from the web, the other from the filesystem, and the last one
-from the runtime memory:
+**Note:** Most providers defined by the package extend a class defined by the [icanboogie\storage][] package, you might want to check it out.
 
-```php
-<?php
-
-use ICanBoogie\CLDR\FileProvider;
-use ICanBoogie\CLDR\Repository;
-use ICanBoogie\CLDR\RunTimeProvider;
-use ICanBoogie\CLDR\WebProvider;
-
-$provider = new RunTimeProvider
-(
-	new FileProvider
-	(
-		new WebProvider, "/path/to/storage"
-	)
-);
-
-$repository = new Repository($provider);
-```
-
-
-
-
-
-### Using Redis to cache data
-
-A [Redis](http://redis.io/) client can be added to the chain of providers, You just need to
-provide a client instance.
+The following example demonstrates how a repository can be instantiated with a nice collection of
+providers:
 
 ```php
 <?php
 
-use ICanBoogie\CLDR\FileProvider;
-use ICanBoogie\CLDR\RedisProvider;
-use ICanBoogie\CLDR\Repository;
-use ICanBoogie\CLDR\RunTimeProvider;
-use ICanBoogie\CLDR\WebProvider;
+namespace ICanBoogie\CLDR;
 
-$provider = new RunTimeProvider
-(
-	new RedisProvider
-	(
-		new FileProvider
-		(
-			new WebProvider, "/path/to/storage"
-		),
-		
-		$redis_client
-	)
-);
+$provider = new ProviderCollection([
+
+	new RunTimeProvider,
+	new RedisProvider($redis_client),
+	new FileProvider("/path/to/storage"),
+	new WebProvider
+	
+]);
 
 $repository = new Repository($provider);
 ```
@@ -88,7 +53,7 @@ $repository = new Repository($provider);
 
 ## Accessing the repository
 
-The repository can be accessed like a big array. It also provides interfaces to the most important
+The repository can be accessed like a big array, but it also provides interfaces to the most important
 data such as locales, territories, numbers, currencies…
 
 The following example demonstrates how the repository can be used to access locales and
@@ -485,7 +450,7 @@ $formatter(.3789, "#0.#0 %");
 // 37.89 %
 ```
 
-**Note:** You can also obtained a number formatter, or format a number from the repository.
+**Note:** You can also obtain a number formatter, or format a number from the repository.
 
 ```php
 <?php
@@ -524,7 +489,7 @@ $formatter->localize('en')->format(123456.78);
 // 123,456.78
 ```
 
-**Note:** You can also obtained a localized number formatter, or format a number from a locale.
+**Note:** You can also obtain a localized number formatter, or format a number from a locale.
 
 ```php
 <?php
@@ -613,7 +578,7 @@ $localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], LocalizedListFo
 // lundi, mardi, vendredi et samedi
 ```
 
-**Note:** You can also obtained a localized list formatter, or format a list from a locale.
+**Note:** You can also obtain a localized list formatter, or format a list from a locale.
 
 ```php
 <?php
@@ -634,7 +599,7 @@ echo $repository->locales['fr']->format_list([ "Monday", "Tuesday", "Friday" ]);
 
 ## Requirements
 
-The package requires PHP 5.4 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
+The package requires PHP 5.5 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
 
 
 
@@ -692,14 +657,14 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 ## License
 
-**icanBoogie/cldr** is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
+**icanboogie/cldr** is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
 
 
 
 
 
+[icanboogie\storage]: https://github.com/ICanBoogie/Storage
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
-[I18n library]: https://github.com/ICanBoogie/I18n
 [ICanBoogie]: https://github.com/ICanBoogie/ICanBoogie
 [Calendar]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Calendar.html
 [Currency]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Currency.html
