@@ -1,6 +1,6 @@
 # CLDR
 
-[![Release](https://img.shields.io/github/release/ICanBoogie/CLDR.svg)](https://github.com/ICanBoogie/CLDR/releases)
+[![Release](https://img.shields.io/packagist/v/icanboogie/cldr.svg)](https://packagist.org/icanboogie/cldr)
 [![Build Status](https://img.shields.io/travis/ICanBoogie/CLDR/master.svg)](http://travis-ci.org/ICanBoogie/CLDR)
 [![HHVM](https://img.shields.io/hhvm/icanboogie/cldr.svg)](http://hhvm.h4cc.de/package/icanboogie/cldr)
 [![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/CLDR/master.svg)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR)
@@ -670,11 +670,8 @@ cloned with the following command line:
 
 ## Documentation
 
-The package is documented as part of the [ICanBoogie](http://icanboogie.org/) framework
-[documentation](http://icanboogie.org/docs/). You can generate the documentation for the package
-and its dependencies with the `make doc` command. The documentation is generated in the `docs`
-directory. [ApiGen](http://apigen.org/) is required. You can later clean the directory with
-the `make clean` command.
+The package is documented as part of the [ICanBoogie][] framework
+[documentation](http://api.icanboogie.org/cldr/). You can generate the documentation for the package and its dependencies with the `make doc` command. The documentation is generated in the `build/docs` directory. [ApiGen](http://apigen.org/) is required. The directory can later be cleaned with the `make clean` command.
 
 
 
@@ -682,9 +679,7 @@ the `make clean` command.
 
 ## Testing
 
-The test suite is ran with the `make test` command. [Composer](http://getcomposer.org/) is
-automatically installed as well as all dependencies required to run the suite. You can later
-clean the directory with the `make clean` command.
+The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de/) and [Composer](http://getcomposer.org/) need to be globally available to run the suite. The command installs dependencies as required. The `make test-coverage` command runs test suite and also creates an HTML coverage report in `build/coverage`. The directory can later be cleaned with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
@@ -697,7 +692,7 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 ## License
 
-ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
+**icanBoogie/cldr** is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
 
 
 
@@ -706,13 +701,13 @@ ICanBoogie/CLDR is licensed under the New BSD License - See the [LICENSE](LICENS
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
 [I18n library]: https://github.com/ICanBoogie/I18n
 [ICanBoogie]: https://github.com/ICanBoogie/ICanBoogie
-[Calendar]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Calendar.html
-[Currency]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Currency.html
-[FileProvider]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.FileProvider.html
-[Repository]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Repository.html
-[ListFormatter]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.ListFormatter.html
-[Locale]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Locale.html
-[LocalizationAwareInterface]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
-[LocalizedDateTime]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.LocalizedDateTime.html
-[NumberFormatter]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.NumberFormatter.html
-[Territory]: http://icanboogie.org/docs/class-ICanBoogie.CLDR.Territory.html
+[Calendar]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Calendar.html
+[Currency]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Currency.html
+[FileProvider]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.FileProvider.html
+[Repository]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Repository.html
+[ListFormatter]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.ListFormatter.html
+[Locale]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Locale.html
+[LocalizationAwareInterface]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
+[LocalizedDateTime]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.LocalizedDateTime.html
+[NumberFormatter]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.NumberFormatter.html
+[Territory]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Territory.html

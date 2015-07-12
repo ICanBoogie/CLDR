@@ -1,6 +1,7 @@
 # customization
 
-PACKAGE_NAME = "ICanBoogie/CLDR"
+PACKAGE_NAME = ICanBoogie/CLDR
+PACKAGE_VERSION = 1.4.0
 
 # do not edit the following lines
 
@@ -8,10 +9,10 @@ usage:
 	@echo "test:  Runs the test suite.\ndoc:   Creates the documentation.\nclean: Removes the documentation, the dependencies and the Composer files."
 
 vendor:
-	@composer install --dev
+	@composer install
 
 update:
-	@composer update --dev
+	@composer update
 
 autoload: vendor
 	@composer dump-autoload
@@ -24,18 +25,15 @@ test-coverage: vendor
 	@phpunit --coverage-html build/coverage
 
 doc: vendor
-	@mkdir -p "docs"
-
-	@apigen \
-	--source ./ \
-	--destination docs/ --title $(PACKAGE_NAME) \
-	--exclude "*/composer/*" \
-	--exclude "*/tests/*" \
-	--template-config /usr/share/php/data/ApiGen/templates/bootstrap/config.neon
+	@mkdir -p build/docs
+	@apigen generate \
+	--source lib \
+	--destination build/docs/ \
+	--title "$(PACKAGE_NAME) v$(PACKAGE_VERSION)" \
+	--template-theme "bootstrap"
 
 clean:
-	@rm -fR docs
+	@rm -fR build
 	@rm -fR vendor
 	@rm -f composer.lock
-	@rm -f composer.phar
 	@rm -f tests/repository/*
