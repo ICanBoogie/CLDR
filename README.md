@@ -1,6 +1,6 @@
 # CLDR
 
-[![Release](https://img.shields.io/packagist/v/icanboogie/cldr.svg)](https://packagist.org/icanboogie/cldr)
+[![Release](https://img.shields.io/packagist/v/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
 [![Build Status](https://img.shields.io/travis/ICanBoogie/CLDR/master.svg)](http://travis-ci.org/ICanBoogie/CLDR)
 [![HHVM](https://img.shields.io/hhvm/icanboogie/cldr.svg)](http://hhvm.h4cc.de/package/icanboogie/cldr)
 [![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/CLDR/master.svg)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR)
