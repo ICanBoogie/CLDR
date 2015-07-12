@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 /**
  * Cache interface
  */
-interface CacheInterface
+interface Cache
 {
 	/**
 	 * Checks if a key exists in the cache.

@@ -3,7 +3,7 @@
 namespace ICanBoogie\CLDR;
 
 /**
- * A trait for chained providers which also implement {@link CacheInterface}.
+ * A trait for chained providers which also implement {@link Cache}.
  *
  * @package ICanBoogie\CLDR
  */

@@ -17,7 +17,7 @@ namespace ICanBoogie\CLDR;
  *
  * @package ICanBoogie\CLDR
  */
-class RedisProvider implements Provider, CacheInterface
+class RedisProvider implements Provider, Cache
 {
 	use ProviderChainTrait;
 

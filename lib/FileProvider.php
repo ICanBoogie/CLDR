@@ -15,7 +15,7 @@ namespace ICanBoogie\CLDR;
  * Provides CLDR data from the filesystem, and falls back to a specified provider when the data
  * is not available.
  */
-class FileProvider implements Provider, CacheInterface
+class FileProvider implements Provider, Cache
 {
 	use ProviderChainTrait;
 
