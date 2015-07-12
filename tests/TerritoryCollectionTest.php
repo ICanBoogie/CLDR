@@ -48,11 +48,23 @@ class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('ICanBoogie\CLDR\Territory', self::$collection['US']);
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\CLDR\TerritoryNotDefined
-	 */
 	public function test_undefined()
 	{
-		self::$collection[uniqid()];
+		$code = uniqid();
+
+		try
+		{
+			self::$collection[$code];
+
+			$this->fail("Excepted exception");
+		}
+		catch (\Exception $e)
+		{
+			$this->assertInstanceOf(TerritoryNotDefined::class, $e);
+
+			/* @var $e TerritoryNotDefined */
+
+			$this->assertEquals($code, $e->territory_code);
+		}
 	}
 }

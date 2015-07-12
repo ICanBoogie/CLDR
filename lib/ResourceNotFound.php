@@ -11,31 +11,28 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\PropertyNotDefined;
+use ICanBoogie\Accessor\AccessorTrait;
 
 /**
  * Exception throw when a path does not exists on the CLDR source.
  *
  * @property-read string $path The path.
  */
-class ResourceNotFound extends \Exception
+class ResourceNotFound extends \Exception implements Exception
 {
+	use AccessorTrait;
+
 	private $path;
 
-	public function __construct($path, $code=500, \Exception $previous=null)
+	protected function get_path()
+	{
+		return $this->path;
+	}
+
+	public function __construct($path, $code = 500, \Exception $previous = null)
 	{
 		$this->path = $path;
 
 		parent::__construct("Path not defined: $path.", $code, $previous);
-	}
-
-	public function __get($property)
-	{
-		if ($property == 'path')
-		{
-			return $this->path;
-		}
-
-		throw new PropertyNotDefined([ $property, $this ]);
 	}
 }

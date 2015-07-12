@@ -35,6 +35,7 @@ class WebProvider implements Storage, Provider
 
 	/**
 	 * @inheritdoc
+	 * @codeCoverageIgnore
 	 */
 	public function store($key, $value, $ttl = null)
 	{
@@ -70,6 +71,7 @@ class WebProvider implements Storage, Provider
 
 	/**
 	 * @inheritdoc
+	 * @codeCoverageIgnore
 	 */
 	public function eliminate($key)
 	{
@@ -78,6 +80,7 @@ class WebProvider implements Storage, Provider
 
 	/**
 	 * @inheritdoc
+	 * @codeCoverageIgnore
 	 */
 	public function exists($key)
 	{
@@ -86,6 +89,7 @@ class WebProvider implements Storage, Provider
 
 	/**
 	 * @inheritdoc
+	 * @codeCoverageIgnore
 	 */
 	public function clear()
 	{
