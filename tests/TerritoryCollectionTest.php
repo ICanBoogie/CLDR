@@ -20,12 +20,10 @@ class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
 		self::$collection = new TerritoryCollection(get_repository());
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
 	public function test_offsetExists()
 	{
-		isset(self::$collection['FR']);
+		$this->assertTrue(isset(self::$collection['FR']));
+		$this->assertFalse(isset(self::$collection[uniqid()]));
 	}
 
 	/**
@@ -44,9 +42,17 @@ class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
 		unset(self::$collection['FR']);
 	}
 
-	public function test_existing_locale()
+	public function test_defined()
 	{
 		$this->assertInstanceOf('ICanBoogie\CLDR\Territory', self::$collection['FR']);
 		$this->assertInstanceOf('ICanBoogie\CLDR\Territory', self::$collection['US']);
+	}
+
+	/**
+	 * @expectedException \ICanBoogie\CLDR\TerritoryNotDefined
+	 */
+	public function test_undefined()
+	{
+		self::$collection[uniqid()];
 	}
 }

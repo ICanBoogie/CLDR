@@ -17,6 +17,17 @@ use ICanBoogie\Accessor\AccessorTrait;
  * Representation of a territory collection.
  *
  * @package ICanBoogie\CLDR
+ *
+ * ```php
+ * <?php
+ *
+ * $territories = new TerritoryCollection($cldr);
+ * # or
+ * $territories = $cldr->territories;
+ *
+ * // check if a territory is defined
+ * isset($territories['FR']);          // true
+ * isset($territories['UnDiFiNeD']);   // false
  */
 class TerritoryCollection implements \ArrayAccess
 {
@@ -32,19 +43,52 @@ class TerritoryCollection implements \ArrayAccess
 		$this->repository = $repository;
 	}
 
-	public function offsetExists($offset)
+    /**
+     * Checks if a territory is defined.
+     *
+     * @param string $code Territory ISO code.
+     *
+     * @return bool `true` if the territory is defined, `false` otherwise.
+     */
+	public function offsetExists($code)
 	{
-		throw new \BadMethodCallException("The method is not implemented");
+		$supplemental = $this->repository->supplemental;
+
+        return isset($supplemental['territoryInfo'][$code])
+        || isset($supplemental['territoryContainment'][$code]);
 	}
 
-	public function offsetGet($offset)
+    /**
+     * Returns a territory.
+     *
+     * @param string $code Territory ISO code.
+     *
+     * @return Territory
+     */
+	public function offsetGet($code)
 	{
-		if (empty($this->collection[$offset]))
+		if (empty($this->collection[$code]))
 		{
-			$this->collection[$offset] = new Territory($this->repository, $offset);
+			$this->collection[$code] = new Territory($this->repository, $code);
 		}
 
-		return $this->collection[$offset];
+		return $this->collection[$code];
 	}
 
+    /**
+     * Asserts that a territory is defined.
+     *
+     * @param string $code
+     *
+     * @throws TerritoryNotDefined if the specified territory is not defined.
+     */
+    public function assert_defined($code)
+    {
+        if (isset($this[$code]))
+        {
+            return;
+        }
+
+        throw new TerritoryNotDefined($code);
+    }
 }

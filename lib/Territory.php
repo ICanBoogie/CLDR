@@ -49,6 +49,8 @@ class Territory
 	{
 		$this->repository = $repository;
 		$this->code = $code;
+
+        $repository->territories->assert_defined($code);
 	}
 
 	public function __get($property)
@@ -70,20 +72,10 @@ class Territory
 	 * @param string $section
 	 *
 	 * @return mixed
-	 *
-	 * @throws NoTerritoryData in attempt to retrieve data that is not defined for a territory.
 	 */
 	private function retrieve_from_supplemental($section)
 	{
-		$code = $this->code;
-		$data = $this->repository->supplemental[$section];
-
-		if (empty($data[$code]))
-		{
-			throw new NoTerritoryData;
-		}
-
-		return $data[$code];
+		return $this->repository->supplemental[$section][$this->code];
 	}
 
 	/**
@@ -103,15 +95,7 @@ class Territory
 	 */
 	protected function lazy_get_currencies()
 	{
-		$code = $this->code;
-		$data = $this->repository->supplemental['currencyData'];
-
-		if (empty($data['region'][$code]))
-		{
-			throw new NoTerritoryData;
-		}
-
-		return $data['region'][$code];
+		return $this->repository->supplemental['currencyData']['region'][$this->code];
 	}
 
 	/**
@@ -275,20 +259,9 @@ class Territory
 	 */
 	public function is_containing($code)
 	{
-		try
-		{
-			$containment = $this->containment;
+        $containment = $this->containment;
 
-			return in_array($code, $containment['_contains']);
-		}
-		catch (NoTerritoryData $e)
-		{
-			#
-			# If there is no territory data we just return false.
-			#
-		}
-
-		return false;
+        return in_array($code, $containment['_contains']);
 	}
 
 	/**

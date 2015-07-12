@@ -67,4 +67,40 @@ class SupplementalTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+    public function test_offset_exists()
+    {
+        $s = self::$supplemental;
+
+        $this->assertTrue(isset($s['calendarPreferenceData']));
+        $this->assertTrue(isset($s['numberingSystems']));
+        $this->assertFalse(isset($s[uniqid()]));
+    }
+
+    /**
+     * @expectedException \ICanBoogie\OffsetNotDefined
+     */
+    public function test_should_throw_exception_when_getting_undefined_offset()
+    {
+        $s = self::$supplemental;
+        $s[uniqid()];
+    }
+
+    /**
+     * @expectedException \ICanBoogie\OffsetNotWritable
+     */
+    public function test_should_throw_exception_in_attempt_to_set_offset()
+    {
+        $s = self::$supplemental;
+        $s['timeData'] = null;
+    }
+
+    /**
+     * @expectedException \ICanBoogie\OffsetNotWritable
+     */
+    public function test_should_throw_exception_in_attempt_to_unset_offset()
+    {
+        $s = self::$supplemental;
+        unset($s['timeData']);
+    }
 }
