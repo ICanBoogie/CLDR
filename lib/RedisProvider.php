@@ -17,17 +17,17 @@ namespace ICanBoogie\CLDR;
  *
  * @package ICanBoogie\CLDR
  */
-class RedisProvider implements ProviderInterface, CacheInterface
+class RedisProvider implements Provider, CacheInterface
 {
 	use ProviderChainTrait;
 
 	private $redis;
 
 	/**
-	 * @param ProviderInterface $provider Fallback provider.
+	 * @param Provider $provider Fallback provider.
 	 * @param object $redis
 	 */
-	public function __construct(ProviderInterface $provider, $redis)
+	public function __construct(Provider $provider, $redis)
 	{
 		$this->provider = $provider;
 		$this->redis = $redis;

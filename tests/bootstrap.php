@@ -19,7 +19,7 @@ if (!file_exists(__DIR__ . '/repository'))
 }
 
 /**
- * @return ProviderInterface
+ * @return Provider
  */
 function create_provider_stack()
 {

@@ -15,7 +15,7 @@ namespace ICanBoogie\CLDR;
  * Provides CLDR data from the filesystem, and falls back to a specified provider when the data
  * is not available.
  */
-class FileProvider implements ProviderInterface, CacheInterface
+class FileProvider implements Provider, CacheInterface
 {
 	use ProviderChainTrait;
 
@@ -39,10 +39,10 @@ class FileProvider implements ProviderInterface, CacheInterface
 	protected $root;
 
 	/**
-	 * @param ProviderInterface $provider Fallback provider.
+	 * @param Provider $provider Fallback provider.
 	 * @param string $directory Path to the directory where cached files are stored.
 	 */
-	public function __construct(ProviderInterface $provider, $directory)
+	public function __construct(Provider $provider, $directory)
 	{
 		$this->root = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 		$this->provider = $provider;

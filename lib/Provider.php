@@ -16,7 +16,7 @@ namespace ICanBoogie\CLDR;
  *
  * @package ICanBoogie\CLDR
  */
-interface ProviderInterface
+interface Provider
 {
 	/**
 	 * The section path, following the pattern "<identity>/<section>".

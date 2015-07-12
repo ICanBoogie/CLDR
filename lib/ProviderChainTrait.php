@@ -10,14 +10,14 @@ namespace ICanBoogie\CLDR;
 trait ProviderChainTrait
 {
 	/**
-	 * @var ProviderInterface
+	 * @var Provider
 	 */
 	protected $provider;
 
 	/**
-	 * @param ProviderInterface $provider Next provider.
+	 * @param Provider $provider Next provider.
 	 */
-	public function __construct(ProviderInterface $provider)
+	public function __construct(Provider $provider)
 	{
 		$this->provider = $provider;
 	}

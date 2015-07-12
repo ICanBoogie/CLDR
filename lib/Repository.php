@@ -25,7 +25,7 @@ namespace ICanBoogie\CLDR;
  * var_dump($repository->territories['FR']);
  * </pre>
  *
- * @property-read ProviderInterface $provider
+ * @property-read Provider $provider
  * @property-read LocaleCollection $locales
  * @property-read Supplemental $supplemental
  * @property-read TerritoryCollection $territories
@@ -40,12 +40,12 @@ class Repository
 	use AccessorTrait;
 
 	/**
-	 * @var ProviderInterface
+	 * @var Provider
 	 */
 	private $provider;
 
 	/**
-	 * @return ProviderInterface
+	 * @return Provider
 	 */
 	protected function get_provider()
 	{
@@ -103,9 +103,9 @@ class Repository
 	/**
 	 * Initializes the {@link $provider} property.
 	 *
-	 * @param ProviderInterface $provider
+	 * @param Provider $provider
 	 */
-	public function __construct(ProviderInterface $provider)
+	public function __construct(Provider $provider)
 	{
 		$this->provider = $provider;
 	}

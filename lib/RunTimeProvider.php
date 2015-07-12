@@ -15,7 +15,7 @@ namespace ICanBoogie\CLDR;
  * Provides CLDR data from an array, and falls back to a specified provider when the data
  * is not available.
  */
-class RunTimeProvider implements ProviderInterface, CacheInterface
+class RunTimeProvider implements Provider, CacheInterface
 {
 	use ProviderChainTrait;
 

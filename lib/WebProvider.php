@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 /**
  * Retrieves sections from the CLDR source.
  */
-class WebProvider implements ProviderInterface
+class WebProvider implements Provider
 {
 	private $origin;
 	private $connection;
