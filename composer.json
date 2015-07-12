@@ -1,7 +1,7 @@
 {
 	"name": "icanboogie/cldr",
 	"type": "library",
-	"description": "An API to i18n your application using Unicode's CLDR",
+	"description": "An API to localize applications using Unicode's CLDR",
 	"keywords": [ "i18n", "cldr", "locale", "territory", "currency", "format" ],
 	"homepage": "http://icanboogie.org/",
 	"license": "BSD-3-Clause",
