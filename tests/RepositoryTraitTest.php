@@ -25,7 +25,7 @@ class RepositoryPropertyTraitTest extends \PHPUnit_Framework_TestCase
 
 namespace ICanBoogie\CLDR\RepositoryPropertyTraitTest;
 
-use ICanBoogie\CLDR\AccessorTrait;
+use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Repository;
 use ICanBoogie\CLDR\RepositoryPropertyTrait;
 

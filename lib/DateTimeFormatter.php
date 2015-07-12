@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\DateTime;
 
 /**

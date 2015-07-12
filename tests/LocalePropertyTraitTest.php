@@ -25,7 +25,7 @@ class LocalePropertyTraitTest extends \PHPUnit_Framework_TestCase
 
 namespace ICanBoogie\CLDR\LocalePropertyTraitTest;
 
-use ICanBoogie\CLDR\AccessorTrait;
+use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Locale;
 use ICanBoogie\CLDR\LocalePropertyTrait;
 

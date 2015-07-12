@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
+
 /**
  * Formats variable-length lists of things such as "Monday, Tuesday, Friday, and Saturday".
  *

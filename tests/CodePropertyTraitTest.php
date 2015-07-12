@@ -32,7 +32,7 @@ class CodePropertyTraitTest extends \PHPUnit_Framework_TestCase
 
 namespace ICanBoogie\CLDR\CodePropertyTraitTest;
 
-use ICanBoogie\CLDR\AccessorTrait;
+use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\CodePropertyTrait;
 
 class A

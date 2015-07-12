@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
+
 /**
  * A currency.
  *
@@ -48,7 +50,7 @@ class Currency
 			return isset($data[$offset]) ? (int) $data[$offset] : null;
 		}
 
-		return $this->__object_get($property);
+		return $this->accessor_get($property);
 	}
 
 	/**

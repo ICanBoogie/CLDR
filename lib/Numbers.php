@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
+
 /**
  * Representation of a locale numbers
  *

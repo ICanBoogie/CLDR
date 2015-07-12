@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
+
 /**
  * Representation of a number pattern.
  *
@@ -200,7 +202,7 @@ class NumberPattern
 			return $this->format[$property];
 		}
 
-		return $this->__object_get($property);
+		return $this->accessor_get($property);
 	}
 
 	public function __toString()

@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
+
 /**
  * Representation of a locale calendar.
  *
@@ -120,6 +122,6 @@ class Calendar extends \ArrayObject
 			return $this->$property = $data[$width];
 		}
 
-		return $this->__object_get($property);
+		return $this->accessor_get($property);
 	}
 }

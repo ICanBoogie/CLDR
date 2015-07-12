@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\DateTime;
 
 /**
@@ -60,7 +61,7 @@ class Territory
 			return $this->name_as($locale_code);
 		}
 
-		return $this->__object_get($property);
+		return $this->accessor_get($property);
 	}
 
 	/**
