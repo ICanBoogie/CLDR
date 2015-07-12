@@ -16,13 +16,28 @@ use ICanBoogie\Accessor\AccessorTrait;
 /**
  * A currency.
  *
- * @package ICanBoogie\CLDR
+ * ```php
+ * <?php
  *
- * @property-read string $code The ISO code of the currency.
- * @property-read int $digits
- * @property-read int $rounding
- * @property-read int $cash_digits
- * @property-read int $cash_rounding
+ * use ICanBoogie\CLDR\Currency;
+ *
+ * $euro = new Currency($cldr, 'EUR');
+ * # or
+ * $euro = $cldr->currencies['EUR'];
+ *
+ * echo $euro->code;        // EUR
+ * echo $euro->digits;      // 2
+ * echo $euro->rounding;    // 0
+ * echo $euro->cash_digits;   //
+ * ```
+ *
+ * @property-read string $code The ISO 4217 code for the currency.
+ * @property-read int $digits The minimum and maximum number of decimal digits normally formatted.
+ * @property-read int $rounding The rounding increment, in units of 10^-digits.
+ * @property-read int $cash_digits The number of decimal digits to be used when formatting quantities used in cash transactions.
+ * @property-read int $cash_rounding The cash rounding increment, in units of 10^cashDigits
+ *
+ * @see http://unicode.org/reports/tr35/tr35-numbers.html#Supplemental_Currency_Data
  */
 class Currency
 {
@@ -54,7 +69,7 @@ class Currency
 	}
 
 	/**
-	 * Localize the currency.
+	 * Localize the currency.Doc
 	 *
 	 * @param $locale_code
 	 *
