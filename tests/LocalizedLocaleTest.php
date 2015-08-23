@@ -15,6 +15,10 @@ class LocalizedLocaleTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider provide_test_get_name
+	 *
+	 * @param string $locale_code
+	 * @param string $code
+	 * @param string $expected
 	 */
 	public function test_get_name($locale_code, $code, $expected)
 	{

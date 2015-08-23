@@ -13,6 +13,9 @@ namespace ICanBoogie\CLDR;
 
 class LocaleTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var Locale
+	 */
 	static private $locale;
 
 	static public function setupBeforeClass()
@@ -27,6 +30,9 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_get_language
+	 *
+	 * @param string $locale_code
+	 * @param string $expected
 	 */
 	public function test_get_language($locale_code, $expected)
 	{
@@ -48,6 +54,9 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_properties_instanceof
+	 *
+	 * @param string $property
+	 * @param string $expected
 	 */
 	public function test_properties_instanceof($property, $expected)
 	{
@@ -72,15 +81,11 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \ICanBoogie\PropertyNotDefined
-	 */
-	public function test_get_undefined_property()
-	{
-		self::$locale->undefined_property;
-	}
-
-	/**
 	 * @dataProvider provide_test_sections
+	 *
+	 * @param string $section
+	 * @param string $path
+	 * @param string $key
 	 */
 	public function test_sections($section, $path, $key)
 	{
@@ -135,6 +140,9 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_localize
+	 *
+	 * @param string $expected
+	 * @param object $source
 	 */
 	public function test_localize($expected, $source)
 	{
@@ -171,27 +179,5 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 	public function test_format_list()
 	{
 		$this->assertEquals("lundi, mardi et mercredi", (new Locale(get_repository(), 'fr'))->format_list([ "lundi", "mardi", "mercredi" ]));
-	}
-}
-
-namespace ICanBoogie\CLDR\LocaleTest;
-
-use ICanBoogie\CLDR\Locale;
-use ICanBoogie\CLDR\LocalizeAwareInterface;
-use ICanBoogie\CLDR\LocalizedObject;
-
-class Localizable implements LocalizeAwareInterface
-{
-	static public function localize($source, Locale $locale, array $options=[])
-	{
-		return new LocalizedLocalizable($source, $locale, $options);
-	}
-}
-
-class LocalizedLocalizable extends LocalizedObject
-{
-	protected function get_formatter()
-	{
-
 	}
 }

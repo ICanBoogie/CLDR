@@ -22,13 +22,24 @@ class ResourceNotFound extends \Exception implements Exception
 {
 	use AccessorTrait;
 
+	/**
+	 * @var string
+	 */
 	private $path;
 
+	/**
+	 * @return string
+	 */
 	protected function get_path()
 	{
 		return $this->path;
 	}
 
+	/**
+	 * @param string $path
+	 * @param int $code
+	 * @param \Exception|null $previous
+	 */
 	public function __construct($path, $code = 500, \Exception $previous = null)
 	{
 		$this->path = $path;

@@ -13,6 +13,9 @@ namespace ICanBoogie\CLDR;
 
 class LocaleCollectionTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var LocaleCollection
+	 */
 	static private $collection;
 
 	static public function setupBeforeClass()
@@ -25,7 +28,7 @@ class LocaleCollectionTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_offsetExists()
 	{
-		isset(self::$collection['fr']);
+		self::$collection->offsetExists('fr');
 	}
 
 	/**

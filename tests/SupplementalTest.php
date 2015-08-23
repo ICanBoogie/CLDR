@@ -13,6 +13,9 @@ namespace ICanBoogie\CLDR;
 
 class SupplementalTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var Supplemental
+	 */
 	static private $supplemental;
 
 	static public function setupBeforeClass()
@@ -22,6 +25,9 @@ class SupplementalTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_sections
+	 *
+	 * @param string $section
+	 * @param string $key
 	 */
 	public function test_sections($section, $key)
 	{

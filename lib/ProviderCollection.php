@@ -13,13 +13,10 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Storage\StorageCollection;
 
+/**
+ * A provider collection.
+ */
 class ProviderCollection extends StorageCollection implements Provider
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function provide($path)
-	{
-		return $this->retrieve($path);
-	}
+	use ProviderStorageBinding;
 }

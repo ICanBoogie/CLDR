@@ -15,6 +15,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider provide_test_properties_instanceof
+	 *
+	 * @param string $property
+	 * @param string $expected
 	 */
 	public function test_properties_instanceof($property, $expected)
 	{

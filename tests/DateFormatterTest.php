@@ -13,7 +13,10 @@ namespace ICanBoogie\CLDR;
 
 class DateFormatterTest extends \PHPUnit_Framework_TestCase
 {
-	static private $formatters = array();
+	/**
+	 * @var DateFormatter[]
+	 */
+	static private $formatters = [];
 
 	static public function setupBeforeClass()
 	{
@@ -25,6 +28,11 @@ class DateFormatterTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_format
+	 *
+	 * @param string $locale
+	 * @param string $datetime
+	 * @param string $pattern
+	 * @param string $expected
 	 */
 	public function test_format($locale, $datetime, $pattern, $expected)
 	{

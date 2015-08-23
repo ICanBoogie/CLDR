@@ -14,8 +14,6 @@ namespace ICanBoogie\CLDR;
 /**
  * Localized currency.
  *
- * @package ICanBoogie\CLDR
- *
  * @property-read Currency $target
  * @property-read string $name The localized name of the currency.
  * @property-read string $symbol The localized symbol of the currency.
@@ -36,7 +34,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	}
 
 	/**
-	 * The localized name of the currency.
+	 * Returns the localized name of the currency.
 	 *
 	 * @param int|null $count Used for pluralization.
 	 *
@@ -58,10 +56,13 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 		return $this->locale['currencies'][$this->target->code][$offset];
 	}
 
+	/**
+	 * @var string
+	 */
 	private $_symbol;
 
 	/**
-	 * Return the localized symbol of the currency.
+	 * Returns the localized symbol of the currency.
 	 *
 	 * @return string
 	 */
@@ -75,7 +76,16 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 		return $this->_symbol = $this->locale['currencies'][$this->target->code]['symbol'];
 	}
 
-	public function format($number, $pattern=self::PATTERN_STANDARD, array $symbols=[])
+	/**
+	 * Formats currency using localized conventions.
+	 *
+	 * @param number $number
+	 * @param string $pattern
+	 * @param array $symbols
+	 *
+	 * @return string
+	 */
+	public function format($number, $pattern = self::PATTERN_STANDARD, array $symbols = [])
 	{
 		$symbols += $this->locale->numbers->symbols + [
 
@@ -87,7 +97,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	}
 
 	/**
-	 * Resolve a pattern.
+	 * Resolves a pattern.
 	 *
 	 * The special patterns {@link PATTERN_STANDARD} and {@link PATTERN_ACCOUNTING} are resolved
 	 * from the currency formats.

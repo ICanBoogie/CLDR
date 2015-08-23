@@ -11,12 +11,11 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Storage\RedisStorage;
-
 /**
- * Provides CLDR data from a Redis client.
+ * A Formatter implements a `format()` method and is invokable. The implementation of the
+ * `format()` method should follow the "subject, pattern" signature.
  */
-class RedisProvider extends RedisStorage implements Provider
+interface Formatter
 {
-	use ProviderStorageBinding;
+
 }

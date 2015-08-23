@@ -148,11 +148,17 @@ class Locale implements \ArrayAccess
 		return $this->localize($this->repository->list_formatter);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function offsetExists($offset)
 	{
 		return isset(self::$available_sections[$offset]);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function offsetGet($offset)
 	{
 		if (empty($this->sections[$offset]))
@@ -177,11 +183,21 @@ class Locale implements \ArrayAccess
 		return $this->sections[$offset];
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @throws OffsetNotWritable
+	 */
 	public function offsetSet($offset, $value)
 	{
 		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @throws OffsetNotWritable
+	 */
 	public function offsetUnset($offset)
 	{
 		throw new OffsetNotWritable([ $offset, $this ]);
@@ -196,7 +212,7 @@ class Locale implements \ArrayAccess
 	 *
 	 * @return mixed
 	 */
-	public function localize($source_or_code, array $options=[])
+	public function localize($source_or_code, array $options = [])
 	{
 		if (is_string($source_or_code))
 		{
@@ -227,7 +243,7 @@ class Locale implements \ArrayAccess
 
 		if (!class_exists($constructor))
 		{
-			return;
+			return null;
 		}
 
 		return $constructor . '::from';
@@ -244,7 +260,7 @@ class Locale implements \ArrayAccess
 	 *
 	 * @see LocalizedNumberFormatter::format
 	 */
-	public function format_number($number, $pattern=null, array $symbols=[])
+	public function format_number($number, $pattern = null, array $symbols = [])
 	{
 		return $this->number_formatter->format($number, $pattern, $symbols);
 	}
@@ -258,7 +274,7 @@ class Locale implements \ArrayAccess
 	 *
 	 * @return string
 	 */
-	public function format_list(array $list, $list_patterns_or_type=LocalizedListFormatter::TYPE_STANDARD)
+	public function format_list(array $list, $list_patterns_or_type = LocalizedListFormatter::TYPE_STANDARD)
 	{
 		return $this->list_formatter->format($list, $list_patterns_or_type);
 	}

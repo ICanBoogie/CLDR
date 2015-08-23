@@ -13,6 +13,9 @@ namespace ICanBoogie\CLDR;
 
 class CurrencyCollectionTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var CurrencyCollection
+	 */
 	static private $instance;
 
 	static public function setupBeforeClass()

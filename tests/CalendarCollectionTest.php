@@ -13,6 +13,9 @@ namespace ICanBoogie\CLDR;
 
 class CalendarCollectionTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var CalendarCollection
+	 */
 	static private $collection;
 
 	static public function setupBeforeClass()
@@ -25,7 +28,7 @@ class CalendarCollectionTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_offsetExists()
 	{
-		isset(self::$collection['gregorian']);
+		self::$collection->offsetExists('gregorian');
 	}
 
 	/**
@@ -46,6 +49,8 @@ class CalendarCollectionTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_get
+	 *
+	 * @param string $calendar_id
 	 */
 	public function test_get($calendar_id)
 	{

@@ -16,8 +16,6 @@ use ICanBoogie\Accessor\AccessorTrait;
 /**
  * Representation of a territory collection.
  *
- * @package ICanBoogie\CLDR
- *
  * ```php
  * <?php
  *
@@ -34,6 +32,11 @@ class TerritoryCollection implements \ArrayAccess
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 	use CollectionTrait;
+
+	/**
+	 * @var Territory[]
+	 */
+	private $collection = [];
 
 	/**
 	 * @param Repository $repository

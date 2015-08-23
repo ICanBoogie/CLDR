@@ -15,6 +15,11 @@ class LocalizedNumberFormatterTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider provide_test_format
+	 *
+	 * @param string $locale_code
+	 * @param number $number
+	 * @param string|null $pattern
+	 * @param string $expected
 	 */
 	public function test_format($locale_code, $number, $pattern, $expected)
 	{

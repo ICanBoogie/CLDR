@@ -27,6 +27,10 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 	 * should round a number to the given precision
 	 *
 	 * @dataProvider provide_test_round_to
+	 *
+	 * @param number $number
+	 * @param int $precision
+	 * @param number $expected
 	 */
 	public function test_round_to($number, $precision, $expected)
 	{
@@ -51,6 +55,10 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 	 * should round and split the given number by decimal
 	 *
 	 * @dataProvider provide_test_parse_number
+	 *
+	 * @param number $number
+	 * @param int $precision
+	 * @param array $expected
 	 */
 	public function test_parse_number($number, $precision, $expected)
 	{
@@ -73,6 +81,11 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_format
+	 *
+	 * @param string $locale_code
+	 * @param number $number
+	 * @param string $pattern
+	 * @param string $expected
 	 */
 	public function test_format($locale_code, $number, $pattern, $expected)
 	{

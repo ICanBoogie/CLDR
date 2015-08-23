@@ -15,7 +15,10 @@ use ICanBoogie\DateTime;
 
 class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 {
-	static private $formatters = array();
+	/**
+	 * @var DateTimeFormatter[]
+	 */
+	static private $formatters = [];
 
 	static public function setupBeforeClass()
 	{
@@ -36,6 +39,11 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_format
+	 *
+	 * @param string $locale_id
+	 * @param string $datetime
+	 * @param string $format
+	 * @param string $expected
 	 */
 	public function test_format($locale_id, $datetime, $format, $expected)
 	{
@@ -391,6 +399,10 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_format_with_skeleton
+	 *
+	 * @param string $skeleton
+	 * @param string $pattern
+	 * @param string $expected_result
 	 */
 	public function test_format_with_skeleton($skeleton, $pattern, $expected_result)
 	{

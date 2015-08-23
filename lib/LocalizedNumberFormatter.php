@@ -14,11 +14,9 @@ namespace ICanBoogie\CLDR;
 /**
  * Formats numbers using locale conventions.
  *
- * @package ICanBoogie\CLDR
- *
  * @property-read NumberFormatter $target
  */
-class LocalizedNumberFormatter extends LocalizedObject
+class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 {
 	/**
 	 * Formats a number.
@@ -29,7 +27,7 @@ class LocalizedNumberFormatter extends LocalizedObject
 	 *
 	 * @return string
 	 */
-	public function __invoke($number, $pattern=null, array $symbols=[])
+	public function __invoke($number, $pattern = null, array $symbols = [])
 	{
 		return $this->format($number, $pattern, $symbols);
 	}
@@ -43,7 +41,7 @@ class LocalizedNumberFormatter extends LocalizedObject
 	 *
 	 * @return string
 	 */
-	public function format($number, $pattern=null, array $symbols=[])
+	public function format($number, $pattern = null, array $symbols = [])
 	{
 		$numbers = $this->locale->numbers;
 

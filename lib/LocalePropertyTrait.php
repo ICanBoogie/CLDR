@@ -14,8 +14,6 @@ namespace ICanBoogie\CLDR;
 /**
  * A trait for classes implementing the `locale` property.
  *
- * @package ICanBoogie\CLDR
- *
  * @property-read Locale $locale
  */
 trait LocalePropertyTrait
@@ -25,6 +23,9 @@ trait LocalePropertyTrait
 	 */
 	private $locale;
 
+	/**
+	 * @return Locale
+	 */
 	protected function get_locale()
 	{
 		return $this->locale;

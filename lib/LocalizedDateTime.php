@@ -36,6 +36,7 @@ use ICanBoogie\PropertyNotDefined;
  * @property-read string $as_long
  * @property-read string $as_medium
  * @property-read string $as_short
+ * @property DateTimeFormatter $formatter
  *
  * @method string format_as_full() format_as_full() Formats the instance according to the `full` datetime pattern.
  * @method string format_as_long() format_as_long() Formats the instance according to the `long` datetime pattern.

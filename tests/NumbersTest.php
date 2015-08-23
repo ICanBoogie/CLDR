@@ -15,6 +15,10 @@ class NumbersTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider provide_test_shortcuts
+	 *
+	 * @param string $locale_code
+	 * @param string $property
+	 * @param string $offset
 	 */
 	public function test_shortcuts($locale_code, $property, $offset)
 	{
@@ -41,6 +45,11 @@ class NumbersTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_decimal_width_shortcuts
+	 *
+	 * @param string $locale_code
+	 * @param string $property
+	 * @param string $offset
+	 * @param string $width_offset
 	 */
 	public function test_decimal_width_shortcuts($locale_code, $property, $offset, $width_offset)
 	{
@@ -63,6 +72,9 @@ class NumbersTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_get_decimal_format
+	 *
+	 * @param string $locale_code
+	 * @param string $expected
 	 */
 	public function test_get_decimal_format($locale_code, $expected)
 	{

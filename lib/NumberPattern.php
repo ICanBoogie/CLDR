@@ -16,8 +16,6 @@ use ICanBoogie\Accessor\AccessorTrait;
 /**
  * Representation of a number pattern.
  *
- * @package ICanBoogie\CLDR
- *
  * @property-read array $format
  * @property-read string $positive_prefix Prefix to positive number.
  * @property-read string $positive_suffix Suffix to positive number.
@@ -41,7 +39,7 @@ class NumberPattern
 	static private $instances = [];
 
 	/**
-	 * @param $pattern
+	 * @param string $pattern
 	 *
 	 * @return NumberPattern
 	 */

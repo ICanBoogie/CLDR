@@ -15,10 +15,8 @@ use ICanBoogie\Accessor\AccessorTrait;
 
 /**
  * Formats numbers.
- *
- * @package ICanBoogie\CLDR
  */
-class NumberFormatter
+class NumberFormatter implements Formatter
 {
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
@@ -37,7 +35,7 @@ class NumberFormatter
 	/**
 	 * Returns the precision of a number.
 	 *
-	 * @param $number
+	 * @param number $number
 	 *
 	 * @return int
 	 */
@@ -109,6 +107,23 @@ class NumberFormatter
 	 *
 	 * @return string The formatted number.
 	 */
+	public function __invoke($number, $pattern, array $symbols = [])
+	{
+		return $this->format($number, $pattern, $symbols);
+	}
+
+	/**
+	 * Format a number with the specified pattern.
+	 *
+	 * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
+	 * pattern contains '‰', the number will be multiplied by 1000.
+	 *
+	 * @param mixed $number The number to be formatted.
+	 * @param string $pattern The pattern used to format the number.
+	 * @param array $symbols Symbols.
+	 *
+	 * @return string The formatted number.
+	 */
 	public function format($number, $pattern, array $symbols = [])
 	{
 		if (!($pattern instanceof NumberPattern))
@@ -143,7 +158,7 @@ class NumberFormatter
 	/**
 	 * Localize the instance.
 	 *
-	 * @param $locale_code
+	 * @param string $locale_code
 	 *
 	 * @return LocalizedNumberFormatter
 	 *

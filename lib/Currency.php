@@ -71,7 +71,7 @@ class Currency
 	/**
 	 * Localize the currency.Doc
 	 *
-	 * @param $locale_code
+	 * @param string $locale_code
 	 *
 	 * @return LocalizedCurrency
 	 */

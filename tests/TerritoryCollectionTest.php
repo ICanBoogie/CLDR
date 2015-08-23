@@ -13,6 +13,9 @@ namespace ICanBoogie\CLDR;
 
 class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var TerritoryCollection
+	 */
 	static private $collection;
 
 	static public function setupBeforeClass()

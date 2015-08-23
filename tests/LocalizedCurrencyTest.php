@@ -13,7 +13,14 @@ namespace ICanBoogie\CLDR;
 
 class LocalizedCurrencyTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var Currency
+	 */
 	static private $currency;
+
+	/**
+	 * @var LocalizedCurrency
+	 */
 	static private $localized;
 
 	static public function setUpBeforeClass()
@@ -43,6 +50,11 @@ class LocalizedCurrencyTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_format
+	 *
+	 * @param string $currency_code
+	 * @param string $locale_code
+	 * @param int $number
+	 * @param string $expected
 	 */
 	public function test_format($currency_code, $locale_code, $number, $expected)
 	{

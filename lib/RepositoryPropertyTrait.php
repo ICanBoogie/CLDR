@@ -14,8 +14,6 @@ namespace ICanBoogie\CLDR;
 /**
  * A trait for classes implementing the `repository` property.
  *
- * @package ICanBoogie\CLDR
- *
  * @property-read Repository $repository
  */
 trait RepositoryPropertyTrait
@@ -25,6 +23,9 @@ trait RepositoryPropertyTrait
 	 */
 	private $repository;
 
+	/**
+	 * @return Repository
+	 */
 	protected function get_repository()
 	{
 		return $this->repository;

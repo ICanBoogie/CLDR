@@ -23,6 +23,11 @@ class LocaleCollection implements \ArrayAccess
 	use CollectionTrait;
 
 	/**
+	 * @var Locale[]
+	 */
+	private $collection = [];
+
+	/**
 	 * @param Repository $repository
 	 */
 	public function __construct(Repository $repository)
@@ -30,11 +35,21 @@ class LocaleCollection implements \ArrayAccess
 		$this->repository = $repository;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @throws \BadMethodCallException
+	 */
 	public function offsetExists($offset)
 	{
 		throw new \BadMethodCallException("The method is not implemented");
 	}
 
+	/**
+	 * @param string $offset Locale code.
+	 *
+	 * @return Locale
+	 */
 	public function offsetGet($offset)
 	{
 		if (empty($this->collection[$offset]))
