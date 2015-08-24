@@ -12,13 +12,11 @@
 namespace ICanBoogie\CLDR;
 
 /**
- * Class LocalizedListFormatter
- *
- * @package ICanBoogie\CLDR
+ * Formats a variable-length lists of things.
  *
  * @property-read ListFormatter $target
  */
-class LocalizedListFormatter extends LocalizedObject
+class LocalizedListFormatter extends LocalizedObject implements Formatter
 {
 	const TYPE_STANDARD = 'standard';
 	const TYPE_UNIT = 'unit';
@@ -34,7 +32,7 @@ class LocalizedListFormatter extends LocalizedObject
 	 *
 	 * @return string
 	 */
-	public function __invoke(array $list, $list_patterns_or_type=self::TYPE_STANDARD)
+	public function __invoke(array $list, $list_patterns_or_type = self::TYPE_STANDARD)
 	{
 		return $this->format($list, $list_patterns_or_type);
 	}
@@ -48,7 +46,7 @@ class LocalizedListFormatter extends LocalizedObject
 	 *
 	 * @return string
 	 */
-	public function format(array $list, $list_patterns_or_type=self::TYPE_STANDARD)
+	public function format(array $list, $list_patterns_or_type = self::TYPE_STANDARD)
 	{
 		if (is_string($list_patterns_or_type))
 		{

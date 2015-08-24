@@ -37,6 +37,9 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_get_currency
+	 *
+	 * @param string $expected
+	 * @param string $territory_code
 	 */
 	public function test_get_currency($expected, $territory_code)
 	{
@@ -57,6 +60,10 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_currency_at
+	 *
+	 * @param string $expected
+	 * @param string $territory_code
+	 * @param mixed $date
 	 */
 	public function test_currency_at($expected, $territory_code, $date)
 	{
@@ -82,6 +89,9 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_get_language
+	 *
+	 * @param string $expected
+	 * @param string $territory_code
 	 */
 	public function test_get_language($expected, $territory_code)
 	{
@@ -108,6 +118,10 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_name_as
+	 *
+	 * @param string $expected
+	 * @param string $territory_code
+	 * @param string $locale_code
 	 */
 	public function test_name_as($expected, $territory_code, $locale_code)
 	{
@@ -129,6 +143,10 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_get_name_as
+	 *
+	 * @param string $expected
+	 * @param string $territory_code
+	 * @param string $locale_code
 	 */
 	public function test_get_name_as($expected, $territory_code, $locale_code)
 	{
@@ -150,6 +168,10 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_get_property
+	 *
+	 * @param string $expected
+	 * @param string $territory_code
+	 * @param string $property
 	 */
 	public function test_get_property($expected, $territory_code, $property)
 	{

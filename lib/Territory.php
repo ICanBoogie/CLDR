@@ -17,8 +17,6 @@ use ICanBoogie\DateTime;
 /**
  * A territory.
  *
- * @package ICanBoogie\CLDR
- *
  * @property-read array $containment The `territoryContainment` data.
  * @property-read array $info The `territoryInfo` data.
  * @property-read array $currencies The currencies available in the country.

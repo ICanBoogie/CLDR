@@ -16,36 +16,38 @@ use ICanBoogie\Accessor\AccessorTrait;
 /**
  * Representation of a localized object.
  *
- * @property-read mixed $target The object to localize.
+ * @property-read object $target The object to localize.
  * @property-read Locale $locale The locale used by the formatter.
- * @property-read mixed $formatter The formatter used to format the target object.
  */
 abstract class LocalizedObject
 {
+	use AccessorTrait;
+	use LocalePropertyTrait;
+
 	/**
 	 * Creates a localized instance from the specified source and location.
 	 *
-	 * @param $source
+	 * @param object $source
 	 * @param Locale $locale
 	 * @param array $options
 	 *
 	 * @return LocalizedObject A localized instance.
 	 */
-	static public function from($source, Locale $locale, array $options=[])
+	static public function from($source, Locale $locale, array $options = [])
 	{
 		return new static($source, $locale, $options);
 	}
 
-	use AccessorTrait;
-	use LocalePropertyTrait;
-
 	/**
 	 * The object to localize.
 	 *
-	 * @var mixed
+	 * @var object
 	 */
 	protected $target;
 
+	/**
+	 * @return object
+	 */
 	protected function get_target()
 	{
 		return $this->target;
@@ -59,13 +61,13 @@ abstract class LocalizedObject
 	protected $options;
 
 	/**
-	 * Initializes the {@link $target], {@link $locale}, and {@link $options} properties.
+	 * Initializes the {@link $target}, {@link $locale}, and {@link $options} properties.
 	 *
-	 * @param mixed $target The object to localize.
+	 * @param object $target The object to localize.
 	 * @param Locale $locale The locale used by the formatter.
 	 * @param array $options Some options.
 	 */
-	public function __construct($target, Locale $locale, array $options=[])
+	public function __construct($target, Locale $locale, array $options = [])
 	{
 		$this->target = $target;
 		$this->locale = $locale;

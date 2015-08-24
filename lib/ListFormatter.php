@@ -16,11 +16,9 @@ use ICanBoogie\Accessor\AccessorTrait;
 /**
  * Formats variable-length lists of things such as "Monday, Tuesday, Friday, and Saturday".
  *
- * @package ICanBoogie\CLDR
- *
  * @see http://www.unicode.org/reports/tr35/tr35-general.html#ListPatterns
  */
-class ListFormatter
+class ListFormatter implements Formatter
 {
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
@@ -28,7 +26,7 @@ class ListFormatter
 	/**
 	 * @param Repository $repository
 	 */
-	public function __construct(Repository $repository=null)
+	public function __construct(Repository $repository = null)
 	{
 		$this->repository = $repository;
 	}
@@ -114,7 +112,7 @@ class ListFormatter
 	/**
 	 * Localize the instance.
 	 *
-	 * @param $locale_code
+	 * @param string $locale_code
 	 *
 	 * @return LocalizedListFormatter
 	 *

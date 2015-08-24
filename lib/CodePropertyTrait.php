@@ -14,8 +14,6 @@ namespace ICanBoogie\CLDR;
 /**
  * A trait for classes implementing the `code` property.
  *
- * @package ICanBoogie\CLDR
- *
  * @property-read string $code
  */
 trait CodePropertyTrait

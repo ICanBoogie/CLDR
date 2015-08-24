@@ -15,6 +15,9 @@ use ICanBoogie\DateTime;
 
 class LocalizedDateTimeTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var LocalizedDateTime[]
+	 */
 	static private $localized_dates;
 
 	static public function setupBeforeClass()
@@ -56,6 +59,10 @@ class LocalizedDateTimeTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_as
+	 *
+	 * @param string $locale
+	 * @param string $as
+	 * @param string $expected
 	 */
 	public function test_as($locale, $as, $expected)
 	{

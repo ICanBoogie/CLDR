@@ -13,6 +13,9 @@ namespace ICanBoogie\CLDR;
 
 class CalendarTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var Calendar
+	 */
 	static private $calendar;
 
 	static public function setupBeforeClass()
@@ -28,6 +31,9 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provider_test_property_instanceof
+	 *
+	 * @param string $property
+	 * @param string $expected
 	 */
 	public function test_property_instanceof($property, $expected)
 	{
@@ -58,6 +64,8 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_access
+	 *
+	 * @param string $key
 	 */
 	public function test_access($key)
 	{
@@ -82,6 +90,9 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider provide_test_date_patterns_shortcuts
+	 *
+	 * @param string $property
+	 * @param string $path
 	 */
 	public function test_date_patterns_shortcuts($property, $path)
 	{

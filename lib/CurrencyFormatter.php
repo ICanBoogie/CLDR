@@ -13,14 +13,10 @@ namespace ICanBoogie\CLDR;
 
 /**
  * A currency formatter.
- *
- * @package ICanBoogie\CLDR
  */
 class CurrencyFormatter extends NumberFormatter
 {
-	protected $localized_currency;
-
-	public function format($number, $pattern, array $symbols=[])
+	public function format($number, $pattern, array $symbols = [])
 	{
 		$symbols += [
 

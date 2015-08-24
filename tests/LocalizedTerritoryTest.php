@@ -15,6 +15,10 @@ class LocalizedTerritoryTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider provide_test_get_name
+	 *
+	 * @param string $locale_code
+	 * @param string $territory_code
+	 * @param string $expected
 	 */
 	public function test_get_name($locale_code, $territory_code, $expected)
 	{

@@ -22,7 +22,7 @@ use ICanBoogie\DateTime;
  *
  * @property-read Calendar $calendar The calendar used by the formatter.
  */
-class DateTimeFormatter
+class DateTimeFormatter implements Formatter
 {
 	use AccessorTrait;
 
@@ -67,9 +67,9 @@ class DateTimeFormatter
 	/**
 	 * Parses the datetime format pattern.
 	 *
-	 * @param string $pattern the pattern to be parsed
+	 * @param string $pattern The pattern to be parsed.
 	 *
-	 * @return array tokenized parsing result
+	 * @return array Tokenized parsing result.
 	 */
 	static protected function tokenize($pattern)
 	{
@@ -317,7 +317,7 @@ class DateTimeFormatter
 	 *
 	 * @return string formatted year
 	 */
-	protected function format_year(Datetime $datetime, $pattern, $length)
+	protected function format_year(DateTime $datetime, $pattern, $length)
 	{
 		$year = $datetime->year;
 
@@ -517,7 +517,7 @@ class DateTimeFormatter
 
 		if ($length > 3)
 		{
-			return;
+			return '';
 		}
 
 		return str_pad($day, $length, '0', STR_PAD_LEFT);

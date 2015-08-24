@@ -29,14 +29,17 @@ use ICanBoogie\OffsetNotDefined;
  * echo get_class($collection['EUR']);   // ICanBoogie\CLDR\Currency
  * echo $collection['EUR']->code;        // EUR
  * ```
- *
- * @package ICanBoogie\CLDR
  */
 class CurrencyCollection implements \ArrayAccess
 {
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 	use CollectionTrait;
+
+	/**
+	 * @var Currency[]
+	 */
+	private $collection = [];
 
 	/**
 	 * @param Repository $repository

@@ -15,13 +15,9 @@ use ICanBoogie\OffsetNotWritable;
 
 /**
  * A trait for classes implementing collection.
- *
- * @package ICanBoogie\CLDR
  */
 trait CollectionTrait
 {
-	private $collection = [];
-
 	/**
 	 * @param string $offset
 	 * @param mixed $value

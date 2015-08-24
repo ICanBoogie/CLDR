@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\OffsetNotWritable;
-
 /**
  * Representation of a calendar collection.
  *
@@ -25,6 +23,7 @@ use ICanBoogie\OffsetNotWritable;
  */
 class CalendarCollection implements \ArrayAccess
 {
+	use CollectionTrait;
 	use LocalePropertyTrait;
 
 	/**
@@ -44,11 +43,21 @@ class CalendarCollection implements \ArrayAccess
 		$this->locale = $locale;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @throws \BadMethodCallException
+	 */
 	public function offsetExists($offset)
 	{
 		throw new \BadMethodCallException("The method is not implemented");
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @return Calendar
+	 */
 	public function offsetGet($offset)
 	{
 		if (empty($this->collection[$offset]))
@@ -57,15 +66,5 @@ class CalendarCollection implements \ArrayAccess
 		}
 
 		return $this->collection[$offset];
-	}
-
-	public function offsetSet($offset, $value)
-	{
-		throw new OffsetNotWritable([ $offset, $this ]);
-	}
-
-	public function offsetUnset($offset)
-	{
-		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 }

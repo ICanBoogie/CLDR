@@ -12,7 +12,6 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\OffsetNotDefined;
-use ICanBoogie\OffsetNotWritable;
 
 /**
  * Representation of the "supplemental" section.
@@ -29,6 +28,9 @@ use ICanBoogie\OffsetNotWritable;
  */
 class Supplemental implements \ArrayAccess
 {
+	use CollectionTrait;
+	use RepositoryPropertyTrait;
+
 	static private $available_sections = [
 
 		'calendarData'           => 'calendarData',
@@ -59,8 +61,6 @@ class Supplemental implements \ArrayAccess
 
 	];
 
-	use RepositoryPropertyTrait;
-
 	/**
 	 * Loaded sections.
 	 *
@@ -78,11 +78,17 @@ class Supplemental implements \ArrayAccess
 		$this->repository = $repository;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function offsetExists($offset)
 	{
 		return isset(self::$available_sections[$offset]);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function offsetGet($offset)
 	{
 		if (empty($this->sections[$offset]))
@@ -105,15 +111,5 @@ class Supplemental implements \ArrayAccess
 		}
 
 		return $this->sections[$offset];
-	}
-
-	public function offsetSet($offset, $value)
-	{
-		throw new OffsetNotWritable([ $offset, $this ]);
-	}
-
-	public function offsetUnset($offset)
-	{
-		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 }

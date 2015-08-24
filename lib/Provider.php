@@ -13,8 +13,6 @@ namespace ICanBoogie\CLDR;
 
 /**
  * An interface for classes that can provide CLDR data.
- *
- * @package ICanBoogie\CLDR
  */
 interface Provider
 {

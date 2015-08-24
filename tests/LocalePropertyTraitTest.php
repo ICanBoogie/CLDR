@@ -22,20 +22,3 @@ class LocalePropertyTraitTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame($locale, $a->locale);
 	}
 }
-
-namespace ICanBoogie\CLDR\LocalePropertyTraitTest;
-
-use ICanBoogie\Accessor\AccessorTrait;
-use ICanBoogie\CLDR\Locale;
-use ICanBoogie\CLDR\LocalePropertyTrait;
-
-class A
-{
-	use AccessorTrait;
-	use LocalePropertyTrait;
-
-	public function __construct(Locale $locale)
-	{
-		$this->locale = $locale;
-	}
-}

@@ -14,13 +14,22 @@ namespace ICanBoogie\CLDR;
 use ICanBoogie\Storage\Storage;
 
 /**
- * Retrieves sections from the CLDR source.
+ * Retrieves sections from the CLDR source using cURL.
  */
 class WebProvider implements Storage, Provider
 {
 	use ProviderStorageBinding;
 
+	const DEFAULT_ORIGIN = "http://www.unicode.org/repos/cldr-aux/json/26/";
+
+	/**
+	 * @var string
+	 */
 	private $origin;
+
+	/**
+	 * @var resource
+	 */
 	private $connection;
 
 	/**
@@ -28,7 +37,7 @@ class WebProvider implements Storage, Provider
 	 *
 	 * @param string $origin
 	 */
-	public function __construct($origin = "http://www.unicode.org/repos/cldr-aux/json/26/")
+	public function __construct($origin = self::DEFAULT_ORIGIN)
 	{
 		$this->origin = $origin;
 	}
@@ -70,6 +79,8 @@ class WebProvider implements Storage, Provider
 	}
 
 	/**
+	 * The method does nothing.
+	 *
 	 * @inheritdoc
 	 * @codeCoverageIgnore
 	 */
@@ -79,6 +90,8 @@ class WebProvider implements Storage, Provider
 	}
 
 	/**
+	 * The method does nothing.
+	 *
 	 * @inheritdoc
 	 * @codeCoverageIgnore
 	 */
@@ -88,6 +101,8 @@ class WebProvider implements Storage, Provider
 	}
 
 	/**
+	 * The method does nothing.
+	 *
 	 * @inheritdoc
 	 * @codeCoverageIgnore
 	 */
@@ -113,7 +128,7 @@ class WebProvider implements Storage, Provider
 		curl_setopt_array($connection, [
 
 			CURLOPT_FAILONERROR => true,
-			CURLOPT_RETURNTRANSFER => 1
+			CURLOPT_RETURNTRANSFER => true
 
 		]);
 

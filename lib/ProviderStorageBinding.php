@@ -11,6 +11,9 @@
 
 namespace ICanBoogie\CLDR;
 
+/**
+ * Binds the {@link Provider} interface to the {@link Storage} interface.
+ */
 trait ProviderStorageBinding
 {
 	abstract protected function retrieve($key);
