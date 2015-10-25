@@ -112,6 +112,14 @@ class WebProvider implements Storage, Provider
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function getIterator()
+	{
+		# does nothing
+	}
+
+	/**
 	 * Returns a reusable cURL connection.
 	 *
 	 * @return resource

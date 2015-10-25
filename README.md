@@ -635,8 +635,11 @@ cloned with the following command line:
 
 ## Documentation
 
-The package is documented as part of the [ICanBoogie][] framework
-[documentation](http://api.icanboogie.org/cldr/). You can generate the documentation for the package and its dependencies with the `make doc` command. The documentation is generated in the `build/docs` directory. [ApiGen](http://apigen.org/) is required. The directory can later be cleaned with the `make clean` command.
+The package is documented as part of the [ICanBoogie][] framework [documentation][].
+You can generate the documentation for the package and its dependencies with the
+`make doc` command. The documentation is generated in the `build/docs` directory.
+[ApiGen](http://apigen.org/) is required. The directory can later be cleaned with the
+`make clean` command.
 
 
 
@@ -644,7 +647,11 @@ The package is documented as part of the [ICanBoogie][] framework
 
 ## Testing
 
-The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de/) and [Composer](http://getcomposer.org/) need to be globally available to run the suite. The command installs dependencies as required. The `make test-coverage` command runs test suite and also creates an HTML coverage report in `build/coverage`. The directory can later be cleaned with the `make clean` command.
+The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de/) and
+[Composer](http://getcomposer.org/) need to be globally available to run the suite.
+The command installs dependencies as required. The `make test-coverage` command runs
+test suite and also creates an HTML coverage report in `build/coverage`. The directory can
+later be cleaned with the `make clean` command.
 
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
@@ -663,16 +670,19 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 
 
+[documentation]:              http://api.icanboogie.org/cldr/latest/
+[Calendar]:                   http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Calendar.html
+[Currency]:                   http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Currency.html
+[FileProvider]:               http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.FileProvider.html
+[Repository]:                 http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Repository.html
+[ListFormatter]:              http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.ListFormatter.html
+[Locale]:                     http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Locale.html
+[LocalizationAwareInterface]: http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
+[LocalizedDateTime]:          http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.LocalizedDateTime.html
+[NumberFormatter]:            http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.NumberFormatter.html
+[Territory]:                  http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Territory.html
+
+[ICanBoogie]:         https://github.com/ICanBoogie/ICanBoogie
 [icanboogie\storage]: https://github.com/ICanBoogie/Storage
+
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
-[ICanBoogie]: https://github.com/ICanBoogie/ICanBoogie
-[Calendar]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Calendar.html
-[Currency]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Currency.html
-[FileProvider]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.FileProvider.html
-[Repository]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Repository.html
-[ListFormatter]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.ListFormatter.html
-[Locale]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Locale.html
-[LocalizationAwareInterface]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
-[LocalizedDateTime]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.LocalizedDateTime.html
-[NumberFormatter]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.NumberFormatter.html
-[Territory]: http://api.icanboogie.org/cldr/class-ICanBoogie.CLDR.Territory.html

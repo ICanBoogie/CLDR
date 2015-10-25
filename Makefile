@@ -1,6 +1,6 @@
 # customization
 
-PACKAGE_NAME = ICanBoogie/CLDR
+PACKAGE_NAME = icanboogie/cldr
 PACKAGE_VERSION = 1.4.0
 
 # do not edit the following lines
