@@ -161,26 +161,26 @@ class Locale implements \ArrayAccess
 	 */
 	public function offsetGet($offset)
 	{
-		if (empty($this->sections[$offset]))
+		if (isset($this->sections[$offset]))
 		{
-			if (empty(self::$available_sections[$offset]))
-			{
-				throw new OffsetNotDefined([ $offset, $this ]);
-			}
-
-			$data = $this->repository->fetch("main/{$this->code}/{$offset}");
-			$path = "main/{$this->code}/" . self::$available_sections[$offset];
-			$path_parts = explode('/', $path);
-
-			foreach ($path_parts as $part)
-			{
-				$data = $data[$part];
-			}
-
-			$this->sections[$offset] = $data;
+			return $this->sections[$offset];
 		}
 
-		return $this->sections[$offset];
+		if (empty(self::$available_sections[$offset]))
+		{
+			throw new OffsetNotDefined([ $offset, $this ]);
+		}
+
+		$data = $this->repository->fetch("main/{$this->code}/{$offset}");
+		$path = "main/{$this->code}/" . self::$available_sections[$offset];
+		$path_parts = explode('/', $path);
+
+		foreach ($path_parts as $part)
+		{
+			$data = $data[$part];
+		}
+
+		return $this->sections[$offset] = $data;
 	}
 
 	/**

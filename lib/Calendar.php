@@ -56,6 +56,8 @@ use ICanBoogie\Accessor\AccessorTrait;
  */
 class Calendar extends \ArrayObject
 {
+	const SHORTHANDS_REGEX = '#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#';
+
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
@@ -101,27 +103,27 @@ class Calendar extends \ArrayObject
 
 	public function __get($property)
 	{
-		if (preg_match('#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#', $property, $matches))
+		if (!preg_match(self::SHORTHANDS_REGEX, $property, $matches))
 		{
-			list(, $standalone, $width, $type) = $matches;
-
-			$data = $this[$type];
-
-			if ($type == 'eras')
-			{
-				return $this->$property = $data[self::$era_translation[$width]];
-			}
-
-			$data = $data[$standalone ? 'stand-alone' : 'format'];
-
-			if ($width == 'short' && empty($data[$width]))
-			{
-				$width = 'abbreviated';
-			}
-
-			return $this->$property = $data[$width];
+			return $this->accessor_get($property);
 		}
 
-		return $this->accessor_get($property);
+		list(, $standalone, $width, $type) = $matches;
+
+		$data = $this[$type];
+
+		if ($type == 'eras')
+		{
+			return $this->$property = $data[self::$era_translation[$width]];
+		}
+
+		$data = $data[$standalone ? 'stand-alone' : 'format'];
+
+		if ($width == 'short' && empty($data[$width]))
+		{
+			$width = 'abbreviated';
+		}
+
+		return $this->$property = $data[$width];
 	}
 }
