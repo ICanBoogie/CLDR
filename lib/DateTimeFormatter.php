@@ -12,7 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
-use ICanBoogie\DateTime;
+use ICanBoogie\CLDR\DateTimeAccessor as DateTime;
 
 /**
  * Provides date and time localization.
@@ -201,7 +201,8 @@ class DateTimeFormatter implements Formatter
 	 */
 	public function format($datetime, $pattern_or_width_or_skeleton)
 	{
-		$datetime = DateTime::from(is_numeric($datetime) ? "@$datetime" : $datetime);
+		$datetime = new \DateTime(is_numeric($datetime) ? "@$datetime" : $datetime);
+		$datetime = new DateTime($datetime);
 		$pattern = $this->resolve_pattern($pattern_or_width_or_skeleton);
 		$tokens = self::tokenize($pattern);
 
@@ -448,7 +449,7 @@ class DateTimeFormatter implements Formatter
 	{
 		if ($length > 2)
 		{
-			return;
+			return 0;
 		}
 
 		$week = $datetime->week;
@@ -530,7 +531,7 @@ class DateTimeFormatter implements Formatter
 	 * @param string $pattern a pattern.
 	 * @param int $length Number of repetition.
 	 *
-	 * @return int|false Day of week in mounth, or `false` if `$length` is greater than 1.
+	 * @return int|false Day of week in month, or `false` if `$length` is greater than 1.
 	 */
 	protected function format_day_of_week_in_month(DateTime $datetime, $pattern, $length)
 	{
@@ -809,7 +810,9 @@ class DateTimeFormatter implements Formatter
 	{
 		if ($pattern{0} === 'z' || $pattern{0} === 'v')
 		{
-			return $datetime->format('T');
+			$str = $datetime->format('T');
+
+			return $str === 'Z' ? 'UTC' : $str;
 		}
 		else if ($pattern{0} === 'Z')
 		{

@@ -27,8 +27,11 @@
 		"ext-curl": "*",
 		"icanboogie/common": "^1.2.2",
 		"icanboogie/accessor": "^1.0.2",
-		"icanboogie/datetime": "^1.1.1",
 		"icanboogie/storage": "^1.1.1|^2.0.0"
+	},
+
+	"require-dev": {
+		"icanboogie/datetime": "^1.1"
 	},
 
 	"autoload": {

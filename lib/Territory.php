@@ -12,7 +12,6 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
-use ICanBoogie\DateTime;
 
 /**
  * A territory.
@@ -113,7 +112,8 @@ class Territory
 	 */
 	public function currency_at($date = null)
 	{
-		$code = $this->find_currency_at($this->currencies, DateTime::from($date ?: 'now')->as_date);
+		$date = $this->ensure_is_datetime($date);
+		$code = $this->find_currency_at($this->currencies, $date->format('Y-m-d'));
 
 		if (!$code)
 		{
@@ -284,5 +284,17 @@ class Territory
 	public function localize($locale_code)
 	{
 		return $this->repository->locales[$locale_code]->localize($this);
+	}
+
+	/**
+	 * @param \DateTime|string $datetime
+	 *
+	 * @return \DateTime
+	 */
+	private function ensure_is_datetime($datetime)
+	{
+		return $datetime instanceof \DateTime
+			? $datetime
+			: new \DateTime($datetime);
 	}
 }
