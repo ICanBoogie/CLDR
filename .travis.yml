@@ -19,5 +19,5 @@ script:
   - mkdir -p build/logs
   - phpunit --coverage-clover build/logs/clover.xml
 
-after_script:
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then php vendor/bin/coveralls -v; fi;'
+after_success:
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then php vendor/bin/coveralls -v; fi;'
