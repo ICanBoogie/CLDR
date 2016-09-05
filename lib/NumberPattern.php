@@ -36,6 +36,9 @@ class NumberPattern
 {
 	use AccessorTrait;
 
+	/**
+	 * @var NumberPattern[]
+	 */
 	static private $instances = [];
 
 	/**
@@ -83,6 +86,9 @@ class NumberPattern
 		$this->format = $format;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __get($property)
 	{
 		if (array_key_exists($property, $this->format))
@@ -93,6 +99,9 @@ class NumberPattern
 		return $this->accessor_get($property);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString()
 	{
 		return $this->pattern;
