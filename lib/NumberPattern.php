@@ -77,7 +77,7 @@ class NumberPattern
 	 * @param string $pattern
 	 * @param array $format
 	 */
-	public function __construct($pattern, array $format)
+	private function __construct($pattern, array $format)
 	{
 		$this->pattern = $pattern;
 		$this->format = $format;
