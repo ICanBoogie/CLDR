@@ -55,6 +55,9 @@ class Currency
 		$this->code = $code;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __get($property)
 	{
 		if (in_array($property, [ 'digits', 'rounding', 'cash_digits', 'cash_rounding' ]))
@@ -69,7 +72,7 @@ class Currency
 	}
 
 	/**
-	 * Localize the currency.Doc
+	 * Localize the currency.
 	 *
 	 * @param string $locale_code
 	 *

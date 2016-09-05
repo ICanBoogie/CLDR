@@ -94,6 +94,10 @@ class Calendar extends \ArrayObject
 		return new TimeFormatter($this);
 	}
 
+	/**
+	 * @param Locale $locale
+	 * @param array $data
+	 */
 	public function __construct(Locale $locale, array $data)
 	{
 		$this->locale = $locale;
@@ -101,6 +105,9 @@ class Calendar extends \ArrayObject
 		parent::__construct($data);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __get($property)
 	{
 		if (!preg_match(self::SHORTHANDS_REGEX, $property, $matches))

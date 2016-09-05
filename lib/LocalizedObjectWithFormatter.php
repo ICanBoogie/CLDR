@@ -26,6 +26,9 @@ abstract class LocalizedObjectWithFormatter extends LocalizedObject
 	 */
 	private $formatter;
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __get($property)
 	{
 		if ($property == 'formatter')

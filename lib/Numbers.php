@@ -32,46 +32,73 @@ class Numbers extends \ArrayObject
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
+	/**
+	 * @return array
+	 */
 	protected function get_symbols()
 	{
 		return $this['symbols-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_decimal_formats()
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function get_decimal_format()
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['standard'];
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_short_decimal_formats()
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['short']['decimalFormat'];
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_long_decimal_formats()
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['long']['decimalFormat'];
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_scientific_formats()
 	{
 		return $this['scientificFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_percent_formats()
 	{
 		return $this['percentFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_currency_formats()
 	{
 		return $this['currencyFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_misc_patterns()
 	{
 		return $this['miscPatterns-numberSystem-' . $this['defaultNumberingSystem']];

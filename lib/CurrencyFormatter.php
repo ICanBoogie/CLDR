@@ -16,6 +16,9 @@ namespace ICanBoogie\CLDR;
  */
 class CurrencyFormatter extends NumberFormatter
 {
+	/**
+	 * @inheritdoc
+	 */
 	public function format($number, $pattern, array $symbols = [])
 	{
 		$symbols += [

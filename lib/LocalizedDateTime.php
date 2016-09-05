@@ -57,6 +57,9 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 		return $this->locale->calendar->datetime_formatter;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __get($property)
 	{
 		if (strpos($property, 'as_') === 0 && in_array($width = substr($property, 3), self::$format_widths))
@@ -74,11 +77,17 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 		}
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __set($property, $value)
 	{
 		$this->target->$property = $value;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __call($method, $arguments)
 	{
 		if (strpos($method, 'format_as_') === 0 && in_array($width = substr($method, 10), self::$format_widths))
@@ -89,6 +98,9 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 		return call_user_func_array([ $this->target, $method ], $arguments);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __toString()
 	{
 		return (string) $this->target;

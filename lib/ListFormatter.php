@@ -99,6 +99,13 @@ class ListFormatter implements Formatter
 		}
 	}
 
+	/**
+	 * @param string $pattern
+	 * @param string $v0
+	 * @param string $v1
+	 *
+	 * @return string
+	 */
 	private function format_pattern($pattern, $v0, $v1)
 	{
 		return strtr($pattern, [

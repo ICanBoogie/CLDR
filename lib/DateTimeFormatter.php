@@ -142,6 +142,9 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected $calendar;
 
+	/**
+	 * @return Calendar
+	 */
 	protected function get_calendar()
 	{
 		return $this->calendar;

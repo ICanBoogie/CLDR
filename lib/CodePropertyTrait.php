@@ -23,11 +23,17 @@ trait CodePropertyTrait
 	 */
 	private $code;
 
+	/**
+	 * @return string
+	 */
 	protected function get_code()
 	{
 		return $this->code;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __toString()
 	{
 		return $this->code;

@@ -229,6 +229,11 @@ class Locale implements \ArrayAccess
 		throw new \LogicException("Unable to localize source");
 	}
 
+	/**
+	 * @param string $source
+	 *
+	 * @return string|null
+	 */
 	private function resolve_localize_constructor($source)
 	{
 		$class = get_class($source);

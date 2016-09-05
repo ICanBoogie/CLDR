@@ -50,6 +50,9 @@ class Territory
         $repository->territories->assert_defined($code);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function __get($property)
 	{
 		if (strpos($property, 'name_as_') === 0)
