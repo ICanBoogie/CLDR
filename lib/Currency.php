@@ -41,9 +41,25 @@ use ICanBoogie\Accessor\AccessorTrait;
  */
 class Currency
 {
+	const FRACTION_FALLBACK = 'DEFAULT';
+
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 	use CodePropertyTrait;
+
+	static private $fraction_mapping = [
+
+		'digits' => '_digits',
+		'rounding' => '_rounding',
+		'cash_digits' => '_cashDigits',
+		'cash_rounding' => '_cashRounding'
+
+	];
+
+	/**
+	 * @var array
+	 */
+	private $fraction_data;
 
 	/**
 	 * @param Repository $repository
@@ -60,10 +76,12 @@ class Currency
 	 */
 	public function __get($property)
 	{
-		if (in_array($property, [ 'digits', 'rounding', 'cash_digits', 'cash_rounding' ]))
+		$fraction_mapping = self::$fraction_mapping;
+
+		if (isset($fraction_mapping[$property]))
 		{
-			$data = $this->repository->supplemental['currencyData'][$this->code];
-			$offset = '_' . $property;
+			$data = $this->resolve_fraction_data();
+			$offset = $fraction_mapping[$property];
 
 			return isset($data[$offset]) ? (int) $data[$offset] : null;
 		}
@@ -81,5 +99,25 @@ class Currency
 	public function localize($locale_code)
 	{
 		return $this->repository->locales[$locale_code]->localize($this);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function resolve_fraction_data()
+	{
+		$fraction_data = &$this->fraction_data;
+
+		if ($fraction_data)
+		{
+			return $fraction_data;
+		}
+
+		$code = $this->code;
+		$fractions = $this->repository->supplemental['currencyData']['fractions'];
+
+		return $fraction_data = isset($fractions[$code])
+			? $fractions[$code]
+			: $fractions[self::FRACTION_FALLBACK];
 	}
 }
