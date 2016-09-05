@@ -173,6 +173,8 @@ class NumberPattern
 	 */
 	public function format_integer_with_decimal($integer, $decimal, $decimal_symbol)
 	{
+		$decimal = $decimal ? (string) $decimal : '';
+
 		if ($this->decimal_digits > strlen($decimal))
 		{
 			$decimal = str_pad($decimal, $this->decimal_digits, '0');

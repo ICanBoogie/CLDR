@@ -116,4 +116,30 @@ class NumberPatternTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	/**
+	 * @dataProvider provide_test_format_integer_with_decimal
+	 *
+	 * @param string $pattern
+	 * @param int $integer
+	 * @param int $decimal
+	 * @param string $expected
+	 */
+	public function test_format_integer_with_decimal($pattern, $integer, $decimal, $expected)
+	{
+		$instance = NumberPattern::from($pattern);
+		$this->assertSame($expected, $instance->format_integer_with_decimal($integer, $decimal, '/'));
+	}
+
+	public function provide_test_format_integer_with_decimal()
+	{
+		return [
+
+			[ "#,##0.###", 1, 0, '1'],
+			[ "#,##0.##0", 1, 3, '1/300'],
+			[ "#,##0.##0", 1, 345, '1/345'],
+			[ "#,##0.##0", 1, 34567, '1/34567'],
+
+		];
+	}
 }

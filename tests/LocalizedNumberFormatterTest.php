@@ -47,4 +47,12 @@ class LocalizedNumberFormatterTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	public function test_invoke()
+	{
+		$formatter = new NumberFormatter();
+		$localized = new LocalizedNumberFormatter($formatter, get_repository()->locales['fr']);
+
+		$this->assertSame($localized->format(123456.78), $localized(123456.78));
+	}
 }
