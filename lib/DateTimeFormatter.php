@@ -191,7 +191,7 @@ class DateTimeFormatter implements Formatter
 	 * echo $datetime_formatter($datetime, ':Ehm');                     // Sat 10:23 PM
 	 * </pre>
 	 *
-	 * @param \DateTime|string|int $datetime The datetime to format.
+	 * @param \DateTimeInterface|string|int $datetime The datetime to format.
 	 * @param string $pattern_or_width_or_skeleton The datetime can be formatted using a pattern,
 	 * a width or a skeleton. The following width are defined: "full", "long", "medium" and "short".
 	 * To format the datetime using a so-called "skeleton", the skeleton identifier must be

@@ -109,7 +109,7 @@ class Territory
 	/**
 	 * Return the currency used in the territory at a point in time.
 	 *
-	 * @param \DateTime|mixed $date
+	 * @param \DateTimeInterface|mixed $date
 	 *
 	 * @return Currency
 	 */
@@ -290,13 +290,13 @@ class Territory
 	}
 
 	/**
-	 * @param \DateTime|string $datetime
+	 * @param \DateTimeInterface|string $datetime
 	 *
-	 * @return \DateTime
+	 * @return \DateTimeInterface
 	 */
 	private function ensure_is_datetime($datetime)
 	{
-		return $datetime instanceof \DateTime
+		return $datetime instanceof \DateTimeInterface
 			? $datetime
 			: new \DateTime($datetime);
 	}

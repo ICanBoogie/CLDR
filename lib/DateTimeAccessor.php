@@ -31,14 +31,14 @@ namespace ICanBoogie\CLDR;
 class DateTimeAccessor
 {
 	/**
-	 * @var \DateTime
+	 * @var \DateTimeInterface
 	 */
 	private $datetime;
 
 	/**
-	 * @param \DateTime $datetime
+	 * @param \DateTimeInterface $datetime
 	 */
-	public function __construct(\DateTime $datetime)
+	public function __construct(\DateTimeInterface $datetime)
 	{
 		$this->datetime = $datetime;
 	}
