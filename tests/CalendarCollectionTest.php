@@ -55,7 +55,7 @@ class CalendarCollectionTest extends \PHPUnit_Framework_TestCase
 	public function test_get($calendar_id)
 	{
 		$calendar = self::$collection[$calendar_id];
-		$this->assertInstanceOf('ICanBoogie\CLDR\Calendar', $calendar);
+		$this->assertInstanceOf(Calendar::class, $calendar);
 	}
 
 	public function provide_test_get()

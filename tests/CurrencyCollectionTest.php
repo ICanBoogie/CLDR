@@ -34,7 +34,7 @@ class CurrencyCollectionTest extends \PHPUnit_Framework_TestCase
 	{
 		$currency = self::$instance['EUR'];
 
-		$this->assertInstanceOf('ICanBoogie\CLDR\Currency', $currency);
+		$this->assertInstanceOf(Currency::class, $currency);
 		$this->assertEquals('EUR', $currency->code);
 		$this->assertSame($currency, self::$instance['EUR']);
 	}

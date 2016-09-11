@@ -12,7 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 $autoload = require __DIR__ . '/../vendor/autoload.php';
-$autoload->addPsr4('ICanBoogie\CLDR\\', __DIR__);
+$autoload->addPsr4(__NAMESPACE__ . '\\', __DIR__);
 
 if (!file_exists(__DIR__ . '/repository'))
 {

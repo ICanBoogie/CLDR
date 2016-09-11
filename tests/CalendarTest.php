@@ -26,7 +26,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 	public function test_instanceof()
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Calendar', self::$calendar);
+		$this->assertInstanceOf(Calendar::class, self::$calendar);
 	}
 
 	/**
@@ -46,10 +46,10 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 	{
 		return [
 
-			[ 'locale',             'ICanBoogie\CLDR\Locale' ],
-			[ 'datetime_formatter', 'ICanBoogie\CLDR\DateTimeFormatter' ],
-			[ 'date_formatter',     'ICanBoogie\CLDR\DateFormatter' ],
-			[ 'time_formatter',     'ICanBoogie\CLDR\TimeFormatter' ]
+			[ 'locale',             Locale::class ],
+			[ 'datetime_formatter', DateTimeFormatter::class ],
+			[ 'date_formatter',     DateFormatter::class ],
+			[ 'time_formatter',     TimeFormatter::class ]
 
 		];
 	}

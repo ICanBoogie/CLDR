@@ -44,7 +44,7 @@ class LocalizedCurrencyTest extends \PHPUnit_Framework_TestCase
 	public function test_localize()
 	{
 		$localized = self::$currency->localize('en-US');
-		$this->assertInstanceOf('ICanBoogie\CLDR\LocalizedCurrency', $localized);
+		$this->assertInstanceOf(LocalizedCurrency::class, $localized);
 		$this->assertEquals("Irish Pound", $localized->name);
 	}
 

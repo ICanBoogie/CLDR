@@ -49,8 +49,8 @@ class LocaleCollectionTest extends \PHPUnit_Framework_TestCase
 
 	public function test_existing_locale()
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Locale', self::$collection['fr']);
-		$this->assertInstanceOf('ICanBoogie\CLDR\Locale', self::$collection['en']);
+		$this->assertInstanceOf(Locale::class, self::$collection['fr']);
+		$this->assertInstanceOf(Locale::class, self::$collection['en']);
 	}
 
 	/**

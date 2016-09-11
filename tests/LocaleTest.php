@@ -70,12 +70,12 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 	{
 		return [
 
-			[ 'repository',       'ICanBoogie\CLDR\Repository' ],
-			[ 'calendars',        'ICanBoogie\CLDR\CalendarCollection' ],
-			[ 'calendar',         'ICanBoogie\CLDR\Calendar' ],
-			[ 'numbers',          'ICanBoogie\CLDR\Numbers' ],
-			[ 'number_formatter', 'ICanBoogie\CLDR\LocalizedNumberFormatter' ],
-			[ 'list_formatter',   'ICanBoogie\CLDR\LocalizedListFormatter' ]
+			[ 'repository',       Repository::class ],
+			[ 'calendars',        CalendarCollection::class ],
+			[ 'calendar',         Calendar::class ],
+			[ 'numbers',          Numbers::class ],
+			[ 'number_formatter', LocalizedNumberFormatter::class ],
+			[ 'list_formatter',   LocalizedListFormatter::class ],
 
 		];
 	}
@@ -154,11 +154,11 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 	{
 		return [
 
-			[ 'ICanBoogie\CLDR\LocalizedObject', new \DateTime ],
-			[ 'ICanBoogie\CLDR\LocalizedLocale', new Locale(get_repository(), 'fr') ],
-			[ 'ICanBoogie\CLDR\LocalizedListFormatter', new ListFormatter ],
-			[ 'ICanBoogie\CLDR\LocalizedNumberFormatter', new NumberFormatter ],
-			[ 'ICanBoogie\CLDR\LocaleTest\LocalizedLocalizable', new \ICanBoogie\CLDR\LocaleTest\Localizable ]
+			[ LocalizedObject::class, new \DateTime ],
+			[ LocalizedLocale::class, new Locale(get_repository(), 'fr') ],
+			[ LocalizedListFormatter::class, new ListFormatter ],
+			[ LocalizedNumberFormatter::class, new NumberFormatter ],
+			[ LocaleTest\LocalizedLocalizable::class, new \ICanBoogie\CLDR\LocaleTest\Localizable ]
 
 		];
 	}

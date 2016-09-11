@@ -47,8 +47,8 @@ class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
 
 	public function test_defined()
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Territory', self::$collection['FR']);
-		$this->assertInstanceOf('ICanBoogie\CLDR\Territory', self::$collection['US']);
+		$this->assertInstanceOf(Territory::class, self::$collection['FR']);
+		$this->assertInstanceOf(Territory::class, self::$collection['US']);
 	}
 
 	public function test_undefined()

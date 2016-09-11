@@ -68,6 +68,6 @@ class ListFormatterTest extends \PHPUnit_Framework_TestCase
 	public function test_localize()
 	{
 		$formatter = new ListFormatter(get_repository());
-		$this->assertInstanceOf('ICanBoogie\CLDR\LocalizedListFormatter', $formatter->localize('es'));
+		$this->assertInstanceOf(LocalizedListFormatter::class, $formatter->localize('es'));
 	}
 }

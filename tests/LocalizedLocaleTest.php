@@ -46,7 +46,7 @@ class LocalizedLocaleTest extends \PHPUnit_Framework_TestCase
 	{
 		$locale = new Locale(get_repository(), 'fr');
 		$localized = $locale->localize('es');
-		$this->assertInstanceOf('ICanBoogie\CLDR\LocalizedLocale', $localized);
+		$this->assertInstanceOf(LocalizedLocale::class, $localized);
 		$this->assertEquals("francés", $localized->name);
 	}
 }

@@ -31,13 +31,13 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 	{
 		return [
 
-			[ 'currencies',         'ICanBoogie\CLDR\CurrencyCollection' ],
-			[ 'locales',            'ICanBoogie\CLDR\LocaleCollection' ],
-			[ 'provider',           'ICanBoogie\CLDR\Provider' ],
-			[ 'supplemental',       'ICanBoogie\CLDR\Supplemental' ],
-			[ 'territories',        'ICanBoogie\CLDR\TerritoryCollection' ],
-			[ 'number_formatter',   'ICanBoogie\CLDR\NumberFormatter' ],
-			[ 'list_formatter',     'ICanBoogie\CLDR\ListFormatter' ],
+			[ 'currencies',         CurrencyCollection::class ],
+			[ 'locales',            LocaleCollection::class ],
+			[ 'provider',           Provider::class ],
+			[ 'supplemental',       Supplemental::class ],
+			[ 'territories',        TerritoryCollection::class ],
+			[ 'number_formatter',   NumberFormatter::class ],
+			[ 'list_formatter',     ListFormatter::class ],
 
 		];
 	}

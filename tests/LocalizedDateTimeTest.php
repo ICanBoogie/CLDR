@@ -30,14 +30,14 @@ class LocalizedDateTimeTest extends \PHPUnit_Framework_TestCase
 	{
 		$ld = self::$localized_dates['en'];
 
-		$this->assertInstanceOf('ICanBoogie\DateTime', $ld->target);
+		$this->assertInstanceOf(DateTime::class, $ld->target);
 	}
 
 	public function test_get_locale()
 	{
 		$ld = self::$localized_dates['en'];
 
-		$this->assertInstanceOf('ICanBoogie\CLDR\Locale', $ld->locale);
+		$this->assertInstanceOf(Locale::class, $ld->locale);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class LocalizedDateTimeTest extends \PHPUnit_Framework_TestCase
 	{
 		$ld = self::$localized_dates['en'];
 
-		$this->assertInstanceOf('ICanBoogie\CLDR\DateTimeFormatter', $ld->formatter);
+		$this->assertInstanceOf(DateTimeFormatter::class, $ld->formatter);
 	}
 
 	/**

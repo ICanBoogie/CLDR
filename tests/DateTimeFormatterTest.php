@@ -32,7 +32,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 	public function test_get_calendar()
 	{
-		$this->assertInstanceOf('ICanBoogie\CLDR\Calendar', self::$formatters['en']->calendar);
+		$this->assertInstanceOf(Calendar::class, self::$formatters['en']->calendar);
 	}
 
 	/**

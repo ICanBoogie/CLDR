@@ -244,7 +244,7 @@ class Locale implements \ArrayAccess
 		}
 
 		$base = basename(strtr($class, '\\', '/'));
-		$constructor = 'ICanBoogie\CLDR\Localized' . $base;
+		$constructor = __NAMESPACE__ . "\\Localized$base";
 
 		if (!class_exists($constructor))
 		{
