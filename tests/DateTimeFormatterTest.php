@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\DateTime;
-
 class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 {
 	/**
@@ -407,7 +405,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 	public function test_format_with_skeleton($skeleton, $pattern, $expected_result)
 	{
 		$formatter = self::$formatters['fr'];
-		$datetime = new DateTime('2013-10-26 22:08:30', 'Europe/Paris');
+		$datetime = new \DateTime('2013-10-26 22:08:30', new \DateTimeZone('Europe/Paris'));
 
 		$result = $formatter->format($datetime, ':' . $skeleton);
 

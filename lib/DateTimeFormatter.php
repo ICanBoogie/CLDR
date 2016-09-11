@@ -204,7 +204,7 @@ class DateTimeFormatter implements Formatter
 	 */
 	public function format($datetime, $pattern_or_width_or_skeleton)
 	{
-		$datetime = new \DateTime(is_numeric($datetime) ? "@$datetime" : $datetime);
+		$datetime = $this->ensure_datetime($datetime);
 		$datetime = new DateTime($datetime);
 		$pattern = $this->resolve_pattern($pattern_or_width_or_skeleton);
 		$tokens = self::tokenize($pattern);
@@ -821,5 +821,20 @@ class DateTimeFormatter implements Formatter
 		{
 			return $datetime->format('O');
 		}
+	}
+
+	/**
+	 * @param \DateTimeInterface|string|int $datetime
+	 *
+	 * @return \DateTimeInterface
+	 */
+	private function ensure_datetime($datetime)
+	{
+		if ($datetime instanceof \DateTimeInterface)
+		{
+			return $datetime;
+		}
+
+		return new \DateTime(is_numeric($datetime) ? "@$datetime" : (string) $datetime);
 	}
 }

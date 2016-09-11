@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\DateTime;
-
 class TerritoryTest extends \PHPUnit_Framework_TestCase
 {
 	public function test_get_info()
@@ -77,11 +75,11 @@ class TerritoryTest extends \PHPUnit_Framework_TestCase
 
 			[ 'EUR', 'FR', null ],
 			[ 'EUR', 'FR', 'now' ],
-			[ 'EUR', 'FR', DateTime::now() ],
+			[ 'EUR', 'FR', new \DateTime() ],
 			[ 'FRF', 'FR', '1960-01-01' ],
 			[ 'FRF', 'FR', '1977-06-06' ],
-			[ 'FRF', 'FR', DateTime::from('1977-06-06') ],
-			[ 'USS', 'US', DateTime::from('1234-06-06') ],
+			[ 'FRF', 'FR', new \DateTime('1977-06-06') ],
+			[ 'USS', 'US', new \DateTime('1234-06-06') ],
 			[ 'USD', 'US', '1792-01-01' ]
 
 		];

@@ -32,11 +32,12 @@ use ICanBoogie\PropertyNotDefined;
  * echo $ldt->as_short;         // 04/11/2013 20:21
  * </pre>
  *
+ * @property-read \DateTimeInterface $target The object to localize.
+ * @property-read DateTimeFormatter $formatter
  * @property-read string $as_full
  * @property-read string $as_long
  * @property-read string $as_medium
  * @property-read string $as_short
- * @property DateTimeFormatter $formatter
  *
  * @method string format_as_full() format_as_full() Formats the instance according to the `full` datetime pattern.
  * @method string format_as_long() format_as_long() Formats the instance according to the `long` datetime pattern.
@@ -103,7 +104,17 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 	 */
 	public function __toString()
 	{
-		return (string) $this->target;
+		$target = $this->target;
+
+		if (method_exists($target, __FUNCTION__))
+		{
+			return (string) $target;
+		}
+
+		// `ATOM` is used instead of `ISO8601` because of a bug in the pattern
+		// @see http://php.net/manual/en/class.datetime.php#datetime.constants.iso8601
+
+		return $this->target->format(\DateTime::ATOM);
 	}
 
 	/**
