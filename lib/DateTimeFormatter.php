@@ -293,6 +293,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_era(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 6)
+		{
+			return '';
+		}
+
 		$era = ($datetime->year > 0) ? 1 : 0;
 
 		switch($length)
@@ -345,6 +350,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_quarter(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 4)
+		{
+			return '';
+		}
+
 		$quarter = $datetime->quarter;
 
 		switch ($length)
@@ -367,6 +377,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_standalone_quarter(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 4)
+		{
+			return '';
+		}
+
 		$quarter = $datetime->quarter;
 
 		switch ($length)
@@ -393,6 +408,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_month(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 5)
+		{
+			return '';
+		}
+
 		$month = $datetime->month;
 
 		switch ($length)
@@ -412,10 +432,15 @@ class DateTimeFormatter implements Formatter
 	 * @param DateTimeAccessor $datetime
 	 * @param int $length Number of repetition.
 	 *
-	 * @return string formatted month.
+	 * @return string
 	 */
 	protected function format_standalone_month(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 5)
+		{
+			return '';
+		}
+
 		$month = $datetime->month;
 
 		switch ($length)
@@ -438,13 +463,13 @@ class DateTimeFormatter implements Formatter
 	 * @param DateTimeAccessor $datetime
 	 * @param int $length Number of repetition.
 	 *
-	 * @return integer
+	 * @return string
 	 */
 	protected function format_week_of_year(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 2)
 		{
-			return 0;
+			return '';
 		}
 
 		$week = $datetime->week;
@@ -462,12 +487,12 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_week_of_month(DateTimeAccessor $datetime, $length)
 	{
-		if ($length == 1)
+		if ($length > 1)
 		{
-			return ceil($datetime->day / 7);
+			return '';
 		}
 
-		return false;
+		return ceil($datetime->day / 7);
 	}
 
 	/*
@@ -480,20 +505,23 @@ class DateTimeFormatter implements Formatter
 	 * @param DateTimeAccessor $datetime
 	 * @param int $length Number of repetition.
 	 *
-	 * @return string day of the month
+	 * @return string
 	 */
 	protected function format_day_of_month(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 2)
+		{
+			return '';
+		}
+
 		$day = $datetime->day;
 
 		if ($length == 1)
 		{
 			return $day;
 		}
-		else if ($length == 2)
-		{
-			return str_pad($day, 2, '0', STR_PAD_LEFT);
-		}
+
+		return str_pad($day, 2, '0', STR_PAD_LEFT);
 	}
 
 	/**
@@ -522,16 +550,16 @@ class DateTimeFormatter implements Formatter
 	 * @param DateTimeAccessor $datetime
 	 * @param int $length Number of repetition.
 	 *
-	 * @return int|false Day of week in month, or `false` if `$length` is greater than 1.
+	 * @return string
 	 */
 	protected function format_day_of_week_in_month(DateTimeAccessor $datetime, $length)
 	{
-		if ($length == 1)
+		if ($length > 1)
 		{
-			return floor(($datetime->day + 6) / 7);
+			return '';
 		}
 
-		return false;
+		return floor(($datetime->day + 6) / 7);
 	}
 
 	/*
@@ -549,6 +577,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_day_in_week(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 6)
+		{
+			return '';
+		}
+
 		$day = $datetime->weekday;
 		$code = $this->resolve_day_code($day);
 		$calendar = $this->calendar;
@@ -621,7 +654,7 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_day_in_week_local(DateTimeAccessor $datetime, $length)
 	{
-		if ($length == 1 || $length == 2)
+		if ($length < 3)
 		{
 			return $datetime->weekday;
 		}
@@ -662,6 +695,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_hour12(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 2)
+		{
+			return '';
+		}
+
 		$hour = $datetime->hour;
 		$hour = ($hour == 12) ? 12 : $hour % 12;
 
@@ -669,10 +707,8 @@ class DateTimeFormatter implements Formatter
 		{
 			return $hour;
 		}
-		else if ($length == 2)
-		{
-			return str_pad($hour, 2, '0', STR_PAD_LEFT);
-		}
+
+		return str_pad($hour, 2, '0', STR_PAD_LEFT);
 	}
 
 	/**
@@ -688,16 +724,19 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_hour24(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 2)
+		{
+			return '';
+		}
+
 		$hour = $datetime->hour;
 
 		if ($length == 1)
 		{
 			return $hour;
 		}
-		else if ($length == 2)
-		{
-			return str_pad($hour, 2, '0', STR_PAD_LEFT);
-		}
+
+		return str_pad($hour, 2, '0', STR_PAD_LEFT);
 	}
 
 	/**
@@ -711,16 +750,19 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_hour_in_period(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 2)
+		{
+			return '';
+		}
+
 		$hour = $datetime->hour % 12;
 
 		if ($length == 1)
 		{
 			return $hour;
 		}
-		else if ($length == 2)
-		{
-			return str_pad($hour, 2, '0', STR_PAD_LEFT);
-		}
+
+		return str_pad($hour, 2, '0', STR_PAD_LEFT);
 	}
 
 	/**
@@ -734,21 +776,19 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_hour_in_day(DateTimeAccessor $datetime, $length)
 	{
-		$hour = $datetime->hour;
-
-		if ($hour == 0)
+		if ($length > 2)
 		{
-			$hour = 24;
+			return '';
 		}
+
+		$hour = $datetime->hour ?: 24;
 
 		if ($length == 1)
 		{
 			return $hour;
 		}
-		else if ($length == 2)
-		{
-			return str_pad($hour, 2, '0', STR_PAD_LEFT);
-		}
+
+		return str_pad($hour, 2, '0', STR_PAD_LEFT);
 	}
 
 	/*
@@ -765,16 +805,19 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_minutes(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 2)
+		{
+			return '';
+		}
+
 		$minutes = $datetime->minute;
 
 		if ($length == 1)
 		{
 			return $minutes;
 		}
-		else if ($length == 2)
-		{
-			return str_pad($minutes, 2, '0', STR_PAD_LEFT);
-		}
+
+		return str_pad($minutes, 2, '0', STR_PAD_LEFT);
 	}
 
 	/*
@@ -791,16 +834,19 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_seconds(DateTimeAccessor $datetime, $length)
 	{
+		if ($length > 2)
+		{
+			return '';
+		}
+
 		$seconds = $datetime->second;
 
 		if ($length == 1)
 		{
 			return $seconds;
 		}
-		else if ($length == 2)
-		{
-			return str_pad($seconds, 2, '0', STR_PAD_LEFT);
-		}
+
+		return str_pad($seconds, 2, '0', STR_PAD_LEFT);
 	}
 
 	/*
