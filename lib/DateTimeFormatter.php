@@ -52,7 +52,7 @@ class DateTimeFormatter implements Formatter
 		'm' => 'format_minutes',
 		's' => 'format_seconds',
 		'E' => 'format_day_in_week',
-		'c' => 'format_day_in_week',
+		'c' => 'format_day_in_week_stand_alone',
 		'e' => 'format_day_in_week',
 		'a' => 'format_period',
 		'k' => 'format_hour_in_day',
@@ -562,7 +562,7 @@ class DateTimeFormatter implements Formatter
 	{
 		$day = $datetime->weekday;
 
-		if (in_array($pattern, [ 'e', 'ee', 'c' ]))
+		if (in_array($pattern, [ 'e', 'ee' ]))
 		{
 			return $day;
 		}
@@ -589,19 +589,46 @@ class DateTimeFormatter implements Formatter
 			case 'EEEEEE':
 			case 'eeeeee':
 				return $calendar->short_days[$code];
-
-			case 'ccc':
-				return $calendar->standalone_abbreviated_days[$code];
-
-			case 'cccc':
-				return $calendar->standalone_wide_days[$code];
-
-			case 'ccccc':
-				return $calendar->standalone_narrow_days[$code];
-
-			case 'cccccc':
-				return $calendar->standalone_short_days[$code];
 		}
+	}
+
+	/**
+	 * Stand-Alone local day of week - Use one letter for the local numeric value (same as 'e'),
+	 * three for the abbreviated day name, four for the full (wide) name, five for the narrow name,
+	 * or six for the short name.
+	 *
+	 * @param DateTimeAccessor $datetime
+	 * @param string $pattern a pattern.
+	 * @param int $length
+	 *
+	 * @return string
+	 */
+	protected function format_day_in_week_stand_alone(DateTimeAccessor $datetime, $pattern, $length)
+	{
+		static $mapping = [
+
+			3 => 'abbreviated',
+			4 => 'wide',
+			5 => 'narrow',
+			6 => 'short',
+
+		];
+
+		if ($length == 2 || $length > 6)
+		{
+			return '';
+		}
+
+		$day = $datetime->weekday;
+
+		if ($length == 1)
+		{
+			return $day;
+		}
+
+		$code = $this->resolve_day_code($day);
+
+		return $this->calendar->{ 'standalone_' . $mapping[$length] . '_days' }[$code];
 	}
 
 	/*
