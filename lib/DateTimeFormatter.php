@@ -53,7 +53,7 @@ class DateTimeFormatter implements Formatter
 		's' => 'format_seconds',
 		'E' => 'format_day_in_week',
 		'c' => 'format_day_in_week_stand_alone',
-		'e' => 'format_day_in_week',
+		'e' => 'format_day_in_week_local',
 		'a' => 'format_period',
 		'k' => 'format_hour_in_day',
 		'K' => 'format_hour_in_period',
@@ -552,42 +552,33 @@ class DateTimeFormatter implements Formatter
 	/**
 	 * Day of week - Use one through three letters for the short day, or four for the full name,
 	 * five for the narrow name, or six for the short name. [1..3,4,5,6]
- 	 *
+	 *
 	 * @param DateTimeAccessor $datetime
 	 * @param string $pattern a pattern.
+	 * @param int $length
 	 *
 	 * @return string
 	 */
-	protected function format_day_in_week(DateTimeAccessor $datetime, $pattern)
+	protected function format_day_in_week(DateTimeAccessor $datetime, $pattern, $length)
 	{
 		$day = $datetime->weekday;
-
-		if (in_array($pattern, [ 'e', 'ee' ]))
-		{
-			return $day;
-		}
-
 		$code = $this->resolve_day_code($day);
 		$calendar = $this->calendar;
 
-		switch ($pattern)
+		switch ($length)
 		{
-			case 'E':
-			case 'EE':
-			case 'EEE':
-			case 'eee':
+			case 1:
+			case 2:
+			case 3:
 				return $calendar->abbreviated_days[$code];
 
-			case 'EEEE':
-			case 'eeee':
+			case 4:
 				return $calendar->wide_days[$code];
 
-			case 'EEEEE':
-			case 'eeeee':
+			case 5:
 				return $calendar->narrow_days[$code];
 
-			case 'EEEEEE':
-			case 'eeeeee':
+			case 6:
 				return $calendar->short_days[$code];
 		}
 	}
@@ -629,6 +620,27 @@ class DateTimeFormatter implements Formatter
 		$code = $this->resolve_day_code($day);
 
 		return $this->calendar->{ 'standalone_' . $mapping[$length] . '_days' }[$code];
+	}
+
+	/**
+	 * Local day of week. Same as E except adds a numeric value that will depend on the local
+	 * starting day of the week, using one or two letters. For this example, Monday is the
+	 * first day of the week.
+	 *
+	 * @param DateTimeAccessor $datetime
+	 * @param string $pattern a pattern.
+	 * @param int $length
+	 *
+	 * @return string
+	 */
+	protected function format_day_in_week_local(DateTimeAccessor $datetime, $pattern, $length)
+	{
+		if ($length == 1 || $length == 2)
+		{
+			return $datetime->weekday;
+		}
+
+		return $this->format_day_in_week($datetime, $pattern, $length);
 	}
 
 	/*
