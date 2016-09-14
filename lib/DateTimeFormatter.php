@@ -57,9 +57,9 @@ class DateTimeFormatter implements Formatter
 		'a' => 'format_period',
 		'k' => 'format_hour_in_day',
 		'K' => 'format_hour_in_period',
-		'z' => 'format_timezone',
-		'Z' => 'format_timezone',
-		'v' => 'format_timezone'
+		'z' => 'format_timezone_non_location',
+		'Z' => 'format_timezone_basic',
+		'v' => 'format_timezone_non_location'
 
 	];
 
@@ -830,26 +830,33 @@ class DateTimeFormatter implements Formatter
 	 */
 
 	/**
-	 * Time Zone.
+	 * The ISO8601 basic format.
 	 *
 	 * @param DateTimeAccessor $datetime
 	 * @param string $pattern a pattern.
 	 * @param int $length Number of repetition.
 	 *
-	 * @return string time zone
+	 * @return string
 	 */
-	protected function format_timezone(DateTimeAccessor $datetime, $pattern, $length)
+	protected function format_timezone_basic(DateTimeAccessor $datetime, $pattern, $length)
 	{
-		if ($pattern{0} === 'z' || $pattern{0} === 'v')
-		{
-			$str = $datetime->format('T');
+		return $datetime->format('O');
+	}
 
-			return $str === 'Z' ? 'UTC' : $str;
-		}
-		else if ($pattern{0} === 'Z')
-		{
-			return $datetime->format('O');
-		}
+	/**
+	 * The specific non-location format.
+	 *
+	 * @param DateTimeAccessor $datetime
+	 * @param string $pattern a pattern.
+	 * @param int $length Number of repetition.
+	 *
+	 * @return string
+	 */
+	protected function format_timezone_non_location(DateTimeAccessor $datetime, $pattern, $length)
+	{
+		$str = $datetime->format('T');
+
+		return $str === 'Z' ? 'UTC' : $str;
 	}
 
 	/**
