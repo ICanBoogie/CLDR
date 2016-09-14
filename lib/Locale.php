@@ -26,6 +26,7 @@ use ICanBoogie\OffsetNotDefined;
  * @property-read Numbers $numbers
  * @property-read LocalizedNumberFormatter $number_formatter
  * @property-read LocalizedListFormatter $list_formatter
+ * @property-read ContextTransforms $context_transforms
  */
 class Locale implements \ArrayAccess
 {
@@ -146,6 +147,14 @@ class Locale implements \ArrayAccess
 	protected function lazy_get_list_formatter()
 	{
 		return $this->localize($this->repository->list_formatter);
+	}
+
+	/**
+	 * @return ContextTransforms
+	 */
+	protected function lazy_get_context_transforms()
+	{
+		return new ContextTransforms($this['contextTransforms']);
 	}
 
 	/**
