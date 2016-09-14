@@ -560,19 +560,15 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_day_in_week(DateTimeAccessor $datetime, $pattern)
 	{
-		static $translate = [
-
-			1 => 'mon',
-			2 => 'tue',
-			3 => 'wed',
-			4 => 'thu',
-			5 => 'fri',
-			6 => 'sat',
-			7 => 'sun'
-
-		];
-
 		$day = $datetime->weekday;
+
+		if (in_array($pattern, [ 'e', 'ee', 'c' ]))
+		{
+			return $day;
+		}
+
+		$code = $this->resolve_day_code($day);
+		$calendar = $this->calendar;
 
 		switch ($pattern)
 		{
@@ -580,36 +576,31 @@ class DateTimeFormatter implements Formatter
 			case 'EE':
 			case 'EEE':
 			case 'eee':
-				return $this->calendar->abbreviated_days[$translate[$day]];
+				return $calendar->abbreviated_days[$code];
 
 			case 'EEEE':
 			case 'eeee':
-				return $this->calendar->wide_days[$translate[$day]];
+				return $calendar->wide_days[$code];
 
 			case 'EEEEE':
 			case 'eeeee':
-				return $this->calendar->narrow_days[$translate[$day]];
+				return $calendar->narrow_days[$code];
 
 			case 'EEEEEE':
 			case 'eeeeee':
-				return $this->calendar->short_days[$translate[$day]];
-
-			case 'e':
-			case 'ee':
-			case 'c':
-				return $day;
+				return $calendar->short_days[$code];
 
 			case 'ccc':
-				return $this->calendar->standalone_abbreviated_days[$translate[$day]];
+				return $calendar->standalone_abbreviated_days[$code];
 
 			case 'cccc':
-				return $this->calendar->standalone_wide_days[$translate[$day]];
+				return $calendar->standalone_wide_days[$code];
 
 			case 'ccccc':
-				return $this->calendar->standalone_narrow_days[$translate[$day]];
+				return $calendar->standalone_narrow_days[$code];
 
 			case 'cccccc':
-				return $this->calendar->standalone_short_days[$translate[$day]];
+				return $calendar->standalone_short_days[$code];
 		}
 	}
 
@@ -835,5 +826,27 @@ class DateTimeFormatter implements Formatter
 		}
 
 		return new \DateTime(is_numeric($datetime) ? "@$datetime" : (string) $datetime);
+	}
+
+	/**
+	 * @param int $day
+	 *
+	 * @return string
+	 */
+	private function resolve_day_code($day)
+	{
+		static $translate = [
+
+			1 => 'mon',
+			2 => 'tue',
+			3 => 'wed',
+			4 => 'thu',
+			5 => 'fri',
+			6 => 'sat',
+			7 => 'sun'
+
+		];
+
+		return $translate[$day];
 	}
 }
