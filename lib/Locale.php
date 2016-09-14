@@ -292,4 +292,18 @@ class Locale implements \ArrayAccess
 	{
 		return $this->list_formatter->format($list, $list_patterns_or_type);
 	}
+
+	/**
+	 * Transforms a string depending on the context and the locale rules.
+	 *
+	 * @param string $str
+	 * @param string $usage One of `ContextTransforms::USAGE_*`
+	 * @param string $type One of `ContextTransforms::TYPE_*`
+	 *
+	 * @return string
+	 */
+	public function context_transform($str, $usage, $type)
+	{
+		return $this->context_transforms->transform($str, $usage, $type);
+	}
 }

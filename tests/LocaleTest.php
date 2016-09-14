@@ -181,4 +181,16 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals("lundi, mardi et mercredi", (new Locale(get_repository(), 'fr'))->format_list([ "lundi", "mardi", "mercredi" ]));
 	}
+
+	public function test_context_transform()
+	{
+		$this->assertEquals(
+			"Juin",
+			(new Locale(get_repository(), 'fr'))->context_transform(
+				"juin",
+				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+				ContextTransforms::TYPE_STAND_ALONE
+			)
+		);
+	}
 }

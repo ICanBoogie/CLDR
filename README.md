@@ -156,6 +156,31 @@ echo $repository->locales['fr']->localize($locale)->name;   // Français
 
 
 
+### Context transforms
+
+Several capitalization contexts can be distinguished for which different languages use different
+capitalization behavior for dates, date elements, names of languages/regions/currencies. The
+`context_transform()` method helps capitalizing these elements:
+
+```php
+<?php
+
+use ICanBoogie\CLDR\ContextTransforms;
+
+echo $repository->locales['fr']->context_transform(
+	"juin",
+	ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+	ContextTransforms::TYPE_STAND_ALONE
+);
+
+// Juin
+```
+
+
+
+
+
+
 ## Calendars
 
 Calendars are represented by a [Calendar][] instance, they can be accessed as arrays, and also
