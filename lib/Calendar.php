@@ -205,6 +205,25 @@ class Calendar extends \ArrayObject
 	}
 
 	/**
+	 * Transforms month names according to context transforms rules.
+	 *
+	 * @param array $names
+	 * @param string $width
+	 * @param bool $standalone
+	 *
+	 * @return string
+	 */
+	private function transform_months(array $names, $width, $standalone)
+	{
+		return $this->transform_months_or_days(
+			$names,
+			$width,
+			$standalone,
+			ContextTransforms::USAGE_MONTH_STANDALONE_EXCEPT_NARROW
+		);
+	}
+
+	/**
 	 * Transforms day names according to context transforms rules.
 	 *
 	 * @param array $names
@@ -215,6 +234,25 @@ class Calendar extends \ArrayObject
 	 */
 	private function transform_days($names, $width, $standalone)
 	{
+		return $this->transform_months_or_days(
+			$names,
+			$width,
+			$standalone,
+			ContextTransforms::USAGE_DAY_STANDALONE_EXCEPT_NARROW
+		);
+	}
+
+	/**
+	 * Transforms day names according to context transforms rules.
+	 *
+	 * @param array $names
+	 * @param string $width
+	 * @param bool $standalone
+	 *
+	 * @return string
+	 */
+	private function transform_months_or_days($names, $width, $standalone, $usage)
+	{
 		if ($width == self::WIDTH_NARROW || !$standalone)
 		{
 			return $names;
@@ -222,7 +260,7 @@ class Calendar extends \ArrayObject
 
 		return $this->apply_transform(
 			$names,
-			ContextTransforms::USAGE_DAY_STANDALONE_EXCEPT_NARROW,
+			$usage,
 			ContextTransforms::TYPE_STAND_ALONE
 		);
 	}
@@ -265,29 +303,6 @@ class Calendar extends \ArrayObject
 		}
 
 		return $names;
-	}
-
-	/**
-	 * Transforms month names according to context transforms rules.
-	 *
-	 * @param array $names
-	 * @param string $width
-	 * @param bool $standalone
-	 *
-	 * @return string
-	 */
-	private function transform_months(array $names, $width, $standalone)
-	{
-		if ($width == self::WIDTH_NARROW || !$standalone)
-		{
-			return $names;
-		}
-
-		return $this->apply_transform(
-			$names,
-			ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-			ContextTransforms::TYPE_STAND_ALONE
-		);
 	}
 
 	/**
