@@ -7,8 +7,8 @@
 [![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/CLDR/master.svg)](https://coveralls.io/r/ICanBoogie/CLDR)
 [![Packagist](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
 
-The __CLDR__ package provides means to internationalize your application by leveraging the
-data and conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
+The __CLDR__ package provides means to internationalize your application by leveraging the data and
+conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
 It provides many useful locale information and data (such as locale names for territories,
 languages, days…) as well as formatters for numbers, currencies, date and times, lists…
 
@@ -25,7 +25,8 @@ The CLDR is represented by a [Repository][] instance, from which data is accesse
 data is retrieved through a provider, and in order to avoid hitting the web with every request,
 a collection of providers is used, each with its own caching strategies.
 
-**Note:** Most providers defined by the package extend a class defined by the [icanboogie\storage][] package, you might want to check it out.
+> **Note:** Most providers defined by the package extend a class defined by the
+[icanboogie/storage][] package, you might want to check it out.
 
 The following example demonstrates how a repository can be instantiated with a nice collection of
 providers:
@@ -53,8 +54,8 @@ $repository = new Repository($provider);
 
 ## Accessing the repository
 
-The repository can be accessed like a big array, but it also provides interfaces to the most important
-data such as locales, territories, numbers, currencies…
+The repository can be accessed like a big array, but it also provides interfaces to the most
+important data such as locales, territories, numbers, currencies…
 
 The following example demonstrates how the repository can be used to access locales and
 supplemental data:
@@ -114,7 +115,7 @@ echo $locale->calendar['days']['format']['wide']['sun'];               // dimanc
 Locales are also often used to localize instances such as [Currency][], [Territory][], or even
 [Locale][]. The method `localize` is used to localize instances. The method
 tries its best to find a suitable _localizer_, and it helps if the instance to localize implements
-[LocalizationAwareInterface][], or if a `ICanBoogie\CLDR\Localized<class_base_name>` class is
+[LocalizeAwareInterface][], or if a `ICanBoogie\CLDR\Localized<class_base_name>` class is
 defined.
 
 ```php
@@ -439,11 +440,11 @@ A localized currency can be obtained with the `localize()` method, or the `local
 of the desired locale, it is often used to format a currency using the convention of a locale.
 
 ```php
-<php
+<?php
 
 use ICanBoogie\CLDR\Currency;
 
-$currency = new Currency($repository, 'EUR')
+$currency = new Currency($repository, 'EUR');
 
 $localized_currency = $currency->localize('fr');
 # or
@@ -499,6 +500,7 @@ list is formatted with the _standard_ type, but you can also provide your own pa
 <?php
 
 use ICanBoogie\CLDR\NumberFormatter;
+use ICanBoogie\CLDR\LocalizedNumberFormatter;
 
 $formatter = new NumberFormatter($repository);
 
@@ -586,6 +588,7 @@ provide your own list patterns.
 <?php
 
 use ICanBoogie\CLDR\ListFormatter;
+use ICanBoogie\CLDR\LocalizedListFormatter;
 
 $formatter = new ListFormatter($repository);
 
@@ -603,7 +606,7 @@ $localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], LocalizedListFo
 // lundi, mardi, vendredi et samedi
 ```
 
-**Note:** You can also obtain a localized list formatter, or format a list from a locale.
+> **Note:** You can also obtain a localized list formatter, or format a list from a locale.
 
 ```php
 <?php
@@ -634,14 +637,9 @@ The package requires PHP 5.5 or later, and the [cURL extension](http://www.php.n
 
 The recommended way to install this package is through [Composer](http://getcomposer.org/):
 
-```
+```bash
 $ composer require icanboogie/cldr
 ```
-
-The following packages are required, you might want to check them out:
-
-- [icanboogie/common](https://github.com/ICanBoogie/Common)
-- [icanboogie/datetime](https://github.com/ICanBoogie/DateTime)
 
 
 
@@ -652,7 +650,9 @@ The following packages are required, you might want to check them out:
 The package is [available on GitHub](https://github.com/ICanBoogie/CLDR), its repository can be
 cloned with the following command line:
 
-	$ git clone https://github.com/ICanBoogie/CLDR.git
+```bash
+$ git clone https://github.com/ICanBoogie/CLDR.git
+```
 
 
 
@@ -702,12 +702,12 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 [Repository]:                 http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Repository.html
 [ListFormatter]:              http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.ListFormatter.html
 [Locale]:                     http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Locale.html
-[LocalizationAwareInterface]: http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.LocalizationAwareInterface.html
+[LocalizeAwareInterface]:     http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.LocalizeAwareInterface.html
 [LocalizedDateTime]:          http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.LocalizedDateTime.html
 [NumberFormatter]:            http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.NumberFormatter.html
 [Territory]:                  http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Territory.html
 
 [ICanBoogie]:         https://github.com/ICanBoogie/ICanBoogie
-[icanboogie\storage]: https://github.com/ICanBoogie/Storage
+[icanboogie/storage]: https://github.com/ICanBoogie/Storage
 
 [CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
