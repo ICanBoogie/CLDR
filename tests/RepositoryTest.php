@@ -92,8 +92,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function test_properties($property, callable $assert)
 	{
-		$repository = new Repository(create_provider());
-		$assert($repository->$property);
+		$assert($this->repository->$property);
 	}
 
 	public function provide_test_properties()
@@ -108,6 +107,32 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
 				$this->assertNotContains('en-US', $value);
 
 			} ]
+
+		];
+	}
+
+	/**
+	 * @dataProvider provide_test_is_locale_available
+	 *
+	 * @param string $locale
+	 * @param bool $expected
+	 */
+	public function test_is_locale_available($locale, $expected)
+	{
+		$this->assertSame($expected, get_repository()->is_locale_available($locale));
+	}
+
+	/**
+	 * @return array
+	 */
+	public function provide_test_is_locale_available()
+	{
+		return [
+
+			[ 'fr', true ],
+			[ 'en', true ],
+			[ 'fr-FR', false ],
+			[ 'en-US', false ],
 
 		];
 	}

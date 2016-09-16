@@ -30,10 +30,41 @@ class LocaleCollection extends AbstractCollection
 	{
 		$this->repository = $repository;
 
-		parent::__construct(function ($id) {
+		parent::__construct(function ($locale) {
 
-			return new Locale($this->repository, $id);
+			$this->assert_locale_is_valid($locale);
+			$this->assert_locale_is_available($locale);
+
+			return new Locale($this->repository, $locale);
 
 		});
+	}
+
+	/**
+	 * @param $locale
+	 *
+	 * @throws \InvalidArgumentException if the specified locale is not valid.
+	 */
+	private function assert_locale_is_valid($locale)
+	{
+		if (!$locale)
+		{
+			throw new \InvalidArgumentException("Locale identifier is empty");
+		}
+	}
+
+	/**
+	 * @param string $locale
+	 *
+	 * @throws \LogicException if the specified locale is not available.
+	 */
+	private function assert_locale_is_available($locale)
+	{
+		if ($this->repository->is_locale_available($locale))
+		{
+			return;
+		}
+
+		throw new \LogicException("Unavailable locale: $locale");
 	}
 }

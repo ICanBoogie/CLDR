@@ -178,7 +178,9 @@ supplemental data:
 $english_locale = $repository->locales['en'];
 $french_locale = $repository->locales['fr'];
 
-$repository->available_locales; // [ … 'en', …, 'fr', … ];
+$repository->available_locales;            // [ … 'en', …, 'fr', … ];
+$repository->is_locale_available('fr');    // true
+$repository->is_locale_available('fr-FR'); // false
 
 $supplemental = $repository->supplemental;
 # reading the default calendar

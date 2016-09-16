@@ -199,4 +199,14 @@ class Repository
 	{
 		return $this->list_formatter->format($list, $list_patterns);
 	}
+
+	/**
+	 * @param string $locale
+	 *
+	 * @return bool `true` if the locale is available, `false` otherwise.
+	 */
+	public function is_locale_available($locale)
+	{
+		return in_array($locale, $this->available_locales);
+	}
 }
