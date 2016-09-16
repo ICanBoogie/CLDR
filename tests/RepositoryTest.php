@@ -83,4 +83,32 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertSame("one, two, and three", $this->repository->format_list($list, $list_patterns));
 	}
+
+	/**
+	 * @dataProvider provide_test_properties
+	 *
+	 * @param string $property
+	 * @param callable $assert
+	 */
+	public function test_properties($property, callable $assert)
+	{
+		$repository = new Repository(create_provider());
+		$assert($repository->$property);
+	}
+
+	public function provide_test_properties()
+	{
+		return [
+
+			[ 'available_locales', function($value) {
+
+				$this->assertContains('fr', $value);
+				$this->assertContains('en', $value);
+				$this->assertNotContains('fr-FR', $value);
+				$this->assertNotContains('en-US', $value);
+
+			} ]
+
+		];
+	}
 }

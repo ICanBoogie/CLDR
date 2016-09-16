@@ -36,6 +36,7 @@ use ICanBoogie\Accessor\AccessorTrait;
  * @property-read CurrencyFormatter $currency_formatter
  * @property-read ListFormatter $list_formatter
  * @property-read Plurals $plurals
+ * @property-read array $available_locales
  *
  * @see http://www.unicode.org/repos/cldr-aux/json/24/
  */
@@ -118,6 +119,14 @@ class Repository
 	protected function lazy_get_plurals()
 	{
 		return new Plurals($this->supplemental['plurals']);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function lazy_get_available_locales()
+	{
+		return $this->fetch('availableLocales')['availableLocales']['modern'];
 	}
 
 	/**

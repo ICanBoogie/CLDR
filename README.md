@@ -178,6 +178,8 @@ supplemental data:
 $english_locale = $repository->locales['en'];
 $french_locale = $repository->locales['fr'];
 
+$repository->available_locales; // [ … 'en', …, 'fr', … ];
+
 $supplemental = $repository->supplemental;
 # reading the default calendar
 echo $supplemental['calendarPreferenceData']['001']; // gregorian
