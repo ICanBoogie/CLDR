@@ -11,10 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Accessor\AccessorTrait;
-use ICanBoogie\OffsetNotWritable;
-use ICanBoogie\OffsetNotDefined;
-
 /**
  * Representation of a locale.
  *
@@ -28,7 +24,7 @@ use ICanBoogie\OffsetNotDefined;
  * @property-read LocalizedListFormatter $list_formatter
  * @property-read ContextTransforms $context_transforms
  */
-class Locale implements \ArrayAccess
+class Locale extends AbstractSectionCollection
 {
 	static private $available_sections = [
 
@@ -71,8 +67,6 @@ class Locale implements \ArrayAccess
 
 	];
 
-	use AccessorTrait;
-	use RepositoryPropertyTrait;
 	use CodePropertyTrait;
 
 	/**
@@ -95,7 +89,8 @@ class Locale implements \ArrayAccess
 			throw new \InvalidArgumentException("Locale identifier cannot be empty.");
 		}
 
-		$this->repository = $repository;
+		parent::__construct($repository, "main/$code", self::$available_sections);
+
 		$this->code = $code;
 	}
 
@@ -155,61 +150,6 @@ class Locale implements \ArrayAccess
 	protected function lazy_get_context_transforms()
 	{
 		return new ContextTransforms($this['contextTransforms']);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function offsetExists($offset)
-	{
-		return isset(self::$available_sections[$offset]);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function offsetGet($offset)
-	{
-		if (isset($this->sections[$offset]))
-		{
-			return $this->sections[$offset];
-		}
-
-		if (empty(self::$available_sections[$offset]))
-		{
-			throw new OffsetNotDefined([ $offset, $this ]);
-		}
-
-		$data = $this->repository->fetch("main/{$this->code}/{$offset}");
-		$path = "main/{$this->code}/" . self::$available_sections[$offset];
-		$path_parts = explode('/', $path);
-
-		foreach ($path_parts as $part)
-		{
-			$data = $data[$part];
-		}
-
-		return $this->sections[$offset] = $data;
-	}
-
-	/**
-	 * @inheritdoc
-	 *
-	 * @throws OffsetNotWritable
-	 */
-	public function offsetSet($offset, $value)
-	{
-		throw new OffsetNotWritable([ $offset, $this ]);
-	}
-
-	/**
-	 * @inheritdoc
-	 *
-	 * @throws OffsetNotWritable
-	 */
-	public function offsetUnset($offset)
-	{
-		throw new OffsetNotWritable([ $offset, $this ]);
 	}
 
 	/**

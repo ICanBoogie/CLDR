@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\OffsetNotDefined;
-
 /**
  * Representation of the "supplemental" section.
  *
@@ -26,11 +24,8 @@ use ICanBoogie\OffsetNotDefined;
  * echo $supplemental['calendarPreferenceData']['001']; // gregorian
  * </pre>
  */
-class Supplemental implements \ArrayAccess
+class Supplemental extends AbstractSectionCollection
 {
-	use CollectionTrait;
-	use RepositoryPropertyTrait;
-
 	static private $available_sections = [
 
 		'calendarData'           => 'calendarData',
@@ -62,54 +57,10 @@ class Supplemental implements \ArrayAccess
 	];
 
 	/**
-	 * Loaded sections.
-	 *
-	 * @var array
-	 */
-	protected $sections = [];
-
-	/**
-	 * Initializes the {@link $repository} property.
-	 *
 	 * @param Repository $repository
 	 */
 	public function __construct(Repository $repository)
 	{
-		$this->repository = $repository;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function offsetExists($offset)
-	{
-		return isset(self::$available_sections[$offset]);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function offsetGet($offset)
-	{
-		if (isset($this->sections[$offset]))
-		{
-			return $this->sections[$offset];
-		}
-
-		if (empty(self::$available_sections[$offset]))
-		{
-			throw new OffsetNotDefined([ $offset, $this ]);
-		}
-
-		$data = $this->repository->fetch("supplemental/{$offset}");
-		$path = 'supplemental/' . self::$available_sections[$offset];
-		$path_parts = explode('/', $path);
-
-		foreach ($path_parts as $part)
-		{
-			$data = $data[$part];
-		}
-
-		return $this->sections[$offset] = $data;
+		parent::__construct($repository, 'supplemental', self::$available_sections);
 	}
 }
