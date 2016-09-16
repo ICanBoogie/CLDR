@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
+
 /**
  * Representation of a calendar collection.
  *
@@ -20,51 +22,25 @@ namespace ICanBoogie\CLDR;
  * $calendar_collection = $repository->locales['fr']->calendars;
  * $gregorian_calendar = $calendar_collection['gregorian'];
  * </pre>
+ *
+ * @method Calendar offsetGet($id)
  */
-class CalendarCollection implements \ArrayAccess
+class CalendarCollection extends AbstractCollection
 {
-	use CollectionTrait;
+	use AccessorTrait;
 	use LocalePropertyTrait;
 
 	/**
-	 * Calendar instances.
-	 *
-	 * @var Calendar[]
-	 */
-	protected $collection = [];
-
-	/**
-	 * Initializes the {@link $locale} property.
-	 *
-	 * @param Locale $locale Locale.
+	 * @param Locale $locale
 	 */
 	public function __construct(Locale $locale)
 	{
 		$this->locale = $locale;
-	}
 
-	/**
-	 * @inheritdoc
-	 *
-	 * @throws \BadMethodCallException
-	 */
-	public function offsetExists($offset)
-	{
-		throw new \BadMethodCallException("The method is not implemented");
-	}
+		parent::__construct(function ($id) {
 
-	/**
-	 * @inheritdoc
-	 *
-	 * @return Calendar
-	 */
-	public function offsetGet($offset)
-	{
-		if (empty($this->collection[$offset]))
-		{
-			$this->collection[$offset] = new Calendar($this->locale, $this->locale["ca-{$offset}"]);
-		}
+			return new Calendar($this->locale, $this->locale["ca-$id"]);
 
-		return $this->collection[$offset];
+		});
 	}
 }

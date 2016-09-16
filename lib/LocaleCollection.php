@@ -15,17 +15,13 @@ use ICanBoogie\Accessor\AccessorTrait;
 
 /**
  * Representation of a locale collection.
+ *
+ * @method Locale offsetGet($id)
  */
-class LocaleCollection implements \ArrayAccess
+class LocaleCollection extends AbstractCollection
 {
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
-	use CollectionTrait;
-
-	/**
-	 * @var Locale[]
-	 */
-	private $collection = [];
 
 	/**
 	 * @param Repository $repository
@@ -33,30 +29,11 @@ class LocaleCollection implements \ArrayAccess
 	public function __construct(Repository $repository)
 	{
 		$this->repository = $repository;
-	}
 
-	/**
-	 * @inheritdoc
-	 *
-	 * @throws \BadMethodCallException
-	 */
-	public function offsetExists($offset)
-	{
-		throw new \BadMethodCallException("The method is not implemented");
-	}
+		parent::__construct(function ($id) {
 
-	/**
-	 * @param string $offset Locale code.
-	 *
-	 * @return Locale
-	 */
-	public function offsetGet($offset)
-	{
-		if (empty($this->collection[$offset]))
-		{
-			$this->collection[$offset] = new Locale($this->repository, $offset);
-		}
+			return new Locale($this->repository, $id);
 
-		return $this->collection[$offset];
+		});
 	}
 }
