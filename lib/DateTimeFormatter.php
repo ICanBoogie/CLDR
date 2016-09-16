@@ -135,6 +135,19 @@ class DateTimeFormatter implements Formatter
 	}
 
 	/**
+	 * Pad a numeric value with zero on its left.
+	 *
+	 * @param int $value
+	 * @param int $length
+	 *
+	 * @return string
+	 */
+	static private function numeric_pad($value, $length = 2)
+	{
+		return str_pad($value, $length, '0', STR_PAD_LEFT);
+	}
+
+	/**
 	 * The calendar used to format the datetime.
 	 *
 	 * @var Calendar
@@ -332,7 +345,7 @@ class DateTimeFormatter implements Formatter
 			$year = $year % 100;
 		}
 
-		return str_pad($year, $length, '0', STR_PAD_LEFT);
+		return self::numeric_pad($year, $length);
 	}
 
 	/*
@@ -360,7 +373,7 @@ class DateTimeFormatter implements Formatter
 		switch ($length)
 		{
 			case 1: return $quarter;
-			case 2: return str_pad($quarter, 2, '0', STR_PAD_LEFT);
+			case 2: return self::numeric_pad($quarter);
 			case 3: return $this->calendar->abbreviated_quarters[$quarter];
 			case 4: return $this->calendar->wide_quarters[$quarter];
 		}
@@ -387,7 +400,7 @@ class DateTimeFormatter implements Formatter
 		switch ($length)
 		{
 			case 1: return $quarter;
-			case 2: return str_pad($quarter, 2, '0', STR_PAD_LEFT);
+			case 2: return self::numeric_pad($quarter);
 			case 3: return $this->calendar->standalone_abbreviated_quarters[$quarter];
 			case 4: return $this->calendar->standalone_wide_quarters[$quarter];
 		}
@@ -418,7 +431,7 @@ class DateTimeFormatter implements Formatter
 		switch ($length)
 		{
 			case 1: return $month;
-			case 2: return str_pad($month, 2, '0', STR_PAD_LEFT);
+			case 2: return self::numeric_pad($month);
 			case 3: return $this->calendar->abbreviated_months[$month];
 			case 4: return $this->calendar->wide_months[$month];
 			case 5: return $this->calendar->narrow_months[$month];
@@ -446,7 +459,7 @@ class DateTimeFormatter implements Formatter
 		switch ($length)
 		{
 			case 1: return $month;
-			case 2: return str_pad($month, 2, '0', STR_PAD_LEFT);
+			case 2: return self::numeric_pad($month);
 			case 3: return $this->calendar->standalone_abbreviated_months[$month];
 			case 4: return $this->calendar->standalone_wide_months[$month];
 			case 5: return $this->calendar->standalone_narrow_months[$month];
@@ -474,7 +487,7 @@ class DateTimeFormatter implements Formatter
 
 		$week = $datetime->week;
 
-		return $length == 1 ? $week : str_pad($week, 2, '0', STR_PAD_LEFT);
+		return $length == 1 ? $week : self::numeric_pad($week);
 	}
 
 	/**
@@ -521,7 +534,7 @@ class DateTimeFormatter implements Formatter
 			return $day;
 		}
 
-		return str_pad($day, 2, '0', STR_PAD_LEFT);
+		return self::numeric_pad($day);
 	}
 
 	/**
@@ -541,7 +554,7 @@ class DateTimeFormatter implements Formatter
 			return '';
 		}
 
-		return str_pad($day, $length, '0', STR_PAD_LEFT);
+		return self::numeric_pad($day, $length);
 	}
 
 	/**
@@ -708,7 +721,7 @@ class DateTimeFormatter implements Formatter
 			return $hour;
 		}
 
-		return str_pad($hour, 2, '0', STR_PAD_LEFT);
+		return self::numeric_pad($hour);
 	}
 
 	/**
@@ -736,7 +749,7 @@ class DateTimeFormatter implements Formatter
 			return $hour;
 		}
 
-		return str_pad($hour, 2, '0', STR_PAD_LEFT);
+		return self::numeric_pad($hour);
 	}
 
 	/**
@@ -762,7 +775,7 @@ class DateTimeFormatter implements Formatter
 			return $hour;
 		}
 
-		return str_pad($hour, 2, '0', STR_PAD_LEFT);
+		return self::numeric_pad($hour);
 	}
 
 	/**
@@ -788,7 +801,7 @@ class DateTimeFormatter implements Formatter
 			return $hour;
 		}
 
-		return str_pad($hour, 2, '0', STR_PAD_LEFT);
+		return self::numeric_pad($hour);
 	}
 
 	/*
