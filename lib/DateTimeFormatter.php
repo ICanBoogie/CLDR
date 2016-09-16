@@ -358,11 +358,17 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @param DateTimeAccessor $datetime Datetime.
 	 * @param int $length Number of repetition.
+	 * @param string $abbreviated
+	 * @param string $wide
 	 *
 	 * @return string
 	 */
-	protected function format_quarter(DateTimeAccessor $datetime, $length)
-	{
+	private function format_quarter(
+		DateTimeAccessor $datetime,
+		$length,
+		$abbreviated = 'abbreviated_quarters',
+		$wide = 'wide_quarters'
+	) {
 		if ($length > 4)
 		{
 			return '';
@@ -374,8 +380,8 @@ class DateTimeFormatter implements Formatter
 		{
 			case 1: return $quarter;
 			case 2: return self::numeric_pad($quarter);
-			case 3: return $this->calendar->abbreviated_quarters[$quarter];
-			case 4: return $this->calendar->wide_quarters[$quarter];
+			case 3: $names = $this->calendar->$abbreviated; return $names[$quarter];
+			case 4: $names = $this->calendar->$wide; return $names[$quarter];
 		}
 	}
 
@@ -390,20 +396,12 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_standalone_quarter(DateTimeAccessor $datetime, $length)
 	{
-		if ($length > 4)
-		{
-			return '';
-		}
-
-		$quarter = $datetime->quarter;
-
-		switch ($length)
-		{
-			case 1: return $quarter;
-			case 2: return self::numeric_pad($quarter);
-			case 3: return $this->calendar->standalone_abbreviated_quarters[$quarter];
-			case 4: return $this->calendar->standalone_wide_quarters[$quarter];
-		}
+		return $this->format_quarter(
+			$datetime,
+			$length,
+			'standalone_abbreviated_quarters',
+			'standalone_wide_quarters'
+		);
 	}
 
 	/*
@@ -416,11 +414,19 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @param DateTimeAccessor $datetime
 	 * @param int $length Number of repetition.
+	 * @param string $abbreviated
+	 * @param string $wide
+	 * @param string $narrow
 	 *
 	 * @return string
 	 */
-	protected function format_month(DateTimeAccessor $datetime, $length)
-	{
+	private function format_month(
+		DateTimeAccessor $datetime,
+		$length,
+		$abbreviated = 'abbreviated_months',
+		$wide = 'wide_months',
+		$narrow = 'narrow_months'
+	) {
 		if ($length > 5)
 		{
 			return '';
@@ -432,9 +438,9 @@ class DateTimeFormatter implements Formatter
 		{
 			case 1: return $month;
 			case 2: return self::numeric_pad($month);
-			case 3: return $this->calendar->abbreviated_months[$month];
-			case 4: return $this->calendar->wide_months[$month];
-			case 5: return $this->calendar->narrow_months[$month];
+			case 3: $names = $this->calendar->$abbreviated; return $names[$month];
+			case 4: $names = $this->calendar->$wide; return $names[$month];
+			case 5: $names = $this->calendar->$narrow; return $names[$month];
 		}
 	}
 
@@ -449,21 +455,13 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_standalone_month(DateTimeAccessor $datetime, $length)
 	{
-		if ($length > 5)
-		{
-			return '';
-		}
-
-		$month = $datetime->month;
-
-		switch ($length)
-		{
-			case 1: return $month;
-			case 2: return self::numeric_pad($month);
-			case 3: return $this->calendar->standalone_abbreviated_months[$month];
-			case 4: return $this->calendar->standalone_wide_months[$month];
-			case 5: return $this->calendar->standalone_narrow_months[$month];
-		}
+		return $this->format_month(
+			$datetime,
+			$length,
+			'standalone_abbreviated_months',
+			'standalone_wide_months',
+			'standalone_narrow_months'
+		);
 	}
 
 	/*
@@ -818,19 +816,7 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_minutes(DateTimeAccessor $datetime, $length)
 	{
-		if ($length > 2)
-		{
-			return '';
-		}
-
-		$minutes = $datetime->minute;
-
-		if ($length == 1)
-		{
-			return $minutes;
-		}
-
-		return str_pad($minutes, 2, '0', STR_PAD_LEFT);
+		return $this->format_minutes_or_seconds($datetime, $length, 'minute');
 	}
 
 	/*
@@ -847,19 +833,33 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_seconds(DateTimeAccessor $datetime, $length)
 	{
+		return $this->format_minutes_or_seconds($datetime, $length, 'second');
+	}
+
+	/**
+	 * Minute. Use one or two "m" for zero padding.
+	 *
+	 * @param DateTimeAccessor $datetime
+	 * @param int $length Number of repetition
+	 * @param string $which
+	 *
+	 * @return string minutes.
+	 */
+	private function format_minutes_or_seconds(DateTimeAccessor $datetime, $length, $which)
+	{
 		if ($length > 2)
 		{
 			return '';
 		}
 
-		$seconds = $datetime->second;
+		$value = $datetime->$which;
 
 		if ($length == 1)
 		{
-			return $seconds;
+			return $value;
 		}
 
-		return str_pad($seconds, 2, '0', STR_PAD_LEFT);
+		return self::numeric_pad($value);
 	}
 
 	/*
