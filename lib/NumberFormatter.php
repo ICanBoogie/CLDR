@@ -15,11 +15,14 @@ use ICanBoogie\Accessor\AccessorTrait;
 
 /**
  * Formats numbers.
+ *
+ * @method LocalizedNumberFormatter localize($locale_code)
  */
 class NumberFormatter implements Formatter
 {
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
+	use LocalizeTrait;
 
 	static private $default_symbols = [
 
@@ -153,24 +156,5 @@ class NumberFormatter implements Formatter
 			'‰' => $symbols['perMille']
 
 		]);
-	}
-
-	/**
-	 * Localize the instance.
-	 *
-	 * @param string $locale_code
-	 *
-	 * @return LocalizedNumberFormatter
-	 *
-	 * @throw \LogicException when the instance was created without a repository.
-	 */
-	public function localize($locale_code)
-	{
-		if (!$this->repository)
-		{
-			throw new \LogicException("The instance was created without a repository.");
-		}
-
-		return $this->repository->locales[$locale_code]->localize($this);
 	}
 }

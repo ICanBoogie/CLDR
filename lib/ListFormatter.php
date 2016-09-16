@@ -17,11 +17,14 @@ use ICanBoogie\Accessor\AccessorTrait;
  * Formats variable-length lists of things such as "Monday, Tuesday, Friday, and Saturday".
  *
  * @see http://www.unicode.org/reports/tr35/tr35-general.html#ListPatterns
+ *
+ * @method LocalizedListFormatter localize($locale_code)
  */
 class ListFormatter implements Formatter
 {
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
+	use LocalizeTrait;
 
 	/**
 	 * @param Repository $repository
@@ -114,24 +117,5 @@ class ListFormatter implements Formatter
 			'{1}' => $v1
 
 		]);
-	}
-
-	/**
-	 * Localize the instance.
-	 *
-	 * @param string $locale_code
-	 *
-	 * @return LocalizedListFormatter
-	 *
-	 * @throw \LogicException when the instance was created without a repository.
-	 */
-	public function localize($locale_code)
-	{
-		if (!$this->repository)
-		{
-			throw new \LogicException("The instance was created without a repository.");
-		}
-
-		return $this->repository->locales[$locale_code]->localize($this);
 	}
 }
