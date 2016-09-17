@@ -19,11 +19,12 @@ which data is retrieved when required.
 
 
 
-## Instantiating the repository
+## Repository
 
 The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
-data is retrieved through a provider, and in order to avoid hitting the web with every request,
-a collection of providers is used, each with its own caching strategies.
+data is retrieved through a provider. The included provider reads from the [online JSON
+distribution][], and—in order to avoid hitting the web with every request—a collection of providers
+is used, each with its own caching strategies.
 
 > **Note:** Most providers defined by the package extend a class defined by the
 [icanboogie/storage][] package, you might want to check it out.
@@ -52,7 +53,7 @@ $repository = new Repository($provider);
 
 
 
-## Accessing the repository
+### Accessing the repository
 
 The repository can be accessed like a big array, but it also provides interfaces to the most
 important data such as locales, territories, numbers, currencies…
@@ -476,7 +477,7 @@ $formatter(.3789, "#0.#0 %");
 // 37.89 %
 ```
 
-**Note:** You can also obtain a number formatter, or format a number from the repository.
+> **Note:** You can also obtain a number formatter, or format a number from the repository.
 
 ```php
 <?php
@@ -516,7 +517,7 @@ $formatter->localize('en')->format(123456.78);
 // 123,456.78
 ```
 
-**Note:** You can also obtain a localized number formatter, or format a number from a locale.
+> **Note:** You can also obtain a localized number formatter, or format a number from a locale.
 
 ```php
 <?php
@@ -563,7 +564,7 @@ $formatter([ "Monday", "Tuesday", "Friday", "Saturday" ], $list_patterns);
 // Monday, Tuesday, Friday, and Saturday
 ```
 
-**Note:** You can also obtained a list formatter, or format a list from the repository.
+> **Note:** You can also obtained a list formatter, or format a list from the repository.
 
 ```php
 <?php
@@ -710,4 +711,4 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 [ICanBoogie]:         https://github.com/ICanBoogie/ICanBoogie
 [icanboogie/storage]: https://github.com/ICanBoogie/Storage
 
-[CLDR]: http://www.unicode.org/repos/cldr-aux/json/26/
+[online JSON distribution]: http://www.unicode.org/repos/cldr-aux/json/26/
