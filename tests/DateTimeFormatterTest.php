@@ -47,12 +47,28 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 	{
 		$formatter = self::$formatters[$locale_id];
 
-		$this->assertEquals($expected, $formatter($datetime, $format));
+		$this->assertSame($expected, $formatter($datetime, $format));
 	}
 
 	public function provide_test_format()
 	{
 		return [
+
+			# test: era
+
+			[ 'fr', '2016-06-06 13:30:40', 'G', 'ap. J.-C.' ],
+			[ 'fr', '2016-06-06 13:30:40', 'GG', 'ap. J.-C.' ],
+			[ 'fr', '2016-06-06 13:30:40', 'GGG', 'ap. J.-C.' ],
+			[ 'fr', '2016-06-06 13:30:40', 'GGGG', 'après Jésus-Christ' ],
+			[ 'fr', '2016-06-06 13:30:40', 'GGGGG', 'ap. J.-C.' ],
+			[ 'fr', '2016-06-06 13:30:40', 'GGGGGG', '' ],
+
+			[ 'fr', '-0605-06-06 13:30:40', 'G', 'av. J.-C.' ],
+			[ 'fr', '-0605-06-06 13:30:40', 'GG', 'av. J.-C.' ],
+			[ 'fr', '-0605-06-06 13:30:40', 'GGG', 'av. J.-C.' ],
+			[ 'fr', '-0605-06-06 13:30:40', 'GGGG', 'avant Jésus-Christ' ],
+			[ 'fr', '-0605-06-06 13:30:40', 'GGGGG', 'av. J.-C.' ],
+			[ 'fr', '-0605-06-06 13:30:40', 'GGGGGG', '' ],
 
 			# test: format year one figure
 
@@ -104,6 +120,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'en', '2012-02-13', 'MMM', 'Feb' ],
 			[ 'en', '2012-02-13', 'MMMM', 'February' ],
 			[ 'en', '2012-02-13', 'MMMMM', 'F' ],
+			[ 'en', '2012-02-13', 'MMMMMM', '' ],
 
 			# test: format month in french
 
@@ -112,6 +129,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'fr', '2012-02-13', 'MMM', 'févr.' ],
 			[ 'fr', '2012-02-13', 'MMMM', 'février' ],
 			[ 'fr', '2012-02-13', 'MMMMM', 'F' ],
+			[ 'fr', '2012-02-13', 'MMMMMM', '' ],
 
 			# test: format stand-alone month
 
@@ -120,6 +138,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'en', '2012-02-13', 'LLL', 'Feb' ],
 			[ 'en', '2012-02-13', 'LLLL', 'February' ],
 			[ 'en', '2012-02-13', 'LLLLL', 'F' ],
+			[ 'en', '2012-02-13', 'LLLLLL', '' ],
 
 			# test: format stand-alone month in french
 
@@ -128,23 +147,30 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'fr', '2012-02-13', 'LLL', 'Févr.' ],
 			[ 'fr', '2012-02-13', 'LLLL', 'Février' ],
 			[ 'fr', '2012-02-13', 'LLLLL', 'F' ],
+			[ 'fr', '2012-02-13', 'LLLLLL', '' ],
 
-			# test: fromat week of year
+			# test: format week of year
 
 			[ 'en', '2012-01-01', 'w', '52' ],
 			[ 'en', '2012-01-02', 'w', '1' ],
 			[ 'en', '2012-01-02', 'ww', '01' ],
+			[ 'en', '2012-01-02', 'www', '' ],
 			[ 'en', '2012-12-30', 'w', '52' ],
 			[ 'en', '2012-12-30', 'ww', '52' ],
+			[ 'en', '2012-12-30', 'www', '' ],
 
 			# test: format week of month
 
-			[ 'en', '2012-01-01', 'W', 1 ],
-			[ 'en', '2012-01-02', 'W', 1 ],
-			[ 'en', '2012-01-09', 'W', 2 ],
-			[ 'en', '2012-01-16', 'W', 3 ],
-			[ 'en', '2012-01-23', 'W', 4 ],
-			[ 'en', '2012-01-30', 'W', 5 ],
+			[ 'en', '2012-01-01', 'W', '1' ],
+			[ 'en', '2012-01-02', 'W', '1' ],
+			[ 'en', '2012-01-09', 'W', '2' ],
+			[ 'en', '2012-01-16', 'W', '3' ],
+			[ 'en', '2012-01-23', 'W', '4' ],
+			[ 'en', '2012-01-30', 'W', '5' ],
+			[ 'en', '2012-01-30', 'WW', '' ],
+			[ 'en', '2012-01-30', 'WWW', '' ],
+			[ 'en', '2012-01-30', 'WWWW', '' ],
+			[ 'en', '2012-01-30', 'WWWWW', '' ],
 
 			# test: format day of the month
 
@@ -152,16 +178,23 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'en', '2012-01-01', 'dd', '01' ],
 			[ 'en', '2012-01-13', 'd', '13' ],
 			[ 'en', '2012-01-13', 'dd', '13' ],
+			[ 'en', '2012-01-13', 'ddd', '' ],
+			[ 'en', '2012-01-13', 'dddd', '' ],
+			[ 'en', '2012-01-13', 'ddddd', '' ],
 
 			# test: format day of the year
 
 			[ 'en', '2012-01-01', 'D', '1' ],
 			[ 'en', '2012-01-01', 'DD', '01' ],
 			[ 'en', '2012-01-01', 'DDD', '001' ],
+			[ 'en', '2012-01-01', 'DDDD', '' ],
+			[ 'en', '2012-01-01', 'DDDDD', '' ],
 			[ 'en', '2012-01-13', 'DD', '13' ],
 			[ 'en', '2012-01-13', 'DDD', '013' ],
 			[ 'en', '2012-06-13', 'DD', '165' ],
 			[ 'en', '2012-06-13', 'DDD', '165' ],
+			[ 'en', '2012-06-13', 'DDDD', '' ],
+			[ 'en', '2012-06-13', 'DDDDD', '' ],
 
 			# test: format day of week
 			/* FIXME
@@ -178,6 +211,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'en', '2012-06-01', 'EEEE', 'Friday' ],
 			[ 'en', '2012-06-01', 'EEEEE', 'F' ],
 			[ 'en', '2012-06-01', 'EEEEEE', 'Fr' ],
+			[ 'en', '2012-06-01', 'EEEEEEE', '' ],
 
 			# test: format weekday in french
 
@@ -187,6 +221,27 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'fr', '2012-06-01', 'EEEE', 'vendredi' ],
 			[ 'fr', '2012-06-01', 'EEEEE', 'V' ],
 			[ 'fr', '2012-06-01', 'EEEEEE', 've' ],
+			[ 'fr', '2012-06-01', 'EEEEEEE', '' ],
+
+			# test: format local weekday
+
+			[ 'en', '2012-06-01', 'e', '5' ],
+			[ 'en', '2012-06-01', 'ee', '5' ],
+			[ 'en', '2012-06-01', 'eee', 'Fri' ],
+			[ 'en', '2012-06-01', 'eeee', 'Friday' ],
+			[ 'en', '2012-06-01', 'eeeee', 'F' ],
+			[ 'en', '2012-06-01', 'eeeeee', 'Fr' ],
+			[ 'en', '2012-06-01', 'eeeeeee', '' ],
+
+			# test: format local weekday in french
+
+			[ 'fr', '2012-06-01', 'e', '5' ],
+			[ 'fr', '2012-06-01', 'ee', '5' ],
+			[ 'fr', '2012-06-01', 'eee', 'ven.' ],
+			[ 'fr', '2012-06-01', 'eeee', 'vendredi' ],
+			[ 'fr', '2012-06-01', 'eeeee', 'V' ],
+			[ 'fr', '2012-06-01', 'eeeeee', 've' ],
+			[ 'fr', '2012-06-01', 'eeeeeee', '' ],
 
 			# test: format stand-alone weekday
 
@@ -196,6 +251,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'en', '2012-06-01', 'cccc', 'Friday' ],
 			[ 'en', '2012-06-01', 'ccccc', 'F' ],
 			[ 'en', '2012-06-01', 'cccccc', 'Fr' ],
+			[ 'en', '2012-06-01', 'ccccccc', '' ],
 
 			# test: format stand-alone weekday in french
 
@@ -205,6 +261,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'fr', '2012-06-01', 'cccc', 'Vendredi' ],
 			[ 'fr', '2012-06-01', 'ccccc', 'V' ],
 			[ 'fr', '2012-06-01', 'cccccc', 'Ve' ],
+			[ 'fr', '2012-06-01', 'ccccccc', '' ],
 
 			# test: format period
 
@@ -232,6 +289,8 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'en', '2012-06-01 12:00:00', 'hh', '12' ],
 			[ 'en', '2012-06-01 18:00:00', 'hh', '06' ],
 
+			[ 'en', '2012-06-01 18:00:00', 'hhh', '' ],
+
 			# test: format hour 24
 
 			[ 'en', '2012-06-01 00:00:00', 'H', '0' ],
@@ -243,6 +302,54 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'en', '2012-06-01 06:00:00', 'HH', '06' ],
 			[ 'en', '2012-06-01 12:00:00', 'HH', '12' ],
 			[ 'en', '2012-06-01 18:00:00', 'HH', '18' ],
+
+			[ 'en', '2012-06-01 18:00:00', 'HHH', '' ],
+
+			# test: format hour in period
+
+			[ 'en', '2012-06-01 00:00:00', 'K', '0' ],
+			[ 'en', '2012-06-01 00:00:00', 'KK', '00' ],
+			[ 'en', '2012-06-01 00:00:00', 'KKK', '' ],
+			[ 'en', '2012-06-01 00:00:00', 'KKKK', '' ],
+			[ 'en', '2012-06-01 00:00:00', 'KKKKK', '' ],
+			[ 'en', '2012-06-01 06:00:00', 'K', '6' ],
+			[ 'en', '2012-06-01 06:00:00', 'KK', '06' ],
+			[ 'en', '2012-06-01 06:00:00', 'KKK', '' ],
+			[ 'en', '2012-06-01 06:00:00', 'KKKK', '' ],
+			[ 'en', '2012-06-01 06:00:00', 'KKKKK', '' ],
+			[ 'en', '2012-06-01 12:00:00', 'K', '0' ],
+			[ 'en', '2012-06-01 12:00:00', 'KK', '00' ],
+			[ 'en', '2012-06-01 12:00:00', 'KKK', '' ],
+			[ 'en', '2012-06-01 12:00:00', 'KKKK', '' ],
+			[ 'en', '2012-06-01 12:00:00', 'KKKKK', '' ],
+			[ 'en', '2012-06-01 18:00:00', 'K', '6' ],
+			[ 'en', '2012-06-01 18:00:00', 'KK', '06' ],
+			[ 'en', '2012-06-01 18:00:00', 'KKK', '' ],
+			[ 'en', '2012-06-01 18:00:00', 'KKKK', '' ],
+			[ 'en', '2012-06-01 18:00:00', 'KKKKK', '' ],
+
+			# test: format hour in day
+
+			[ 'en', '2012-06-01 00:00:00', 'k', '24' ],
+			[ 'en', '2012-06-01 00:00:00', 'kk', '24' ],
+			[ 'en', '2012-06-01 00:00:00', 'kkk', '' ],
+			[ 'en', '2012-06-01 00:00:00', 'kkkk', '' ],
+			[ 'en', '2012-06-01 00:00:00', 'kkkkk', '' ],
+			[ 'en', '2012-06-01 06:00:00', 'k', '6' ],
+			[ 'en', '2012-06-01 06:00:00', 'kk', '06' ],
+			[ 'en', '2012-06-01 06:00:00', 'kkk', '' ],
+			[ 'en', '2012-06-01 06:00:00', 'kkkk', '' ],
+			[ 'en', '2012-06-01 06:00:00', 'kkkkk', '' ],
+			[ 'en', '2012-06-01 12:00:00', 'k', '12' ],
+			[ 'en', '2012-06-01 12:00:00', 'kk', '12' ],
+			[ 'en', '2012-06-01 12:00:00', 'kkk', '' ],
+			[ 'en', '2012-06-01 12:00:00', 'kkkk', '' ],
+			[ 'en', '2012-06-01 12:00:00', 'kkkkk', '' ],
+			[ 'en', '2012-06-01 18:00:00', 'k', '18' ],
+			[ 'en', '2012-06-01 18:00:00', 'kk', '18' ],
+			[ 'en', '2012-06-01 18:00:00', 'kkk', '' ],
+			[ 'en', '2012-06-01 18:00:00', 'kkkk', '' ],
+			[ 'en', '2012-06-01 18:00:00', 'kkkkk', '' ],
 
 			# test: format minute
 
@@ -264,18 +371,18 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 			# test: format quarter one figure
 
-			[ 'en', '2012-01-13', 'Q', 1 ],
-			[ 'en', '2012-02-13', 'Q', 1 ],
-			[ 'en', '2012-03-13', 'Q', 1 ],
-			[ 'en', '2012-04-13', 'Q', 2 ],
-			[ 'en', '2012-05-13', 'Q', 2 ],
-			[ 'en', '2012-06-13', 'Q', 2 ],
-			[ 'en', '2012-07-13', 'Q', 3 ],
-			[ 'en', '2012-08-13', 'Q', 3 ],
-			[ 'en', '2012-09-13', 'Q', 3 ],
-			[ 'en', '2012-10-13', 'Q', 4 ],
-			[ 'en', '2012-11-13', 'Q', 4 ],
-			[ 'en', '2012-12-13', 'Q', 4 ],
+			[ 'en', '2012-01-13', 'Q', '1' ],
+			[ 'en', '2012-02-13', 'Q', '1' ],
+			[ 'en', '2012-03-13', 'Q', '1' ],
+			[ 'en', '2012-04-13', 'Q', '2' ],
+			[ 'en', '2012-05-13', 'Q', '2' ],
+			[ 'en', '2012-06-13', 'Q', '2' ],
+			[ 'en', '2012-07-13', 'Q', '3' ],
+			[ 'en', '2012-08-13', 'Q', '3' ],
+			[ 'en', '2012-09-13', 'Q', '3' ],
+			[ 'en', '2012-10-13', 'Q', '4' ],
+			[ 'en', '2012-11-13', 'Q', '4' ],
+			[ 'en', '2012-12-13', 'Q', '4' ],
 
 			# test: format quarter two figures
 
@@ -312,20 +419,23 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'fr', '2012-07-13', 'QQQQ', '3e trimestre' ],
 			[ 'fr', '2012-10-13', 'QQQQ', '4e trimestre' ],
 
+			# test: format quarter invalid wide
+			[ 'fr', '2012-10-13', 'QQQQQ', '' ],
+
 			# test: format stand-alone quarter one figure
 
-			[ 'en', '2012-01-13', 'q', 1 ],
-			[ 'en', '2012-02-13', 'q', 1 ],
-			[ 'en', '2012-03-13', 'q', 1 ],
-			[ 'en', '2012-04-13', 'q', 2 ],
-			[ 'en', '2012-05-13', 'q', 2 ],
-			[ 'en', '2012-06-13', 'q', 2 ],
-			[ 'en', '2012-07-13', 'q', 3 ],
-			[ 'en', '2012-08-13', 'q', 3 ],
-			[ 'en', '2012-09-13', 'q', 3 ],
-			[ 'en', '2012-10-13', 'q', 4 ],
-			[ 'en', '2012-11-13', 'q', 4 ],
-			[ 'en', '2012-12-13', 'q', 4 ],
+			[ 'en', '2012-01-13', 'q', '1' ],
+			[ 'en', '2012-02-13', 'q', '1' ],
+			[ 'en', '2012-03-13', 'q', '1' ],
+			[ 'en', '2012-04-13', 'q', '2' ],
+			[ 'en', '2012-05-13', 'q', '2' ],
+			[ 'en', '2012-06-13', 'q', '2' ],
+			[ 'en', '2012-07-13', 'q', '3' ],
+			[ 'en', '2012-08-13', 'q', '3' ],
+			[ 'en', '2012-09-13', 'q', '3' ],
+			[ 'en', '2012-10-13', 'q', '4' ],
+			[ 'en', '2012-11-13', 'q', '4' ],
+			[ 'en', '2012-12-13', 'q', '4' ],
 
 			# test: format quarter two figures
 
@@ -375,6 +485,8 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 			[ 'fr', '2013-11-02 22:23:45', 'long', '2 novembre 2013 22:23:45 CET' ],
 			[ 'fr', '2013-11-02 22:23:45', 'medium', '2 nov. 2013 22:23:45' ],
 			[ 'fr', '2013-11-02 22:23:45', 'short', '02/11/2013 22:23' ],
+
+			[ 'fr', '2016-06-06', "''y 'Madonna' y 'Yay", "'2016 Madonna 2016 Yay" ],
 
 		];
 	}

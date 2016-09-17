@@ -18,6 +18,8 @@ use ICanBoogie\Storage\FileStorage;
  */
 class FileProvider extends FileStorage implements Provider
 {
+	// @codeCoverageIgnoreStart
+
 	/**
 	 * @inheritdoc
 	 */
@@ -41,4 +43,6 @@ class FileProvider extends FileStorage implements Provider
 	{
 		return $this->retrieve($path);
 	}
+
+	// @codeCoverageIgnoreEnd
 }

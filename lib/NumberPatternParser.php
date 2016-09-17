@@ -147,12 +147,9 @@ class NumberPatternParser
 
 		if ($pos !== false)
 		{
-			$format['group_size1'] = strrpos($p, '0') - $pos;
-
 			$pos2 = strrpos(substr($p, 0, $pos), ',');
-			$format['group_size2'] = $pos2 !== false
-				? $pos - $pos2 - 1
-				: 0;
+			$format['group_size1'] = strrpos($p, '0') - $pos;
+			$format['group_size2'] = $pos2 !== false ? $pos - $pos2 - 1 : 0;
 		}
 	}
 }

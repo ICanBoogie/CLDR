@@ -302,7 +302,7 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function format_era(DateTimeAccessor $datetime, $length)
 	{
-		if ($length > 6)
+		if ($length > 5)
 		{
 			return '';
 		}
@@ -317,6 +317,8 @@ class DateTimeFormatter implements Formatter
 			case 4: return $this->calendar->wide_eras[$era];
 			case 5: return $this->calendar->narrow_eras[$era];
 		}
+
+		return ''; // @codeCoverageIgnore
 	}
 
 	/*
@@ -379,6 +381,8 @@ class DateTimeFormatter implements Formatter
 			case 3: $names = $this->calendar->$abbreviated; return $names[$quarter];
 			case 4: $names = $this->calendar->$wide; return $names[$quarter];
 		}
+
+		return ''; // @codeCoverageIgnore
 	}
 
 	/**
@@ -438,6 +442,8 @@ class DateTimeFormatter implements Formatter
 			case 4: $names = $this->calendar->$wide; return $names[$month];
 			case 5: $names = $this->calendar->$narrow; return $names[$month];
 		}
+
+		return ''; // @codeCoverageIgnore
 	}
 
 	/**
@@ -609,6 +615,8 @@ class DateTimeFormatter implements Formatter
 			case 6:
 				return $calendar->short_days[$code];
 		}
+
+		return ''; // @codeCoverageIgnore
 	}
 
 	/**

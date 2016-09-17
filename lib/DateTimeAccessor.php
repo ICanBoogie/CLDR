@@ -25,8 +25,6 @@ namespace ICanBoogie\CLDR;
  * @property-read int $year_day Day of the year.
  *
  * @method string format(string $format)
- *
- * @internal
  */
 class DateTimeAccessor
 {

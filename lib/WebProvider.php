@@ -79,6 +79,8 @@ class WebProvider implements Storage, Provider
 		return json_decode($rc, true);
 	}
 
+	// @codeCoverageIgnoreStart
+
 	/**
 	 * The method does nothing.
 	 *
@@ -119,6 +121,8 @@ class WebProvider implements Storage, Provider
 	{
 		# does nothing
 	}
+
+	// @codeCoverageIgnoreEnd
 
 	/**
 	 * Returns a reusable cURL connection.

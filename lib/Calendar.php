@@ -302,7 +302,7 @@ class Calendar extends \ArrayObject
 				);
 		}
 
-		return $names;
+		return $names; // @codeCoverageIgnore
 	}
 
 	/**
@@ -358,7 +358,7 @@ class Calendar extends \ArrayObject
 
 		}
 
-		return $names;
+		return $names; // @codeCoverageIgnore
 	}
 
 	/**
