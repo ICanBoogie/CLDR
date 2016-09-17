@@ -65,7 +65,7 @@ class DateTimeAccessor
 			case 'second':
 				return (int) $dt->format('s');
 			case 'quarter':
-				return floor(($this->month - 1) / 3) + 1;
+				return (int) floor(($this->month - 1) / 3) + 1;
 			case 'week':
 				return (int) $dt->format('W');
 			case 'year_day':
