@@ -63,8 +63,9 @@ class WebProvider implements Storage, Provider
 	public function retrieve($key)
 	{
 		$connection = $this->obtain_connection();
+		$url = $this->map($key);
 
-		curl_setopt($connection, CURLOPT_URL, $this->origin . $key . '.json');
+		curl_setopt($connection, CURLOPT_URL, $url);
 
 		$rc = curl_exec($connection);
 
@@ -126,11 +127,16 @@ class WebProvider implements Storage, Provider
 	 */
 	private function obtain_connection()
 	{
-		if ($this->connection)
-		{
-			return $this->connection;
-		}
+		$connection = &$this->connection;
 
+		return $connection ?: $connection = $this->create_connection();
+	}
+
+	/**
+	 * @return resource
+	 */
+	private function create_connection()
+	{
 		$connection = curl_init();
 
 		curl_setopt_array($connection, [
@@ -140,6 +146,18 @@ class WebProvider implements Storage, Provider
 
 		]);
 
-		return $this->connection = $connection;
+		return $connection;
+	}
+
+	/**
+	 * Map a CLDR path to a distribution URL.
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	private function map($path)
+	{
+		return "{$this->origin}$path.json";
 	}
 }
