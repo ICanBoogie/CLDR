@@ -267,10 +267,10 @@ $datetime = '2013-11-02 22:23:45 UTC';
 
 echo $formatter($datetime, "MMM d, y");                 // November 2, 2013
 echo $formatter($datetime, "MMM d, y 'at' hh:mm:ss a"); // November 2, 2013 at 10:23:45 PM
-echo $formatter($datetime, 'full');                     // Saturday, November 2, 2013 at 10:23:45 PM UTC
-echo $formatter($datetime, 'long');                     // November 2, 2013 at 10:23:45 PM UTC
-echo $formatter($datetime, 'medium');                   // Nov 2, 2013, 10:23:45 PM
-echo $formatter($datetime, 'short');                    // 11/2/13, 10:23 PM
+echo $formatter($datetime, $formatter::WIDHT_FULL);     // Saturday, November 2, 2013 at 10:23:45 PM UTC
+echo $formatter($datetime, $formatter::WIDHT_LONG);     // November 2, 2013 at 10:23:45 PM UTC
+echo $formatter($datetime, $formatter::WIDHT_MEDIUM);   // Nov 2, 2013, 10:23:45 PM
+echo $formatter($datetime, $formatter::WIDHT_SHORT);    // 11/2/13, 10:23 PM
 echo $formatter($datetime, ':Ehm');                     // Sat 10:23 PM
 ```
 
@@ -293,10 +293,10 @@ $formatter = $repository->locales['en']->calendar->date_formatter;
 
 $datetime = '2013-11-05 21:22:23';
 
-echo $formatter($datetime, 'full');   // Tuesday, November 5, 2013
-echo $formatter($datetime, 'long');   // November 5, 2013
-echo $formatter($datetime, 'medium'); // Nov 5, 2013
-echo $formatter($datetime, 'short');  // 11/5/13
+echo $formatter($datetime, $formatter::WIDTH_FULL);   // Tuesday, November 5, 2013
+echo $formatter($datetime, $formatter::WIDTH_LONG);   // November 5, 2013
+echo $formatter($datetime, $formatter::WIDTH_MEDIUM); // Nov 5, 2013
+echo $formatter($datetime, $formatter::WIDTH_SHORT);  // 11/5/13
 ```
 
 
@@ -318,10 +318,10 @@ $formatter = $repository->locales['en']->calendar->time_formatter;
 
 $datetime = '2013-11-05 21:22:23 UTC';
 
-echo $formatter($datetime, 'full');   // 9:22:23 PM UTC
-echo $formatter($datetime, 'long');   // 9:22:23 PM UTC
-echo $formatter($datetime, 'medium'); // 9:22:23 PM
-echo $formatter($datetime, 'short');  // 9:22 PM
+echo $formatter($datetime, $formatter::WIDTH_FULL);   // 9:22:23 PM UTC
+echo $formatter($datetime, $formatter::WIDTH_LONG);   // 9:22:23 PM UTC
+echo $formatter($datetime, $formatter::WIDTH_MEDIUM); // 9:22:23 PM
+echo $formatter($datetime, $formatter::WIDTH_SHORT);  // 9:22 PM
 ```
 
 

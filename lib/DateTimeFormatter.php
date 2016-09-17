@@ -25,6 +25,20 @@ class DateTimeFormatter implements Formatter
 {
 	use AccessorTrait;
 
+	const WIDTH_FULL = 'full';
+	const WIDTH_LONG = 'long';
+	const WIDTH_MEDIUM = 'medium';
+	const WIDTH_SHORT = 'short';
+
+	static private $widths = [
+
+		self::WIDTH_FULL,
+		self::WIDTH_LONG,
+		self::WIDTH_MEDIUM,
+		self::WIDTH_SHORT,
+
+	];
+
 	/**
 	 * Pattern characters mapping to the corresponding translator methods.
 	 *
@@ -188,27 +202,11 @@ class DateTimeFormatter implements Formatter
 	/**
 	 * Formats a date according to a pattern.
 	 *
-	 * <pre>
-	 * <?php
-	 *
-	 * $datetime_formatter = $repository->locales['en']->calendar->datetime_formatter;
-	 * $datetime = '2013-11-02 22:23:45';
-	 *
-	 * echo $datetime_formatter($datetime, "MMM d, y");                 // November 2, 2013 at 10:23:45 PM
-	 * echo $datetime_formatter($datetime, "MMM d, y 'at' hh:mm:ss a"); // November 2, 2013 at 10:23:45 PM
-	 * echo $datetime_formatter($datetime, 'full');                     // Saturday, November 2, 2013 at 10:23:45 PM CET
-	 * echo $datetime_formatter($datetime, 'long');                     // November 2, 2013 at 10:23:45 PM CET
-	 * echo $datetime_formatter($datetime, 'medium');                   // Nov 2, 2013, 10:23:45 PM
-	 * echo $datetime_formatter($datetime, 'short');                    // 11/2/13, 10:23 PM
-	 * echo $datetime_formatter($datetime, ':Ehm');                     // Sat 10:23 PM
-	 * </pre>
-	 *
 	 * @param \DateTimeInterface|string|int $datetime The datetime to format.
 	 * @param string $pattern_or_width_or_skeleton The datetime can be formatted using a pattern,
-	 * a width or a skeleton. The following width are defined: "full", "long", "medium" and "short".
-	 * To format the datetime using a so-called "skeleton", the skeleton identifier must be
-	 * prefixed with the colon sign ":" e.g. ":Ehm". The skeleton identifies the patterns defined
-	 * under `availableFormats`.
+	 * a width (WIDTH_*) or a skeleton. To format the datetime using a so-called "skeleton",
+	 * the skeleton identifier must be prefixed with the colon sign ":" e.g. ":Ehm". The skeleton
+	 * identifies the patterns defined under `availableFormats`.
 	 *
 	 * @return string The formatted date time.
 	 *
@@ -254,10 +252,10 @@ class DateTimeFormatter implements Formatter
 
 			if (isset($available_formats[$skeleton]))
 			{
-				$pattern = $available_formats[$skeleton];
+				return $available_formats[$skeleton];
 			}
 		}
-		else if (in_array($pattern = $pattern_or_width_or_skeleton, [ 'full', 'long', 'medium', 'short' ]))
+		else if (in_array($pattern_or_width_or_skeleton, self::$widths))
 		{
 			$calendar = $this->calendar;
 			$width = $pattern_or_width_or_skeleton;
@@ -280,9 +278,7 @@ class DateTimeFormatter implements Formatter
 	 */
 	protected function resolve_width($pattern_or_width_or_skeleton, $from)
 	{
-		static $widths = [ 'full', 'long', 'medium', 'short' ];
-
-		if (in_array($pattern_or_width_or_skeleton, $widths))
+		if (in_array($pattern_or_width_or_skeleton, self::$widths))
 		{
 			return $this->calendar[$from][$pattern_or_width_or_skeleton];
 		}
