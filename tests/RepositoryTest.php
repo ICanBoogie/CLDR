@@ -38,6 +38,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 			[ 'territories',        TerritoryCollection::class ],
 			[ 'number_formatter',   NumberFormatter::class ],
 			[ 'list_formatter',     ListFormatter::class ],
+			[ 'plurals',            Plurals::class ],
 
 		];
 	}

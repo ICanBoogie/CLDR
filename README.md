@@ -620,6 +620,26 @@ echo $repository->locales['fr']->format_list([ "Monday", "Tuesday", "Friday" ]);
 
 
 
+## Plurals
+
+Languages have different pluralization rules for numbers that represent zero, one, tow, few, many or
+other. ICanBoogie's CLDR makes it easy to find the plural rules for any numeric value:
+
+```php
+<?php
+
+$repository->plurals->rules_for('fr'); // [ 'one', 'other' ]
+$repository->plurals->rules_for('ar'); // [ 'zero', 'one', 'two', 'few', 'many', 'other' ]
+
+$repository->plurals->rule_for(1.5, 'fr'); // 'one'
+$repository->plurals->rule_for(2, 'fr'); // 'other'
+$repository->plurals->rule_for(2, 'ar'); // 'twe'
+```
+
+
+
+
+
 ----------
 
 

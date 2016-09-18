@@ -34,6 +34,7 @@ use ICanBoogie\Accessor\AccessorTrait;
  * @property-read CurrencyCollection $currencies
  * @property-read NumberFormatter $number_formatter
  * @property-read ListFormatter $list_formatter
+ * @property-read Plurals $plurals
  *
  * @see http://www.unicode.org/repos/cldr-aux/json/24/
  */
@@ -100,6 +101,14 @@ class Repository
 	protected function lazy_get_list_formatter()
 	{
 		return new ListFormatter($this);
+	}
+
+	/**
+	 * @return Plurals
+	 */
+	protected function lazy_get_plurals()
+	{
+		return new Plurals($this->supplemental['plurals']);
 	}
 
 	/**
