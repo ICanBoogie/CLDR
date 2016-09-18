@@ -62,19 +62,19 @@ class NumberTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_parse($number, $precision, $expected)
 	{
-		$this->assertEquals($expected, Number::parse($number, $precision));
+		$this->assertSame($expected, Number::parse($number, $precision));
 	}
 
 	public function provide_test_parse()
 	{
 		return [
 
-			[ 12, 0, [ '12' ] ],
-			[ 12.2, 0, [ '12' ] ],
-			[ 12.5, 0, [ '13' ] ],
-			[ 12.25, 1, [ '12', '3' ] ],
-			[ 12.25, 2, [ '12', '25' ] ],
-			[ 12.25, 3, [ '12', '250' ] ],
+			[ 12,    0, [ 12,  null ] ],
+			[ 12.2,  0, [ 12,  null ] ],
+			[ 12.5,  0, [ 13,  null ] ],
+			[ 12.25, 1, [ 12,   '3' ] ],
+			[ 12.25, 2, [ 12,  '25' ] ],
+			[ 12.25, 3, [ 12, '250' ] ],
 
 		];
 	}

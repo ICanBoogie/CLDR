@@ -13,11 +13,17 @@ namespace ICanBoogie\CLDR;
 
 class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @deprecated
+	 */
 	public function test_should_return_correct_precision()
 	{
 		$this->assertEquals(3, NumberFormatter::precision_from(12.123));
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function test_should_return_zero_precision_if_the_number_is_not_a_decimal()
 	{
 		$this->assertEquals(0, NumberFormatter::precision_from(12));
@@ -31,6 +37,8 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 	 * @param number $number
 	 * @param int $precision
 	 * @param number $expected
+	 *
+	 * @deprecated
 	 */
 	public function test_round_to($number, $precision, $expected)
 	{
@@ -59,6 +67,8 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 	 * @param number $number
 	 * @param int $precision
 	 * @param array $expected
+	 *
+	 * @deprecated
 	 */
 	public function test_parse_number($number, $precision, $expected)
 	{
@@ -69,12 +79,12 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
 	{
 		return [
 
-			[ 12, 0, [ '12' ] ],
-			[ 12.2, 0, [ '12' ] ],
-			[ 12.5, 0, [ '13' ] ],
-			[ 12.25, 1, [ '12', '3' ] ],
-			[ 12.25, 2, [ '12', '25' ] ],
-			[ 12.25, 3, [ '12', '250' ] ],
+			[ 12,    0, [ 12,  null ] ],
+			[ 12.2,  0, [ 12,  null ] ],
+			[ 12.5,  0, [ 13,  null ] ],
+			[ 12.25, 1, [ 12,   '3' ] ],
+			[ 12.25, 2, [ 12,  '25' ] ],
+			[ 12.25, 3, [ 12, '250' ] ],
 
 		];
 	}

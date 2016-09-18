@@ -41,18 +41,14 @@ class NumberFormatter implements Formatter
 	 * @param number $number
 	 *
 	 * @return int
+	 *
+	 * @deprecated
+	 *
+	 * @see Number::precision_from()
 	 */
 	static public function precision_from($number)
 	{
-		$number = (string) $number;
-		$pos = strrpos($number, '.');
-
-		if (!$pos)
-		{
-			return 0;
-		}
-
-		return strlen($number) - $pos - 1;
+		return Number::precision_from($number);
 	}
 
 	/**
@@ -62,10 +58,14 @@ class NumberFormatter implements Formatter
 	 * @param int $precision
 	 *
 	 * @return float
+	 *
+	 * @deprecated
+	 *
+	 * @see Number::round_to()
 	 */
 	static public function round_to($number, $precision)
 	{
-		return round($number, $precision);
+		return Number::round_to($number, $precision);
 	}
 
 	/**
@@ -75,19 +75,14 @@ class NumberFormatter implements Formatter
 	 * @param null|int $precision
 	 *
 	 * @return array
+	 *
+	 * @deprecated
+	 *
+	 * @see Number::parse()
 	 */
-	static public function parse_number($number, $precision=null)
+	static public function parse_number($number, $precision = null)
 	{
-		if ($precision === null)
-		{
-			$precision = self::precision_from($number);
-		}
-
-		$number = self::round_to($number, $precision);
-		$number = abs($number);
-		$number = number_format($number, $precision, '.', '');
-
-		return explode('.', (string) $number);
+		return Number::parse($number, $precision);
 	}
 
 	/**

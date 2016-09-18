@@ -52,7 +52,8 @@ class Number
 	 * @param number $number
 	 * @param null|int $precision
 	 *
-	 * @return array
+	 * @return array An array of [ $integer, $fractional ]. The fractional part is `null` if
+	 * `$number` has no decimal separator.
 	 */
 	static public function parse($number, $precision = null)
 	{
@@ -65,6 +66,8 @@ class Number
 		$number = abs($number);
 		$number = number_format($number, $precision, '.', '');
 
-		return explode('.', (string) $number);
+		list($integer, $fractional) = explode('.', (string) $number) + [ 1 => null ];
+
+		return [ (int) $integer, $fractional ];
 	}
 }
