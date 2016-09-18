@@ -40,7 +40,7 @@ final class Operands
 	}
 
 	/**
-	 * @var int
+	 * @var number
 	 */
 	private $n;
 
