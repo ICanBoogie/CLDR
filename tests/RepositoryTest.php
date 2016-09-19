@@ -62,4 +62,20 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->assertSame("4,123.37", $this->repository->format_number(4123.37, "#,#00.#0"));
 	}
+
+	public function test_format_list()
+	{
+		$list = [ 'one', 'two', 'three' ];
+
+		$list_patterns = [
+
+			'start' => "{0}, {1}",
+			'middle' => "{0}, {1}",
+			'end' => "{0}, and {1}",
+			'2' =>  "{0} and {1}"
+
+		];
+
+		$this->assertSame("one, two, and three", $this->repository->format_list($list, $list_patterns));
+	}
 }

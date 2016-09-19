@@ -150,4 +150,19 @@ class Repository
 	{
 		return $this->number_formatter->format($number, $pattern, $symbols);
 	}
+
+	/**
+	 * Formats a variable-length lists of things.
+	 *
+	 * @param array $list The list to format.
+	 * @param array $list_patterns A list patterns.
+	 *
+	 * @return string
+	 *
+	 * @see ListFormatter::format()
+	 */
+	public function format_list(array $list, array $list_patterns)
+	{
+		return $this->list_formatter->format($list, $list_patterns);
+	}
 }
