@@ -37,13 +37,15 @@ providers:
 
 namespace ICanBoogie\CLDR;
 
+/* @var $redis_client mixed */
+
 $provider = new ProviderCollection([
 
 	new RunTimeProvider,
-	new RedisProvider($redis_client),
+	new RedisProvider($redis_client, 'cldr'),
 	new FileProvider("/path/to/storage"),
 	new WebProvider
-	
+
 ]);
 
 $repository = new Repository($provider);
@@ -63,6 +65,8 @@ supplemental data:
 
 ```php
 <?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 $english_locale = $repository->locales['en'];
 $french_locale = $repository->locales['fr'];
@@ -85,6 +89,8 @@ languages, territories and more.
 ```php
 <?php
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $locale = $repository->locales['fr'];
 
 echo $locale['characters']['auxiliary'];      // [á å ä ã ā ē í ì ī ñ ó ò ö ø ú ǔ]
@@ -97,6 +103,8 @@ obtain the default calendar of a locale.
 
 ```php
 <?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 $locale = $repository->locales['fr'];
 
@@ -122,6 +130,8 @@ defined.
 ```php
 <?php
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $datetime = new \DateTime;
 $localized_datetime = $repository->locales['fr']->localize($datetime);
 echo get_class($localized_datetime); // ICanBoogie\CLDR\LocalizedDateTime
@@ -131,6 +141,8 @@ Instances that can be localized usually implement the `localize()` method.
 
 ```php
 <?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 echo $repository->territories['FR']->localize('fr')->name; // France
 ```
@@ -146,6 +158,8 @@ of the desired locale.
 
 ```php
 <?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 $locale = $repository->locales['fr'];
 
@@ -168,6 +182,8 @@ capitalization behavior for dates, date elements, names of languages/regions/cur
 <?php
 
 use ICanBoogie\CLDR\ContextTransforms;
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 echo $repository->locales['fr']->context_transform(
 	"juin",
@@ -193,16 +209,18 @@ provide magic properties to rapidly access days, eras, months and quarters:
 
 use ICanBoogie\CLDR\Calendar;
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $calendar = new Calendar($repository->locales['fr'], $repository->locales['fr']['ca-gregorian']);
 # or
 $calendar = $repository->locales['fr']->calendars['gregorian'];
 # or
 $calendar = $repository->locales['fr']->calendar; // because "gregorian" is the default calendar for this locale
 
-$calender->standalone_abbreviated_days;
+$calendar->standalone_abbreviated_days;
 # or $calender['days']['stand-alone']['abbreviated'];
 
-$calender->abbreviated_days;
+$calendar->abbreviated_days;
 # or $calender['days']['format']['abbreviated'];
 ```
 
@@ -212,14 +230,16 @@ This works with days, eras, months, quarters and the following widths: `abbrevia
 ```php
 <?php
 
-$calender->standalone_abbreviated_eras;
-$calender->standalone_narrow_months;
-$calender->standalone_short_quarters;
-$calender->standalone_wide_days;
-$calender->abbreviated_days;
-$calender->narrow_months;
-$calender->short_days;
-$calender->wide_quarters;
+/* @var $calendar \ICanBoogie\CLDR\Calendar */
+
+$calendar->standalone_abbreviated_eras;
+$calendar->standalone_narrow_months;
+$calendar->standalone_short_quarters;
+$calendar->standalone_wide_days;
+$calendar->abbreviated_days;
+$calendar->narrow_months;
+$calendar->short_days;
+$calendar->wide_quarters;
 ```
 
 
@@ -235,6 +255,8 @@ used.
 
 ```php
 <?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 $datetime = '2013-11-05 20:12:22 UTC';
 $calendar = $repository->locales['fr']->calendar;
@@ -258,6 +280,8 @@ used for the formatting. The datetime can be specified as an Unix timestamp, a s
 <?php
 
 use ICanBoogie\CLDR\DateTimeFormatter;
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 $formatter = new DateTimeFormatter($repository->locales['en']->calendar);
 # or
@@ -287,6 +311,8 @@ Calendars provide a formatter for dates. A width or a pattern is used for the fo
 
 use ICanBoogie\CLDR\DateFormatter;
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $formatter = new DateFormatter($repository->locales['en']->calendar);
 # or
 $formatter = $repository->locales['en']->calendar->date_formatter;
@@ -311,6 +337,8 @@ Calendars provide a formatter for times. A width or a pattern is used for the fo
 <?php
 
 use ICanBoogie\CLDR\TimeFormatter;
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 $formatter = new TimeFormatter($repository->locales['en']->calendar);
 # or
@@ -338,6 +366,8 @@ the `localize` method of the desired locale:
 
 use ICanBoogie\CLDR\LocalizedDateTime;
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $repository->locales['fr']);
 # or
 $ldt = $repository->locales['fr']->localize(new \DateTime('2013-11-04 20:21:22 UTC'));
@@ -362,6 +392,8 @@ information that is actually scattered across the CLDR.
 
 ```php
 <?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 $territory = $repository->territories['FR'];
 
@@ -401,6 +433,8 @@ the desired locale.
 ```php
 <?php
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $territory = $repository->territories['FR'];
 
 $localized_territory = $territory->localize('fr');
@@ -422,11 +456,13 @@ Currencies are represented by instances of [Currency][]. You can create the inst
 get one through the currency collection.
 
 ```php
-<php
+<?php
 
 use ICanBoogie\CLDR\Currency;
 
-$euro = new Currency($repository, 'EUR')
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
+$euro = new Currency($repository, 'EUR');
 # or
 $euro = $repository->currencies['EUR'];
 ```
@@ -445,11 +481,13 @@ of the desired locale, it is often used to format a currency using the conventio
 
 use ICanBoogie\CLDR\Currency;
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $currency = new Currency($repository, 'EUR');
 
 $localized_currency = $currency->localize('fr');
 # or
-$localized_currency = $repository->locale['fr']->localize($currency);
+$localized_currency = $repository->locales['fr']->localize($currency);
 
 echo $localized_currency->name;             // euro
 echo $localized_currency->name(1);          // euro
@@ -482,6 +520,8 @@ $formatter(.3789, "#0.#0 %");
 ```php
 <?php
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $number_formatter = $repository->number_formatter;
 echo $repository->format_number(123456.78);
 ```
@@ -503,6 +543,8 @@ list is formatted with the _standard_ type, but you can also provide your own pa
 use ICanBoogie\CLDR\NumberFormatter;
 use ICanBoogie\CLDR\LocalizedNumberFormatter;
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $formatter = new NumberFormatter($repository);
 
 $localized_formatter = $formatter->localize('fr');
@@ -521,6 +563,8 @@ $formatter->localize('en')->format(123456.78);
 
 ```php
 <?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
 
 $localized_number_formatter = $repository->locales['fr']->number_formatter;
 echo $repository->locales['fr']->format_number(123456.78);
@@ -569,6 +613,17 @@ $formatter([ "Monday", "Tuesday", "Friday", "Saturday" ], $list_patterns);
 ```php
 <?php
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
+$list_patterns = [
+
+	'start' => "{0}, {1}",
+	'middle' => "{0}, {1}",
+	'end' => "{0}, and {1}",
+	'2' =>  "{0} and {1}"
+
+];
+
 $list_formatter = $repository->list_formatter;
 echo $repository->format_list([ "Monday", "Tuesday", "Friday" ], $list_patterns);
 ```
@@ -591,6 +646,8 @@ provide your own list patterns.
 use ICanBoogie\CLDR\ListFormatter;
 use ICanBoogie\CLDR\LocalizedListFormatter;
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $formatter = new ListFormatter($repository);
 
 $localized_formatter = $formatter->localize('fr');
@@ -612,6 +669,8 @@ $localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], LocalizedListFo
 ```php
 <?php
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $localized_list_formatter = $repository->locales['fr']->list_formatter;
 echo $repository->locales['fr']->format_list([ "Monday", "Tuesday", "Friday" ]);
 ```
@@ -628,12 +687,14 @@ other. ICanBoogie's CLDR makes it easy to find the plural rules for any numeric 
 ```php
 <?php
 
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
 $repository->plurals->rules_for('fr'); // [ 'one', 'other' ]
 $repository->plurals->rules_for('ar'); // [ 'zero', 'one', 'two', 'few', 'many', 'other' ]
 
-$repository->plurals->rule_for(1.5, 'fr'); // 'one'
-$repository->plurals->rule_for(2, 'fr'); // 'other'
-$repository->plurals->rule_for(2, 'ar'); // 'twe'
+$repository->plurals->rule_for(1.5, 'fr'); // one
+$repository->plurals->rule_for(2, 'fr');   // other
+$repository->plurals->rule_for(2, 'ar');   // two
 ```
 
 
