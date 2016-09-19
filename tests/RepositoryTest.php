@@ -14,6 +14,21 @@ namespace ICanBoogie\CLDR;
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
 	/**
+	 * @var Repository
+	 */
+	private $repository;
+
+	public function setUp()
+	{
+		$repository = &$this->repository;
+
+		if (!$repository)
+		{
+			$repository = new Repository(create_provider_collection());
+		}
+	}
+
+	/**
 	 * @dataProvider provide_test_properties_instanceof
 	 *
 	 * @param string $property
@@ -21,7 +36,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_properties_instanceof($property, $expected)
 	{
-		$repository = new Repository(create_provider_collection());
+		$repository = $this->repository;
 		$instance = $repository->$property;
 		$this->assertInstanceOf($expected, $instance);
 		$this->assertSame($instance, $repository->$property);
@@ -41,5 +56,10 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 			[ 'plurals',            Plurals::class ],
 
 		];
+	}
+
+	public function test_format_number()
+	{
+		$this->assertSame("4,123.37", $this->repository->format_number(4123.37, "#,#00.#0"));
 	}
 }

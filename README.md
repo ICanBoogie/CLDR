@@ -523,7 +523,8 @@ $formatter(.3789, "#0.#0 %");
 /* @var $repository \ICanBoogie\CLDR\Repository */
 
 $number_formatter = $repository->number_formatter;
-echo $repository->format_number(123456.78);
+
+echo $repository->format_number(4123.37, "#,#00.#0"); // 4,123.37
 ```
 
 

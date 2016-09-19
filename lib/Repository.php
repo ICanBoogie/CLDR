@@ -134,4 +134,20 @@ class Repository
 	{
 		return $this->provider->provide($path);
 	}
+
+	/**
+	 * Format a number with the specified pattern.
+	 *
+	 * @param mixed $number The number to be formatted.
+	 * @param string $pattern The pattern used to format the number.
+	 * @param array $symbols Symbols.
+	 *
+	 * @return string
+	 *
+	 * @see NumberFormatter::format()
+	 */
+	public function format_number($number, $pattern, array $symbols = [])
+	{
+		return $this->number_formatter->format($number, $pattern, $symbols);
+	}
 }
