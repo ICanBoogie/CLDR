@@ -211,6 +211,28 @@ class DateTimeFormatter implements Formatter
 	 * @return string The formatted date time.
 	 *
 	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
+	 *
+	 * @uses format_era
+	 * @uses format_year
+	 * @uses format_standalone_quarter
+	 * @uses format_standalone_month
+	 * @uses format_week_of_year
+	 * @uses format_week_of_month
+	 * @uses format_day_of_month
+	 * @uses format_day_of_year
+	 * @uses format_day_of_week_in_month
+	 * @uses format_day_in_week
+	 * @uses format_day_in_week_stand_alone
+	 * @uses format_day_in_week_local
+	 * @uses format_period
+	 * @uses format_hour12
+	 * @uses format_hour24
+	 * @uses format_hour_in_period
+	 * @uses format_hour_in_day
+	 * @uses format_minutes
+	 * @uses format_seconds
+	 * @uses format_timezone_basic
+	 * @uses format_timezone_non_location
 	 */
 	public function format($datetime, $pattern_or_width_or_skeleton)
 	{
@@ -300,7 +322,7 @@ class DateTimeFormatter implements Formatter
 	 * @return string era
 	 * @todo How to support multiple Eras?, e.g. Japanese.
 	 */
-	protected function format_era(DateTimeAccessor $datetime, $length)
+	private function format_era(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 5)
 		{
@@ -334,7 +356,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string formatted year
 	 */
-	protected function format_year(DateTimeAccessor $datetime, $length)
+	private function format_year(DateTimeAccessor $datetime, $length)
 	{
 		$year = $datetime->year;
 
@@ -394,7 +416,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_standalone_quarter(DateTimeAccessor $datetime, $length)
+	private function format_standalone_quarter(DateTimeAccessor $datetime, $length)
 	{
 		return $this->format_quarter(
 			$datetime,
@@ -455,7 +477,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_standalone_month(DateTimeAccessor $datetime, $length)
+	private function format_standalone_month(DateTimeAccessor $datetime, $length)
 	{
 		return $this->format_month(
 			$datetime,
@@ -478,7 +500,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_week_of_year(DateTimeAccessor $datetime, $length)
+	private function format_week_of_year(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 2)
 		{
@@ -498,7 +520,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return int|false Week of month, of `false` if `$length` is greater than 1.
 	 */
-	protected function format_week_of_month(DateTimeAccessor $datetime, $length)
+	private function format_week_of_month(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 1)
 		{
@@ -520,7 +542,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_day_of_month(DateTimeAccessor $datetime, $length)
+	private function format_day_of_month(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 2)
 		{
@@ -545,7 +567,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_day_of_year(DateTimeAccessor $datetime, $length)
+	private function format_day_of_year(DateTimeAccessor $datetime, $length)
 	{
 		$day = $datetime->year_day;
 
@@ -565,7 +587,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_day_of_week_in_month(DateTimeAccessor $datetime, $length)
+	private function format_day_of_week_in_month(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 1)
 		{
@@ -588,7 +610,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_day_in_week(DateTimeAccessor $datetime, $length)
+	private function format_day_in_week(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 6)
 		{
@@ -629,7 +651,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_day_in_week_stand_alone(DateTimeAccessor $datetime, $length)
+	private function format_day_in_week_stand_alone(DateTimeAccessor $datetime, $length)
 	{
 		static $mapping = [
 
@@ -667,7 +689,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_day_in_week_local(DateTimeAccessor $datetime, $length)
+	private function format_day_in_week_local(DateTimeAccessor $datetime, $length)
 	{
 		if ($length < 3)
 		{
@@ -688,7 +710,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string AM or PM designator
 	 */
-	protected function format_period(DateTimeAccessor $datetime)
+	private function format_period(DateTimeAccessor $datetime)
 	{
 		return $this->calendar['dayPeriods']['format']['abbreviated'][$datetime->hour < 12 ? 'am' : 'pm'];
 	}
@@ -708,7 +730,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_hour12(DateTimeAccessor $datetime, $length)
+	private function format_hour12(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 2)
 		{
@@ -737,7 +759,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_hour24(DateTimeAccessor $datetime, $length)
+	private function format_hour24(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 2)
 		{
@@ -763,7 +785,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return integer hours in AM/PM format.
 	 */
-	protected function format_hour_in_period(DateTimeAccessor $datetime, $length)
+	private function format_hour_in_period(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 2)
 		{
@@ -789,7 +811,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return integer
 	 */
-	protected function format_hour_in_day(DateTimeAccessor $datetime, $length)
+	private function format_hour_in_day(DateTimeAccessor $datetime, $length)
 	{
 		if ($length > 2)
 		{
@@ -818,7 +840,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string minutes.
 	 */
-	protected function format_minutes(DateTimeAccessor $datetime, $length)
+	private function format_minutes(DateTimeAccessor $datetime, $length)
 	{
 		return $this->format_minutes_or_seconds($datetime, $length, 'minute');
 	}
@@ -835,7 +857,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string seconds
 	 */
-	protected function format_seconds(DateTimeAccessor $datetime, $length)
+	private function format_seconds(DateTimeAccessor $datetime, $length)
 	{
 		return $this->format_minutes_or_seconds($datetime, $length, 'second');
 	}
@@ -877,7 +899,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_timezone_basic(DateTimeAccessor $datetime)
+	private function format_timezone_basic(DateTimeAccessor $datetime)
 	{
 		return $datetime->format('O');
 	}
@@ -889,7 +911,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @return string
 	 */
-	protected function format_timezone_non_location(DateTimeAccessor $datetime)
+	private function format_timezone_non_location(DateTimeAccessor $datetime)
 	{
 		$str = $datetime->format('T');
 

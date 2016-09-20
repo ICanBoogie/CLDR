@@ -165,6 +165,10 @@ class Calendar extends \ArrayObject
 	 * @param array $data
 	 *
 	 * @return array
+	 *
+	 * @uses transform_months
+	 * @uses transform_days
+	 * @uses transform_quarters
 	 */
 	private function transform_data(array $data)
 	{
@@ -248,6 +252,7 @@ class Calendar extends \ArrayObject
 	 * @param array $names
 	 * @param string $width
 	 * @param bool $standalone
+	 * @param string $usage
 	 *
 	 * @return string
 	 */
