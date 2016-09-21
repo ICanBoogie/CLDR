@@ -23,6 +23,7 @@ namespace ICanBoogie\CLDR;
  * @property-read LocalizedNumberFormatter $number_formatter
  * @property-read LocalizedListFormatter $list_formatter
  * @property-read ContextTransforms $context_transforms
+ * @property-read Units $units
  */
 class Locale extends AbstractSectionCollection
 {
@@ -150,6 +151,14 @@ class Locale extends AbstractSectionCollection
 	protected function lazy_get_context_transforms()
 	{
 		return new ContextTransforms($this['contextTransforms']);
+	}
+
+	/**
+	 * @return Units
+	 */
+	protected function lazy_get_units()
+	{
+		return new Units($this);
 	}
 
 	/**

@@ -77,6 +77,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 			[ 'number_formatter',   LocalizedNumberFormatter::class ],
 			[ 'list_formatter',     LocalizedListFormatter::class ],
 			[ 'context_transforms', ContextTransforms::class ],
+			[ 'units',              Units::class ],
 
 		];
 	}
