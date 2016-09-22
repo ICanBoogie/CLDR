@@ -76,4 +76,33 @@ class LocalizedCurrencyTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	/**
+	 * @dataProvider provide_test_format_accounting
+	 *
+	 * @param string $currency_code
+	 * @param string $locale_code
+	 * @param int $number
+	 * @param string $expected
+	 */
+	public function test_format_accounting($currency_code, $locale_code, $number, $expected)
+	{
+		$currency = new Currency(get_repository(), $currency_code);
+		$localized = $currency->localize($locale_code);
+		$this->assertEquals($expected, $localized->format($number, $localized::PATTERN_ACCOUNTING));
+	}
+
+	public function provide_test_format_accounting()
+	{
+		return [
+
+			[ 'IEP', 'fr', 123456.789, "123 456,79 £IE" ],
+			[ 'IEP', 'en', 123456.789, "IEP123,456.79" ],
+			[ 'EUR', 'fr', 123456.789, "123 456,79 €" ],
+			[ 'EUR', 'en', 123456.789, "€123,456.79" ],
+			[ 'USD', 'fr', 123456.789, "123 456,79 \$US" ],
+			[ 'USD', 'en', 123456.789, "\$123,456.79" ],
+
+		];
+	}
 }

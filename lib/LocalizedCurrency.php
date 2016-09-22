@@ -69,12 +69,9 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 */
 	protected function get_symbol()
 	{
-		if ($this->_symbol)
-		{
-			return $this->_symbol;
-		}
+		$symbol = &$this->_symbol;
 
-		return $this->_symbol = $this->locale['currencies'][$this->target->code]['symbol'];
+		return $symbol ?: $symbol = $this->locale['currencies'][$this->target->code]['symbol'];
 	}
 
 	/**
