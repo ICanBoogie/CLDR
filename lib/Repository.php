@@ -161,6 +161,22 @@ class Repository
 	}
 
 	/**
+	 * Format a number with the specified pattern.
+	 *
+	 * @param mixed $number The number to be formatted.
+	 * @param string $pattern The pattern used to format the number.
+	 * @param array $symbols Symbols.
+	 *
+	 * @return string
+	 *
+	 * @see CurrencyFormatter::format()
+	 */
+	public function format_currency($number, $pattern, array $symbols = [])
+	{
+		return $this->currency_formatter->format($number, $pattern, $symbols);
+	}
+
+	/**
 	 * Formats a variable-length lists of things.
 	 *
 	 * @param array $list The list to format.

@@ -64,6 +64,15 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 		$this->assertSame("4,123.37", $this->repository->format_number(4123.37, "#,#00.#0"));
 	}
 
+	public function test_format_currency()
+	{
+		$this->assertSame("$4,123.37", $this->repository->format_currency(4123.37, "¤#,#00.#0", [
+
+			'currencySymbol' => '$'
+
+		]));
+	}
+
 	public function test_format_list()
 	{
 		$list = [ 'one', 'two', 'three' ];
