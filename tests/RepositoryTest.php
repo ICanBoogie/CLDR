@@ -52,6 +52,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 			[ 'supplemental',       Supplemental::class ],
 			[ 'territories',        TerritoryCollection::class ],
 			[ 'number_formatter',   NumberFormatter::class ],
+			[ 'currency_formatter', CurrencyFormatter::class ],
 			[ 'list_formatter',     ListFormatter::class ],
 			[ 'plurals',            Plurals::class ],
 

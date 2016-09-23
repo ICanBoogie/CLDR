@@ -33,6 +33,7 @@ use ICanBoogie\Accessor\AccessorTrait;
  * @property-read TerritoryCollection $territories
  * @property-read CurrencyCollection $currencies
  * @property-read NumberFormatter $number_formatter
+ * @property-read CurrencyFormatter $currency_formatter
  * @property-read ListFormatter $list_formatter
  * @property-read Plurals $plurals
  *
@@ -93,6 +94,14 @@ class Repository
 	protected function lazy_get_number_formatter()
 	{
 		return new NumberFormatter($this);
+	}
+
+	/**
+	 * @return CurrencyFormatter
+	 */
+	protected function lazy_get_currency_formatter()
+	{
+		return new CurrencyFormatter($this);
 	}
 
 	/**
