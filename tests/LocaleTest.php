@@ -176,12 +176,26 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
 	public function test_format_number()
 	{
-		$this->assertEquals("123 456,78", (new Locale(get_repository(), 'fr'))->format_number(123456.78));
+		$this->assertSame(
+			"123 456,78",
+			(new Locale(get_repository(), 'fr'))->format_number(123456.78)
+		);
+	}
+
+	public function test_format_currency()
+	{
+		$this->assertSame(
+			"123 456,78 €",
+			(new Locale(get_repository(), 'fr'))->format_currency(123456.78, 'EUR')
+		);
 	}
 
 	public function test_format_list()
 	{
-		$this->assertEquals("lundi, mardi et mercredi", (new Locale(get_repository(), 'fr'))->format_list([ "lundi", "mardi", "mercredi" ]));
+		$this->assertSame(
+			"lundi, mardi et mercredi",
+			(new Locale(get_repository(), 'fr'))->format_list([ "lundi", "mardi", "mercredi" ])
+		);
 	}
 
 	public function test_context_transform()

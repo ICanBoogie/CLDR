@@ -238,6 +238,25 @@ class Locale extends AbstractSectionCollection
 	}
 
 	/**
+	 * Formats currency using localized conventions.
+	 *
+	 * @param number $number
+	 * @param Currency|string $currency
+	 * @param string $pattern
+	 * @param array $symbols
+	 *
+	 * @return string
+	 */
+	public function format_currency(
+		$number,
+		$currency,
+		$pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD,
+		array $symbols = []
+	) {
+		return $this->currency_formatter->format($number, $currency, $pattern, $symbols);
+	}
+
+	/**
 	 * Formats a variable-length lists of things using {@link $list_formatter}.
 	 *
 	 * @param array $list The list to format.
