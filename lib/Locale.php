@@ -21,6 +21,7 @@ namespace ICanBoogie\CLDR;
  * @property-read Calendar $calendar The preferred calendar for this locale.
  * @property-read Numbers $numbers
  * @property-read LocalizedNumberFormatter $number_formatter
+ * @property-read LocalizedCurrencyFormatter $currency_formatter
  * @property-read LocalizedListFormatter $list_formatter
  * @property-read ContextTransforms $context_transforms
  * @property-read Units $units
@@ -135,6 +136,14 @@ class Locale extends AbstractSectionCollection
 	protected function lazy_get_number_formatter()
 	{
 		return $this->localize($this->repository->number_formatter);
+	}
+
+	/**
+	 * @return LocalizedCurrencyFormatter
+	 */
+	protected function lazy_get_currency_formatter()
+	{
+		return $this->localize($this->repository->currency_formatter);
 	}
 
 	/**

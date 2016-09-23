@@ -75,6 +75,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 			[ 'calendar',           Calendar::class ],
 			[ 'numbers',            Numbers::class ],
 			[ 'number_formatter',   LocalizedNumberFormatter::class ],
+			[ 'currency_formatter', LocalizedCurrencyFormatter::class ],
 			[ 'list_formatter',     LocalizedListFormatter::class ],
 			[ 'context_transforms', ContextTransforms::class ],
 			[ 'units',              Units::class ],
