@@ -1,7 +1,7 @@
 # customization
 
 PACKAGE_NAME = icanboogie/cldr
-PACKAGE_VERSION = 1.8
+PACKAGE_VERSION = 1.9
 PHPUNIT_VERSION = phpunit-4.phar
 PHPUNIT = build/$(PHPUNIT_VERSION)
 PHPUNIT_COVERAGE=$(PHPUNIT)

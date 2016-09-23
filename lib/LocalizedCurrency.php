@@ -17,21 +17,28 @@ namespace ICanBoogie\CLDR;
  * @property-read Currency $target
  * @property-read string $name The localized name of the currency.
  * @property-read string $symbol The localized symbol of the currency.
- * @property-read CurrencyFormatter $formatter
+ * @property-read LocalizedCurrencyFormatter $formatter
  */
 class LocalizedCurrency extends LocalizedObjectWithFormatter
 {
-	const PATTERN_STANDARD = 'standard';
-	const PATTERN_ACCOUNTING = 'accounting';
+	/**
+	 * @deprecated
+	 */
+	const PATTERN_STANDARD = LocalizedCurrencyFormatter::PATTERN_STANDARD;
+
+	/**
+	 * @deprecated
+	 */
+	const PATTERN_ACCOUNTING = LocalizedCurrencyFormatter::PATTERN_ACCOUNTING;
 
 	/**
 	 * Returns the formatter to use to format the target object.
 	 *
-	 * @return CurrencyFormatter
+	 * @return LocalizedCurrencyFormatter
 	 */
 	protected function lazy_get_formatter()
 	{
-		return new CurrencyFormatter($this->locale->repository);
+		return new LocalizedCurrencyFormatter(new CurrencyFormatter($this->locale->repository), $this->locale);
 	}
 
 	/**
@@ -60,7 +67,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	/**
 	 * @var string
 	 */
-	private $_symbol;
+	private $symbol;
 
 	/**
 	 * Returns the localized symbol of the currency.
@@ -69,7 +76,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 */
 	protected function get_symbol()
 	{
-		$symbol = &$this->_symbol;
+		$symbol = &$this->symbol;
 
 		return $symbol ?: $symbol = $this->locale['currencies'][$this->target->code]['symbol'];
 	}
@@ -83,40 +90,8 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 *
 	 * @return string
 	 */
-	public function format($number, $pattern = self::PATTERN_STANDARD, array $symbols = [])
+	public function format($number, $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD, array $symbols = [])
 	{
-		$symbols += $this->locale->numbers->symbols + [
-
-			'currencySymbol' => $this->symbol
-
-		];
-
-		return $this->formatter->format($number, $this->resolve_pattern($pattern), $symbols);
-	}
-
-	/**
-	 * Resolves a pattern.
-	 *
-	 * The special patterns {@link PATTERN_STANDARD} and {@link PATTERN_ACCOUNTING} are resolved
-	 * from the currency formats.
-	 *
-	 * @param string $pattern
-	 *
-	 * @return string
-	 */
-	protected function resolve_pattern($pattern)
-	{
-		switch ($pattern)
-		{
-			case self::PATTERN_STANDARD:
-
-				return $this->locale->numbers->currency_formats['standard'];
-
-			case self::PATTERN_ACCOUNTING:
-
-				return $this->locale->numbers->currency_formats['accounting'];
-		}
-
-		return $pattern;
+		return $this->formatter->format($number, $this->target, $pattern, $symbols);
 	}
 }
