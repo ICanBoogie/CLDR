@@ -11,6 +11,9 @@
 
 namespace ICanBoogie\CLDR;
 
+/**
+ * @see http://unicode.org/reports/tr35/tr35-numbers.html#Number_Pattern_Character_Definitions
+ */
 class NumberPatternParser
 {
 	const PATTERN_REGEX = '/^(.*?)[#,\.0]+(.*?)$/';

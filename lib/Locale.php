@@ -238,6 +238,24 @@ class Locale extends AbstractSectionCollection
 	}
 
 	/**
+	 * @param number $number
+	 * @param string|null $pattern
+	 * @param array $symbols
+	 *
+	 * @return string
+	 *
+	 * @see LocalizedNumberFormatter::format
+	 */
+	public function format_percent($number, $pattern = null, array $symbols = [])
+	{
+		return $this->number_formatter->format(
+			$number,
+			$pattern ?: $this->numbers->percent_formats['standard'],
+			$symbols
+		);
+	}
+
+	/**
 	 * Formats currency using localized conventions.
 	 *
 	 * @param number $number

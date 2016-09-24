@@ -182,6 +182,14 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	public function test_format_percent()
+	{
+		$this->assertSame(
+			"12 %",
+			(new Locale(get_repository(), 'fr'))->format_percent(.1234)
+		);
+	}
+
 	public function test_format_currency()
 	{
 		$this->assertSame(
