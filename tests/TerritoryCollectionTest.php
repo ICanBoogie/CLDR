@@ -16,17 +16,17 @@ class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @var TerritoryCollection
 	 */
-	static private $collection;
+	private $sut;
 
-	static public function setupBeforeClass()
+	protected function setUp()
 	{
-		self::$collection = new TerritoryCollection(get_repository());
+		$this->sut = new TerritoryCollection(get_repository());
 	}
 
 	public function test_offsetExists()
 	{
-		$this->assertTrue(isset(self::$collection['FR']));
-		$this->assertFalse(isset(self::$collection[uniqid()]));
+		$this->assertTrue(isset($this->sut['FR']));
+		$this->assertFalse(isset($this->sut['MADONNA']));
 	}
 
 	/**
@@ -34,7 +34,7 @@ class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_offsetSet()
 	{
-		self::$collection['FR'] = null;
+		$this->sut['FR'] = null;
 	}
 
 	/**
@@ -42,32 +42,26 @@ class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_offsetUnset()
 	{
-		unset(self::$collection['FR']);
+		unset($this->sut['FR']);
 	}
 
 	public function test_defined()
 	{
-		$this->assertInstanceOf(Territory::class, self::$collection['FR']);
-		$this->assertInstanceOf(Territory::class, self::$collection['US']);
+		$this->assertInstanceOf(Territory::class, $this->sut['FR']);
+		$this->assertInstanceOf(Territory::class, $this->sut['US']);
 	}
 
-	public function test_undefined()
-	{
-		$code = uniqid();
+    /**
+     * @expectedException \ICanBoogie\CLDR\TerritoryNotDefined
+     * @expectedExceptionMessage Territory not defined for code: MADONNA.
+     */
+    public function test_assert_defined_failure()
+    {
+        $this->sut->assert_defined('MADONNA');
+    }
 
-		try
-		{
-			self::$collection[$code];
-
-			$this->fail("Excepted exception");
-		}
-		catch (\Exception $e)
-		{
-			$this->assertInstanceOf(TerritoryNotDefined::class, $e);
-
-			/* @var $e TerritoryNotDefined */
-
-			$this->assertEquals($code, $e->territory_code);
-		}
-	}
+    public function test_assert_defined_success()
+    {
+        $this->sut->assert_defined('FR');
+    }
 }

@@ -25,18 +25,14 @@ use ICanBoogie\Accessor\AccessorTrait;
  *
  * // check if a territory is defined
  * isset($territories['FR']);          // true
- * isset($territories['UnDiFiNeD']);   // false
+ * isset($territories['MADONNA']);     // false
+ *
+ * @method Territory offsetGet($id)
  */
-class TerritoryCollection implements \ArrayAccess
+class TerritoryCollection extends AbstractCollection
 {
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
-	use CollectionTrait;
-
-	/**
-	 * @var Territory[]
-	 */
-	private $collection = [];
 
 	/**
 	 * @param Repository $repository
@@ -44,54 +40,45 @@ class TerritoryCollection implements \ArrayAccess
 	public function __construct(Repository $repository)
 	{
 		$this->repository = $repository;
+
+		parent::__construct(function ($territory_code) {
+
+		    $this->assert_defined($territory_code);
+
+            return new Territory($this->repository, $territory_code);
+
+        });
 	}
 
     /**
      * Checks if a territory is defined.
      *
-     * @param string $code Territory ISO code.
+     * @param string $territory_code Territory ISO code.
      *
      * @return bool `true` if the territory is defined, `false` otherwise.
      */
-	public function offsetExists($code)
+	public function offsetExists($territory_code)
 	{
 		$supplemental = $this->repository->supplemental;
 
-        return isset($supplemental['territoryInfo'][$code])
-        || isset($supplemental['territoryContainment'][$code]);
-	}
-
-    /**
-     * Returns a territory.
-     *
-     * @param string $code Territory ISO code.
-     *
-     * @return Territory
-     */
-	public function offsetGet($code)
-	{
-		if (empty($this->collection[$code]))
-		{
-			$this->collection[$code] = new Territory($this->repository, $code);
-		}
-
-		return $this->collection[$code];
+        return isset($supplemental['territoryInfo'][$territory_code])
+        || isset($supplemental['territoryContainment'][$territory_code]);
 	}
 
     /**
      * Asserts that a territory is defined.
      *
-     * @param string $code
+     * @param string $territory_code
      *
      * @throws TerritoryNotDefined if the specified territory is not defined.
      */
-    public function assert_defined($code)
+    public function assert_defined($territory_code)
     {
-        if (isset($this[$code]))
+        if ($this->offsetExists($territory_code))
         {
             return;
         }
 
-        throw new TerritoryNotDefined($code);
+        throw new TerritoryNotDefined($territory_code);
     }
 }

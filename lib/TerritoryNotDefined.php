@@ -38,10 +38,9 @@ class TerritoryNotDefined extends \InvalidArgumentException implements Exception
     /**
      * @param string $territory_code
      * @param null $message
-     * @param int $code
      * @param \Exception|null $previous
      */
-    public function __construct($territory_code, $message = null, $code = 500, \Exception $previous = null)
+    public function __construct($territory_code, $message = null, \Exception $previous = null)
     {
         $this->territory_code = $territory_code;
 
@@ -50,6 +49,6 @@ class TerritoryNotDefined extends \InvalidArgumentException implements Exception
             $message = "Territory not defined for code: $territory_code.";
         }
 
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, 0, $previous);
     }
 }
