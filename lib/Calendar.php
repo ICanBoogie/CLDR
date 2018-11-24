@@ -159,6 +159,45 @@ class Calendar extends \ArrayObject
 		return $this->$property = $data[$width];
 	}
 
+    /**
+     * @param \DateTimeInterface|string|int $datetime
+     * @param string $pattern_or_width_or_skeleton
+     *
+     * @return string
+     *
+     * @see \ICanBoogie\CLDR\DateTimeFormatter::format
+     */
+	public function format_datetime($datetime, $pattern_or_width_or_skeleton)
+    {
+        return $this->datetime_formatter->format($datetime, $pattern_or_width_or_skeleton);
+    }
+
+    /**
+     * @param \DateTimeInterface|string|int $datetime
+     * @param string $pattern_or_width_or_skeleton
+     *
+     * @return string
+     *
+     * @see \ICanBoogie\CLDR\DateFormatter::format
+     */
+	public function format_date($datetime, $pattern_or_width_or_skeleton)
+    {
+        return $this->date_formatter->format($datetime, $pattern_or_width_or_skeleton);
+    }
+
+    /**
+     * @param \DateTimeInterface|string|int $datetime
+     * @param string $pattern_or_width_or_skeleton
+     *
+     * @return string
+     *
+     * @see \ICanBoogie\CLDR\TimeFormatter::format
+     */
+    public function format_time($datetime, $pattern_or_width_or_skeleton)
+    {
+        return $this->time_formatter->format($datetime, $pattern_or_width_or_skeleton);
+    }
+
 	/**
 	 * Transforms calendar data according to context transforms rules.
 	 *

@@ -20,7 +20,8 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 	static public function setupBeforeClass()
 	{
-		$repository = new Repository(create_provider_collection());
+		$repository = get_repository();
+
 		self::$calendar = $repository->locales['fr']->calendars['gregorian'];
 	}
 
@@ -146,4 +147,28 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 		];
 	}
+
+	public function testFormatDateTime()
+    {
+        $this->assertSame(
+            self::$calendar->format_datetime('2018-11-24 20:12:22 UTC', 'full'),
+            "samedi 24 novembre 2018 20:12:22 UTC"
+        );
+    }
+
+	public function testFormatDate()
+    {
+        $this->assertSame(
+            self::$calendar->format_date('2018-11-24 20:12:22 UTC', 'long'),
+            "24 novembre 2018"
+        );
+    }
+
+	public function testFormatTime()
+    {
+        $this->assertSame(
+            self::$calendar->format_time('2018-11-24 20:12:22 UTC', 'long'),
+            "20:12:22 UTC"
+        );
+    }
 }

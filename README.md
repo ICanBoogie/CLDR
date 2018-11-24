@@ -37,12 +37,12 @@ echo $fr->format_list([ "Un", "deux", "trois" ]);   // Un, deux et trois
 # Calendar
 
 $calendar = $fr->calendar;
-$datetime = '2013-11-05 20:12:22 UTC';
+$datetime = '2018-11-24 20:12:22 UTC';
 
-echo $calendar['days']['format']['wide']['sun'];               // dimanche
-echo $calendar->datetime_formatter->format($datetime, 'long'); // mardi 5 novembre 2013 20:12:22 UTC
-echo $calendar->date_formatter->format($datetime, 'long');     // mardi 5 novembre 2013
-echo $calendar->time_formatter->format($datetime, 'long');     // 20:12:22 UTC
+echo $calendar['days']['format']['wide']['sun'];    // dimanche
+echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 20:12:22 UTC
+echo $calendar->format_date($datetime, 'long');     // 24 novembre 2018
+echo $calendar->format_time($datetime, 'long');     // 20:12:22 UTC
 
 # Localized datetime
 
@@ -362,11 +362,17 @@ used.
 
 /* @var $repository \ICanBoogie\CLDR\Repository */
 
-$datetime = '2013-11-05 20:12:22 UTC';
+$datetime = '2018-11-24 20:12:22 UTC';
 $calendar = $repository->locales['fr']->calendar;
 
-echo $calendar->datetime_formatter->format($datetime, 'long'); // mardi 5 novembre 2013 20:12:22 UTC
-echo $calendar->date_formatter->format($datetime, 'long');     // mardi 5 novembre 2013
+echo $calendar['days']['format']['wide']['sun'];    // dimanche
+
+echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 20:12:22 UTC
+echo $calendar->format_date($datetime, 'long');     // 24 novembre 2018
+echo $calendar->format_time($datetime, 'long');     // 20:12:22 UTC
+# or
+echo $calendar->datetime_formatter->format($datetime, 'full'); // samedi 24 novembre 2018 20:12:22 UTC
+echo $calendar->date_formatter->format($datetime, 'long');     // 24 novembre 2018
 echo $calendar->time_formatter->format($datetime, 'long');     // 20:12:22 UTC
 ```
 
