@@ -38,7 +38,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 */
 	protected function lazy_get_formatter()
 	{
-		return new LocalizedCurrencyFormatter(new CurrencyFormatter($this->locale->repository), $this->locale);
+	    return $this->locale->currency_formatter;
 	}
 
 	/**
