@@ -30,10 +30,10 @@
 		"ext-json": "*",
 		"ext-mbstring": "*",
 		"icanboogie/common": "^1.2.2",
-		"icanboogie/accessor": "^1.0.2",
-		"icanboogie/storage": "^1.1.1|^2.0.0"
+		"icanboogie/accessor": "^1.0.2"
 	},
 	"require-dev": {
+		"ext-redis": "*",
 		"icanboogie/datetime": "^1.1"
 	},
 	"autoload": {

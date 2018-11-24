@@ -11,18 +11,18 @@
 
 namespace ICanBoogie\CLDR;
 
-/**
- * Binds the {@link Provider} interface to the {@link Storage} interface.
- */
-trait ProviderStorageBinding
+interface Cache
 {
-	abstract protected function retrieve($key);
+	/**
+	 * @param string $path
+	 *
+	 * @return array|null
+	 */
+	public function get($path);
 
 	/**
-	 * @inheritdoc
+	 * @param string $path
+	 * @param array $data
 	 */
-	public function provide($path)
-	{
-		return $this->retrieve($path);
-	}
+	public function set($path, array $data);
 }

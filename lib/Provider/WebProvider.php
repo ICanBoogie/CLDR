@@ -9,18 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace ICanBoogie\CLDR\Provider;
 
-use ICanBoogie\Storage\Storage;
+use ICanBoogie\CLDR\Provider;
+use ICanBoogie\CLDR\ResourceNotFound;
 
 /**
  * Retrieves sections from the CLDR source using cURL.
  */
-class WebProvider implements Storage, Provider
+final class WebProvider implements Provider
 {
-	use ProviderStorageBinding;
-
-	const DEFAULT_ORIGIN = "http://www.unicode.org/repos/cldr-aux/json/26/";
+	const DEFAULT_ORIGIN = "https://i18n.prestashop.com/cldr/json-full/";
 
 	/**
 	 * @var string
@@ -44,23 +43,10 @@ class WebProvider implements Storage, Provider
 
 	/**
 	 * @inheritdoc
-	 * @codeCoverageIgnore
-	 */
-	public function store($key, $value, $ttl = null)
-	{
-		# does nothing
-	}
-
-	/**
-	 * The section path, following the pattern "<identity>/<section>".
-	 *
-	 * @param string $key
-	 *
-	 * @return string
 	 *
 	 * @throws ResourceNotFound when the specified path does not exists on the CLDR source.
 	 */
-	public function retrieve($key)
+	public function provide($key)
 	{
 		$connection = $this->obtain_connection();
 		$url = $this->map($key);
@@ -78,51 +64,6 @@ class WebProvider implements Storage, Provider
 
 		return json_decode($rc, true);
 	}
-
-	// @codeCoverageIgnoreStart
-
-	/**
-	 * The method does nothing.
-	 *
-	 * @inheritdoc
-	 * @codeCoverageIgnore
-	 */
-	public function eliminate($key)
-	{
-		# does nothing
-	}
-
-	/**
-	 * The method does nothing.
-	 *
-	 * @inheritdoc
-	 * @codeCoverageIgnore
-	 */
-	public function exists($key)
-	{
-		# does nothing
-	}
-
-	/**
-	 * The method does nothing.
-	 *
-	 * @inheritdoc
-	 * @codeCoverageIgnore
-	 */
-	public function clear()
-	{
-		# does nothing
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getIterator()
-	{
-		# does nothing
-	}
-
-	// @codeCoverageIgnoreEnd
 
 	/**
 	 * Returns a reusable cURL connection.

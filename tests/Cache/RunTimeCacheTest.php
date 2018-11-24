@@ -9,14 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace ICanBoogie\CLDR\Cache;
 
-use ICanBoogie\Storage\RunTimeStorage;
+use ICanBoogie\CLDR\Cache;
 
-/**
- * Provides CLDR data from an array.
- */
-class RunTimeProvider extends RunTimeStorage implements Provider
+class RunTimeCacheTest extends TestCase
 {
-	use ProviderStorageBinding;
+	/**
+	 * @return Cache
+	 */
+	protected function makeCache()
+	{
+		return new RuntimeCache();
+	}
 }

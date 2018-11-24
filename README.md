@@ -9,10 +9,10 @@
 The __CLDR__ package provides means to internationalize your application by leveraging the data and
 conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
 It provides many useful locale information and data (such as locale names for territories,
-languages, days…) as well as formatters for numbers, currencies, date and times, lists…
+languages, days…) as well as formatters for numbers, currencies, date and times, units, sequences,
+lists…
 
-The package targets the [CLDR version 26](http://cldr.unicode.org/index/downloads/cldr-26), from
-which data is retrieved when required.
+> The package targets [CLDR version 26][1], from which data is retrieved when required.
 
 **Example usage:**
 
@@ -126,31 +126,34 @@ $repository->plurals->rule_for(2, 'ar');   // two
 ## Repository
 
 The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
-data is retrieved through a provider. The included provider reads from the [online JSON
-distribution][], and—in order to avoid hitting the web with every request—a collection of providers
-is used, each with its own caching strategies.
+data is retrieved through a provider. The _web_ provider fetches data from the JSON distribution
+[hosted by Unicode][2]. In order to avoid hitting the web with every request, a collection of caches
+is used, each with its own strategy.
 
-> **Note:** Most providers defined by the package extend a class defined by the
-[icanboogie/storage][] package, you might want to check it out.
-
-The following example demonstrates how a repository can be instantiated with a nice collection of
-providers:
+The following example demonstrates how a repository can be instantiated:
 
 ```php
 <?php
 
 namespace ICanBoogie\CLDR;
 
-/* @var $redis_client mixed */
+use ICanBoogie\CLDR\Cache\CacheCollection;
+use ICanBoogie\CLDR\Cache\FileCache;
+use ICanBoogie\CLDR\Cache\RedisCache;
+use ICanBoogie\CLDR\Cache\RuntimeCache;
+use ICanBoogie\CLDR\Provider\CachedProvider;
+use ICanBoogie\CLDR\Provider\WebProvider;
 
-$provider = new ProviderCollection([
+/* @var \Redis $redis_client */
 
-	new RunTimeProvider,
-	new RedisProvider($redis_client, 'cldr'),
-	new FileProvider("/path/to/storage"),
-	new WebProvider
-
-]);
+$provider = new CachedProvider(
+	new WebProvider,
+	new CacheCollection([
+		new RunTimeCache,
+		new RedisCache($redis_client),
+		new FileCache("/path/to/storage")
+	])
+);
 
 $repository = new Repository($provider);
 ```
@@ -986,19 +989,18 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 
 
+[ICanBoogie]:                 https://icanboogie.org/
 [documentation]:              https://icanboogie.org/api/cldr/master/
 [Calendar]:                   https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Calendar.html
 [Currency]:                   https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Currency.html
-[FileProvider]:               https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.FileProvider.html
-[Repository]:                 https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Repository.html
+[FileCache]:                  https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.FileCache.html
 [ListFormatter]:              https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.ListFormatter.html
 [Locale]:                     https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Locale.html
 [LocalizeAwareInterface]:     https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.LocalizeAwareInterface.html
 [LocalizedDateTime]:          https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.LocalizedDateTime.html
 [NumberFormatter]:            https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.NumberFormatter.html
+[Repository]:                 https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Repository.html
 [Territory]:                  https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Territory.html
-
-[ICanBoogie]:         https://github.com/ICanBoogie/ICanBoogie
-[icanboogie/storage]: https://github.com/ICanBoogie/Storage
-
-[online JSON distribution]: http://www.unicode.org/repos/cldr-aux/json/26/
+   
+[1]:                          http://cldr.unicode.org/index/downloads/cldr-26
+[2]:                          http://www.unicode.org/repos/cldr-aux/json/26/

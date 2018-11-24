@@ -9,14 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace ICanBoogie\CLDR\Cache;
 
-use ICanBoogie\Storage\RedisStorage;
+use ICanBoogie\CLDR\Cache;
+use const ICanBoogie\CLDR\CACHE_DIR;
 
-/**
- * Provides CLDR data from a Redis client.
- */
-class RedisProvider extends RedisStorage implements Provider
+class FileCacheTest extends TestCase
 {
-	use ProviderStorageBinding;
+	/**
+	 * @return Cache
+	 */
+	protected function makeCache()
+	{
+		return new FileCache(CACHE_DIR);
+	}
 }

@@ -1,8 +1,8 @@
 FROM php:5.6-alpine
 
 RUN apk add --update --no-cache make $PHPIZE_DEPS && \
-	pecl install xdebug-2.5.5 && \
-	docker-php-ext-enable xdebug
+	pecl install redis xdebug-2.5.5 && \
+	docker-php-ext-enable redis xdebug
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 

@@ -9,10 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace ICanBoogie\CLDR\Provider;
+
+use ICanBoogie\CLDR\ResourceNotFound;
 
 class WebProviderTest extends \PHPUnit\Framework\TestCase
 {
+	/**
+	 * @throws ResourceNotFound
+	 */
 	public function test_provide_ok()
 	{
 		$provider = new WebProvider;

@@ -23,7 +23,7 @@ interface Provider
 	 *
 	 * @throws ResourceNotFound when the specified path does not exists on the CLDR source.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provide($path);
 }

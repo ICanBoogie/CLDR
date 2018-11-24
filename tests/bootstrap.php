@@ -11,11 +11,22 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Cache\CacheCollection;
+use ICanBoogie\CLDR\Cache\FileCache;
+use ICanBoogie\CLDR\Cache\RedisCache;
+use ICanBoogie\CLDR\Cache\RuntimeCache;
+use ICanBoogie\CLDR\Provider\CachedProvider;
+use ICanBoogie\CLDR\Provider\WebProvider;
+use Redis;
+use function getenv;
+
 require __DIR__ . '/../vendor/autoload.php';
 
-if (!file_exists(__DIR__ . '/repository'))
+define('ICanBoogie\CLDR\CACHE_DIR', __DIR__ . '/repository');
+
+if (!file_exists(CACHE_DIR))
 {
-	mkdir(__DIR__ . '/repository');
+	mkdir(CACHE_DIR);
 }
 
 /**
@@ -23,13 +34,24 @@ if (!file_exists(__DIR__ . '/repository'))
  */
 function create_provider()
 {
-	return new ProviderCollection([
+	static $provider;
 
-		new RunTimeProvider,
-		new FileProvider(__DIR__ . '/repository'),
-		new WebProvider
+	if ($provider)
+	{
+		return $provider;
+	}
 
-	]);
+	$redis = new Redis();
+	$redis->connect(getenv('ICANBOOGIE_CLDR_REDIS_HOST'), getenv('ICANBOOGIE_CLDR_REDIS_PORT'));
+
+	return $provider = new CachedProvider(
+		new WebProvider,
+		new CacheCollection([
+			new RuntimeCache(),
+			new RedisCache($redis),
+			new FileCache(CACHE_DIR)
+		])
+	);
 }
 
 /**
@@ -39,12 +61,7 @@ function get_repository()
 {
 	static $repository;
 
-	if (!$repository)
-	{
-		$repository = new Repository(create_provider());
-	}
-
-	return $repository;
+	return $repository ?: $repository = new Repository(create_provider());
 }
 
 date_default_timezone_set('Europe/Madrid');
