@@ -21,7 +21,7 @@ if (!file_exists(__DIR__ . '/repository'))
 /**
  * @return Provider
  */
-function create_provider_collection()
+function create_provider()
 {
 	return new ProviderCollection([
 
@@ -41,7 +41,7 @@ function get_repository()
 
 	if (!$repository)
 	{
-		$repository = new Repository(create_provider_collection());
+		$repository = new Repository(create_provider());
 	}
 
 	return $repository;

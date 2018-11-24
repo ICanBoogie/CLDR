@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class CalendarCollectionTest extends \PHPUnit_Framework_TestCase
+class CalendarCollectionTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var CalendarCollection

@@ -1,0 +1,8 @@
+---
+version: "2.1"
+services:
+  app:
+    build: .
+    volumes:
+    - .:/app:delegated
+    working_dir: /app

@@ -80,6 +80,6 @@ class DateTimeAccessor
 	 */
 	public function __call($name, $params)
 	{
-		return call_user_func_array([ $this->datetime, $name ], $params);
+		return $this->datetime->$name(...$params);
 	}
 }

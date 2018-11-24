@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR\Plurals;
 /**
  * @group plurals
  */
-class RuleTest extends \PHPUnit_Framework_TestCase
+class RuleTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider provide_test_cases

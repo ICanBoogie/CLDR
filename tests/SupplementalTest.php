@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class SupplementalTest extends \PHPUnit_Framework_TestCase
+class SupplementalTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var Supplemental

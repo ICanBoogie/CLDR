@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class LocaleCollectionTest extends \PHPUnit_Framework_TestCase
+class LocaleCollectionTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var LocaleCollection

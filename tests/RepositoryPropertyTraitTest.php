@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\RepositoryPropertyTraitTest\A;
 
-class RepositoryPropertyTraitTest extends \PHPUnit_Framework_TestCase
+class RepositoryPropertyTraitTest extends \PHPUnit\Framework\TestCase
 {
 	public function test_get_repository()
 	{

@@ -16,7 +16,7 @@ use ICanBoogie\CLDR\Plurals\Samples;
 /**
  * @group plurals
  */
-class PluralsTest extends \PHPUnit_Framework_TestCase
+class PluralsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var Plurals

@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class CalendarTest extends \PHPUnit_Framework_TestCase
+class CalendarTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var Calendar
@@ -20,9 +20,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
 
 	static public function setupBeforeClass()
 	{
-		$repository = get_repository();
-
-		self::$calendar = $repository->locales['fr']->calendars['gregorian'];
+		self::$calendar = get_repository()->locales['fr']->calendars['gregorian'];
 	}
 
 	public function test_instanceof()

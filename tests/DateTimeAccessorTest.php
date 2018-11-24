@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class DateTimeAccessorTest extends \PHPUnit_Framework_TestCase
+class DateTimeAccessorTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider provide_test_properties

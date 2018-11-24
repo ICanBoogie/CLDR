@@ -914,7 +914,7 @@ $repository->plurals->rule_for(2, 'ar');   // two
 
 ## Requirements
 
-The package requires PHP 5.5 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
+The package requires PHP 5.6 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
 
 
 
@@ -965,6 +965,10 @@ The command installs dependencies as required. The `make test-coverage` command 
 test suite and also creates an HTML coverage report in `build/coverage`. The directory can
 later be cleaned with the `make clean` command.
 
+To ensure tests are running with the minimum requirements, it is advised to run them inside the
+provided container. The container is started with the `make test-container` command. Once inside the
+container, `make test` and `make test-coverage` can be used.
+
 The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 [![Build Status](https://img.shields.io/travis/ICanBoogie/CLDR/master.svg)](https://travis-ci.org/ICanBoogie/CLDR)
@@ -985,7 +989,7 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 [documentation]:              https://icanboogie.org/api/cldr/master/
 [Calendar]:                   https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Calendar.html
 [Currency]:                   https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Currency.html
-[FileCache]:               https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.FileProvider.html
+[FileProvider]:               https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.FileProvider.html
 [Repository]:                 https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Repository.html
 [ListFormatter]:              https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.ListFormatter.html
 [Locale]:                     https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Locale.html

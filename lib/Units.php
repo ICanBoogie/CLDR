@@ -323,7 +323,7 @@ class Units
 			$number = array_shift($arguments);
 			array_unshift($arguments, $number, $unit);
 
-			return call_user_func_array([ $this, 'format' ], $arguments);
+			return $this->format(...$arguments);
 		}
 
 		throw new \BadMethodCallException("No such unit: $name");

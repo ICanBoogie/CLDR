@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class WebProviderTest extends \PHPUnit_Framework_TestCase
+class WebProviderTest extends \PHPUnit\Framework\TestCase
 {
 	public function test_provide_ok()
 	{

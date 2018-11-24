@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class ContextTransformsTest extends \PHPUnit_Framework_TestCase
+class ContextTransformsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider provide_test_transform

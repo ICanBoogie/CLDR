@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class NumberFormatterTest extends \PHPUnit_Framework_TestCase
+class NumberFormatterTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @deprecated

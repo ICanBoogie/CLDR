@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class RepositoryTest extends \PHPUnit_Framework_TestCase
+class RepositoryTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var Repository
@@ -20,12 +20,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$repository = &$this->repository;
-
-		if (!$repository)
-		{
-			$repository = new Repository(create_provider_collection());
-		}
+		$this->repository = get_repository();
 	}
 
 	/**

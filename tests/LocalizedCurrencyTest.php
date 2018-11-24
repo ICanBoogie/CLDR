@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class LocalizedCurrencyTest extends \PHPUnit_Framework_TestCase
+class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var Currency

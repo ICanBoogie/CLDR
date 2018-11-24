@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\CLDR\Units;
 
-class UnitTest extends \PHPUnit_Framework_TestCase
+class UnitTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider provide_test_properties

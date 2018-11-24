@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class CurrencyTest extends \PHPUnit_Framework_TestCase
+class CurrencyTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var Repository

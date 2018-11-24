@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class NumbersTest extends \PHPUnit_Framework_TestCase
+class NumbersTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider provide_test_shortcuts

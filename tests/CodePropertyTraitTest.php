@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\CodePropertyTraitTest\A;
 
-class CodePropertyTraitTest extends \PHPUnit_Framework_TestCase
+class CodePropertyTraitTest extends \PHPUnit\Framework\TestCase
 {
 	public function test_get_code()
 	{

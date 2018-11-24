@@ -2,7 +2,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class ListFormatterTest extends \PHPUnit_Framework_TestCase
+class ListFormatterTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider provide_test_format

@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
+class DateTimeFormatterTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var DateTimeFormatter[]

@@ -190,7 +190,7 @@ class Locale extends AbstractSectionCollection
 
 		if ($constructor)
 		{
-			return call_user_func($constructor, $source_or_code, $this, $options);
+			return $constructor($source_or_code, $this, $options);
 		}
 
 		throw new \LogicException("Unable to localize source");
@@ -199,7 +199,7 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * @param string $source
 	 *
-	 * @return string|null
+	 * @return array|null
 	 */
 	private function resolve_localize_constructor($source)
 	{
@@ -207,7 +207,7 @@ class Locale extends AbstractSectionCollection
 
 		if ($source instanceof LocalizeAwareInterface)
 		{
-			return $class . '::localize';
+			return [ $class, 'localize' ];
 		}
 
 		$base = basename(strtr($class, '\\', '/'));
@@ -218,7 +218,7 @@ class Locale extends AbstractSectionCollection
 			return null;
 		}
 
-		return $constructor . '::from';
+		return [ $constructor, 'from' ];
 	}
 
 	/**

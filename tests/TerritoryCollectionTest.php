@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class TerritoryCollectionTest extends \PHPUnit_Framework_TestCase
+class TerritoryCollectionTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var TerritoryCollection

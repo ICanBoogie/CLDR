@@ -57,7 +57,8 @@ abstract class AbstractCollection implements \ArrayAccess
 	{
 		if (empty($this->collection[$id]))
 		{
-			$this->collection[$id] = call_user_func($this->create_instance, $id);
+		    $create_instance = $this->create_instance;
+			$this->collection[$id] = $create_instance($id);
 		}
 
 		return $this->collection[$id];

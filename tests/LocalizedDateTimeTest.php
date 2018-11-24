@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\DateTime;
 
-class LocalizedDateTimeTest extends \PHPUnit_Framework_TestCase
+class LocalizedDateTimeTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var LocalizedDateTime[]

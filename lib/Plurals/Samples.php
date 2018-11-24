@@ -59,7 +59,7 @@ final class Samples implements \IteratorAggregate
 			$samples[$type] = self::parse_samples($type, $samples_string);
 		}
 
-		return call_user_func_array('array_merge', $samples);
+		return array_merge(...array_values($samples));
 	}
 
 	/**

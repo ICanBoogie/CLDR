@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\CLDR\Units;
 
-class SequenceTest extends \PHPUnit_Framework_TestCase
+class SequenceTest extends \PHPUnit\Framework\TestCase
 {
 	public function test_format()
 	{

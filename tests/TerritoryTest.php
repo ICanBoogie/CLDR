@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class TerritoryTest extends \PHPUnit_Framework_TestCase
+class TerritoryTest extends \PHPUnit\Framework\TestCase
 {
 	public function test_get_info()
 	{

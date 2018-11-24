@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class NumberTest extends \PHPUnit_Framework_TestCase
+class NumberTest extends \PHPUnit\Framework\TestCase
 {
 	public function test_should_return_correct_precision()
 	{

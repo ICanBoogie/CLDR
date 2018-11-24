@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\LocalePropertyTraitTest\A;
 
-class LocalePropertyTraitTest extends \PHPUnit_Framework_TestCase
+class LocalePropertyTraitTest extends \PHPUnit\Framework\TestCase
 {
 	public function test_get_repository()
 	{

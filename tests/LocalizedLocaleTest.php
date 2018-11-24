@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class LocalizedLocaleTest extends \PHPUnit_Framework_TestCase
+class LocalizedLocaleTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider provide_test_get_name

@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-class LocalizedNumberFormatterTest extends \PHPUnit_Framework_TestCase
+class LocalizedNumberFormatterTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @dataProvider provide_test_format

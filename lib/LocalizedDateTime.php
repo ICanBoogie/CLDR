@@ -96,7 +96,7 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 			return $this->format($width);
 		}
 
-		return call_user_func_array([ $this->target, $method ], $arguments);
+		return $this->target->$method(...$arguments);
 	}
 
 	/**
