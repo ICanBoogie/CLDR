@@ -12,7 +12,6 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
-use ICanBoogie\OffsetNotDefined;
 
 /**
  * A currency collection.
@@ -29,17 +28,13 @@ use ICanBoogie\OffsetNotDefined;
  * echo get_class($collection['EUR']);   // ICanBoogie\CLDR\Currency
  * echo $collection['EUR']->code;        // EUR
  * ```
+ *
+ * @method Currency offsetGet($id)
  */
-class CurrencyCollection implements \ArrayAccess
+class CurrencyCollection extends AbstractCollection
 {
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
-	use CollectionTrait;
-
-	/**
-	 * @var Currency[]
-	 */
-	private $collection = [];
 
 	/**
 	 * @param Repository $repository
@@ -47,6 +42,14 @@ class CurrencyCollection implements \ArrayAccess
 	public function __construct(Repository $repository)
 	{
 		$this->repository = $repository;
+
+		parent::__construct(function ($currency_code) {
+
+            $this->assert_defined($currency_code);
+
+            return new Currency($this->repository, $currency_code);
+
+        });
 	}
 
 	/**
@@ -66,7 +69,7 @@ class CurrencyCollection implements \ArrayAccess
 			{
 				$code = key($currency_info);
 
-				if ($code == $currency_code)
+				if ($code === $currency_code)
 				{
 					return true;
 				}
@@ -76,27 +79,20 @@ class CurrencyCollection implements \ArrayAccess
 		return false;
 	}
 
-	/**
-	 * Return a currency.
-	 *
-	 * @param string $currency_code
-	 *
-	 * @throw OffsetNotDefined in attempt to obtain a currency that is not defined.
-	 *
-	 * @return Currency
-	 */
-	public function offsetGet($currency_code)
-	{
-		if (isset($this->collection[$currency_code]))
-		{
-			return $this->collection[$currency_code];
-		}
+    /**
+     * Asserts that a currency is defined.
+     *
+     * @param string $currency_code
+     *
+     * @throws CurrencyNotDefined if the specified currency is not defined.
+     */
+    public function assert_defined($currency_code)
+    {
+        if ($this->offsetExists($currency_code))
+        {
+            return;
+        }
 
-		if (!$this->offsetExists($currency_code))
-		{
-			throw new OffsetNotDefined([ $currency_code, $this ]);
-		}
-
-		return $this->collection[$currency_code] = new Currency($this->repository, $currency_code);
-	}
+        throw new CurrencyNotDefined($currency_code);
+    }
 }

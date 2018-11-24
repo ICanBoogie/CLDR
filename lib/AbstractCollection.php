@@ -52,8 +52,6 @@ abstract class AbstractCollection implements \ArrayAccess
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @return Calendar
 	 */
 	public function offsetGet($id)
 	{
