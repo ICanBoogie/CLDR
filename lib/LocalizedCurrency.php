@@ -42,13 +42,27 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	}
 
 	/**
+	 * Alias for @{link name_for()}.
+	 *
+	 * @param int|null $count Used for pluralization.
+	 *
+	 * @return string
+     *
+     * @deprecated
+	 */
+	public function get_name($count = null)
+	{
+		return $this->name_for($count);
+	}
+
+	/**
 	 * Returns the localized name of the currency.
 	 *
 	 * @param int|null $count Used for pluralization.
 	 *
 	 * @return string
 	 */
-	public function get_name($count = null)
+	public function name_for($count = null)
 	{
 		$offset = 'displayName';
 

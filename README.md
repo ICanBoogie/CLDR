@@ -14,6 +14,111 @@ languages, days…) as well as formatters for numbers, currencies, date and time
 The package targets the [CLDR version 26](http://cldr.unicode.org/index/downloads/cldr-26), from
 which data is retrieved when required.
 
+**Example usage:**
+
+```php
+<?php
+
+/* @var \ICanBoogie\CLDR\Repository $repository */
+
+# Locale
+
+$fr = $repository->locales['fr'];
+
+echo $fr['characters']['auxiliary'];                // [á å ä ã ā ē í ì ī ñ ó ò ö ø ú ǔ]
+echo $fr['delimiters']['quotationStart'];           // «
+echo $fr['territories']['TF'];                      // Terres australes françaises
+echo $fr->localize($fr)->name;                      // Français
+echo $fr->format_number(12345.67);                  // 12 345,67
+echo $fr->format_percent(.1234567);                 // 12 %
+echo $fr->format_currency(12345.67, 'EUR');         // 12 345,67 €
+echo $fr->format_list([ "Un", "deux", "trois" ]);   // Un, deux et trois
+
+# Calendar
+
+$calendar = $fr->calendar;
+$datetime = '2013-11-05 20:12:22 UTC';
+
+echo $calendar['days']['format']['wide']['sun'];               // dimanche
+echo $calendar->datetime_formatter->format($datetime, 'long'); // mardi 5 novembre 2013 20:12:22 UTC
+echo $calendar->date_formatter->format($datetime, 'long');     // mardi 5 novembre 2013
+echo $calendar->time_formatter->format($datetime, 'long');     // 20:12:22 UTC
+
+# Localized datetime
+
+$datetime = new \DateTime('2013-11-04 20:21:22 UTC');
+$fr_datetime = $fr->localize($datetime);
+
+echo $fr_datetime->as_full;                         // lundi 4 novembre 2013 20:21:22 UTC
+echo $fr_datetime->as_long;                         // 4 novembre 2013 20:21:22 UTC
+echo $fr_datetime->as_medium;                       // 4 nov. 2013 20:21:22
+echo $fr_datetime->as_short;                        // 04/11/2013 20:21
+
+# Territories
+
+$territory = $repository->territories['FR'];
+
+echo $territory;                                    // FR
+echo $territory->currency;                          // EUR
+echo $territory->currency_at('1977-06-06');         // FRF
+echo $territory->currency_at('now');                // EUR
+echo $territory->name_as('fr-FR');                  // France
+echo $territory->name_as('it');                     // Francia
+echo $territory->name_as('ja');                     // フランス
+echo $repository->territories['FR']->first_day;     // mon
+echo $repository->territories['EG']->first_day;     // sat
+echo $repository->territories['BS']->first_day;     // sun
+echo $repository->territories['AE']->weekend_start; // fri
+echo $repository->territories['AE']->weekend_end;   // sat
+echo $territory->localize('fr')->name;              // France
+echo $territory->localize('it')->name;              // Francia
+echo $territory->localize('ja')->name;              // フランス
+
+# Currencies
+
+$euro = $repository->currencies['EUR'];
+$fr_euro = $euro->localize('fr');
+echo $fr_euro->name;
+echo $fr_euro->name_for(1);                         // euro
+echo $fr_euro->name_for(10);                        // euros
+echo $fr_euro->format(12345.67);                    // 12 345,67 €
+
+# Units
+
+$units = $repository->locales['en']->units;
+$units->duration_hour->name;                        // hours
+$units->duration_hour->short_name;                  // h
+$units->duration_hour(1);                           // 1 hour
+$units->duration_hour(23);                          // 23 hours
+$units->duration_hour(23, $units::LENGTH_SHORT);    // 23 hr
+$units->duration_hour(23, $units::LENGTH_NARROW);   // 23h
+
+$units->volume_liter->per_unit(12.345, $units->duration_hour);
+// 12.345 liters per hour
+$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_SHORT);
+// 12.345 Lph
+$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_NARROW);
+// 12.345l/h
+
+$units->sequence
+	->angle_degree(5)
+	->duration_minute(30)
+	->as_narrow;
+	// 5° 30m
+
+$units->sequence
+	->length_foot(3)
+	->length_inch(2)
+	->as_short;
+	// 3 ft, 2 in
+
+# Plurals
+
+$repository->plurals->rule_for(1.5, 'fr'); // one
+$repository->plurals->rule_for(2, 'fr');   // other
+$repository->plurals->rule_for(2, 'ar');   // two
+```
+
 
 
 
@@ -871,17 +976,17 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 
 
 
-[documentation]:              http://api.icanboogie.org/cldr/latest/
-[Calendar]:                   http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Calendar.html
-[Currency]:                   http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Currency.html
-[FileProvider]:               http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.FileProvider.html
-[Repository]:                 http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Repository.html
-[ListFormatter]:              http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.ListFormatter.html
-[Locale]:                     http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Locale.html
-[LocalizeAwareInterface]:     http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.LocalizeAwareInterface.html
-[LocalizedDateTime]:          http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.LocalizedDateTime.html
-[NumberFormatter]:            http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.NumberFormatter.html
-[Territory]:                  http://api.icanboogie.org/cldr/latest/class-ICanBoogie.CLDR.Territory.html
+[documentation]:              https://icanboogie.org/api/cldr/master/
+[Calendar]:                   https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Calendar.html
+[Currency]:                   https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Currency.html
+[FileCache]:               https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.FileProvider.html
+[Repository]:                 https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Repository.html
+[ListFormatter]:              https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.ListFormatter.html
+[Locale]:                     https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Locale.html
+[LocalizeAwareInterface]:     https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.LocalizeAwareInterface.html
+[LocalizedDateTime]:          https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.LocalizedDateTime.html
+[NumberFormatter]:            https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.NumberFormatter.html
+[Territory]:                  https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Territory.html
 
 [ICanBoogie]:         https://github.com/ICanBoogie/ICanBoogie
 [icanboogie/storage]: https://github.com/ICanBoogie/Storage

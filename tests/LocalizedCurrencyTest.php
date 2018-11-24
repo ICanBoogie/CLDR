@@ -36,6 +36,13 @@ class LocalizedCurrencyTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals("livres irlandaises", self::$localized->get_name(10));
 	}
 
+	public function test_name_for()
+	{
+		$this->assertEquals("livre irlandaise", self::$localized->name);
+		$this->assertEquals("livre irlandaise", self::$localized->name_for(1));
+		$this->assertEquals("livres irlandaises", self::$localized->name_for(10));
+	}
+
 	public function test_get_symbol()
 	{
 		$this->assertEquals("£IE", self::$localized->symbol);
