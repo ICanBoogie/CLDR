@@ -1,7 +1,10 @@
 # customization
 
 PACKAGE_NAME = icanboogie/cldr
-PACKAGE_VERSION = 1.6
+PACKAGE_VERSION = 1.8
+PHPUNIT_VERSION = phpunit-4.phar
+PHPUNIT = build/$(PHPUNIT_VERSION)
+PHPUNIT_COVERAGE=$(PHPUNIT)
 
 # do not edit the following lines
 
@@ -17,12 +20,23 @@ update:
 autoload: vendor
 	@composer dump-autoload
 
-test: vendor
-	@phpunit
+# testing
 
-test-coverage: vendor
+test-dependencies: vendor $(PHPUNIT)
+
+$(PHPUNIT):
+	mkdir -p build
+	wget https://phar.phpunit.de/$(PHPUNIT_VERSION) -O $(PHPUNIT)
+	chmod +x $(PHPUNIT)
+
+test: test-dependencies
+	@$(PHPUNIT)
+
+test-coverage: test-dependencies
 	@mkdir -p build/coverage
-	@phpunit --coverage-html build/coverage
+	@$(PHPUNIT_COVERAGE) --coverage-html build/coverage --coverage-clover build/logs/clover.xml
+
+# doc
 
 doc: vendor
 	@mkdir -p build/docs
@@ -31,6 +45,8 @@ doc: vendor
 	--destination build/docs/ \
 	--title "$(PACKAGE_NAME) v$(PACKAGE_VERSION)" \
 	--template-theme "bootstrap"
+
+# utils
 
 clean:
 	@rm -fR build
