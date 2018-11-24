@@ -3,12 +3,12 @@
 namespace ICanBoogie\CLDR\LocaleTest;
 
 use ICanBoogie\CLDR\Locale;
-use ICanBoogie\CLDR\LocalizeAwareInterface;
+use ICanBoogie\CLDR\Localizable;
 
-class Localizable implements LocalizeAwareInterface
+class LocalizableSample implements Localizable
 {
 	static public function localize($source, Locale $locale, array $options = [])
 	{
-		return new LocalizedLocalizable($source, $locale, $options);
+		return new LocalizedLocalizableSample($source, $locale, $options);
 	}
 }

@@ -231,8 +231,7 @@ echo $locale->calendar['days']['format']['wide']['sun'];               // dimanc
 Locales are also often used to localize instances such as [Currency][], [Territory][], or even
 [Locale][]. The method `localize` is used to localize instances. The method
 tries its best to find a suitable _localizer_, and it helps if the instance to localize implements
-[LocalizeAwareInterface][], or if a `ICanBoogie\CLDR\Localized<class_base_name>` class is
-defined.
+[Localizable][], or if a `ICanBoogie\CLDR\Localized<class_base_name>` class is defined.
 
 ```php
 <?php
@@ -996,7 +995,7 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 [FileCache]:                  https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.FileCache.html
 [ListFormatter]:              https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.ListFormatter.html
 [Locale]:                     https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Locale.html
-[LocalizeAwareInterface]:     https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.LocalizeAwareInterface.html
+[Localizable]:                https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Localizable.html
 [LocalizedDateTime]:          https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.LocalizedDateTime.html
 [NumberFormatter]:            https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.NumberFormatter.html
 [Repository]:                 https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Repository.html

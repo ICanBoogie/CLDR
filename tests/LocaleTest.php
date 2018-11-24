@@ -161,7 +161,7 @@ class LocaleTest extends \PHPUnit\Framework\TestCase
 			[ LocalizedLocale::class, new Locale(get_repository(), 'fr') ],
 			[ LocalizedListFormatter::class, new ListFormatter ],
 			[ LocalizedNumberFormatter::class, new NumberFormatter ],
-			[ LocaleTest\LocalizedLocalizable::class, new \ICanBoogie\CLDR\LocaleTest\Localizable ]
+			[ LocaleTest\LocalizedLocalizableSample::class, new \ICanBoogie\CLDR\LocaleTest\LocalizableSample ]
 
 		];
 	}

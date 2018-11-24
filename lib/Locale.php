@@ -205,7 +205,7 @@ class Locale extends AbstractSectionCollection
 	{
 		$class = get_class($source);
 
-		if ($source instanceof LocalizeAwareInterface)
+		if ($source instanceof Localizable)
 		{
 			return [ $class, 'localize' ];
 		}

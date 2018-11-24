@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 /**
  * An interface for classes whose instances can be localized.
  */
-interface LocalizeAwareInterface
+interface Localizable
 {
 	/**
 	 * Localize the source object.
