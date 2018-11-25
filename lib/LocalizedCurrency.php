@@ -22,16 +22,6 @@ namespace ICanBoogie\CLDR;
 class LocalizedCurrency extends LocalizedObjectWithFormatter
 {
 	/**
-	 * @deprecated
-	 */
-	const PATTERN_STANDARD = LocalizedCurrencyFormatter::PATTERN_STANDARD;
-
-	/**
-	 * @deprecated
-	 */
-	const PATTERN_ACCOUNTING = LocalizedCurrencyFormatter::PATTERN_ACCOUNTING;
-
-	/**
 	 * Returns the formatter to use to format the target object.
 	 *
 	 * @return LocalizedCurrencyFormatter
@@ -41,18 +31,9 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	    return $this->locale->currency_formatter;
 	}
 
-	/**
-	 * Alias for @{link name_for()}.
-	 *
-	 * @param int|null $count Used for pluralization.
-	 *
-	 * @return string
-     *
-     * @deprecated
-	 */
-	public function get_name($count = null)
+	protected function get_name()
 	{
-		return $this->name_for($count);
+		return $this->name_for();
 	}
 
 	/**

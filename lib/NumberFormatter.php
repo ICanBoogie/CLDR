@@ -36,56 +36,6 @@ class NumberFormatter implements Formatter
 	];
 
 	/**
-	 * Returns the precision of a number.
-	 *
-	 * @param number $number
-	 *
-	 * @return int
-	 *
-	 * @deprecated
-	 *
-	 * @see Number::precision_from()
-	 */
-	static public function precision_from($number)
-	{
-		return Number::precision_from($number);
-	}
-
-	/**
-	 * Returns a number rounded to the specified precision.
-	 *
-	 * @param number $number
-	 * @param int $precision
-	 *
-	 * @return float
-	 *
-	 * @deprecated
-	 *
-	 * @see Number::round_to()
-	 */
-	static public function round_to($number, $precision)
-	{
-		return Number::round_to($number, $precision);
-	}
-
-	/**
-	 * Parses a number.
-	 *
-	 * @param number $number
-	 * @param null|int $precision
-	 *
-	 * @return array
-	 *
-	 * @deprecated
-	 *
-	 * @see Number::parse()
-	 */
-	static public function parse_number($number, $precision = null)
-	{
-		return Number::parse($number, $precision);
-	}
-
-	/**
 	 * @param Repository $repository
 	 */
 	public function __construct(Repository $repository=null)

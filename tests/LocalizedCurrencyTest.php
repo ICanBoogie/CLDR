@@ -33,11 +33,9 @@ class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
 		self::$localized = new LocalizedCurrency(self::$currency, get_repository()->locales['fr']);
 	}
 
-	public function test_get_name()
+	public function test_name()
 	{
 		$this->assertEquals("livre irlandaise", self::$localized->name);
-		$this->assertEquals("livre irlandaise", self::$localized->get_name(1));
-		$this->assertEquals("livres irlandaises", self::$localized->get_name(10));
 	}
 
 	public function test_name_for()
@@ -101,7 +99,7 @@ class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
 		$currency = new Currency(get_repository(), $currency_code);
 		$localized = $currency->localize($locale_code);
 
-		$this->assertStringSame($expected, $localized->format($number, $localized::PATTERN_ACCOUNTING));
+		$this->assertStringSame($expected, $localized->format($number, LocalizedCurrencyFormatter::PATTERN_ACCOUNTING));
 	}
 
 	public function provide_test_format_accounting()
