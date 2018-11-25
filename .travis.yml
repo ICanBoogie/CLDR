@@ -5,6 +5,7 @@ cache:
     - $COMPOSER_CACHE_DIR
     - $HOME/.composer/cache
     - $TRAVIS_BUILD_DIR/build
+    - $TRAVIS_BUILD_DIR/cache
 
 language: php
 

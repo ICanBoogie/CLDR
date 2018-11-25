@@ -22,7 +22,7 @@ use function getenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-define('ICanBoogie\CLDR\CACHE_DIR', __DIR__ . '/repository');
+define('ICanBoogie\CLDR\CACHE_DIR', __DIR__ . '/../cache');
 
 if (!file_exists(CACHE_DIR))
 {
