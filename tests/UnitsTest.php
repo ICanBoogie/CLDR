@@ -13,6 +13,8 @@ namespace ICanBoogie\CLDR;
 
 class UnitsTest extends \PHPUnit\Framework\TestCase
 {
+    use StringHelpers;
+
 	/**
 	 * @var LocaleCollection
 	 */
@@ -46,7 +48,7 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 	{
 		return [
 
-			[ 'fr', 'acceleration-g-force', 123.4504, Units::LENGTH_LONG, "123,45 fois la gravitation terrestre" ]
+			[ 'fr', 'acceleration-g-force', 123.4504, Units::LENGTH_LONG, "123,45 fois l’accélération de pesanteur terrestre" ]
 
 		];
 	}
@@ -74,14 +76,14 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 		return [
 
 			[ 'en', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_LONG, "12.345 liters per hour" ],
-			[ 'en', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_SHORT, "12.345 Lph" ],
-			[ 'en', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_NARROW, "12.345l/h" ],
+			[ 'en', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_SHORT, "12.345 L/h" ],
+			[ 'en', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_NARROW, "12.345L/h" ],
 
-			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_LONG, "12,345 litres par heure" ],
-			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_SHORT, "12,345 L/h" ],
-			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_NARROW, "12,345L/h" ],
+			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_LONG, "12,345 litres par heure" ],
+			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_SHORT, "12,345 l/h" ],
+			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_NARROW, "12,345l/h" ],
 
-			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', Units::LENGTH_LONG, "12,345 litres par mètres carrés"]
+			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', Units::LENGTH_LONG, "12,345 litres par mètre carré"]
 
 		];
 	}
@@ -95,11 +97,14 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function test_format_sequence($locale, callable $sequence, $expected)
 	{
-		$this->assertSame($expected, $sequence($this->units_for($locale)));
+		$this->assertStringSame($expected, $sequence($this->units_for($locale)));
 	}
 
 	public function provide_test_format_sequence()
 	{
+	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
+	    $s2 = Spaces::NO_BREAK_SPACE;
+
 		return [
 
 			[ 'en', function (Units $units) {
@@ -147,7 +152,7 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 					->duration_second(56)
 					->as_short;
 
-			}, "12 hrs, 34 mins, 56 secs"  ],
+			}, "12 hr, 34 min, 56 sec"  ],
 
 			[ 'en', function (Units $units) {
 
@@ -167,7 +172,7 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 					->duration_second(56)
 					->as_long;
 
-				}, "12 heures, 34 minutes et 56 secondes"  ],
+				}, "12{$s2}heures, 34 minutes et 56{$s2}secondes"  ],
 
 			[ 'fr', function (Units $units) {
 
@@ -177,7 +182,7 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 					->duration_second(56)
 					->as_short;
 
-				}, "12 h, 34 min et 56 s" ],
+				}, "12{$s1}h, 34{$s2}min et 56{$s1}s" ],
 
 			[ 'fr', function (Units $units) {
 
@@ -187,7 +192,7 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 					->duration_second(56)
 					->as_narrow;
 
-				}, "12h 34m 56s" ],
+				}, "12h 34{$s1}min 56s" ],
 
 		];
 	}

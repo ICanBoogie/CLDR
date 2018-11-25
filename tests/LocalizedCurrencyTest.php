@@ -11,8 +11,12 @@
 
 namespace ICanBoogie\CLDR;
 
+use function bin2hex;
+
 class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
 {
+    use StringHelpers;
+
 	/**
 	 * @var Currency
 	 */
@@ -50,7 +54,7 @@ class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
 
 	public function test_localize()
 	{
-		$localized = self::$currency->localize('en-US');
+		$localized = self::$currency->localize('en');
 		$this->assertInstanceOf(LocalizedCurrency::class, $localized);
 		$this->assertEquals("Irish Pound", $localized->name);
 	}
@@ -74,11 +78,11 @@ class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
 	{
 		return [
 
-			[ 'IEP', 'fr', 123456.789, "123 456,79 £IE" ],
+			[ 'IEP', 'fr', 123456.789, "123 456,79 £IE" ],
 			[ 'IEP', 'en', 123456.789, "IEP123,456.79" ],
-			[ 'EUR', 'fr', 123456.789, "123 456,79 €" ],
+			[ 'EUR', 'fr', 123456.789, "123 456,79 €" ],
 			[ 'EUR', 'en', 123456.789, "€123,456.79" ],
-			[ 'USD', 'fr', 123456.789, "123 456,79 \$US" ],
+			[ 'USD', 'fr', 123456.789, "123 456,79 \$US" ],
 			[ 'USD', 'en', 123456.789, "\$123,456.79" ],
 
 		];
@@ -96,19 +100,23 @@ class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
 	{
 		$currency = new Currency(get_repository(), $currency_code);
 		$localized = $currency->localize($locale_code);
-		$this->assertEquals($expected, $localized->format($number, $localized::PATTERN_ACCOUNTING));
+
+		$this->assertStringSame($expected, $localized->format($number, $localized::PATTERN_ACCOUNTING));
 	}
 
 	public function provide_test_format_accounting()
 	{
+	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
+	    $s2 = Spaces::NO_BREAK_SPACE;
+
 		return [
 
-			[ 'IEP', 'fr', 123456.789, "123 456,79 £IE" ],
+			[ 'IEP', 'fr', 123456.789, "123 456,79 £IE" ],
 			[ 'IEP', 'en', 123456.789, "IEP123,456.79" ],
-			[ 'EUR', 'fr', 123456.789, "123 456,79 €" ],
+			[ 'EUR', 'fr', 123456.789, "123 456,79 €" ],
 			[ 'EUR', 'en', 123456.789, "€123,456.79" ],
-			[ 'USD', 'fr', 123456.789, "123 456,79 \$US" ],
-			[ 'USD', 'en', 123456.789, "\$123,456.79" ],
+			[ 'USD', 'fr', 123456.789, "123{$s1}456,79{$s2}\$US" ],
+			[ 'USD', 'en', 123456.789, '$123,456.79' ],
 
 		];
 	}

@@ -13,32 +13,34 @@ namespace ICanBoogie\CLDR\Provider;
 
 use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\ResourceNotFound;
+use ICanBoogie\CLDR\Provider\WebProvider\PathMapper;
 
 /**
  * Retrieves sections from the CLDR source using cURL.
  */
 final class WebProvider implements Provider
 {
-	const DEFAULT_ORIGIN = "https://i18n.prestashop.com/cldr/json-full/";
-
-	/**
-	 * @var string
-	 */
-	private $origin;
-
 	/**
 	 * @var resource
 	 */
 	private $connection;
 
 	/**
-	 * Initializes the {@link $origin} property.
-	 *
-	 * @param string $origin
+	 * @var PathMapper
 	 */
-	public function __construct($origin = self::DEFAULT_ORIGIN)
-	{
-		$this->origin = $origin;
+	private $mapper;
+
+	/**
+	 * @param string $origin
+	 * @param string $version
+	 * @param string $variation
+	 */
+	public function __construct(
+		$origin = PathMapper::DEFAULT_ORIGIN,
+		$version = PathMapper::DEFAULT_VERSION,
+		$variation = PathMapper::DEFAULT_VARIATION
+	) {
+		$this->mapper = new PathMapper($origin, $version, $variation);
 	}
 
 	/**
@@ -103,6 +105,6 @@ final class WebProvider implements Provider
 	 */
 	private function map($path)
 	{
-		return "{$this->origin}$path.json";
+		return $this->mapper->map($path);
 	}
 }

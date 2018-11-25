@@ -13,6 +13,8 @@ namespace ICanBoogie\CLDR;
 
 class LocalizedCurrencyFormatterTest extends \PHPUnit\Framework\TestCase
 {
+    use StringHelpers;
+
 	/**
 	 * @var string
 	 */
@@ -50,19 +52,22 @@ class LocalizedCurrencyFormatterTest extends \PHPUnit\Framework\TestCase
 			$this->repository->locales[$locale_code]
 		);
 
-		$this->assertSame($expected, $formatter->format($number, $currency_code));
-		$this->assertSame($expected, $formatter($number, $currency_code));
+		$this->assertStringSame($expected, $formatter->format($number, $currency_code));
+		$this->assertStringSame($expected, $formatter($number, $currency_code));
 	}
 
 	public function provide_test_format()
 	{
+        $s1 = Spaces::NARROW_NO_BREAK_SPACE;
+        $s2 = Spaces::NO_BREAK_SPACE;
+
 		return [
 
-			[ 'IEP', 'fr', 123456.789, "123 456,79 £IE" ],
+			[ 'IEP', 'fr', 123456.789, "123{$s1}456,79{$s2}£IE" ],
 			[ 'IEP', 'en', 123456.789, "IEP123,456.79" ],
-			[ 'EUR', 'fr', 123456.789, "123 456,79 €" ],
+			[ 'EUR', 'fr', 123456.789, "123{$s1}456,79{$s2}€" ],
 			[ 'EUR', 'en', 123456.789, "€123,456.79" ],
-			[ 'USD', 'fr', 123456.789, "123 456,79 \$US" ],
+			[ 'USD', 'fr', 123456.789, "123{$s1}456,79{$s2}\$US" ],
 			[ 'USD', 'en', 123456.789, "\$123,456.79" ],
 
 		];
@@ -83,12 +88,12 @@ class LocalizedCurrencyFormatterTest extends \PHPUnit\Framework\TestCase
 			$this->repository->locales[$locale_code]
 		);
 
-		$this->assertSame(
+		$this->assertStringSame(
 			$expected,
 			$formatter->format($number, $currency_code, $formatter::PATTERN_ACCOUNTING)
 		);
 
-		$this->assertSame(
+		$this->assertStringSame(
 			$expected,
 			$formatter($number, $currency_code, $formatter::PATTERN_ACCOUNTING)
 		);
@@ -96,13 +101,16 @@ class LocalizedCurrencyFormatterTest extends \PHPUnit\Framework\TestCase
 
 	public function provide_test_format_accounting()
 	{
+        $s1 = Spaces::NARROW_NO_BREAK_SPACE;
+        $s2 = Spaces::NO_BREAK_SPACE;
+
 		return [
 
-			[ 'IEP', 'fr', 123456.789, "123 456,79 £IE" ],
+			[ 'IEP', 'fr', 123456.789, "123{$s1}456,79{$s2}£IE" ],
 			[ 'IEP', 'en', 123456.789, "IEP123,456.79" ],
-			[ 'EUR', 'fr', 123456.789, "123 456,79 €" ],
+			[ 'EUR', 'fr', 123456.789, "123{$s1}456,79{$s2}€" ],
 			[ 'EUR', 'en', 123456.789, "€123,456.79" ],
-			[ 'USD', 'fr', 123456.789, "123 456,79 \$US" ],
+			[ 'USD', 'fr', 123456.789, "123{$s1}456,79{$s2}\$US" ],
 			[ 'USD', 'en', 123456.789, "\$123,456.79" ],
 
 		];
@@ -115,6 +123,6 @@ class LocalizedCurrencyFormatterTest extends \PHPUnit\Framework\TestCase
 			$this->repository->locales['fr']
 		);
 
-		$this->assertSame("€123,5", $formatter(123.45, 'EUR', '¤0.0'));
+		$this->assertStringSame("€123,5", $formatter(123.45, 'EUR', '¤0.0'));
 	}
 }

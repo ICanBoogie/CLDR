@@ -13,6 +13,8 @@ namespace ICanBoogie\CLDR;
 
 class LocaleTest extends \PHPUnit\Framework\TestCase
 {
+    use StringHelpers;
+
 	/**
 	 * @var Locale
 	 */
@@ -105,16 +107,11 @@ class LocaleTest extends \PHPUnit\Framework\TestCase
 			[ 'ca-chinese'             , 'dates/calendars/chinese'                  , 'months' ],
 			[ 'ca-coptic'              , 'dates/calendars/coptic'                   , 'months' ],
 			[ 'ca-dangi'               , 'dates/calendars/dangi'                    , 'months' ],
-			[ 'ca-ethiopic-amete-alem' , 'dates/calendars/ethiopic-amete-alem'      , 'months' ],
 			[ 'ca-ethiopic'            , 'dates/calendars/ethiopic'                 , 'months' ],
 			[ 'ca-generic'             , 'dates/calendars/generic'                  , 'months' ],
 			[ 'ca-gregorian'           , 'dates/calendars/gregorian'                , 'months' ],
 			[ 'ca-hebrew'              , 'dates/calendars/hebrew'                   , 'months' ],
 			[ 'ca-indian'              , 'dates/calendars/indian'                   , 'months' ],
-			[ 'ca-islamic-civil'       , 'dates/calendars/islamic-civil'            , 'months' ],
-			[ 'ca-islamic-rgsa'        , 'dates/calendars/islamic-rgsa'             , 'months' ],
-			[ 'ca-islamic-tbla'        , 'dates/calendars/islamic-tbla'             , 'months' ],
-			[ 'ca-islamic-umalqura'    , 'dates/calendars/islamic-umalqura'         , 'months' ],
 			[ 'ca-islamic'             , 'dates/calendars/islamic'                  , 'months' ],
 			[ 'ca-japanese'            , 'dates/calendars/japanese'                 , 'months' ],
 			[ 'ca-persian'             , 'dates/calendars/persian'                  , 'months' ],
@@ -131,10 +128,9 @@ class LocaleTest extends \PHPUnit\Framework\TestCase
 			[ 'measurementSystemNames' , 'localeDisplayNames/measurementSystemNames', 'metric' ],
 			[ 'numbers'                , 'numbers'                                  , 'defaultNumberingSystem' ],
 			[ 'posix'                  , 'posix'                                    , 'messages' ],
-			[ 'scripts'                , 'localeDisplayNames/scripts'               , 'Afak' ],
+			[ 'scripts'                , 'localeDisplayNames/scripts'               , 'Arab' ],
 			[ 'territories'            , 'localeDisplayNames/territories'           , 'AC' ],
 			[ 'timeZoneNames'          , 'dates/timeZoneNames'                      , 'hourFormat' ],
-			[ 'transformNames'         , 'localeDisplayNames/transformNames'        , 'BGN' ],
 			[ 'units'                  , 'units'                                    , 'long' ],
 			[ 'variants'               , 'localeDisplayNames/variants'              , 'ALUKU' ]
 
@@ -176,15 +172,17 @@ class LocaleTest extends \PHPUnit\Framework\TestCase
 
 	public function test_format_number()
 	{
-		$this->assertSame(
-			"123 456,78",
+	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
+
+		$this->assertStringSame(
+			"123{$s1}456,78",
 			(new Locale(get_repository(), 'fr'))->format_number(123456.78)
 		);
 	}
 
 	public function test_format_percent()
 	{
-		$this->assertSame(
+		$this->assertStringSame(
 			"12 %",
 			(new Locale(get_repository(), 'fr'))->format_percent(.1234)
 		);
@@ -192,8 +190,8 @@ class LocaleTest extends \PHPUnit\Framework\TestCase
 
 	public function test_format_currency()
 	{
-		$this->assertSame(
-			"123 456,78 €",
+		$this->assertStringSame(
+			"123 456,78 €",
 			(new Locale(get_repository(), 'fr'))->format_currency(123456.78, 'EUR')
 		);
 	}

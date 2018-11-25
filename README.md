@@ -12,7 +12,7 @@ It provides many useful locale information and data (such as locale names for te
 languages, days…) as well as formatters for numbers, currencies, date and times, units, sequences,
 lists…
 
-> The package targets [CLDR version 26][1], from which data is retrieved when required.
+> The package targets [CLDR version 34][1], from which data is retrieved when required.
 
 **Example usage:**
 
@@ -40,7 +40,7 @@ $calendar = $fr->calendar;
 $datetime = '2018-11-24 20:12:22 UTC';
 
 echo $calendar['days']['format']['wide']['sun'];    // dimanche
-echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 20:12:22 UTC
+echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 à 20:12:22 UTC
 echo $calendar->format_date($datetime, 'long');     // 24 novembre 2018
 echo $calendar->format_time($datetime, 'long');     // 20:12:22 UTC
 
@@ -49,8 +49,8 @@ echo $calendar->format_time($datetime, 'long');     // 20:12:22 UTC
 $datetime = new \DateTime('2013-11-04 20:21:22 UTC');
 $fr_datetime = $fr->localize($datetime);
 
-echo $fr_datetime->as_full;                         // lundi 4 novembre 2013 20:21:22 UTC
-echo $fr_datetime->as_long;                         // 4 novembre 2013 20:21:22 UTC
+echo $fr_datetime->as_full;                         // lundi 4 novembre 2013 à 20:21:22 UTC
+echo $fr_datetime->as_long;                         // 4 novembre 2013 à 20:21:22 UTC
 echo $fr_datetime->as_medium;                       // 4 nov. 2013 20:21:22
 echo $fr_datetime->as_short;                        // 04/11/2013 20:21
 
@@ -96,9 +96,9 @@ $units->duration_hour(23, $units::LENGTH_NARROW);   // 23h
 $units->volume_liter->per_unit(12.345, $units->duration_hour);
 // 12.345 liters per hour
 $units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_SHORT);
-// 12.345 Lph
+// 12.345 L/h
 $units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_NARROW);
-// 12.345l/h
+// 12.345L/h
 
 $units->sequence
 	->angle_degree(5)
@@ -127,7 +127,7 @@ $repository->plurals->rule_for(2, 'ar');   // two
 
 The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
 data is retrieved through a provider. The _web_ provider fetches data from the JSON distribution
-[hosted by Unicode][2]. In order to avoid hitting the web with every request, a collection of caches
+[hosted on GitHub][2]. In order to avoid hitting the web with every request, a collection of caches
 is used, each with its own strategy.
 
 The following example demonstrates how a repository can be instantiated:
@@ -484,11 +484,11 @@ $ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $reposito
 # or
 $ldt = $repository->locales['fr']->localize(new \DateTime('2013-11-04 20:21:22 UTC'));
 
-echo $ldt->as_full;          // lundi 4 novembre 2013 20:21:22 UTC
+echo $ldt->as_full;          // lundi 4 novembre 2013 à 20:21:22 UTC
 # or
-echo $ldt->format_as_full(); // lundi 4 novembre 2013 20:21:22 UTC
+echo $ldt->format_as_full(); // lundi 4 novembre 2013 à 20:21:22 UTC
 
-echo $ldt->as_long;          // 4 novembre 2013 20:21:22 UTC
+echo $ldt->as_long;          // 4 novembre 2013 à 20:21:22 UTC
 echo $ldt->as_medium;        // 4 nov. 2013 20:21:22
 echo $ldt->as_short;         // 04/11/2013 20:21
 ```
@@ -1000,6 +1000,6 @@ The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
 [NumberFormatter]:            https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.NumberFormatter.html
 [Repository]:                 https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Repository.html
 [Territory]:                  https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Territory.html
-   
-[1]:                          http://cldr.unicode.org/index/downloads/cldr-26
-[2]:                          http://www.unicode.org/repos/cldr-aux/json/26/
+
+[1]:                          http://cldr.unicode.org/index/downloads/cldr-34
+[2]:                          https://github.com/unicode-cldr

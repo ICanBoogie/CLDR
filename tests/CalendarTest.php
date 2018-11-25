@@ -150,7 +150,7 @@ class CalendarTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame(
             self::$calendar->format_datetime('2018-11-24 20:12:22 UTC', 'full'),
-            "samedi 24 novembre 2018 20:12:22 UTC"
+            "samedi 24 novembre 2018 à 20:12:22 UTC"
         );
     }
 

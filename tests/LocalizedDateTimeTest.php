@@ -82,9 +82,9 @@ class LocalizedDateTimeTest extends \PHPUnit\Framework\TestCase
 			[ 'en', 'medium', "Nov 4, 2013, 8:21:22 PM" ],
 			[ 'en', 'short', "11/4/13, 8:21 PM" ],
 
-			[ 'fr', 'full', "lundi 4 novembre 2013 20:21:22 UTC" ],
-			[ 'fr', 'long', "4 novembre 2013 20:21:22 UTC" ],
-			[ 'fr', 'medium', "4 nov. 2013 20:21:22" ],
+			[ 'fr', 'full', "lundi 4 novembre 2013 à 20:21:22 UTC" ],
+			[ 'fr', 'long', "4 novembre 2013 à 20:21:22 UTC" ],
+			[ 'fr', 'medium', "4 nov. 2013 à 20:21:22" ],
 			[ 'fr', 'short', "04/11/2013 20:21" ],
 			[ 'fr', 'db', "2013-11-04 20:21:22" ],
 

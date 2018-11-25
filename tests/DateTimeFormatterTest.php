@@ -481,9 +481,9 @@ class DateTimeFormatterTest extends \PHPUnit\Framework\TestCase
 
 			# test: format width(full|long|medium|short) in french
 
-			[ 'fr', '2013-11-02 22:23:45', 'full', 'samedi 2 novembre 2013 22:23:45 CET' ],
-			[ 'fr', '2013-11-02 22:23:45', 'long', '2 novembre 2013 22:23:45 CET' ],
-			[ 'fr', '2013-11-02 22:23:45', 'medium', '2 nov. 2013 22:23:45' ],
+			[ 'fr', '2013-11-02 22:23:45', 'full', 'samedi 2 novembre 2013 à 22:23:45 CET' ],
+			[ 'fr', '2013-11-02 22:23:45', 'long', '2 novembre 2013 à 22:23:45 CET' ],
+			[ 'fr', '2013-11-02 22:23:45', 'medium', '2 nov. 2013 à 22:23:45' ],
 			[ 'fr', '2013-11-02 22:23:45', 'short', '02/11/2013 22:23' ],
 
 			[ 'fr', '2016-06-06', "''y 'Madonna' y 'Yay", "'2016 Madonna 2016 Yay" ],

@@ -45,14 +45,16 @@ class SupplementalTest extends \PHPUnit\Framework\TestCase
 	{
 		return [
 
+		    [ 'aliases'                , 'languageAlias' ],
 			[ 'calendarData'           , 'buddhist' ],
 			[ 'calendarPreferenceData' , 'AE' ],
 			[ 'characterFallbacks'     , 'U+00AD' ],
 			[ 'codeMappings'           , 'AA' ],
+            [ 'dayPeriods'             , 'af' ],
 			[ 'currencyData'           , 'fractions' ],
-			[ 'dayPeriods'             , 'bg' ],
 			[ 'gender'                 , 'personList' ],
 			[ 'languageData'           , 'aa' ],
+			[ 'languageGroups'         , 'aav' ],
 			[ 'languageMatching'       , 'written' ],
 			[ 'likelySubtags'          , 'aa' ],
 			[ 'measurementData'        , 'measurementSystem' ],
@@ -61,15 +63,14 @@ class SupplementalTest extends \PHPUnit\Framework\TestCase
 			[ 'ordinals'               , 'af' ],
 			[ 'parentLocales'          , 'parentLocale' ],
 			[ 'plurals'                , 'af' ],
-			[ 'postalCodeData'         , 'AD' ],
 			[ 'primaryZones'           , 'CL' ],
 			[ 'references'             , 'R1000' ],
-			[ 'telephoneCodeData'      , 'AC' ],
 			[ 'territoryContainment'   , 'EU' ],
 			[ 'territoryInfo'          , 'AC' ],
 			[ 'timeData'               , 'AD' ],
+            [ 'unitPreferenceData'     , 'unitPreferences' ],
 			[ 'weekData'               , 'minDays' ],
-			[ 'windowsZones'           , 'mapTimezones' ]
+			[ 'windowsZones'           , 'mapTimezones' ],
 
 		];
 	}

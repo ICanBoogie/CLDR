@@ -28,14 +28,16 @@ class Supplemental extends AbstractSectionCollection
 {
 	static private $available_sections = [
 
+	    'aliases'                => 'metadata/alias',
 		'calendarData'           => 'calendarData',
 		'calendarPreferenceData' => 'calendarPreferenceData',
 		'characterFallbacks'     => 'characters/character-fallback',
 		'codeMappings'           => 'codeMappings',
-		'currencyData'           => 'currencyData',
 		'dayPeriods'             => 'dayPeriodRuleSet',
+		'currencyData'           => 'currencyData',
 		'gender'                 => 'gender',
 		'languageData'           => 'languageData',
+		'languageGroups'         => 'languageGroups',
 		'languageMatching'       => 'languageMatching',
 		'likelySubtags'          => 'likelySubtags',
 		'measurementData'        => 'measurementData',
@@ -44,13 +46,12 @@ class Supplemental extends AbstractSectionCollection
 		'ordinals'               => 'plurals-type-ordinal',
 		'parentLocales'          => 'parentLocales',
 		'plurals'                => 'plurals-type-cardinal',
-		'postalCodeData'         => 'postalCodeData',
 		'primaryZones'           => 'primaryZones',
 		'references'             => 'references',
-		'telephoneCodeData'      => 'telephoneCodeData',
 		'territoryContainment'   => 'territoryContainment',
 		'territoryInfo'          => 'territoryInfo',
 		'timeData'               => 'timeData',
+        'unitPreferenceData'     => 'unitPreferenceData',
 		'weekData'               => 'weekData',
 		'windowsZones'           => 'windowsZones'
 
