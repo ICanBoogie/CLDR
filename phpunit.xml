@@ -1,0 +1,19 @@
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.7/phpunit.xsd"
+	backupGlobals="false"
+	colors="true"
+	bootstrap="./tests/bootstrap.php"
+>
+	<testsuites>
+		<testsuite name="icanboogie/cldr">
+			<directory>./tests</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist>
+			<directory suffix=".php">./lib</directory>
+		</whitelist>
+	</filter>
+</phpunit>
