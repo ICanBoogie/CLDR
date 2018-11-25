@@ -11,7 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\DateTime;
+use DateTime;
 
 class LocalizedDateTimeTest extends \PHPUnit\Framework\TestCase
 {
@@ -86,29 +86,12 @@ class LocalizedDateTimeTest extends \PHPUnit\Framework\TestCase
 			[ 'fr', 'long', "4 novembre 2013 à 20:21:22 UTC" ],
 			[ 'fr', 'medium', "4 nov. 2013 à 20:21:22" ],
 			[ 'fr', 'short', "04/11/2013 20:21" ],
-			[ 'fr', 'db', "2013-11-04 20:21:22" ],
-
-			[ 'en', 'atom', "2013-11-04T20:21:22+00:00" ],
-			[ 'en', 'cookie', "Monday, 04-Nov-2013 20:21:22 UTC" ],
-			[ 'en', 'iso8601', "2013-11-04T20:21:22Z" ],
-			[ 'en', 'rfc822', "Mon, 04 Nov 13 20:21:22 GMT" ],
-			[ 'en', 'rfc850', "Monday, 04-Nov-13 20:21:22 UTC" ],
-			[ 'en', 'rfc1036', "Mon, 04 Nov 13 20:21:22 +0000" ],
-			[ 'en', 'rfc1123', "Mon, 04 Nov 2013 20:21:22 GMT" ],
-			[ 'en', 'rfc2822', "Mon, 04 Nov 2013 20:21:22 +0000" ],
-			[ 'en', 'rfc3339', "2013-11-04T20:21:22+00:00" ],
-			[ 'en', 'rss', "Mon, 04 Nov 2013 20:21:22 +0000" ],
-			[ 'en', 'w3c', "2013-11-04T20:21:22+00:00" ],
-			[ 'en', 'db', "2013-11-04 20:21:22" ],
-			[ 'en', 'number', "20131104202122" ],
-			[ 'en', 'date', "2013-11-04" ],
-			[ 'en', 'time', "20:21:22" ]
 
 		];
 	}
 
 	public function test_to_string()
 	{
-		$this->assertEquals('2013-11-04T20:21:22Z', (string) self::$localized_dates['fr']);
+		$this->assertEquals('2013-11-04T20:21:22+00:00', (string) self::$localized_dates['fr']);
 	}
 }
