@@ -14,6 +14,7 @@ namespace ICanBoogie\CLDR;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Units\Unit;
 use ICanBoogie\CLDR\Units\Sequence;
+use function strtr;
 
 /**
  * @property-read Sequence $sequence
@@ -321,12 +322,11 @@ class Units
 		if (isset($this->data[self::DEFAULT_LENGTH][$unit]))
 		{
 			$number = array_shift($arguments);
-			array_unshift($arguments, $number, $unit);
 
-			return $this->format(...$arguments);
+			return $this->format($number, $unit, ...$arguments);
 		}
 
-		throw new \BadMethodCallException("No such unit: $name");
+		throw new \BadMethodCallException("Unit is not defined: $name.");
 	}
 
 	/**
@@ -373,6 +373,8 @@ class Units
 	 */
 	public function name_for($unit, $length = self::DEFAULT_LENGTH)
 	{
+		$unit = strtr($unit, '_', '-');
+
 		return $this->data[$length][$unit]['displayName'];
 	}
 
@@ -479,7 +481,7 @@ class Units
 	{
 		$pattern = $this->pattern_for_unit($unit, $number, $length);
 
-		return trim(str_replace('{0}', '', $pattern));
+		return UTF8Helpers::trim(str_replace('{0}', '', $pattern));
 	}
 
 	/**

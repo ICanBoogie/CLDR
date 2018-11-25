@@ -18,16 +18,11 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @var LocaleCollection
 	 */
-	private $locales;
+	static private $locales;
 
-	public function setUp()
+	static public function setUpBeforeClass()
 	{
-		$locales = &$this->locales;
-
-		if (!$locales)
-		{
-			$locales = get_repository()->locales;
-		}
+		self::$locales = get_repository()->locales;
 	}
 
 	/**
@@ -83,7 +78,8 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_SHORT, "12,345 l/h" ],
 			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_NARROW, "12,345l/h" ],
 
-			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', Units::LENGTH_LONG, "12,345 litres par mètre carré"]
+			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', Units::LENGTH_LONG, "12,345 litres par mètre carré"],
+			[ 'fr', 12.345, 'angle-revolution', 'length-light-year', Units::LENGTH_LONG, "12,345 tours par années-lumière"],
 
 		];
 	}
@@ -197,8 +193,52 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 		];
 	}
 
+	/**
+	 * @dataProvider provide_name_for
+	 *
+	 * @param string $unit
+	 * @param string $length
+	 * @param string $expected_name
+	 */
+	public function test_name_for($unit, $length, $expected_name)
+	{
+		$this->assertSame($expected_name, $this->units_for('fr')->name_for($unit, $length));
+	}
+
+	public function provide_name_for()
+	{
+		return [
+
+			[ 'angle_degree', Units::LENGTH_LONG, "degrés" ],
+			[ 'angle_degree', Units::LENGTH_SHORT, "°" ],
+			[ 'angle_degree', Units::LENGTH_NARROW, "°" ],
+			[ 'digital-megabyte', Units::LENGTH_LONG, "mégaoctets" ],
+			[ 'digital-megabyte', Units::LENGTH_SHORT, "Mo" ],
+			[ 'digital-megabyte', Units::LENGTH_NARROW, "Mo" ],
+
+		];
+	}
+
+	public function test_getter()
+	{
+		$units = $this->units_for('fr');
+		$unit = $units->angle_degree;
+
+		$this->assertSame($unit, $units->angle_degree);
+	}
+
+	/**
+	 * @test
+	 * @expectedException \BadMethodCallException
+	 * @expectedExceptionMessage Unit is not defined: madonna.
+	 */
+	public function should_fail_with_undefined_unit()
+	{
+		$this->units_for('fr')->madonna();
+	}
+
 	private function units_for($locale)
 	{
-		return new Units($this->locales[$locale]);
+		return new Units(self::$locales[$locale]);
 	}
 }

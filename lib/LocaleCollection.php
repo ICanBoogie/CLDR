@@ -23,48 +23,45 @@ class LocaleCollection extends AbstractCollection
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 
-	/**
-	 * @param Repository $repository
-	 */
 	public function __construct(Repository $repository)
 	{
 		$this->repository = $repository;
 
-		parent::__construct(function ($locale) {
+		parent::__construct(function ($code) {
 
-			$this->assert_locale_is_valid($locale);
-			$this->assert_locale_is_available($locale);
+			$this->assert_locale_is_valid($code);
+			$this->assert_locale_is_available($code);
 
-			return new Locale($this->repository, $locale);
+			return new Locale($this->repository, $code);
 
 		});
 	}
 
 	/**
-	 * @param $locale
+	 * @param string $code
 	 *
 	 * @throws \InvalidArgumentException if the specified locale is not valid.
 	 */
-	private function assert_locale_is_valid($locale)
+	private function assert_locale_is_valid($code)
 	{
-		if (!$locale)
+		if (!$code)
 		{
-			throw new \InvalidArgumentException("Locale identifier is empty");
+			throw new \InvalidArgumentException("Locale code should not be empty.");
 		}
 	}
 
 	/**
-	 * @param string $locale
+	 * @param string $code
 	 *
-	 * @throws \LogicException if the specified locale is not available.
+	 * @throws \InvalidArgumentException if the specified locale is not available.
 	 */
-	private function assert_locale_is_available($locale)
+	private function assert_locale_is_available($code)
 	{
-		if ($this->repository->is_locale_available($locale))
+		if ($this->repository->is_locale_available($code))
 		{
 			return;
 		}
 
-		throw new \LogicException("Unavailable locale: $locale");
+		throw new \InvalidArgumentException("Locale is not available: $code.");
 	}
 }

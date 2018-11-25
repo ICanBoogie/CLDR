@@ -16,11 +16,11 @@ class LocaleCollectionTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @var LocaleCollection
 	 */
-	static private $collection;
+	static private $sut;
 
 	static public function setupBeforeClass()
 	{
-		self::$collection = new LocaleCollection(get_repository());
+		self::$sut = new LocaleCollection(get_repository());
 	}
 
 	/**
@@ -28,7 +28,7 @@ class LocaleCollectionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function test_offsetExists()
 	{
-		self::$collection->offsetExists('fr');
+		self::$sut->offsetExists('fr');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class LocaleCollectionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function test_offsetSet()
 	{
-		self::$collection['fr'] = null;
+		self::$sut['fr'] = null;
 	}
 
 	/**
@@ -44,20 +44,32 @@ class LocaleCollectionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function test_offsetUnset()
 	{
-		unset(self::$collection['fr']);
+		unset(self::$sut['fr']);
 	}
 
 	public function test_existing_locale()
 	{
-		$this->assertInstanceOf(Locale::class, self::$collection['fr']);
-		$this->assertInstanceOf(Locale::class, self::$collection['en']);
+		$this->assertInstanceOf(Locale::class, self::$sut['fr']);
+		$this->assertInstanceOf(Locale::class, self::$sut['en']);
 	}
 
 	/**
+	 * @test
 	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Locale code should not be empty.
 	 */
-	public function test_empty_identifier()
+	public function should_fail_with_empty_locale()
 	{
-		self::$collection[''];
+		self::$sut[''];
+	}
+
+	/**
+	 * @test
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Locale is not available: madonna.
+	 */
+	public function should_fail_with_undefined_locale()
+	{
+		self::$sut['madonna'];
 	}
 }
