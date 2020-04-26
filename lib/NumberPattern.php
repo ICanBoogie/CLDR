@@ -12,6 +12,17 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use function abs;
+use function array_key_exists;
+use function implode;
+use function ltrim;
+use function round;
+use function str_pad;
+use function str_split;
+use function strlen;
+use function strpos;
+use function substr;
+use const STR_PAD_LEFT;
 
 /**
  * Representation of a number pattern.
@@ -32,8 +43,11 @@ use ICanBoogie\Accessor\AccessorTrait;
  * @property-read int $group_size1 The primary grouping size. `0` means no grouping.
  * @property-read int $group_size2 The secondary grouping size. `0` means no secondary grouping
  */
-class NumberPattern
+final class NumberPattern
 {
+	/**
+	 * @uses get_format
+	 */
 	use AccessorTrait;
 
 	/**
@@ -41,12 +55,7 @@ class NumberPattern
 	 */
 	static private $instances = [];
 
-	/**
-	 * @param string $pattern
-	 *
-	 * @return NumberPattern
-	 */
-	static public function from($pattern)
+	static public function from(string $pattern): NumberPattern
 	{
 		if (isset(self::$instances[$pattern]))
 		{
@@ -55,7 +64,7 @@ class NumberPattern
 
 		$format = NumberPatternParser::parse($pattern);
 
-		return self::$instances[$pattern] = new static($pattern, $format);
+		return self::$instances[$pattern] = new self($pattern, $format);
 	}
 
 	/**
@@ -76,19 +85,12 @@ class NumberPattern
 		return $this->format;
 	}
 
-	/**
-	 * @param string $pattern
-	 * @param array $format
-	 */
-	private function __construct($pattern, array $format)
+	private function __construct(string $pattern, array $format)
 	{
 		$this->pattern = $pattern;
 		$this->format = $format;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __get($property)
 	{
 		if (array_key_exists($property, $this->format))
@@ -99,10 +101,7 @@ class NumberPattern
 		return $this->accessor_get($property);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->pattern;
 	}
@@ -110,11 +109,11 @@ class NumberPattern
 	/**
 	 * Parse a number according to the pattern and return its integer and decimal parts.
 	 *
-	 * @param number $number
+	 * @param int|float $number
 	 *
 	 * @return array An array made with the integer and decimal parts of the number.
 	 */
-	public function parse_number($number)
+	public function parse_number($number): array
 	{
 		$number = abs($number * $this->multiplier);
 
@@ -135,13 +134,8 @@ class NumberPattern
 
 	/**
 	 * Formats integer according to group pattern.
-	 *
-	 * @param int $integer
-	 * @param string $group_symbol
-	 *
-	 * @return string
 	 */
-	public function format_integer_with_group($integer, $group_symbol)
+	public function format_integer_with_group(int $integer, string $group_symbol): string
 	{
 		$integer = str_pad($integer, $this->integer_digits, '0', STR_PAD_LEFT);
 		$group_size1 = $this->group_size1;
@@ -166,14 +160,12 @@ class NumberPattern
 	 *
 	 * @param string|int $integer An integer, or a formatted integer as returned by
 	 * {@link format_integer_with_group}.
-	 * @param string $decimal
-	 * @param string $decimal_symbol
-	 *
-	 * @return string
 	 */
-	public function format_integer_with_decimal($integer, $decimal, $decimal_symbol)
+	public function format_integer_with_decimal($integer, string $decimal, string $decimal_symbol): string
 	{
-		$decimal = $decimal ? (string) $decimal : '';
+		if ($decimal === '0') {
+			$decimal = '';
+		}
 
 		if ($this->decimal_digits > strlen($decimal))
 		{

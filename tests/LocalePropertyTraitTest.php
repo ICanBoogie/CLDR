@@ -12,8 +12,9 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\LocalePropertyTraitTest\A;
+use PHPUnit\Framework\TestCase;
 
-class LocalePropertyTraitTest extends \PHPUnit\Framework\TestCase
+class LocalePropertyTraitTest extends TestCase
 {
 	public function test_get_repository()
 	{

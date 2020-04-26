@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use DateTime;
 use ICanBoogie\PropertyNotDefined;
 
 /**
@@ -44,23 +45,20 @@ use ICanBoogie\PropertyNotDefined;
  * @method string format_as_medium() format_as_medium() Formats the instance according to the `medium` datetime pattern.
  * @method string format_as_short() format_as_short() Formats the instance according to the `short` datetime pattern.
  */
-class LocalizedDateTime extends LocalizedObjectWithFormatter
+final class LocalizedDateTime extends LocalizedObjectWithFormatter
 {
 	static private $format_widths = [ 'full', 'long', 'medium', 'short' ];
 
 	/**
-	 * Returns the formatter.
+	 * @inheritDoc
 	 *
-	 * @return DateTimeFormatter
+	 * @return DateTimeFormatter|Formatter
 	 */
-	protected function lazy_get_formatter()
+	protected function lazy_get_formatter(): Formatter
 	{
 		return $this->locale->calendar->datetime_formatter;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __get($property)
 	{
 		if (strpos($property, 'as_') === 0 && in_array($width = substr($property, 3), self::$format_widths))
@@ -78,17 +76,11 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __set($property, $value)
 	{
 		$this->target->$property = $value;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __call($method, $arguments)
 	{
 		if (strpos($method, 'format_as_') === 0 && in_array($width = substr($method, 10), self::$format_widths))
@@ -99,9 +91,6 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 		return $this->target->$method(...$arguments);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __toString()
 	{
 		$target = $this->target;
@@ -114,17 +103,15 @@ class LocalizedDateTime extends LocalizedObjectWithFormatter
 		// `ATOM` is used instead of `ISO8601` because of a bug in the pattern
 		// @see http://php.net/manual/en/class.datetime.php#datetime.constants.iso8601
 
-		return $this->target->format(\DateTime::ATOM);
+		return $this->target->format(DateTime::ATOM);
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 *
-	 * @param string|null $pattern
-	 *
-	 * @return string
+	 * @throws \Exception
 	 */
-	public function format($pattern = null)
+	public function format(string $pattern = null): string
 	{
 		return $this->formatter->format($this->target, $pattern);
 	}

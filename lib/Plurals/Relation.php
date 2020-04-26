@@ -12,6 +12,16 @@
 namespace ICanBoogie\CLDR\Plurals;
 
 use ICanBoogie\CLDR\Number;
+use function array_merge;
+use function explode;
+use function extract;
+use function implode;
+use function rtrim;
+use function str_repeat;
+use function strlen;
+use function strpos;
+use function substr;
+use function trim;
 
 /**
  * Representation of a plural rule relation.
@@ -20,44 +30,30 @@ use ICanBoogie\CLDR\Number;
  */
 final class Relation
 {
-	const RANGE_SEPARATOR = '..';
-	const MODULUS_SIGN = '%';
+	public const RANGE_SEPARATOR = '..';
+	public const MODULUS_SIGN = '%';
 
 	/**
-	 * @var array
+	 * @var Relation[]
 	 */
 	static private $instances = [];
 
-	/**
-	 * @param string $relation
-	 *
-	 * @return Relation
-	 */
-	static public function from($relation)
+	static public function from(string $relation): Relation
 	{
 		$instance = &self::$instances[$relation];
 
-		if ($instance)
-		{
-			return $instance;
-		}
-
-		list($x_expression, $range) = self::parse_relation($relation);
-
-		return $instance = new static($x_expression, $range);
+		return $instance ?? $instance = new self(...self::parse_relation($relation));
 	}
 
 	/**
-	 * @param $relation
-	 *
-	 * @return array
+	 * @return array [ string $x_expression, string $range ]
 	 */
-	static private function parse_relation($relation)
+	static private function parse_relation(string $relation): array
 	{
-		list($x_expression, $range_list) = explode('= ', $relation) + [ 1 => null ];
-		list($x_expression, $negative) = self::parse_x_expression($x_expression);
+		[ $x_expression, $range_list ] = explode('= ', $relation) + [ 1 => null ];
+		[ $x_expression, $negative ] = self::parse_x_expression($x_expression);
 
-		$range = self::parse_range_list($range_list);
+		$range = $range_list ? self::parse_range_list($range_list) : '($x == 0)';
 
 		if ($negative)
 		{
@@ -68,11 +64,9 @@ final class Relation
 	}
 
 	/**
-	 * @param string $x_expression
-	 *
-	 * @return array [ $x_expression, $negative ]
+	 * @return array [ ?string $x_expression, bool $negative ]
 	 */
-	static private function parse_x_expression($x_expression)
+	static private function parse_x_expression(string $x_expression): array
 	{
 		if (!$x_expression)
 		{
@@ -81,7 +75,7 @@ final class Relation
 
 		$negative = false;
 
-		if ($x_expression{strlen($x_expression) - 1} === '!')
+		if ($x_expression[strlen($x_expression) - 1] === '!')
 		{
 			$negative = true;
 
@@ -103,13 +97,9 @@ final class Relation
 	}
 
 	/**
-	 * Parse a range list into a PHP statement.
-	 *
-	 * @param string $range_list
-	 *
 	 * @return string A PHP statement.
 	 */
-	static private function parse_range_list($range_list)
+	static private function parse_range_list(string $range_list): string
 	{
 		$ranges = [];
 
@@ -128,14 +118,9 @@ final class Relation
 		return implode(' || ', $ranges);
 	}
 
-	/**
-	 * @param string $range
-	 *
-	 * @return array
-	 */
-	static private function unwind_range($range)
+	static private function unwind_range(string $range): array
 	{
-		list($start, $end) = explode(self::RANGE_SEPARATOR, $range);
+		[ $start, $end ] = explode(self::RANGE_SEPARATOR, $range);
 
 		$precision = self::precision_from($start) ?: self::precision_from($end);
 		$step = 1 / (int) ('1' . str_repeat('0', $precision));
@@ -152,17 +137,15 @@ final class Relation
 	}
 
 	/**
-	 * @param number $number
-	 *
-	 * @return int
+	 * @param int|float $number
 	 */
-	static private function precision_from($number)
+	static private function precision_from($number): int
 	{
 		return Number::precision_from($number);
 	}
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	private $x_expression;
 
@@ -171,38 +154,34 @@ final class Relation
 	 */
 	private $conditions;
 
-	/**
-	 * @param string $x_expression PHP code to evaluate `x`.
-	 * @param string $conditions PHP code to evaluate.
-	 */
-	private function __construct($x_expression, $conditions)
+	private function __construct(?string $x_expression, string $conditions)
 	{
 		$this->x_expression = $x_expression;
 		$this->conditions = $conditions;
 	}
 
 	/**
-	 * Resolve `x`.
-	 *
-	 * @param Operands $operands
-	 *
-	 * @return number
+	 * @return int|float|null
 	 */
 	public function resolve_x(Operands $operands)
 	{
-		extract($operands->to_array());
+		if ($this->x_expression === null) {
+			return null;
+		}
+
+		$operands = $operands->to_array();
+
+		extract($operands);
 
 		return eval("return ($this->x_expression);");
 	}
 
 	/**
-	 * @param Operands $operands
-	 *
-	 * @return bool `true` if the operands satisfy the rule, `false` otherwise.
+	 * Evaluate operands
 	 */
-	public function evaluate(Operands $operands)
+	public function evaluate(Operands $operands): bool
 	{
-		if (!$this->x_expression)
+		if ($this->x_expression === null)
 		{
 			return true;
 		}

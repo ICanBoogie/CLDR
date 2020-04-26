@@ -19,11 +19,7 @@ interface Provider
 	/**
 	 * The section path, following the pattern "<identity>/<section>".
 	 *
-	 * @param string $path
-	 *
-	 * @throws ResourceNotFound when the specified path does not exists on the CLDR source.
-	 *
-	 * @return array
+	 * @throws ResourceNotFound when the specified path does not exist on the CLDR source.
 	 */
-	public function provide($path);
+	public function provide(string $path): array;
 }

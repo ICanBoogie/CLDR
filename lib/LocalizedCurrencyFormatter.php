@@ -24,7 +24,7 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param number $number
+	 * @param int|float $number
 	 * @param Currency|string $currency
 	 * @param string $pattern
 	 * @param array $symbols
@@ -39,7 +39,7 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param number $number
+	 * @param int|float $number
 	 * @param Currency|string $currency
 	 * @param string $pattern
 	 * @param array $symbols

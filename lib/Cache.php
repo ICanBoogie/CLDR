@@ -13,16 +13,7 @@ namespace ICanBoogie\CLDR;
 
 interface Cache
 {
-	/**
-	 * @param string $path
-	 *
-	 * @return array|null
-	 */
-	public function get($path);
+	public function get(string $path): ?array;
 
-	/**
-	 * @param string $path
-	 * @param array $data
-	 */
-	public function set($path, array $data);
+	public function set(string $path, array $data): void;
 }

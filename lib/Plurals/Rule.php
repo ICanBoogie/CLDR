@@ -11,6 +11,11 @@
 
 namespace ICanBoogie\CLDR\Plurals;
 
+use function array_map;
+use function array_walk_recursive;
+use function explode;
+use function in_array;
+
 /**
  * Representation of plural samples.
  *
@@ -19,28 +24,21 @@ namespace ICanBoogie\CLDR\Plurals;
 final class Rule
 {
 	/**
-	 * @var array
+	 * @var Rule[]
 	 */
 	static private $instances = [];
 
-	/**
-	 * @param string $rule
-	 *
-	 * @return Rule
-	 */
-	static public function from($rule)
+	static public function from(string $rule): Rule
 	{
 		$instance = &self::$instances[$rule];
 
-		return $instance ?: $instance = new static(self::parse_rule($rule));
+		return $instance ?? $instance = new self(self::parse_rule($rule));
 	}
 
 	/**
-	 * @param string $rules
-	 *
 	 * @return Relation[][]
 	 */
-	static private function parse_rule($rules)
+	static private function parse_rule(string $rules): array
 	{
 		$rules = self::extract_rule($rules);
 
@@ -54,11 +52,9 @@ final class Rule
 	}
 
 	/**
-	 * @param string $rule
-	 *
 	 * @return array An array of ands[ors][]
 	 */
-	static private function extract_rule($rule)
+	static private function extract_rule(string $rule): array
 	{
 		return array_map(function ($rule) {
 
@@ -81,11 +77,11 @@ final class Rule
 	}
 
 	/**
-	 * @param number $number
+	 * Whether a number matches the rules.
 	 *
-	 * @return bool `true` if the number matches the rules, `false` otherwise.
+	 * @param int|float $number
 	 */
-	public function validate($number)
+	public function validate($number): bool
 	{
 		$relations = $this->relations;
 		$operands = Operands::from($number);

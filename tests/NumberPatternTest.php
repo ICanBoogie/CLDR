@@ -11,7 +11,9 @@
 
 namespace ICanBoogie\CLDR;
 
-class NumberPatternTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class NumberPatternTest extends TestCase
 {
 	/**
 	 * @param $pattern

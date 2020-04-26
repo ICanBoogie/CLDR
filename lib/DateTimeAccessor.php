@@ -42,7 +42,7 @@ class DateTimeAccessor
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function __get($property)
 	{
@@ -76,7 +76,7 @@ class DateTimeAccessor
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function __call($name, $params)
 	{

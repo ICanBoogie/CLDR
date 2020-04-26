@@ -12,8 +12,9 @@
 namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\CLDR\Units;
+use PHPUnit\Framework\TestCase;
 
-class UnitTest extends \PHPUnit\Framework\TestCase
+class UnitTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_properties

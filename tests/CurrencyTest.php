@@ -11,14 +11,16 @@
 
 namespace ICanBoogie\CLDR;
 
-class CurrencyTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class CurrencyTest extends TestCase
 {
 	/**
 	 * @var Repository
 	 */
 	static private $repository;
 
-	static public function setupBeforeClass()
+	static public function setupBeforeClass(): void
 	{
 		self::$repository = get_repository();
 	}

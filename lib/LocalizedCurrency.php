@@ -22,11 +22,11 @@ namespace ICanBoogie\CLDR;
 class LocalizedCurrency extends LocalizedObjectWithFormatter
 {
 	/**
-	 * Returns the formatter to use to format the target object.
+	 * @inheritDoc
 	 *
-	 * @return LocalizedCurrencyFormatter
+	 * @return LocalizedCurrencyFormatter|Formatter
 	 */
-	protected function lazy_get_formatter()
+	protected function lazy_get_formatter(): Formatter
 	{
 	    return $this->locale->currency_formatter;
 	}
@@ -79,7 +79,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param number $number
+	 * @param int|float $number
 	 * @param string $pattern
 	 * @param array $symbols
 	 *

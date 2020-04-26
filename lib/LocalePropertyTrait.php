@@ -23,10 +23,7 @@ trait LocalePropertyTrait
 	 */
 	private $locale;
 
-	/**
-	 * @return Locale
-	 */
-	protected function get_locale()
+	private function get_locale(): Locale
 	{
 		return $this->locale;
 	}

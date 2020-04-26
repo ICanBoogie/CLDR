@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use ArrayObject;
 use ICanBoogie\Accessor\AccessorTrait;
 
 /**
@@ -27,89 +28,67 @@ use ICanBoogie\Accessor\AccessorTrait;
  * @property-read array $currency_formats Shortcuts to the `currencyFormats-numberSystem-<defaultNumberingSystem>`.
  * @property-read array $misc_patterns Shortcuts to the `miscPatterns-numberSystem-<defaultNumberingSystem>`.
  */
-class Numbers extends \ArrayObject
+final class Numbers extends ArrayObject
 {
+	/**
+	 * @uses get_symbols
+	 * @uses get_decimal_formats
+	 * @uses get_decimal_format
+	 * @uses get_short_decimal_formats
+	 * @uses get_long_decimal_formats
+	 * @uses get_scientific_formats
+	 * @uses get_percent_formats
+	 * @uses get_currency_formats
+	 * @uses get_misc_patterns
+	 */
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
-	/**
-	 * @return array
-	 */
-	protected function get_symbols()
+	private function get_symbols(): array
 	{
 		return $this['symbols-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function get_decimal_formats()
+	private function get_decimal_formats(): array
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function get_decimal_format()
+	private function get_decimal_format(): string
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['standard'];
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function get_short_decimal_formats()
+	private function get_short_decimal_formats(): array
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['short']['decimalFormat'];
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function get_long_decimal_formats()
+	private function get_long_decimal_formats(): array
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['long']['decimalFormat'];
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function get_scientific_formats()
+	private function get_scientific_formats(): array
 	{
 		return $this['scientificFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function get_percent_formats()
+	private function get_percent_formats(): array
 	{
 		return $this['percentFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function get_currency_formats()
+	private function get_currency_formats(): array
 	{
 		return $this['currencyFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function get_misc_patterns()
+	private function get_misc_patterns(): array
 	{
 		return $this['miscPatterns-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
-	/**
-	 * Initialize the {@link $locale} property.
-	 *
-	 * @param Locale $locale
-	 * @param array $data
-	 */
 	public function __construct(Locale $locale, array $data)
 	{
 		$this->locale = $locale;

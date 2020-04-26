@@ -11,12 +11,19 @@
 
 namespace ICanBoogie\CLDR;
 
+use function explode;
+use function preg_match;
+use function str_replace;
+use function strpos;
+use function strrpos;
+use function substr;
+
 /**
  * @see http://unicode.org/reports/tr35/tr35-numbers.html#Number_Pattern_Character_Definitions
  */
-class NumberPatternParser
+final class NumberPatternParser
 {
-	const PATTERN_REGEX = '/^(.*?)[#,\.0]+(.*?)$/';
+	public const PATTERN_REGEX = '/^(.*?)[#,\.0]+(.*?)$/';
 
 	static private $initial_format = [
 
@@ -35,12 +42,8 @@ class NumberPatternParser
 
 	/**
 	 * Parses a given string pattern.
-	 *
-	 * @param string $pattern The pattern to be parsed.
-	 *
-	 * @return array The parsed pattern.
 	 */
-	static public function parse($pattern)
+	static public function parse(string $pattern): array
 	{
 		$format = self::$initial_format;
 
@@ -53,11 +56,7 @@ class NumberPatternParser
 		return $format;
 	}
 
-	/**
-	 * @param string $pattern
-	 * @param array $format
-	 */
-	static private function parse_multiple_patterns(&$pattern, array &$format)
+	static private function parse_multiple_patterns(string &$pattern, array &$format): void
 	{
 		$patterns = explode(';', $pattern);
 
@@ -81,11 +80,7 @@ class NumberPatternParser
 		$pattern = $patterns[0];
 	}
 
-	/**
-	 * @param string $pattern
-	 * @param array $format
-	 */
-	static private function parse_multiplier(&$pattern, array &$format)
+	static private function parse_multiplier(string $pattern, array &$format): void
 	{
 		if (strpos($pattern, '%') !== false)
 		{
@@ -100,11 +95,7 @@ class NumberPatternParser
 		}
 	}
 
-	/**
-	 * @param string $pattern
-	 * @param array $format
-	 */
-	static private function parse_decimal_part(&$pattern, array &$format)
+	static private function parse_decimal_part(string &$pattern, array &$format): void
 	{
 		$pos = strpos($pattern, '.');
 
@@ -125,11 +116,7 @@ class NumberPatternParser
 
 	}
 
-	/**
-	 * @param string $pattern
-	 * @param array $format
-	 */
-	static private function parse_integer_part(&$pattern, array &$format)
+	static private function parse_integer_part(string $pattern, array &$format): void
 	{
 		$p = str_replace(',', '', $pattern);
 		$pos = strpos($p, '0');
@@ -139,11 +126,7 @@ class NumberPatternParser
 			: 0;
 	}
 
-	/**
-	 * @param string $pattern
-	 * @param array $format
-	 */
-	static private function parse_group_sizes(&$pattern, array &$format)
+	static private function parse_group_sizes(string $pattern, array &$format): void
 	{
 		$p = str_replace('#', '0', $pattern);
 		$pos = strrpos($pattern, ',');

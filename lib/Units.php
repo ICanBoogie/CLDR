@@ -11,9 +11,14 @@
 
 namespace ICanBoogie\CLDR;
 
+use BadMethodCallException;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Units\Unit;
 use ICanBoogie\CLDR\Units\Sequence;
+use LogicException;
+use function array_shift;
+use function is_string;
+use function str_replace;
 use function strtr;
 
 /**
@@ -265,22 +270,25 @@ use function strtr;
  */
 class Units
 {
+	/**
+	 * @uses get_sequence
+	 */
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
-	const LENGTH_LONG = 'long';
-	const LENGTH_SHORT = 'short';
-	const LENGTH_NARROW = 'narrow';
+	public const LENGTH_LONG = 'long';
+	public const LENGTH_SHORT = 'short';
+	public const LENGTH_NARROW = 'narrow';
 
-	const DEFAULT_LENGTH = self::LENGTH_LONG;
-	const COUNT_PREFIX = 'unitPattern-count-';
+	public const DEFAULT_LENGTH = self::LENGTH_LONG;
+	public const COUNT_PREFIX = 'unitPattern-count-';
 
 	/**
 	 * @param string $length One of `LENGTH_*`.
 	 *
 	 * @return string One of `LocalizedListFormatter::TYPE_UNIT*`.
 	 */
-	static private function length_to_unit_type($length)
+	static private function length_to_unit_type(string $length): string
 	{
 		static $types = [
 
@@ -303,18 +311,17 @@ class Units
 	 */
 	private $plurals;
 
-	/**
-	 * @param Locale $locale
-	 */
+	private function get_sequence(): Sequence
+	{
+		return new Sequence($this);
+	}
+
 	public function __construct(Locale $locale)
 	{
 		$this->locale = $locale;
 		$this->data = $locale['units'];
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __call($name, $arguments)
 	{
 		$unit = strtr($name, '_', '-');
@@ -326,12 +333,9 @@ class Units
 			return $this->format($number, $unit, ...$arguments);
 		}
 
-		throw new \BadMethodCallException("Unit is not defined: $name.");
+		throw new BadMethodCallException("Unit is not defined: $name.");
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __get($property)
 	{
 		$unit = strtr($property, '_', '-');
@@ -345,33 +349,17 @@ class Units
 	}
 
 	/**
-	 * @return Sequence
+	 * @throws LogicException if the specified unit is not defined.
 	 */
-	protected function get_sequence()
+	public function assert_is_unit(string $unit): void
 	{
-		return new Sequence($this);
-	}
-
-	/**
-	 * @param string $unit
-	 *
-	 * @throws \LogicException if the specified unit is not defined.
-	 */
-	public function assert_is_unit($unit)
-	{
-		if (!isset($this->data[self::DEFAULT_LENGTH][(string) $unit]))
+		if (!isset($this->data[self::DEFAULT_LENGTH][$unit]))
 		{
-			throw new \LogicException("No such unit: $unit");
+			throw new LogicException("No such unit: $unit");
 		}
 	}
 
-	/**
-	 * @param string $unit
-	 * @param string $length
-	 *
-	 * @return string
-	 */
-	public function name_for($unit, $length = self::DEFAULT_LENGTH)
+	public function name_for(string $unit, string $length = self::DEFAULT_LENGTH): string
 	{
 		$unit = strtr($unit, '_', '-');
 
@@ -379,13 +367,9 @@ class Units
 	}
 
 	/**
-	 * @param number $number
-	 * @param string $unit
-	 * @param string $length
-	 *
-	 * @return string
+	 * @param int|float $number
 	 */
-	public function format($number, $unit, $length = self::DEFAULT_LENGTH)
+	public function format($number, string $unit, string $length = self::DEFAULT_LENGTH): string
 	{
 		$pattern = $this->pattern_for_unit($unit, $number, $length);
 		$number = $this->ensure_number_if_formatted($number);
@@ -396,16 +380,11 @@ class Units
 	/**
 	 * Format a combination of units is X per Y, such as _miles per hour_ or _liters per second_.
 	 *
-	 * @param string|number $number
-	 * @param Unit|string $number_unit
-	 * @param Unit|string $per_unit
-	 * @param string $length
-	 *
-	 * @return string
+	 * @param int|float $number
 	 *
 	 * @see http://unicode.org/reports/tr35/tr35-general.html#perUnitPatterns
 	 */
-	public function format_combination($number, $number_unit, $per_unit, $length = self::DEFAULT_LENGTH)
+	public function format_combination($number, string $number_unit, string $per_unit, string $length = self::DEFAULT_LENGTH): string
 	{
 		$formatted = $this->format($number, $number_unit, $length);
 		$data = $this->data[$length][$per_unit];
@@ -435,14 +414,9 @@ class Units
 	 * or 3 ft 2 in.For that purpose, the appropriate width of the unit listPattern can be used
 	 * to compose the units in a sequence.
 	 *
-	 * @param array $units_and_numbers
-	 * @param string $length
-	 *
-	 * @return string
-	 *
 	 * @see http://unicode.org/reports/tr35/tr35-general.html#Unit_Sequences
 	 */
-	public function format_sequence(array $units_and_numbers, $length = self::DEFAULT_LENGTH)
+	public function format_sequence(array $units_and_numbers, string $length = self::DEFAULT_LENGTH): string
 	{
 		$list = [];
 
@@ -455,13 +429,9 @@ class Units
 	}
 
 	/**
-	 * @param string $unit
-	 * @param string|number $number
-	 * @param string $length
-	 *
-	 * @return string
+	 * @param int|float $number
 	 */
-	private function pattern_for_unit($unit, $number, $length)
+	private function pattern_for_unit(string $unit, $number, string $length): string
 	{
 		$this->assert_is_unit($unit);
 
@@ -471,35 +441,24 @@ class Units
 	}
 
 	/**
-	 * @param string $unit
-	 * @param string|number $number
-	 * @param string $length
-	 *
-	 * @return string
+	 * @param int|float $number
 	 */
-	private function pattern_for_denominator($unit, $number, $length)
+	private function pattern_for_denominator(string $unit, $number, string $length): string
 	{
 		$pattern = $this->pattern_for_unit($unit, $number, $length);
 
 		return UTF8Helpers::trim(str_replace('{0}', '', $pattern));
 	}
 
-	/**
-	 * @param string $length
-	 *
-	 * @return string
-	 */
-	private function pattern_for_combination($length)
+	private function pattern_for_combination(string $length): string
 	{
 		return $this->data[$length]['per']['compoundUnitPattern'];
 	}
 
 	/**
-	 * @param number $number
-	 *
-	 * @return string
+	 * @param int|float $number
 	 */
-	private function count_for($number)
+	private function count_for($number): string
 	{
 		$plurals = &$this->plurals;
 
@@ -512,11 +471,9 @@ class Units
 	}
 
 	/**
-	 * @param number|string $number
-	 *
-	 * @return string
+	 * @param int|float|string $number
 	 */
-	private function ensure_number_if_formatted($number)
+	private function ensure_number_if_formatted($number): string
 	{
 		if (is_string($number))
 		{

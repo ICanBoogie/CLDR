@@ -36,9 +36,9 @@ final class CachedProvider implements Provider
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	public function provide($path)
+	public function provide(string $path): array
 	{
 		$data = $this->cache->get($path);
 

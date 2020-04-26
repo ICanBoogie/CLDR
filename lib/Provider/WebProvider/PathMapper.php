@@ -11,17 +11,25 @@
 
 namespace ICanBoogie\CLDR\Provider\WebProvider;
 
+use function array_fill_keys;
+use function array_shift;
+use function array_unshift;
+use function explode;
+use function implode;
+use function strpos;
+use function substr;
+
 /**
  * Maps CLDR paths to GitHub URLs.
  */
 class PathMapper
 {
-	const DEFAULT_ORIGIN = "https://raw.githubusercontent.com/unicode-cldr/";
-	const DEFAULT_VERSION = "34.0.0";
-	const DEFAULT_VARIATION = self::PREFER_MODERN;
+	public const DEFAULT_ORIGIN = "https://raw.githubusercontent.com/unicode-cldr/";
+	public const DEFAULT_VERSION = "34.0.0";
+	public const DEFAULT_VARIATION = self::PREFER_MODERN;
 
-	const PREFER_MODERN = 'modern';
-	const PREFER_FULL = 'full';
+	public const PREFER_MODERN = 'modern';
+	public const PREFER_FULL = 'full';
 
 	static private $compact_files = [
 
@@ -54,15 +62,10 @@ class PathMapper
 	 */
 	private $files;
 
-	/**
-	 * @param string $origin
-	 * @param string $version
-	 * @param string $variation
-	 */
 	public function __construct(
-		$origin = self::DEFAULT_ORIGIN,
-		$version = self::DEFAULT_VERSION,
-		$variation = self::DEFAULT_VARIATION
+		string $origin = self::DEFAULT_ORIGIN,
+		string $version = self::DEFAULT_VERSION,
+		string $variation = self::DEFAULT_VARIATION
 	) {
 		$this->origin = $origin;
 		$this->version = $version;
@@ -70,12 +73,7 @@ class PathMapper
 		$this->files = $this->compile_files(self::$compact_files);
 	}
 
-	/**
-	 * @param string $path
-	 *
-	 * @return string
-	 */
-	public function map($path)
+	public function map(string $path): string
 	{
 		$parts = explode('/', $path);
 
@@ -98,12 +96,7 @@ class PathMapper
 		return "{$this->origin}cldr-$path.json";
 	}
 
-	/**
-	 * @param array $parts
-	 *
-	 * @return array
-	 */
-	private function map_localized(array $parts)
+	private function map_localized(array $parts): array
 	{
 		$file = $parts[2];
 
@@ -127,12 +120,7 @@ class PathMapper
 		return $parts;
 	}
 
-	/**
-	 * @param array $compact_files
-	 *
-	 * @return array
-	 */
-	private function compile_files(array $compact_files)
+	private function compile_files(array $compact_files): array
 	{
 		$compiled = [];
 

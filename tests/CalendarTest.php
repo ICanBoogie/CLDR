@@ -11,14 +11,17 @@
 
 namespace ICanBoogie\CLDR;
 
-class CalendarTest extends \PHPUnit\Framework\TestCase
+use ICanBoogie\PropertyNotDefined;
+use PHPUnit\Framework\TestCase;
+
+class CalendarTest extends TestCase
 {
 	/**
 	 * @var Calendar
 	 */
 	static private $calendar;
 
-	static public function setupBeforeClass()
+	static public function setupBeforeClass(): void
 	{
 		self::$calendar = get_repository()->locales['fr']->calendars['gregorian'];
 	}
@@ -53,11 +56,9 @@ class CalendarTest extends \PHPUnit\Framework\TestCase
 		];
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\PropertyNotDefined
-	 */
 	public function test_get_undefined_property()
 	{
+		$this->expectException(PropertyNotDefined::class);
 		self::$calendar->undefined_property;
 	}
 

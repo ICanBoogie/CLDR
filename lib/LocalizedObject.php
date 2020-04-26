@@ -21,6 +21,10 @@ use ICanBoogie\Accessor\AccessorTrait;
  */
 abstract class LocalizedObject
 {
+	/**
+	 * @uses get_target
+	 * @uses get_locale
+	 */
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
@@ -28,8 +32,6 @@ abstract class LocalizedObject
 	 * Creates a localized instance from the specified source and location.
 	 *
 	 * @param object $source
-	 * @param Locale $locale
-	 * @param array $options
 	 *
 	 * @return LocalizedObject A localized instance.
 	 */
@@ -43,12 +45,12 @@ abstract class LocalizedObject
 	 *
 	 * @var object
 	 */
-	protected $target;
+	private $target;
 
 	/**
 	 * @return object
 	 */
-	protected function get_target()
+	private function get_target()
 	{
 		return $this->target;
 	}
@@ -61,11 +63,7 @@ abstract class LocalizedObject
 	protected $options;
 
 	/**
-	 * Initializes the {@link $target}, {@link $locale}, and {@link $options} properties.
-	 *
 	 * @param object $target The object to localize.
-	 * @param Locale $locale The locale used by the formatter.
-	 * @param array $options Some options.
 	 */
 	public function __construct($target, Locale $locale, array $options = [])
 	{

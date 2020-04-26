@@ -39,10 +39,13 @@ use ICanBoogie\Accessor\AccessorTrait;
  *
  * @see http://unicode.org/reports/tr35/tr35-numbers.html#Supplemental_Currency_Data
  */
-class Currency
+final class Currency
 {
-	const FRACTION_FALLBACK = 'DEFAULT';
+	public const FRACTION_FALLBACK = 'DEFAULT';
 
+	/**
+	 * @uses get_code
+	 */
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 	use CodePropertyTrait;
@@ -61,20 +64,13 @@ class Currency
 	 */
 	private $fraction_data;
 
-	/**
-	 * @param Repository $repository
-	 * @param string $code Currency ISO code.
-	 */
-	public function __construct(Repository $repository, $code)
+	public function __construct(Repository $repository, string $code)
 	{
 		$this->repository = $repository;
 		$this->code = $code;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __get($property)
+	public function __get(string $property)
 	{
 		$fraction_mapping = self::$fraction_mapping;
 
@@ -91,20 +87,13 @@ class Currency
 
 	/**
 	 * Localize the currency.
-	 *
-	 * @param string $locale_code
-	 *
-	 * @return LocalizedCurrency
 	 */
-	public function localize($locale_code)
+	public function localize(string $locale_code): LocalizedCurrency
 	{
 		return $this->repository->locales[$locale_code]->localize($this);
 	}
 
-	/**
-	 * @return array
-	 */
-	private function resolve_fraction_data()
+	private function resolve_fraction_data(): array
 	{
 		$fraction_data = &$this->fraction_data;
 

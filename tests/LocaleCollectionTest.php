@@ -11,39 +11,38 @@
 
 namespace ICanBoogie\CLDR;
 
-class LocaleCollectionTest extends \PHPUnit\Framework\TestCase
+use BadMethodCallException;
+use ICanBoogie\OffsetNotWritable;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+
+class LocaleCollectionTest extends TestCase
 {
 	/**
 	 * @var LocaleCollection
 	 */
 	static private $sut;
 
-	static public function setupBeforeClass()
+	static public function setupBeforeClass(): void
 	{
 		self::$sut = new LocaleCollection(get_repository());
 	}
 
-	/**
-	 * @expectedException \BadMethodCallException
-	 */
 	public function test_offsetExists()
 	{
+		$this->expectException(BadMethodCallException::class);
 		self::$sut->offsetExists('fr');
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\OffsetNotWritable
-	 */
 	public function test_offsetSet()
 	{
+		$this->expectException(OffsetNotWritable::class);
 		self::$sut['fr'] = null;
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\OffsetNotWritable
-	 */
 	public function test_offsetUnset()
 	{
+		$this->expectException(OffsetNotWritable::class);
 		unset(self::$sut['fr']);
 	}
 
@@ -55,21 +54,21 @@ class LocaleCollectionTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @test
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage Locale code should not be empty.
 	 */
 	public function should_fail_with_empty_locale()
 	{
+		$this->expectExceptionMessage("Locale code should not be empty.");
+		$this->expectException(InvalidArgumentException::class);
 		self::$sut[''];
 	}
 
 	/**
 	 * @test
-	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage Locale is not available: madonna.
 	 */
 	public function should_fail_with_undefined_locale()
 	{
+		$this->expectExceptionMessage("Locale is not available: madonna.");
+		$this->expectException(InvalidArgumentException::class);
 		self::$sut['madonna'];
 	}
 }

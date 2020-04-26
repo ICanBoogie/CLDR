@@ -11,7 +11,10 @@
 
 namespace ICanBoogie\CLDR;
 
-class ContextTransformsTest extends \PHPUnit\Framework\TestCase
+use LogicException;
+use PHPUnit\Framework\TestCase;
+
+class ContextTransformsTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_transform
@@ -147,14 +150,12 @@ class ContextTransformsTest extends \PHPUnit\Framework\TestCase
 		];
 	}
 
-	/**
-	 * @expectedException \LogicException
-	 */
 	public function test_should_throw_exception_on_unknown_transform()
 	{
 		$usage = ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW;
 		$type = ContextTransforms::TYPE_STAND_ALONE;
 
+		$this->expectException(LogicException::class);
 		(new ContextTransforms([
 
 			 $usage => [

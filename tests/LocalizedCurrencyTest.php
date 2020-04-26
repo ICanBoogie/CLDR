@@ -11,9 +11,9 @@
 
 namespace ICanBoogie\CLDR;
 
-use function bin2hex;
+use PHPUnit\Framework\TestCase;
 
-class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
+class LocalizedCurrencyTest extends TestCase
 {
     use StringHelpers;
 
@@ -27,7 +27,7 @@ class LocalizedCurrencyTest extends \PHPUnit\Framework\TestCase
 	 */
 	static private $localized;
 
-	static public function setUpBeforeClass()
+	static public function setUpBeforeClass(): void
 	{
 		self::$currency = new Currency(get_repository(), 'IEP');
 		self::$localized = new LocalizedCurrency(self::$currency, get_repository()->locales['fr']);

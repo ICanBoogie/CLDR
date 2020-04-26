@@ -12,8 +12,9 @@
 namespace ICanBoogie\CLDR\Provider;
 
 use ICanBoogie\CLDR\ResourceNotFound;
+use PHPUnit\Framework\TestCase;
 
-class WebProviderTest extends \PHPUnit\Framework\TestCase
+class WebProviderTest extends TestCase
 {
 	/**
 	 * @throws ResourceNotFound
@@ -23,17 +24,17 @@ class WebProviderTest extends \PHPUnit\Framework\TestCase
 		$provider = new WebProvider;
 
 		$data = $provider->provide('main/fr/characters');
-		$this->assertInternalType('array', $data);
+		$this->assertIsArray($data);
 		$this->assertArrayHasKey('main', $data);
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\CLDR\ResourceNotFound
-	 */
 	public function test_retrieve_failure()
 	{
+		$this->expectException(ResourceNotFound::class);
 		$provider = new WebProvider;
 		$path = 'undefined_locale/characters';
+
+		$this->expectException(ResourceNotFound::class);
 
 		try
 		{

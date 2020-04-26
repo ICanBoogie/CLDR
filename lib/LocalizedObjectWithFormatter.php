@@ -26,12 +26,9 @@ abstract class LocalizedObjectWithFormatter extends LocalizedObject
 	 */
 	private $formatter;
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __get($property)
 	{
-		if ($property == 'formatter')
+		if ($property === 'formatter')
 		{
 			if (!$this->formatter)
 			{
@@ -45,9 +42,7 @@ abstract class LocalizedObjectWithFormatter extends LocalizedObject
 	}
 
 	/**
-	 * Returns the formatter to use to format the target object.
-	 *
-	 * @return Formatter
+	 * Returns the formatter used to format the target object.
 	 */
-	abstract protected function lazy_get_formatter();
+	abstract protected function lazy_get_formatter(): Formatter;
 }

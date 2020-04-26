@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ArrayObject;
+use DateTimeInterface;
 use ICanBoogie\Accessor\AccessorTrait;
 
 /**
@@ -21,60 +23,65 @@ use ICanBoogie\Accessor\AccessorTrait;
  * @property-read DateFormatter $date_formatter A date formatter.
  * @property-read TimeFormatter $time_formatter A time formatter.
  *
- * @property-read string $standalone_abbreviated_days     Shortcut to `days/stand-alone/abbreviated`.
- * @property-read string $standalone_abbreviated_eras     Shortcut to `eras/eraAbbr`.
- * @property-read string $standalone_abbreviated_months   Shortcut to `months/stand-alone/abbreviated`.
- * @property-read string $standalone_abbreviated_quarters Shortcut to `quarters/stand-alone/abbreviated`.
- * @property-read string $standalone_narrow_days          Shortcut to `days/stand-alone/narrow`.
- * @property-read string $standalone_narrow_eras          Shortcut to `eras/eraNarrow`.
- * @property-read string $standalone_narrow_months        Shortcut to `months/stand-alone/narrow`.
- * @property-read string $standalone_narrow_quarters      Shortcut to `quarters/stand-alone/narrow`.
- * @property-read string $standalone_short_days           Shortcut to `days/stand-alone/short`.
- * @property-read string $standalone_short_eras           Shortcut to `eras/eraAbbr`.
- * @property-read string $standalone_short_months         Shortcut to `months/stand-alone/abbreviated`.
- * @property-read string $standalone_short_quarters       Shortcut to `quarters/stand-alone/abbreviated`.
- * @property-read string $standalone_wide_days            Shortcut to `days/stand-alone/wide`.
- * @property-read string $standalone_wide_eras            Shortcut to `eras/eraNames`.
- * @property-read string $standalone_wide_months          Shortcut to `months/stand-alone/wide`.
- * @property-read string $standalone_wide_quarters        Shortcut to `quarters/stand-alone/wide`.
- * @property-read string $abbreviated_days                Shortcut to `days/format/abbreviated`.
- * @property-read string $abbreviated_eras                Shortcut to `eras/eraAbbr`.
- * @property-read string $abbreviated_months              Shortcut to `months/format/abbreviated`.
- * @property-read string $abbreviated_quarters            Shortcut to `quarters/format/abbreviated`.
- * @property-read string $narrow_days                     Shortcut to `days/format/narrow`.
- * @property-read string $narrow_eras                     Shortcut to `eras/eraNarrow`.
- * @property-read string $narrow_months                   Shortcut to `months/format/narrow`.
- * @property-read string $narrow_quarters                 Shortcut to `quarters/format/narrow`.
- * @property-read string $short_days                      Shortcut to `days/format/short`.
- * @property-read string $short_eras                      Shortcut to `eras/eraAbbr`.
- * @property-read string $short_months                    Shortcut to `months/format/abbreviated`.
- * @property-read string $short_quarters                  Shortcut to `quarters/format/abbreviated`.
- * @property-read string $wide_days                       Shortcut to `days/format/wide`.
- * @property-read string $wide_eras                       Shortcut to `eras/eraNames`.
- * @property-read string $wide_months                     Shortcut to `months/format/wide`.
- * @property-read string $wide_quarters                   Shortcut to `quarters/format/wide`.
+ * @property-read string[] $standalone_abbreviated_days     Shortcut to `days/stand-alone/abbreviated`.
+ * @property-read string[] $standalone_abbreviated_eras     Shortcut to `eras/eraAbbr`.
+ * @property-read string[] $standalone_abbreviated_months   Shortcut to `months/stand-alone/abbreviated`.
+ * @property-read string[] $standalone_abbreviated_quarters Shortcut to `quarters/stand-alone/abbreviated`.
+ * @property-read string[] $standalone_narrow_days          Shortcut to `days/stand-alone/narrow`.
+ * @property-read string[] $standalone_narrow_eras          Shortcut to `eras/eraNarrow`.
+ * @property-read string[] $standalone_narrow_months        Shortcut to `months/stand-alone/narrow`.
+ * @property-read string[] $standalone_narrow_quarters      Shortcut to `quarters/stand-alone/narrow`.
+ * @property-read string[] $standalone_short_days           Shortcut to `days/stand-alone/short`.
+ * @property-read string[] $standalone_short_eras           Shortcut to `eras/eraAbbr`.
+ * @property-read string[] $standalone_short_months         Shortcut to `months/stand-alone/abbreviated`.
+ * @property-read string[] $standalone_short_quarters       Shortcut to `quarters/stand-alone/abbreviated`.
+ * @property-read string[] $standalone_wide_days            Shortcut to `days/stand-alone/wide`.
+ * @property-read string[] $standalone_wide_eras            Shortcut to `eras/eraNames`.
+ * @property-read string[] $standalone_wide_months          Shortcut to `months/stand-alone/wide`.
+ * @property-read string[] $standalone_wide_quarters        Shortcut to `quarters/stand-alone/wide`.
+ * @property-read string[] $abbreviated_days                Shortcut to `days/format/abbreviated`.
+ * @property-read string[] $abbreviated_eras                Shortcut to `eras/eraAbbr`.
+ * @property-read string[] $abbreviated_months              Shortcut to `months/format/abbreviated`.
+ * @property-read string[] $abbreviated_quarters            Shortcut to `quarters/format/abbreviated`.
+ * @property-read string[] $narrow_days                     Shortcut to `days/format/narrow`.
+ * @property-read string[] $narrow_eras                     Shortcut to `eras/eraNarrow`.
+ * @property-read string[] $narrow_months                   Shortcut to `months/format/narrow`.
+ * @property-read string[] $narrow_quarters                 Shortcut to `quarters/format/narrow`.
+ * @property-read string[] $short_days                      Shortcut to `days/format/short`.
+ * @property-read string[] $short_eras                      Shortcut to `eras/eraAbbr`.
+ * @property-read string[] $short_months                    Shortcut to `months/format/abbreviated`.
+ * @property-read string[] $short_quarters                  Shortcut to `quarters/format/abbreviated`.
+ * @property-read string[] $wide_days                       Shortcut to `days/format/wide`.
+ * @property-read string[] $wide_eras                       Shortcut to `eras/eraNames`.
+ * @property-read string[] $wide_months                     Shortcut to `months/format/wide`.
+ * @property-read string[] $wide_quarters                   Shortcut to `quarters/format/wide`.
  */
-class Calendar extends \ArrayObject
+final class Calendar extends ArrayObject
 {
-	const SHORTHANDS_REGEX = '#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#';
+	public const SHORTHANDS_REGEX = '#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#';
 
-	const WIDTH_ABBR = 'abbreviated';
-	const WIDTH_NARROW = 'narrow';
-	const WIDTH_SHORT = 'short';
-	const WIDTH_WIDE = 'wide';
+	public const WIDTH_ABBR = 'abbreviated';
+	public const WIDTH_NARROW = 'narrow';
+	public const WIDTH_SHORT = 'short';
+	public const WIDTH_WIDE = 'wide';
 
-	const ERA_NAMES = 'eraNames';
-	const ERA_ABBR = 'eraAbbr';
-	const ERA_NARROW = 'eraNarrow';
+	public const ERA_NAMES = 'eraNames';
+	public const ERA_ABBR = 'eraAbbr';
+	public const ERA_NARROW = 'eraNarrow';
 
-	const CALENDAR_MONTHS = 'months';
-	const CALENDAR_DAYS = 'days';
-	const CALENDAR_QUARTERS = 'quarters';
-	const CALENDAR_ERAS = 'eras';
+	public const CALENDAR_MONTHS = 'months';
+	public const CALENDAR_DAYS = 'days';
+	public const CALENDAR_QUARTERS = 'quarters';
+	public const CALENDAR_ERAS = 'eras';
 
-	const CONTEXT_FORMAT = 'format';
-	const CONTEXT_STAND_ALONE = 'stand-alone';
+	public const CONTEXT_FORMAT = 'format';
+	public const CONTEXT_STAND_ALONE = 'stand-alone';
 
+	/**
+	 * @uses lazy_get_datetime_formatter
+	 * @uses lazy_get_date_formatter
+	 * @uses lazy_get_time_formatter
+	 */
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
@@ -87,26 +94,17 @@ class Calendar extends \ArrayObject
 
 	];
 
-	/**
-	 * @return DateTimeFormatter
-	 */
-	protected function lazy_get_datetime_formatter()
+	private function lazy_get_datetime_formatter(): DateTimeFormatter
 	{
 		return new DateTimeFormatter($this);
 	}
 
-	/**
-	 * @return DateFormatter
-	 */
-	protected function lazy_get_date_formatter()
+	private function lazy_get_date_formatter(): DateFormatter
 	{
 		return new DateFormatter($this);
 	}
 
-	/**
-	 * @return TimeFormatter
-	 */
-	protected function lazy_get_time_formatter()
+	private function lazy_get_time_formatter(): TimeFormatter
 	{
 		return new TimeFormatter($this);
 	}
@@ -116,10 +114,6 @@ class Calendar extends \ArrayObject
 	 */
 	private $context_transforms;
 
-	/**
-	 * @param Locale $locale
-	 * @param array $data
-	 */
 	public function __construct(Locale $locale, array $data)
 	{
 		$this->locale = $locale;
@@ -130,9 +124,6 @@ class Calendar extends \ArrayObject
 		parent::__construct($data);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __get($property)
 	{
 		if (!preg_match(self::SHORTHANDS_REGEX, $property, $matches))
@@ -140,7 +131,7 @@ class Calendar extends \ArrayObject
 			return $this->accessor_get($property);
 		}
 
-		list(, $standalone, $width, $type) = $matches;
+		[ , $standalone, $width, $type ] = $matches;
 
 		$data = $this[$type];
 
@@ -151,7 +142,7 @@ class Calendar extends \ArrayObject
 
 		$data = $data[$standalone ? self::CONTEXT_STAND_ALONE : self::CONTEXT_FORMAT];
 
-		if ($width == self::WIDTH_SHORT && empty($data[$width]))
+		if ($width === self::WIDTH_SHORT && empty($data[$width]))
 		{
 			$width = self::WIDTH_ABBR;
 		}
@@ -160,40 +151,31 @@ class Calendar extends \ArrayObject
 	}
 
     /**
-     * @param \DateTimeInterface|string|int $datetime
-     * @param string $pattern_or_width_or_skeleton
-     *
-     * @return string
+     * @param DateTimeInterface|string|int $datetime
      *
      * @see \ICanBoogie\CLDR\DateTimeFormatter::format
      */
-	public function format_datetime($datetime, $pattern_or_width_or_skeleton)
+	public function format_datetime($datetime, string $pattern_or_width_or_skeleton): string
     {
         return $this->datetime_formatter->format($datetime, $pattern_or_width_or_skeleton);
     }
 
     /**
-     * @param \DateTimeInterface|string|int $datetime
-     * @param string $pattern_or_width_or_skeleton
-     *
-     * @return string
+     * @param DateTimeInterface|string|int $datetime
      *
      * @see \ICanBoogie\CLDR\DateFormatter::format
      */
-	public function format_date($datetime, $pattern_or_width_or_skeleton)
+	public function format_date($datetime, string $pattern_or_width_or_skeleton): string
     {
         return $this->date_formatter->format($datetime, $pattern_or_width_or_skeleton);
     }
 
     /**
-     * @param \DateTimeInterface|string|int $datetime
-     * @param string $pattern_or_width_or_skeleton
-     *
-     * @return string
+     * @param DateTimeInterface|string|int $datetime
      *
      * @see \ICanBoogie\CLDR\TimeFormatter::format
      */
-    public function format_time($datetime, $pattern_or_width_or_skeleton)
+    public function format_time($datetime, string $pattern_or_width_or_skeleton): string
     {
         return $this->time_formatter->format($datetime, $pattern_or_width_or_skeleton);
     }
@@ -201,15 +183,11 @@ class Calendar extends \ArrayObject
 	/**
 	 * Transforms calendar data according to context transforms rules.
 	 *
-	 * @param array $data
-	 *
-	 * @return array
-	 *
 	 * @uses transform_months
 	 * @uses transform_days
 	 * @uses transform_quarters
 	 */
-	private function transform_data(array $data)
+	private function transform_data(array $data): array
 	{
 		static $transformable = [
 
@@ -221,11 +199,11 @@ class Calendar extends \ArrayObject
 
 		foreach ($transformable as $name)
 		{
-			array_walk($data[$name], function(array &$data, $context) use ($name) {
+			array_walk($data[$name], function(array &$data, string $context) use ($name) {
 
 				$is_stand_alone = self::CONTEXT_STAND_ALONE === $context;
 
-				array_walk($data, function (array &$names, $width) use ($name, $is_stand_alone) {
+				array_walk($data, function (array &$names, string $width) use ($name, $is_stand_alone) {
 
 					$names = $this->{ 'transform_' . $name }($names, $width, $is_stand_alone);
 
@@ -237,7 +215,7 @@ class Calendar extends \ArrayObject
 
 		if (isset($data[self::CALENDAR_ERAS]))
 		{
-			array_walk($data[self::CALENDAR_ERAS], function(&$names, $width) {
+			array_walk($data[self::CALENDAR_ERAS], function(array &$names, string $width) {
 
 				$names = $this->transform_eras($names, $width);
 
@@ -249,14 +227,8 @@ class Calendar extends \ArrayObject
 
 	/**
 	 * Transforms month names according to context transforms rules.
-	 *
-	 * @param array $names
-	 * @param string $width
-	 * @param bool $standalone
-	 *
-	 * @return string
 	 */
-	private function transform_months(array $names, $width, $standalone)
+	private function transform_months(array $names, string $width, bool $standalone): array
 	{
 		return $this->transform_months_or_days(
 			$names,
@@ -268,14 +240,8 @@ class Calendar extends \ArrayObject
 
 	/**
 	 * Transforms day names according to context transforms rules.
-	 *
-	 * @param array $names
-	 * @param string $width
-	 * @param bool $standalone
-	 *
-	 * @return string
 	 */
-	private function transform_days($names, $width, $standalone)
+	private function transform_days(array $names, string $width, bool $standalone): array
 	{
 		return $this->transform_months_or_days(
 			$names,
@@ -287,17 +253,10 @@ class Calendar extends \ArrayObject
 
 	/**
 	 * Transforms day names according to context transforms rules.
-	 *
-	 * @param array $names
-	 * @param string $width
-	 * @param bool $standalone
-	 * @param string $usage
-	 *
-	 * @return string
 	 */
-	private function transform_months_or_days($names, $width, $standalone, $usage)
+	private function transform_months_or_days(array $names, string $width, bool $standalone, string $usage): array
 	{
-		if ($width == self::WIDTH_NARROW || !$standalone)
+		if ($width === self::WIDTH_NARROW || !$standalone)
 		{
 			return $names;
 		}
@@ -311,13 +270,8 @@ class Calendar extends \ArrayObject
 
 	/**
 	 * Transforms era names according to context transforms rules.
-	 *
-	 * @param array $names
-	 * @param string $width
-	 *
-	 * @return string
 	 */
-	private function transform_eras(array $names, $width)
+	private function transform_eras(array $names, string $width): array
 	{
 		switch ($width)
 		{
@@ -351,14 +305,8 @@ class Calendar extends \ArrayObject
 
 	/**
 	 * Transforms quarters names according to context transforms rules.
-	 *
-	 * @param array $names
-	 * @param string $width
-	 * @param bool $standalone
-	 *
-	 * @return string
 	 */
-	private function transform_quarters(array $names, $width, $standalone)
+	private function transform_quarters(array $names, string $width, bool $standalone): array
 	{
 		if ($standalone)
 		{
@@ -407,18 +355,12 @@ class Calendar extends \ArrayObject
 
 	/**
 	 * Applies transformation to names.
-	 *
-	 * @param array $names
-	 * @param string $usage
-	 * @param string $type
-	 *
-	 * @return array
 	 */
-	private function apply_transform(array $names, $usage, $type)
+	private function apply_transform(array $names, string $usage, string $type): array
 	{
 		$context_transforms = $this->context_transforms;
 
-		return array_map(function ($str) use ($context_transforms, $usage, $type) {
+		return array_map(function (string $str) use ($context_transforms, $usage, $type) {
 
 			return $context_transforms->transform($str, $usage, $type);
 

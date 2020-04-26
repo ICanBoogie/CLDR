@@ -11,16 +11,17 @@
 
 namespace ICanBoogie\CLDR;
 
-class Number
+use function strlen;
+use function strrpos;
+
+final class Number
 {
 	/**
 	 * Returns the precision of a number.
 	 *
-	 * @param number $number
-	 *
-	 * @return int
+	 * @param int|float $number
 	 */
-	static public function precision_from($number)
+	static public function precision_from($number): int
 	{
 		$number = (string) $number;
 		$pos = strrpos($number, '.');
@@ -36,12 +37,9 @@ class Number
 	/**
 	 * Returns a number rounded to the specified precision.
 	 *
-	 * @param number $number
-	 * @param int $precision
-	 *
-	 * @return float
+	 * @param int|float $number
 	 */
-	static public function round_to($number, $precision)
+	static public function round_to($number, int $precision): float
 	{
 		return round($number, $precision);
 	}
@@ -49,13 +47,13 @@ class Number
 	/**
 	 * Parses a number.
 	 *
-	 * @param number $number
+	 * @param int|float $number
 	 * @param null|int $precision
 	 *
 	 * @return array An array of [ $integer, $fractional ]. The fractional part is `null` if
 	 * `$number` has no decimal separator.
 	 */
-	static public function parse($number, $precision = null)
+	static public function parse($number, int $precision = null): array
 	{
 		if ($precision === null)
 		{
@@ -66,7 +64,7 @@ class Number
 		$number = abs($number);
 		$number = number_format($number, $precision, '.', '');
 
-		list($integer, $fractional) = explode('.', (string) $number) + [ 1 => null ];
+		[ $integer, $fractional ] = explode('.', (string) $number) + [ 1 => null ];
 
 		return [ (int) $integer, $fractional ];
 	}

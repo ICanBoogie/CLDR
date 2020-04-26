@@ -23,21 +23,21 @@ use ICanBoogie\Accessor\AccessorTrait;
  * $gregorian_calendar = $calendar_collection['gregorian'];
  * </pre>
  *
- * @method Calendar offsetGet($id)
+ * @method Calendar offsetGet(string $id)
  */
-class CalendarCollection extends AbstractCollection
+final class CalendarCollection extends AbstractCollection
 {
+	/**
+	 * @uses get_locale
+	 */
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
-	/**
-	 * @param Locale $locale
-	 */
 	public function __construct(Locale $locale)
 	{
 		$this->locale = $locale;
 
-		parent::__construct(function ($id) {
+		parent::__construct(function ($id): Calendar {
 
 			return new Calendar($this->locale, $this->locale["ca-$id"]);
 

@@ -35,10 +35,7 @@ class NumberFormatter implements Formatter
 
 	];
 
-	/**
-	 * @param Repository $repository
-	 */
-	public function __construct(Repository $repository=null)
+	public function __construct(Repository $repository = null)
 	{
 		$this->repository = $repository;
 	}
@@ -66,22 +63,22 @@ class NumberFormatter implements Formatter
 	 * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
 	 * pattern contains '‰', the number will be multiplied by 1000.
 	 *
-	 * @param mixed $number The number to be formatted.
-	 * @param string $pattern The pattern used to format the number.
+	 * @param int|float $number The number to be formatted.
+	 * @param string|NumberPattern $pattern The pattern used to format the number.
 	 * @param array $symbols Symbols.
 	 *
 	 * @return string The formatted number.
 	 */
-	public function format($number, $pattern, array $symbols = [])
+	public function format($number, $pattern, array $symbols = []): string
 	{
-		if (!($pattern instanceof NumberPattern))
+		if (!$pattern instanceof NumberPattern)
 		{
 			$pattern = NumberPattern::from($pattern);
 		}
 
 		$symbols += self::$default_symbols;
 
-		list($integer, $decimal) = $pattern->parse_number($number);
+		[ $integer, $decimal ] = $pattern->parse_number($number);
 
 		$formatted_integer = $pattern->format_integer_with_group($integer, $symbols['group']);
 		$formatted_number = $pattern->format_integer_with_decimal($formatted_integer, $decimal, $symbols['decimal']);

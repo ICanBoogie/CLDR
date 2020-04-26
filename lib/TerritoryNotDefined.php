@@ -12,14 +12,19 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use InvalidArgumentException;
+use Throwable;
 
 /**
  * Exception thrown when a territory is not defined.
  *
  * @property-read string $territory_code The ISO code of the territory.
  */
-class TerritoryNotDefined extends \InvalidArgumentException implements Exception
+final class TerritoryNotDefined extends InvalidArgumentException implements Exception
 {
+	/**
+	 * @uses get_territory_code
+	 */
     use AccessorTrait;
 
     /**
@@ -27,20 +32,12 @@ class TerritoryNotDefined extends \InvalidArgumentException implements Exception
      */
     private $territory_code;
 
-    /**
-     * @return string
-     */
-    protected function get_territory_code()
+    private function get_territory_code(): string
     {
         return $this->territory_code;
     }
 
-    /**
-     * @param string $territory_code
-     * @param null $message
-     * @param \Exception|null $previous
-     */
-    public function __construct($territory_code, $message = null, \Exception $previous = null)
+    public function __construct(string $territory_code, string $message = null, Throwable $previous = null)
     {
         $this->territory_code = $territory_code;
 

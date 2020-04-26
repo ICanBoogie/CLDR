@@ -12,18 +12,19 @@
 namespace ICanBoogie\CLDR\Cache;
 
 use ICanBoogie\CLDR\Cache;
+use Redis;
 use function serialize;
 use function unserialize;
 
 /**
  * Provides CLDR data from a Redis client.
  */
-class RedisCache implements Cache
+final class RedisCache implements Cache
 {
 	const DEFAULT_PREFIX = 'icanboogie-cldr-';
 
 	/**
-	 * @var \Redis
+	 * @var Redis
 	 */
 	private $redis;
 
@@ -32,16 +33,16 @@ class RedisCache implements Cache
 	 */
 	private $prefix;
 
-	public function __construct($redis, $prefix = self::DEFAULT_PREFIX)
+	/**
+	 * @param Redis $redis
+	 */
+	public function __construct($redis, string $prefix = self::DEFAULT_PREFIX)
 	{
 		$this->redis = $redis;
 		$this->prefix = $prefix;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function get($path)
+	public function get(string $path): ?array
 	{
 		$data = $this->redis->get($this->prefix . $path);
 
@@ -52,10 +53,7 @@ class RedisCache implements Cache
 		return unserialize($data);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function set($path, array $data)
+	public function set(string $path, array $data): void
 	{
 		$this->redis->set($this->prefix . $path, serialize($data));
 	}

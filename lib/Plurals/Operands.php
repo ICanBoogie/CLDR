@@ -17,7 +17,7 @@ use ICanBoogie\CLDR\Number;
 /**
  * Representation of plural operands.
  *
- * @property-read int $n
+ * @property-read int|float $n
  * @property-read int $i
  * @property-read int $v
  * @property-read int $w
@@ -28,26 +28,37 @@ use ICanBoogie\CLDR\Number;
  */
 final class Operands
 {
+	/**
+	 * @uses get_n
+	 * @uses get_i
+	 * @uses get_v
+	 * @uses get_w
+	 * @uses get_f
+	 * @uses get_t
+	 */
 	use AccessorTrait;
 
+	/**
+	 * @var Operands[]
+	 */
 	static private $instances = [];
 
-	static public function from($number)
+	/**
+	 * @param int|float $number
+	 */
+	static public function from($number): self
 	{
 		$instance = &self::$instances["number-$number"];
 
-		return $instance ?: $instance = new static($number);
+		return $instance ?? $instance = new self($number);
 	}
 
 	/**
-	 * @var number
+	 * @var int|float
 	 */
 	private $n;
 
-	/**
-	 * @return int
-	 */
-	protected function get_n()
+	private function get_n()
 	{
 		return $this->n;
 	}
@@ -57,10 +68,7 @@ final class Operands
 	 */
 	private $i;
 
-	/**
-	 * @return int
-	 */
-	protected function get_i()
+	private function get_i(): int
 	{
 		return $this->i;
 	}
@@ -70,10 +78,7 @@ final class Operands
 	 */
 	private $v;
 
-	/**
-	 * @return int
-	 */
-	protected function get_v()
+	private function get_v(): int
 	{
 		return $this->v;
 	}
@@ -83,10 +88,7 @@ final class Operands
 	 */
 	private $w;
 
-	/**
-	 * @return int
-	 */
-	protected function get_w()
+	private function get_w(): int
 	{
 		return $this->w;
 	}
@@ -96,10 +98,7 @@ final class Operands
 	 */
 	private $f;
 
-	/**
-	 * @return int
-	 */
-	protected function get_f()
+	private function get_f(): int
 	{
 		return $this->f;
 	}
@@ -109,33 +108,41 @@ final class Operands
 	 */
 	private $t;
 
-	/**
-	 * @return int
-	 */
-	protected function get_t()
+	private function get_t(): int
 	{
 		return $this->t;
 	}
 
 	/**
-	 * @param number $number
+	 * @param int|float $number
 	 */
 	private function __construct($number)
 	{
-		list($integer, $precision) = Number::parse($number);
+		[ $integer, $precision ] = Number::parse($number);
 
 		$this->n = abs($number);
 		$this->i = $integer;
-		$this->v = strlen($precision);
-		$this->w = strlen(rtrim($precision, '0'));
-		$this->f = (int) ltrim($precision, '0');
-		$this->t = (int) trim($precision, '0');
+
+		if ($precision === null)
+		{
+			$this->v = 0;
+			$this->w = 0;
+			$this->f = 0;
+			$this->t = 0;
+		}
+		else
+		{
+			$this->v = strlen($precision);
+			$this->w = strlen(rtrim($precision, '0'));
+			$this->f = (int) ltrim($precision, '0');
+			$this->t = (int) trim($precision, '0');
+		}
 	}
 
 	/**
 	 * @return array An array made of [ $n, $i, $v, $w, $f, $t ].
 	 */
-	public function to_array()
+	public function to_array(): array
 	{
 		return [
 

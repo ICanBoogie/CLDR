@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use function key;
 
 /**
  * A currency collection.
@@ -31,35 +32,34 @@ use ICanBoogie\Accessor\AccessorTrait;
  *
  * @method Currency offsetGet($id)
  */
-class CurrencyCollection extends AbstractCollection
+final class CurrencyCollection extends AbstractCollection
 {
+	/**
+	 * @uses get_repository
+	 */
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 
-	/**
-	 * @param Repository $repository
-	 */
 	public function __construct(Repository $repository)
 	{
 		$this->repository = $repository;
 
 		parent::__construct(function ($currency_code) {
 
-            $this->assert_defined($currency_code);
+			$this->assert_defined($currency_code);
 
-            return new Currency($this->repository, $currency_code);
+			return new Currency($this->repository, $currency_code);
 
-        });
+		});
 	}
 
 	/**
-	 * Check if a currency is defined.
+	 * Whether a currency is defined.
 	 *
+	 * @inheritDoc
 	 * @param string $currency_code
-	 *
-	 * @return bool `true` if the currency is defined, `false' otherwise.
 	 */
-	public function offsetExists($currency_code)
+	public function offsetExists($currency_code): bool
 	{
 		$data = $this->repository->supplemental['currencyData']['region'];
 
@@ -79,20 +79,16 @@ class CurrencyCollection extends AbstractCollection
 		return false;
 	}
 
-    /**
-     * Asserts that a currency is defined.
-     *
-     * @param string $currency_code
-     *
-     * @throws CurrencyNotDefined if the specified currency is not defined.
-     */
-    public function assert_defined($currency_code)
-    {
-        if ($this->offsetExists($currency_code))
-        {
-            return;
-        }
-
-        throw new CurrencyNotDefined($currency_code);
-    }
+	/**
+	 * Asserts a currency is defined.
+	 *
+	 * @throws CurrencyNotDefined
+	 */
+	public function assert_defined(string $currency_code): void
+	{
+		if (!$this->offsetExists($currency_code))
+		{
+			throw new CurrencyNotDefined($currency_code);
+		}
+	}
 }

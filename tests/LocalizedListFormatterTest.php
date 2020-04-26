@@ -2,7 +2,9 @@
 
 namespace ICanBoogie\CLDR;
 
-class LocalizedListFormatterTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class LocalizedListFormatterTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_format

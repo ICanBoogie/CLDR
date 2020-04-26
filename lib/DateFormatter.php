@@ -36,14 +36,14 @@ namespace ICanBoogie\CLDR;
  * echo $formatter($datetime, 'short');  // 05/11/2013
  * </pre>
  */
-class DateFormatter extends DateTimeFormatter
+final class DateFormatter extends DateTimeFormatter
 {
 	/**
 	 * Resolves widths defined in `dateFormats` (full, long, medium, short) into a pattern.
 	 *
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	protected function resolve_pattern($pattern_or_width_or_skeleton)
+	protected function resolve_pattern(string $pattern_or_width_or_skeleton): string
 	{
 		return parent::resolve_pattern($this->resolve_width($pattern_or_width_or_skeleton, 'dateFormats'));
 	}

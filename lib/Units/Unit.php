@@ -22,8 +22,14 @@ use ICanBoogie\CLDR\Units;
  * @property-read string $short_name
  * @property-read string $narrow_name
  */
-class Unit
+final class Unit
 {
+	/**
+	 * @uses get_name
+	 * @uses get_long_name
+	 * @uses get_short_name
+	 * @uses get_narrow_name
+	 */
 	use AccessorTrait;
 
 	/**
@@ -36,74 +42,49 @@ class Unit
 	 */
 	private $unit;
 
-	/**
-	 * @return string
-	 */
-	protected function get_name()
+	private function get_name(): string
 	{
 		return $this->long_name;
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function get_long_name()
+	private function get_long_name(): string
 	{
 		return $this->name_for(Units::LENGTH_LONG);
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function get_short_name()
+	private function get_short_name(): string
 	{
 		return $this->name_for(Units::LENGTH_SHORT);
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function get_narrow_name()
+	private function get_narrow_name(): string
 	{
 		return $this->name_for(Units::LENGTH_NARROW);
 	}
 
-	/**
-	 * @param Units $units
-	 * @param string $unit
-	 */
-	public function __construct(Units $units, $unit)
+	public function __construct(Units $units, string $unit)
 	{
 		$this->units = $units;
 		$this->unit = $unit;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->unit;
 	}
 
 	/**
-	 * @param number|string $number
-	 * @param Unit|string $unit
-	 * @param string $length
-	 *
-	 * @return string
+	 * @param int|float $number
 	 */
-	public function per_unit($number, $unit, $length = Units::DEFAULT_LENGTH)
+	public function per_unit($number, string $unit, string $length = Units::DEFAULT_LENGTH): string
 	{
-		return $this->units->format_combination($number, (string) $this, (string) $unit, $length);
+		return $this->units->format_combination($number, (string) $this, $unit, $length);
 	}
 
 	/**
 	 * @param string $length One of `Units::LENGTH_*`.
-	 *
-	 * @return string
 	 */
-	private function name_for($length)
+	private function name_for(string $length): string
 	{
 		return $this->units->name_for($this->unit, $length);
 	}

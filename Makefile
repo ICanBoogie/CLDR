@@ -1,7 +1,6 @@
 # customization
 
 PACKAGE_NAME = icanboogie/cldr
-PACKAGE_VERSION = 3.0
 PHPUNIT = vendor/bin/phpunit
 
 # do not edit the following lines
@@ -25,27 +24,23 @@ test: test-dependencies
 .PHONY: test-coverage
 test-coverage: test-dependencies
 	@mkdir -p build/coverage
-	@$(PHPUNIT) --coverage-html build/coverage --coverage-text
+	@XDEBUG_MODE=coverage $(PHPUNIT) --coverage-html build/coverage --coverage-text
 
 .PHONY: test-coveralls
 test-coveralls: test-dependencies
 	@mkdir -p build/logs
-	@$(PHPUNIT) --coverage-clover build/logs/clover.xml
+	@XDEBUG_MODE=coverage $(PHPUNIT) --coverage-clover build/logs/clover.xml
 
 .PHONY: test-cleanup
 test-cleanup:
 	@rm -f tests/repository/*
 
-.PHONY: test-container
-test-container:
-	@-docker-compose run --rm app bash
-	@docker-compose down -v
+.PHONY: test-container-71
+test-container-71:
+	@-docker-compose run --rm app71 bash
+	@docker-compose down
 
-.PHONY: doc
-doc: vendor
-	@mkdir -p build/docs
-	@apigen generate \
-	--source lib \
-	--destination build/docs/ \
-	--title "$(PACKAGE_NAME) v$(PACKAGE_VERSION)" \
-	--template-theme "bootstrap"
+.PHONY: test-container-81
+test-container-81:
+	@-docker-compose run --rm app81 bash
+	@docker-compose down

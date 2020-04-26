@@ -11,14 +11,16 @@
 
 namespace ICanBoogie\CLDR;
 
-class DateFormatterTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class DateFormatterTest extends TestCase
 {
 	/**
 	 * @var DateFormatter[]
 	 */
 	static private $formatters = [];
 
-	static public function setupBeforeClass()
+	static public function setupBeforeClass(): void
 	{
 		$repository = get_repository();
 

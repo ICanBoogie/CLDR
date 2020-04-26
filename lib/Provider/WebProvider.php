@@ -12,8 +12,18 @@
 namespace ICanBoogie\CLDR\Provider;
 
 use ICanBoogie\CLDR\Provider;
-use ICanBoogie\CLDR\ResourceNotFound;
 use ICanBoogie\CLDR\Provider\WebProvider\PathMapper;
+use ICanBoogie\CLDR\ResourceNotFound;
+use function curl_exec;
+use function curl_getinfo;
+use function curl_init;
+use function curl_setopt;
+use function curl_setopt_array;
+use function json_decode;
+use const CURLINFO_HTTP_CODE;
+use const CURLOPT_FAILONERROR;
+use const CURLOPT_RETURNTRANSFER;
+use const CURLOPT_URL;
 
 /**
  * Retrieves sections from the CLDR source using cURL.
@@ -30,25 +40,18 @@ final class WebProvider implements Provider
 	 */
 	private $mapper;
 
-	/**
-	 * @param string $origin
-	 * @param string $version
-	 * @param string $variation
-	 */
 	public function __construct(
-		$origin = PathMapper::DEFAULT_ORIGIN,
-		$version = PathMapper::DEFAULT_VERSION,
-		$variation = PathMapper::DEFAULT_VARIATION
+		string $origin = PathMapper::DEFAULT_ORIGIN,
+		string $version = PathMapper::DEFAULT_VERSION,
+		string $variation = PathMapper::DEFAULT_VARIATION
 	) {
 		$this->mapper = new PathMapper($origin, $version, $variation);
 	}
 
 	/**
-	 * @inheritdoc
-	 *
-	 * @throws ResourceNotFound when the specified path does not exists on the CLDR source.
+	 * @inheritDoc
 	 */
-	public function provide($key)
+	public function provide(string $key): array
 	{
 		$connection = $this->obtain_connection();
 		$url = $this->map($key);
@@ -98,12 +101,8 @@ final class WebProvider implements Provider
 
 	/**
 	 * Map a CLDR path to a distribution URL.
-	 *
-	 * @param string $path
-	 *
-	 * @return string
 	 */
-	private function map($path)
+	private function map(string $path): string
 	{
 		return $this->mapper->map($path);
 	}

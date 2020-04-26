@@ -24,7 +24,7 @@ namespace ICanBoogie\CLDR;
  * echo $supplemental['calendarPreferenceData']['001']; // gregorian
  * </pre>
  */
-class Supplemental extends AbstractSectionCollection
+final class Supplemental extends AbstractSectionCollection
 {
 	static private $available_sections = [
 
@@ -57,9 +57,6 @@ class Supplemental extends AbstractSectionCollection
 
 	];
 
-	/**
-	 * @param Repository $repository
-	 */
 	public function __construct(Repository $repository)
 	{
 		parent::__construct($repository, 'supplemental', self::$available_sections);

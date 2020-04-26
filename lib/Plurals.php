@@ -11,22 +11,30 @@
 
 namespace ICanBoogie\CLDR;
 
+use ArrayObject;
 use ICanBoogie\CLDR\Plurals\Rule;
 use ICanBoogie\CLDR\Plurals\Samples;
+use function array_keys;
+use function array_shift;
+use function explode;
+use function strlen;
+use function strpos;
+use function substr;
+use function trim;
 
 /**
  * Representation of plurals
  */
-class Plurals extends \ArrayObject
+final class Plurals extends ArrayObject
 {
-	const COUNT_ZERO = 'zero';
-	const COUNT_ONE = 'one';
-	const COUNT_TWO = 'two';
-	const COUNT_FEW = 'few';
-	const COUNT_MANY = 'many';
-	const COUNT_OTHER = 'other';
+	public const COUNT_ZERO = 'zero';
+	public const COUNT_ONE = 'one';
+	public const COUNT_TWO = 'two';
+	public const COUNT_FEW = 'few';
+	public const COUNT_MANY = 'many';
+	public const COUNT_OTHER = 'other';
 
-	const RULE_COUNT_PREFIX = 'pluralRule-count-';
+	public const RULE_COUNT_PREFIX = 'pluralRule-count-';
 
 	/**
 	 * @var Rule[][]
@@ -39,12 +47,11 @@ class Plurals extends \ArrayObject
 	private $samples = [];
 
 	/**
-	 * @param number $number
-	 * @param string $locale
+	 * @param int|float $number
 	 *
 	 * @return string One of `COUNT_*`.
 	 */
-	public function rule_for($number, $locale)
+	public function rule_for($number, string $locale): string
 	{
 		foreach ($this->rule_instances_for($locale) as $count => $rule)
 		{
@@ -58,21 +65,17 @@ class Plurals extends \ArrayObject
 	}
 
 	/**
-	 * @param string $locale
-	 *
 	 * @return string[]
 	 */
-	public function rules_for($locale)
+	public function rules_for(string $locale): array
 	{
 		return array_keys($this->rule_instances_for($locale));
 	}
 
 	/**
-	 * @param string $locale
-	 *
 	 * @return Samples[]
 	 */
-	public function samples_for($locale)
+	public function samples_for(string $locale): array
 	{
 		$samples = &$this->samples[$locale];
 
@@ -80,11 +83,9 @@ class Plurals extends \ArrayObject
 	}
 
 	/**
-	 * @param string $locale
-	 *
 	 * @return Rule[]
 	 */
-	private function rule_instances_for($locale)
+	private function rule_instances_for(string $locale): array
 	{
 		$rules = &$this->rules[$locale];
 
@@ -92,11 +93,9 @@ class Plurals extends \ArrayObject
 	}
 
 	/**
-	 * @param string $locale
-	 *
 	 * @return Rule[]
 	 */
-	private function create_rules_for($locale)
+	private function create_rules_for(string $locale): array
 	{
 		$rules = [];
 		$prefix_length = strlen(self::RULE_COUNT_PREFIX);
@@ -110,12 +109,7 @@ class Plurals extends \ArrayObject
 		return $rules;
 	}
 
-	/**
-	 * @param string $rule_string
-	 *
-	 * @return string
-	 */
-	private function extract_rule($rule_string)
+	private function extract_rule(string $rule_string): string
 	{
 		$rule = explode('@', $rule_string, 2);
 		$rule = array_shift($rule);
@@ -124,12 +118,7 @@ class Plurals extends \ArrayObject
 		return $rule;
 	}
 
-	/**
-	 * @param string $locale
-	 *
-	 * @return Samples[]
-	 */
-	private function create_samples_for($locale)
+	private function create_samples_for(string $locale): array
 	{
 		$samples = [];
 		$prefix_length = strlen(self::RULE_COUNT_PREFIX);
@@ -143,12 +132,7 @@ class Plurals extends \ArrayObject
 		return $samples;
 	}
 
-	/**
-	 * @param string $rule_string
-	 *
-	 * @return string
-	 */
-	private function extract_samples($rule_string)
+	private function extract_samples(string $rule_string): string
 	{
 		return substr($rule_string, strpos($rule_string, '@'));
 	}

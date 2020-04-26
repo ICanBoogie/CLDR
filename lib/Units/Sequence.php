@@ -145,8 +145,13 @@ use ICanBoogie\CLDR\Units;
  *
  * @see http://unicode.org/reports/tr35/tr35-general.html#Unit_Sequences
  */
-class Sequence
+final class Sequence
 {
+	/**
+	 * @uses get_as_long
+	 * @uses get_as_short
+	 * @uses get_as_narrow
+	 */
 	use AccessorTrait;
 
 	/**
@@ -155,22 +160,16 @@ class Sequence
 	private $units;
 
 	/**
-	 * @var array
+	 * @var array<string, int>
 	 */
 	private $sequence = [];
 
-	/**
-	 * @param Units $units
-	 */
 	public function __construct(Units $units)
 	{
 		$this->units = $units;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __call($name, $arguments)
+	public function __call(string $name, array $arguments): self
 	{
 		$unit = strtr($name, '_', '-');
 		$this->units->assert_is_unit($unit);
@@ -179,34 +178,22 @@ class Sequence
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->format();
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function get_as_long()
+	private function get_as_long(): string
 	{
 		return $this->format(Units::LENGTH_LONG);
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function get_as_short()
+	private function get_as_short(): string
 	{
 		return $this->format(Units::LENGTH_SHORT);
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function get_as_narrow()
+	private function get_as_narrow(): string
 	{
 		return $this->format(Units::LENGTH_NARROW);
 	}
@@ -215,10 +202,8 @@ class Sequence
 	 * Format the sequence.
 	 *
 	 * @param string $length One of `Units::DEFAULT_*`, Defaults to {@link Units::DEFAULT_LENGTH}.
-	 *
-	 * @return string
 	 */
-	public function format($length = Units::DEFAULT_LENGTH)
+	public function format(string $length = Units::DEFAULT_LENGTH): string
 	{
 		return $this->units->format_sequence($this->sequence, $length);
 	}

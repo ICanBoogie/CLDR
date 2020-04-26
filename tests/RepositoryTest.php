@@ -11,14 +11,16 @@
 
 namespace ICanBoogie\CLDR;
 
-class RepositoryTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class RepositoryTest extends TestCase
 {
 	/**
 	 * @var Repository
 	 */
 	private $repository;
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		$this->repository = get_repository();
 	}

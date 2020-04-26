@@ -11,7 +11,18 @@
 
 namespace ICanBoogie\CLDR;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use ICanBoogie\Accessor\AccessorTrait;
+use InvalidArgumentException;
+use Throwable;
+use function current;
+use function extract;
+use function in_array;
+use function key;
+use function strlen;
+use function strpos;
+use function substr;
 
 /**
  * A territory.
@@ -19,7 +30,7 @@ use ICanBoogie\Accessor\AccessorTrait;
  * @property-read array $containment The `territoryContainment` data.
  * @property-read array $info The `territoryInfo` data.
  * @property-read array $currencies The currencies available in the country.
- * @property-read string $currency The current currency.
+ * @property-read Currency|null $currency The current currency.
  * @property-read string $first_day The code of the first day of the week for the territory.
  * @property-read string $weekend_start The code of the first day of the weekend.
  * @property-read string $weekend_end The code of the last day of the weekend.
@@ -30,29 +41,99 @@ use ICanBoogie\Accessor\AccessorTrait;
  *
  * @see http://www.unicode.org/reports/tr35/tr35-numbers.html#Supplemental_Currency_Data
  */
-class Territory
+final class Territory
 {
+	/**
+	 * @uses lazy_get_containment
+	 * @uses lazy_get_currencies
+	 * @uses lazy_get_currency
+	 * @uses lazy_get_info
+	 * @uses lazy_get_language
+	 * @uses get_first_day
+	 * @uses get_weekend_start
+	 * @uses get_weekend_end
+	 * @uses get_population
+	 */
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 	use CodePropertyTrait;
 
+	private function lazy_get_containment(): array
+	{
+		return $this->retrieve_from_supplemental('territoryContainment');
+	}
+
+	private function lazy_get_currencies(): array
+	{
+		return $this->repository->supplemental['currencyData']['region'][$this->code];
+	}
+
 	/**
-	 * Initialize the {@link $repository} and {@link $code} properties.
-	 *
-	 * @param Repository $repository
-	 * @param string $code The ISO code of the territory.
+	 * @throws Throwable
 	 */
-	public function __construct(Repository $repository, $code)
+	private function lazy_get_currency(): ?Currency
+	{
+		return $this->currency_at();
+	}
+
+	private function lazy_get_info(): array
+	{
+		return $this->retrieve_from_supplemental('territoryInfo');
+	}
+
+	/**
+	 * Return the ISO code of the official language of the territory.
+	 *
+	 * @return string|bool The ISO code of the official language, or `false' if it cannot be
+	 * determined.
+	 */
+	private function lazy_get_language()
+	{
+		$info = $this->info;
+
+		foreach ($info['languagePopulation'] as $language => $lp)
+		{
+			if (empty($lp['_officialStatus']) || ($lp['_officialStatus'] != "official" && $lp['_officialStatus'] != "de_facto_official"))
+			{
+				continue;
+			}
+
+			return $language;
+		}
+
+		return false;
+	}
+
+	private function get_first_day(): string
+	{
+		return $this->resolve_week_data('firstDay');
+	}
+
+	private function get_weekend_start(): string
+	{
+		return $this->resolve_week_data('weekendStart');
+	}
+
+	private function get_weekend_end(): string
+	{
+		return $this->resolve_week_data('weekendEnd');
+	}
+
+	private function get_population(): int
+	{
+		$info = $this->info;
+
+		return (int) $info['_population'];
+	}
+
+	public function __construct(Repository $repository, string $code)
 	{
 		$this->repository = $repository;
 		$this->code = $code;
 
-        $repository->territories->assert_defined($code);
+		$repository->territories->assert_defined($code);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function __get($property)
 	{
 		if (strpos($property, 'name_as_') === 0)
@@ -66,54 +147,19 @@ class Territory
 		return $this->accessor_get($property);
 	}
 
-	/**
-	 * Retrieve a territory section from supplemental.
-	 *
-	 * @param string $section
-	 *
-	 * @return mixed
-	 */
-	private function retrieve_from_supplemental($section)
+	private function retrieve_from_supplemental(string $section): array
 	{
 		return $this->repository->supplemental[$section][$this->code];
 	}
 
 	/**
-	 * Return the `territoryContainment` data.
-	 *
-	 * @return array
-	 */
-	protected function lazy_get_containment()
-	{
-		return $this->retrieve_from_supplemental('territoryContainment');
-	}
-
-	/**
-	 * Returns the currencies used throughout the history of the territory.
-	 *
-	 * @return array
-	 */
-	protected function lazy_get_currencies()
-	{
-		return $this->repository->supplemental['currencyData']['region'][$this->code];
-	}
-
-	/**
-	 * @return Currency
-	 */
-	protected function lazy_get_currency()
-	{
-		return $this->currency_at();
-	}
-
-	/**
 	 * Return the currency used in the territory at a point in time.
 	 *
-	 * @param \DateTimeInterface|mixed $date
+	 * @param DateTimeInterface|mixed $date
 	 *
-	 * @return Currency
+	 * @throws Throwable
 	 */
-	public function currency_at($date = null)
+	public function currency_at($date = null): ?Currency
 	{
 		$date = $this->ensure_is_datetime($date);
 		$code = $this->find_currency_at($this->currencies, $date->format('Y-m-d'));
@@ -128,13 +174,8 @@ class Territory
 
 	/**
 	 * Return the currency in a list used at a point in time.
-	 *
-	 * @param array $currencies
-	 * @param string $normalized_date
-	 *
-	 * @return string
 	 */
-	private function find_currency_at(array $currencies, $normalized_date)
+	private function find_currency_at(array $currencies, string $normalized_date): string
 	{
 		$rc = false;
 
@@ -157,18 +198,33 @@ class Territory
 		return $rc;
 	}
 
-	/*
-	 * weekData
+	/**
+	 * Whether the territory contains the specified territory.
 	 */
+	public function is_containing(string $code): bool
+	{
+		$containment = $this->containment;
+
+		return in_array($code, $containment['_contains']);
+	}
 
 	/**
-	 * Returns week data.
-	 *
-	 * @param string $which Week data code.
-	 *
-	 * @return array
+	 * Return the name of the territory localized according to the specified locale code.
 	 */
-	private function get_week_data($which)
+	public function name_as(string $locale_code): string
+	{
+		return $this->localize($locale_code)->name;
+	}
+
+	/**
+	 * Localize the currency.
+	 */
+	public function localize(string $locale_code): LocalizedTerritory
+	{
+		return $this->repository->locales[$locale_code]->localize($this);
+	}
+
+	private function resolve_week_data(string $which): string
 	{
 		$code = $this->code;
 		$data = $this->repository->supplemental['weekData'][$which];
@@ -177,127 +233,19 @@ class Territory
 	}
 
 	/**
-	 * Return the code of the first day of the week.
+	 * @param DateTimeInterface|string $datetime
 	 *
-	 * @return string
+	 * @throws Throwable
 	 */
-	protected function get_first_day()
+	private function ensure_is_datetime($datetime): DateTimeInterface
 	{
-		return $this->get_week_data('firstDay');
-	}
-
-	/**
-	 * Return the code of the first day of the weekend.
-	 *
-	 * @return string
-	 */
-	protected function get_weekend_start()
-	{
-		return $this->get_week_data('weekendStart');
-	}
-
-	/**
-	 * Return the code of the last day of the weekend.
-	 *
-	 * @return string
-	 */
-	protected function get_weekend_end()
-	{
-		return $this->get_week_data('weekendEnd');
-	}
-
-	/**
-	 * Return the `territoryInfo` data.
-	 *
-	 * @return array
-	 */
-	protected function lazy_get_info()
-	{
-		return $this->retrieve_from_supplemental('territoryInfo');
-	}
-
-	/**
-	 * Return the ISO code of the official language of the territory.
-	 *
-	 * @return string|bool The ISO code of the official language, or `false' if it cannot be
-	 * determined.
-	 */
-	protected function lazy_get_language()
-	{
-		$info = $this->info;
-
-		foreach ($info['languagePopulation'] as $language => $lp)
+		if ($datetime === null)
 		{
-			if (empty($lp['_officialStatus']) || ($lp['_officialStatus'] != "official" && $lp['_officialStatus'] != "de_facto_official"))
-			{
-				continue;
-			}
-
-			return $language;
+			return new DateTimeImmutable();
 		}
 
-		return false;
-	}
-
-	/**
-	 * Return the population of the territory.
-	 *
-	 * @return int
-	 */
-	protected function get_population()
-	{
-		$info = $this->info;
-
-		return (int) $info['_population'];
-	}
-
-	/**
-	 * Whether the territory contains the specified territory.
-	 *
-	 * @param string $code
-	 *
-	 * @return bool
-	 */
-	public function is_containing($code)
-	{
-        $containment = $this->containment;
-
-        return in_array($code, $containment['_contains']);
-	}
-
-	/**
-	 * Return the name of the territory localized according to the specified locale code.
-	 *
-	 * @param string $locale_code The ISO code of the locale.
-	 *
-	 * @return string
-	 */
-	public function name_as($locale_code)
-	{
-		return $this->localize($locale_code)->name;
-	}
-
-	/**
-	 * Localize the currency.
-	 *
-	 * @param string $locale_code
-	 *
-	 * @return LocalizedCurrency
-	 */
-	public function localize($locale_code)
-	{
-		return $this->repository->locales[$locale_code]->localize($this);
-	}
-
-	/**
-	 * @param \DateTimeInterface|string $datetime
-	 *
-	 * @return \DateTimeInterface
-	 */
-	private function ensure_is_datetime($datetime)
-	{
-		return $datetime instanceof \DateTimeInterface
+		return $datetime instanceof DateTimeInterface
 			? $datetime
-			: new \DateTime($datetime);
+			: new DateTimeImmutable($datetime);
 	}
 }

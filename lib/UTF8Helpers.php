@@ -11,14 +11,11 @@
 
 namespace ICanBoogie\CLDR;
 
-class UTF8Helpers
+use function preg_replace;
+
+final class UTF8Helpers
 {
-	/**
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	static public function trim($string)
+	static public function trim(string $string): string
 	{
 		return preg_replace('/^[\pZ\pC]+|[\pZ\pC]+$/u', '', $string);
 	}

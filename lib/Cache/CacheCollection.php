@@ -16,22 +16,22 @@ use ICanBoogie\CLDR\Cache;
 /**
  * A collection of {@link Cache} instances.
  */
-class CacheCollection implements Cache
+final class CacheCollection implements Cache
 {
 	/**
 	 * @var Cache[]
 	 */
-	protected $collection = [];
+	private $collection;
 
+	/**
+	 * @param Cache[] $collection
+	 */
 	public function __construct(array $collection)
 	{
 		$this->collection = $collection;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function get($path)
+	public function get(string $path): ?array
 	{
 		foreach ($this->collection as $cache)
 		{
@@ -45,10 +45,7 @@ class CacheCollection implements Cache
 		return null;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function set($path, array $data)
+	public function set(string $path, array $data): void
 	{
 		foreach ($this->collection as $cache)
 		{

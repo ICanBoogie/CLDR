@@ -1,6 +1,11 @@
-.coveralls.yml export-ignore
+* text=auto
+
+.editorconfig export-ignore
 .gitattributes export-ignore
+.github export-ignore
 .gitignore export-ignore
+docker-compose.yml export-ignore
+Dockerfile export-ignore
 Makefile export-ignore
-phpunit.xml.dist export-ignore
+phpunit.xml export-ignore
 tests/ export-ignore

@@ -11,10 +11,12 @@
 
 namespace ICanBoogie\CLDR;
 
+use ArrayAccess;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\OffsetNotDefined;
+use function explode;
 
-abstract class AbstractSectionCollection implements \ArrayAccess
+abstract class AbstractSectionCollection implements ArrayAccess
 {
 	use AccessorTrait;
 	use CollectionTrait;
@@ -37,14 +39,7 @@ abstract class AbstractSectionCollection implements \ArrayAccess
 	 */
 	private $sections = [];
 
-	/**
-	 * Initializes the {@link $repository} property.
-	 *
-	 * @param Repository $repository
-	 * @param string $name
-	 * @param array $available_sections
-	 */
-	public function __construct(Repository $repository, $name, array $available_sections)
+	public function __construct(Repository $repository, string $name, array $available_sections)
 	{
 		$this->repository = $repository;
 		$this->name = $name;
@@ -52,16 +47,17 @@ abstract class AbstractSectionCollection implements \ArrayAccess
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return isset($this->available_sections[$offset]);
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		$sections = &$this->sections;

@@ -24,9 +24,9 @@ jobs:
     strategy:
       matrix:
         php-version:
-        - "5.6"
-        - "7.0"
+        - "7.1"
         - "7.4"
+        - "8.1"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -58,7 +58,7 @@ jobs:
         ICANBOOGIE_CLDR_CHECK_URL: 'yes'
 
     - name: Upload code coverage
-      if: ${{ matrix.php-version == '7.4' }}
+      if: ${{ matrix.php-version == '7.1' }}
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |

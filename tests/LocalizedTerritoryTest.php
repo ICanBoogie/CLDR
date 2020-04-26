@@ -11,7 +11,9 @@
 
 namespace ICanBoogie\CLDR;
 
-class LocalizedTerritoryTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class LocalizedTerritoryTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_get_name

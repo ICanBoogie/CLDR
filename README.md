@@ -1,9 +1,9 @@
 # CLDR
 
-[![Release](https://img.shields.io/packagist/v/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
+[![Packagist](https://img.shields.io/packagist/v/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
 [![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/CLDR/master.svg)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR)
 [![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/CLDR/master.svg)](https://coveralls.io/r/ICanBoogie/CLDR)
-[![Packagist](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
+[![Downloads](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
 
 The __CLDR__ package provides means to internationalize your application by leveraging the data and
 conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
@@ -119,6 +119,12 @@ $repository->plurals->rule_for(2, 'ar');   // two
 ```
 
 
+
+#### Installation
+
+```bash
+composer require icanboogie/cldr
+```
 
 
 
@@ -915,90 +921,31 @@ $repository->plurals->rule_for(2, 'ar');   // two
 
 
 
+## Continuous Integration
 
+The project is continuously tested by [GitHub actions](https://github.com/ICanBoogie/CLDR/actions).
 
-## Requirements
-
-The package requires PHP 5.6 or later, and the [cURL extension](http://www.php.net/manual/en/book.curl.php).
-
-
-
-
-
-## Installation
-
-The recommended way to install this package is through [Composer](http://getcomposer.org/):
-
-```bash
-$ composer require icanboogie/cldr
-```
-
-
-
-
-
-### Cloning the repository
-
-The package is [available on GitHub](https://github.com/ICanBoogie/CLDR), its repository can be
-cloned with the following command line:
-
-```bash
-$ git clone https://github.com/ICanBoogie/CLDR.git
-```
-
-
-
-
-
-## Documentation
-
-The package is documented as part of the [ICanBoogie][] framework [documentation][].
-You can generate the documentation for the package and its dependencies with the
-`make doc` command. The documentation is generated in the `build/docs` directory.
-[ApiGen](http://apigen.org/) is required. The directory can later be cleaned with the
-`make clean` command.
-
-
-
-
-
-## Testing
-
-The test suite is ran with the `make test` command. [PHPUnit](https://phpunit.de/) and
-[Composer](http://getcomposer.org/) need to be globally available to run the suite.
-The command installs dependencies as required. The `make test-coverage` command runs
-test suite and also creates an HTML coverage report in `build/coverage`. The directory can
-later be cleaned with the `make clean` command.
-
-To ensure tests are running with the minimum requirements, it is advised to run them inside the
-provided container. The container is started with the `make test-container` command. Once inside the
-container, `make test` and `make test-coverage` can be used. Xdebug is available in the container
-and ready for debugging, it uses the servername `icanboogie-cldr` and the absolute path `/app`.
-
-
+[![Tests](https://github.com/ICanBoogie/CLDR/workflows/test/badge.svg?branch=master)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Atest)
 
 
 
 ## License
 
-**icanboogie/cldr** is licensed under the New BSD License - See the [LICENSE](LICENSE) file for details.
-
-
+**icanboogie/cldr** is released under the [BSD-3-Clause](LICENSE).
 
 
 
 [ICanBoogie]:                 https://icanboogie.org/
-[documentation]:              https://icanboogie.org/api/cldr/master/
-[Calendar]:                   https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Calendar.html
-[Currency]:                   https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Currency.html
-[FileCache]:                  https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.FileCache.html
-[ListFormatter]:              https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.ListFormatter.html
-[Locale]:                     https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Locale.html
-[Localizable]:                https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Localizable.html
-[LocalizedDateTime]:          https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.LocalizedDateTime.html
-[NumberFormatter]:            https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.NumberFormatter.html
-[Repository]:                 https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Repository.html
-[Territory]:                  https://icanboogie.org/api/cldr/master/class-ICanBoogie.CLDR.Territory.html
+[Calendar]:                   lib/Calendar.php
+[Currency]:                   lib/Currency.php
+[FileCache]:                  lib/Cache/FileCache.php
+[ListFormatter]:              lib/ListFormatter.php
+[Locale]:                     lib/Locale.php
+[Localizable]:                lib/Localizable.php
+[LocalizedDateTime]:          lib/LocalizedDateTime.php
+[NumberFormatter]:            lib/NumberFormatter.php
+[Repository]:                 lib/Repository.php
+[Territory]:                  lib/Territory.php
 
 [1]:                          http://cldr.unicode.org/index/downloads/cldr-34
 [2]:                          https://github.com/unicode-cldr

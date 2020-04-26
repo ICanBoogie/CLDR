@@ -29,56 +29,54 @@ use ICanBoogie\Accessor\AccessorTrait;
  *
  * @method Territory offsetGet($id)
  */
-class TerritoryCollection extends AbstractCollection
+final class TerritoryCollection extends AbstractCollection
 {
+	/**
+	 * @uses get_repository
+	 */
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 
-	/**
-	 * @param Repository $repository
-	 */
 	public function __construct(Repository $repository)
 	{
 		$this->repository = $repository;
 
-		parent::__construct(function ($territory_code) {
+		parent::__construct(function (string $territory_code): Territory {
 
-		    $this->assert_defined($territory_code);
+			$this->assert_defined($territory_code);
 
-            return new Territory($this->repository, $territory_code);
+			return new Territory($this->repository, $territory_code);
 
-        });
+		});
 	}
 
-    /**
-     * Checks if a territory is defined.
-     *
-     * @param string $territory_code Territory ISO code.
-     *
-     * @return bool `true` if the territory is defined, `false` otherwise.
-     */
-	public function offsetExists($territory_code)
+	/**
+	 * Whether a territory is defined.
+	 *
+	 * @inheritDoc
+	 *
+	 * @param string $territory_code Territory ISO code.
+	 */
+	public function offsetExists($territory_code): bool
 	{
 		$supplemental = $this->repository->supplemental;
 
-        return isset($supplemental['territoryInfo'][$territory_code])
-        || isset($supplemental['territoryContainment'][$territory_code]);
+		return isset($supplemental['territoryInfo'][ $territory_code ])
+			|| isset($supplemental['territoryContainment'][ $territory_code ]);
 	}
 
-    /**
-     * Asserts that a territory is defined.
-     *
-     * @param string $territory_code
-     *
-     * @throws TerritoryNotDefined if the specified territory is not defined.
-     */
-    public function assert_defined($territory_code)
-    {
-        if ($this->offsetExists($territory_code))
-        {
-            return;
-        }
+	/**
+	 * Asserts a territory is defined.
+	 *
+	 * @throws TerritoryNotDefined
+	 */
+	public function assert_defined(string $territory_code): void
+	{
+		if ($this->offsetExists($territory_code))
+		{
+			return;
+		}
 
-        throw new TerritoryNotDefined($territory_code);
-    }
+		throw new TerritoryNotDefined($territory_code);
+	}
 }

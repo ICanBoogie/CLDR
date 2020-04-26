@@ -11,71 +11,69 @@
 
 namespace ICanBoogie\CLDR;
 
+use LogicException;
+use function mb_strtoupper;
+use function mb_substr;
+
 /**
  * @see http://unicode.org/reports/tr35/tr35-general.html#contextTransformUsage_type_attribute_values
  */
-class ContextTransforms
+final class ContextTransforms
 {
-	const USAGE_ALL = 'all';
-	const USAGE_LANGUAGE = 'language';
-	const USAGE_SCRIPT = 'script';
-	const USAGE_TERRITORY = 'territory';
-	const USAGE_VARIANT = 'variant';
-	const USAGE_KEY = 'key';
-	const USAGE_KEYVALUE = 'keyValue';
-	const USAGE_MONTH_FORMAT_EXCEPT_NARROW = 'month-format-except-narrow';
-	const USAGE_MONTH_STANDALONE_EXCEPT_NARROW = 'month-standalone-except-narrow';
-	const USAGE_MONTH_NARROW = 'month-narrow';
-	const USAGE_DAY_FORMAT_EXCEPT_NARROW = 'day-format-except-narrow';
-	const USAGE_DAY_STANDALONE_EXCEPT_NARROW = 'day-standalone-except-narrow';
-	const USAGE_DAY_NARROW = 'day-narrow';
-	const USAGE_ERA_NAME = 'era-name';
-	const USAGE_ERA_ABBR = 'era-abbr';
-	const USAGE_ERA_NARROW = 'era-narrow';
-	const USAGE_QUARTER_FORMAT_WIDE = 'quarter-format-wide';
-	const USAGE_QUARTER_STANDALONE_WIDE = 'quarter-standalone-wide';
-	const USAGE_QUARTER_ABBREVIATED = 'quarter-abbreviated';
-	const USAGE_QUARTER_NARROW = 'quarter-narrow';
-	const USAGE_CALENDAR_FIELD = 'calendar-field';
-	const USAGE_ZONE_EXEMPLARCITY = 'zone-exemplarCity';
-	const USAGE_ZONE_LONG = 'zone-long';
-	const USAGE_ZONE_SHORT = 'zone-short';
-	const USAGE_METAZONE_LONG = 'metazone-long';
-	const USAGE_METAZONE_SHORT = 'metazone-short';
-	const USAGE_SYMBOL = 'symbol';
-	const USAGE_CURRENCYNAME = 'currencyName';
-	const USAGE_CURRENCYNAME_COUNT = 'currencyName-count';
-	const USAGE_RELATIVE = 'relative';
-	const USAGE_UNIT_PATTERN = 'unit-pattern';
-	const USAGE_NUMBER_SPELLOUT = 'number-spellout';
+	public const USAGE_ALL = 'all';
+	public const USAGE_LANGUAGE = 'language';
+	public const USAGE_SCRIPT = 'script';
+	public const USAGE_TERRITORY = 'territory';
+	public const USAGE_VARIANT = 'variant';
+	public const USAGE_KEY = 'key';
+	public const USAGE_KEYVALUE = 'keyValue';
+	public const USAGE_MONTH_FORMAT_EXCEPT_NARROW = 'month-format-except-narrow';
+	public const USAGE_MONTH_STANDALONE_EXCEPT_NARROW = 'month-standalone-except-narrow';
+	public const USAGE_MONTH_NARROW = 'month-narrow';
+	public const USAGE_DAY_FORMAT_EXCEPT_NARROW = 'day-format-except-narrow';
+	public const USAGE_DAY_STANDALONE_EXCEPT_NARROW = 'day-standalone-except-narrow';
+	public const USAGE_DAY_NARROW = 'day-narrow';
+	public const USAGE_ERA_NAME = 'era-name';
+	public const USAGE_ERA_ABBR = 'era-abbr';
+	public const USAGE_ERA_NARROW = 'era-narrow';
+	public const USAGE_QUARTER_FORMAT_WIDE = 'quarter-format-wide';
+	public const USAGE_QUARTER_STANDALONE_WIDE = 'quarter-standalone-wide';
+	public const USAGE_QUARTER_ABBREVIATED = 'quarter-abbreviated';
+	public const USAGE_QUARTER_NARROW = 'quarter-narrow';
+	public const USAGE_CALENDAR_FIELD = 'calendar-field';
+	public const USAGE_ZONE_EXEMPLARCITY = 'zone-exemplarCity';
+	public const USAGE_ZONE_LONG = 'zone-long';
+	public const USAGE_ZONE_SHORT = 'zone-short';
+	public const USAGE_METAZONE_LONG = 'metazone-long';
+	public const USAGE_METAZONE_SHORT = 'metazone-short';
+	public const USAGE_SYMBOL = 'symbol';
+	public const USAGE_CURRENCYNAME = 'currencyName';
+	public const USAGE_CURRENCYNAME_COUNT = 'currencyName-count';
+	public const USAGE_RELATIVE = 'relative';
+	public const USAGE_UNIT_PATTERN = 'unit-pattern';
+	public const USAGE_NUMBER_SPELLOUT = 'number-spellout';
 
-	const TYPE_UILIST_OR_MENU = 'uiListOrMenu';
-	const TYPE_STAND_ALONE = 'stand-alone';
+	public const TYPE_UILIST_OR_MENU = 'uiListOrMenu';
+	public const TYPE_STAND_ALONE = 'stand-alone';
 
-	const TRANSFORM_TITLECASE_FIRSTWORD = 'titlecase-firstword';
-	const TRANSFORM_NO_CHANGE = 'no-change';
+	public const TRANSFORM_TITLECASE_FIRSTWORD = 'titlecase-firstword';
+	public const TRANSFORM_NO_CHANGE = 'no-change';
 
 	/**
 	 * @var array
 	 */
 	private $rules;
 
-	/**
-	 * @param array $rules
-	 */
 	public function __construct(array $rules)
 	{
 		$this->rules = $rules;
 	}
 
 	/**
-	 * @param string $str
 	 * @param string $usage One of `USAGE_*`.
 	 * @param string $type One of `TYPE_*`.
-	 *
-	 * @return string
 	 */
-	public function transform($str, $usage, $type)
+	public function transform(string $str, string $usage, string $type): string
 	{
 		$rules = $this->rules;
 
@@ -100,16 +98,11 @@ class ContextTransforms
 				return $str;
 
 			default:
-				throw new \LogicException("Don't know how to apply transform: $transform");
+				throw new LogicException("Don't know how to apply transform: $transform");
 		}
 	}
 
-	/**
-	 * @param string $str
-	 *
-	 * @return string
-	 */
-	private function titlecase_firstword($str)
+	private function titlecase_firstword(string $str): string
 	{
 		return mb_strtoupper(mb_substr($str, 0, 1)) . mb_substr($str, 1);
 	}

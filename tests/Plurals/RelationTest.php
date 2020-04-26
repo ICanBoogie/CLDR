@@ -11,10 +11,12 @@
 
 namespace ICanBoogie\CLDR\Plurals;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group plurals
  */
-class RelationTest extends \PHPUnit\Framework\TestCase
+class RelationTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_cases

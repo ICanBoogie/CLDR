@@ -21,7 +21,7 @@ class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats a number.
 	 *
-	 * @param number $number The number to format.
+	 * @param int|float $number The number to format.
 	 * @param null $pattern
 	 * @param array $symbols Symbols used to format the number.
 	 *
@@ -35,7 +35,7 @@ class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats a number.
 	 *
-	 * @param number $number The number to format.
+	 * @param int|float $number The number to format.
 	 * @param string|null $pattern
 	 * @param array $symbols Symbols used to format the number.
 	 *

@@ -12,8 +12,9 @@
 namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\CLDR\Units;
+use PHPUnit\Framework\TestCase;
 
-class SequenceTest extends \PHPUnit\Framework\TestCase
+class SequenceTest extends TestCase
 {
 	public function test_format()
 	{

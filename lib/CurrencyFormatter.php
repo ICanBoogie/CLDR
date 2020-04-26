@@ -11,15 +11,17 @@
 
 namespace ICanBoogie\CLDR;
 
+use function str_replace;
+
 /**
  * A currency formatter.
  */
-class CurrencyFormatter extends NumberFormatter
+final class CurrencyFormatter extends NumberFormatter
 {
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	public function format($number, $pattern, array $symbols = [])
+	public function format($number, $pattern, array $symbols = []): string
 	{
 		$symbols += [
 

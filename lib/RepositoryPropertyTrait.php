@@ -23,10 +23,7 @@ trait RepositoryPropertyTrait
 	 */
 	private $repository;
 
-	/**
-	 * @return Repository
-	 */
-	protected function get_repository()
+	private function get_repository(): Repository
 	{
 		return $this->repository;
 	}

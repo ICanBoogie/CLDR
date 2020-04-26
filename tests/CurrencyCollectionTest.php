@@ -11,26 +11,29 @@
 
 namespace ICanBoogie\CLDR;
 
-class CurrencyCollectionTest extends \PHPUnit\Framework\TestCase
+use ICanBoogie\OffsetNotWritable;
+use PHPUnit\Framework\TestCase;
+
+class CurrencyCollectionTest extends TestCase
 {
 	/**
 	 * @var CurrencyCollection
 	 */
 	private $sut;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->sut = new CurrencyCollection(get_repository());
 	}
 
-	public function test_offset_exists()
+	public function test_offset_exists(): void
 	{
 		$this->assertTrue(isset($this->sut['EUR']));
 		$this->assertTrue(isset($this->sut['USD']));
 		$this->assertFalse(isset($this->sut['ABC']));
 	}
 
-	public function test_offset_get()
+	public function test_offset_get(): void
 	{
 		$currency = $this->sut['EUR'];
 
@@ -39,42 +42,35 @@ class CurrencyCollectionTest extends \PHPUnit\Framework\TestCase
 		$this->assertSame($currency, $this->sut['EUR']);
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\CLDR\CurrencyNotDefined
-     * @expectedExceptionMessage Currency not defined for code: ABC.
-	 */
-	public function test_offset_get_undefined()
+	public function test_offset_get_undefined(): void
 	{
+		$this->expectExceptionMessage("Currency not defined for code: ABC.");
+		$this->expectException(CurrencyNotDefined::class);
 		$this->sut['ABC'];
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\OffsetNotWritable
-	 */
-	public function test_offset_set()
+	public function test_offset_set(): void
 	{
+		$this->expectException(OffsetNotWritable::class);
 		$this->sut['EUR'] = null;
 	}
 
-	/**
-	 * @expectedException \ICanBoogie\OffsetNotWritable
-	 */
-	public function test_offset_unset()
+	public function test_offset_unset(): void
 	{
+		$this->expectException(OffsetNotWritable::class);
 		unset($this->sut['EUR']);
 	}
 
-    /**
-     * @expectedException \ICanBoogie\CLDR\CurrencyNotDefined
-     * @expectedExceptionMessage Currency not defined for code: MADONNA.
-     */
-    public function test_assert_defined_failure()
+	public function test_assert_defined_failure(): void
     {
-        $this->sut->assert_defined('MADONNA');
+	    $this->expectExceptionMessage("Currency not defined for code: MADONNA.");
+	    $this->expectException(CurrencyNotDefined::class);
+	    $this->sut->assert_defined('MADONNA');
     }
 
-    public function test_assert_defined_success()
+    public function test_assert_defined_success(): void
     {
         $this->sut->assert_defined('EUR');
+		$this->assertTrue(true);
     }
 }

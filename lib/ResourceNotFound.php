@@ -12,14 +12,18 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use Throwable;
 
 /**
- * Exception throw when a path does not exists on the CLDR source.
+ * Exception throw when a path does not exist on the CLDR source.
  *
  * @property-read string $path The path.
  */
-class ResourceNotFound extends \Exception implements Exception
+final class ResourceNotFound extends \Exception implements Exception
 {
+	/**
+	 * @uses get_path
+	 */
 	use AccessorTrait;
 
 	/**
@@ -27,20 +31,15 @@ class ResourceNotFound extends \Exception implements Exception
 	 */
 	private $path;
 
-	/**
-	 * @return string
-	 */
-	protected function get_path()
+	private function get_path(): string
 	{
 		return $this->path;
 	}
 
 	/**
 	 * @param string $path
-	 * @param int $code
-	 * @param \Exception|null $previous
 	 */
-	public function __construct($path, $code = 500, \Exception $previous = null)
+	public function __construct(string $path, int $code = 500, Throwable $previous = null)
 	{
 		$this->path = $path;
 

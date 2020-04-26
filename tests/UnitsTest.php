@@ -11,7 +11,10 @@
 
 namespace ICanBoogie\CLDR;
 
-class UnitsTest extends \PHPUnit\Framework\TestCase
+use BadMethodCallException;
+use PHPUnit\Framework\TestCase;
+
+class UnitsTest extends TestCase
 {
     use StringHelpers;
 
@@ -20,7 +23,7 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 	 */
 	static private $locales;
 
-	static public function setUpBeforeClass()
+	static public function setUpBeforeClass(): void
 	{
 		self::$locales = get_repository()->locales;
 	}
@@ -229,11 +232,11 @@ class UnitsTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @test
-	 * @expectedException \BadMethodCallException
-	 * @expectedExceptionMessage Unit is not defined: madonna.
 	 */
 	public function should_fail_with_undefined_unit()
 	{
+		$this->expectExceptionMessage("Unit is not defined: madonna.");
+		$this->expectException(BadMethodCallException::class);
 		$this->units_for('fr')->madonna();
 	}
 

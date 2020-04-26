@@ -11,18 +11,20 @@
 
 namespace ICanBoogie\CLDR;
 
-class TerritoryTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class TerritoryTest extends TestCase
 {
 	public function test_get_info()
 	{
 		$territory = new Territory(get_repository(), 'FR');
-		$this->assertInternalType('array', $territory->info);
+		$this->assertIsArray($territory->info);
 	}
 
 	public function test_get_containment()
 	{
 		$territory = new Territory(get_repository(), 'EU');
-		$this->assertInternalType('array', $territory->containment);
+		$this->assertIsArray($territory->containment);
 	}
 
 	public function test_is_containing()

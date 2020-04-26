@@ -40,8 +40,21 @@ use ICanBoogie\Accessor\AccessorTrait;
  *
  * @see http://www.unicode.org/repos/cldr-aux/json/24/
  */
-class Repository
+final class Repository
 {
+	/**
+	 * @uses get_provider
+	 * @uses lazy_get_locales
+	 * @uses lazy_get_supplemental
+	 * @uses lazy_get_territories
+	 * @uses lazy_get_currencies
+	 * @uses lazy_get_number_formatter
+	 * @uses lazy_get_currency_formatter
+	 * @uses lazy_get_list_formatter
+	 * @uses lazy_get_list_formatter
+	 * @uses lazy_get_plurals
+	 * @uses lazy_get_available_locales
+	 */
 	use AccessorTrait;
 
 	/**
@@ -49,91 +62,61 @@ class Repository
 	 */
 	private $provider;
 
-	/**
-	 * @return Provider
-	 */
-	protected function get_provider()
+	private function get_provider(): Provider
 	{
 		return $this->provider;
 	}
 
-	/**
-	 * @return LocaleCollection
-	 */
-	protected function lazy_get_locales()
+	private function lazy_get_locales(): LocaleCollection
 	{
 		return new LocaleCollection($this);
 	}
 
-	/**
-	 * @return Supplemental
-	 */
-	protected function lazy_get_supplemental()
+	private function lazy_get_supplemental(): Supplemental
 	{
 		return new Supplemental($this);
 	}
 
-	/**
-	 * @return TerritoryCollection
-	 */
-	protected function lazy_get_territories()
+	private function lazy_get_territories(): TerritoryCollection
 	{
 		return new TerritoryCollection($this);
 	}
 
-	/**
-	 * @return CurrencyCollection
-	 */
-	protected function lazy_get_currencies()
+	private function lazy_get_currencies(): CurrencyCollection
 	{
 		return new CurrencyCollection($this);
 	}
 
-	/**
-	 * @return NumberFormatter
-	 */
-	protected function lazy_get_number_formatter()
+	private function lazy_get_number_formatter(): NumberFormatter
 	{
 		return new NumberFormatter($this);
 	}
 
-	/**
-	 * @return CurrencyFormatter
-	 */
-	protected function lazy_get_currency_formatter()
+	private function lazy_get_currency_formatter(): CurrencyFormatter
 	{
 		return new CurrencyFormatter($this);
 	}
 
-	/**
-	 * @return ListFormatter
-	 */
-	protected function lazy_get_list_formatter()
+	private function lazy_get_list_formatter(): ListFormatter
 	{
 		return new ListFormatter($this);
 	}
 
-	/**
-	 * @return Plurals
-	 */
-	protected function lazy_get_plurals()
+	private function lazy_get_plurals(): Plurals
 	{
 		return new Plurals($this->supplemental['plurals']);
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
+	 *
+	 * @throws ResourceNotFound
 	 */
-	protected function lazy_get_available_locales()
+	private function lazy_get_available_locales(): array
 	{
 		return $this->fetch('availableLocales')['availableLocales']['modern'];
 	}
 
-	/**
-	 * Initializes the {@link $provider} property.
-	 *
-	 * @param Provider $provider
-	 */
 	public function __construct(Provider $provider)
 	{
 		$this->provider = $provider;
@@ -142,13 +125,9 @@ class Repository
 	/**
 	 * Fetches the data available at the specified path.
 	 *
-	 * Note: The method is forwarded to {@link Provider::provide}.
-	 *
-	 * @param string $path
-	 *
-	 * @return array
+	 * @throws ResourceNotFound
 	 */
-	public function fetch($path)
+	public function fetch(string $path): array
 	{
 		return $this->provider->provide($path);
 	}
@@ -156,15 +135,11 @@ class Repository
 	/**
 	 * Format a number with the specified pattern.
 	 *
-	 * @param mixed $number The number to be formatted.
-	 * @param string $pattern The pattern used to format the number.
-	 * @param array $symbols Symbols.
-	 *
-	 * @return string
+	 * @param int|float $number The number to be formatted.
 	 *
 	 * @see NumberFormatter::format()
 	 */
-	public function format_number($number, $pattern, array $symbols = [])
+	public function format_number($number, string $pattern, array $symbols = []): string
 	{
 		return $this->number_formatter->format($number, $pattern, $symbols);
 	}
@@ -172,15 +147,11 @@ class Repository
 	/**
 	 * Format a number with the specified pattern.
 	 *
-	 * @param mixed $number The number to be formatted.
-	 * @param string $pattern The pattern used to format the number.
-	 * @param array $symbols Symbols.
-	 *
-	 * @return string
+	 * @param int|float $number The number to be formatted.
 	 *
 	 * @see CurrencyFormatter::format()
 	 */
-	public function format_currency($number, $pattern, array $symbols = [])
+	public function format_currency($number, string $pattern, array $symbols = []): string
 	{
 		return $this->currency_formatter->format($number, $pattern, $symbols);
 	}
@@ -188,24 +159,17 @@ class Repository
 	/**
 	 * Formats a variable-length lists of things.
 	 *
-	 * @param array $list The list to format.
-	 * @param array $list_patterns A list patterns.
-	 *
-	 * @return string
-	 *
 	 * @see ListFormatter::format()
 	 */
-	public function format_list(array $list, array $list_patterns)
+	public function format_list(array $list, array $list_patterns): string
 	{
 		return $this->list_formatter->format($list, $list_patterns);
 	}
 
 	/**
-	 * @param string $locale
-	 *
-	 * @return bool `true` if the locale is available, `false` otherwise.
+	 * Whether a locale is available.
 	 */
-	public function is_locale_available($locale)
+	public function is_locale_available(string $locale): bool
 	{
 		return in_array($locale, $this->available_locales);
 	}

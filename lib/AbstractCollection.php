@@ -11,17 +11,18 @@
 
 namespace ICanBoogie\CLDR;
 
+use ArrayAccess;
+use BadMethodCallException;
+
 /**
  * An abstract collection.
  */
-abstract class AbstractCollection implements \ArrayAccess
+abstract class AbstractCollection implements ArrayAccess
 {
 	use CollectionTrait;
 
 	/**
-	 * Instances.
-	 *
-	 * @var array
+	 * @var object[]
 	 */
 	private $collection = [];
 
@@ -30,29 +31,25 @@ abstract class AbstractCollection implements \ArrayAccess
 	 */
 	private $create_instance;
 
-	/**
-	 * Initializes the {@link $locale} property.
-	 *
-	 * @param callable $create_instance
-	 */
 	public function __construct(callable $create_instance)
 	{
 		$this->create_instance = $create_instance;
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 *
-	 * @throws \BadMethodCallException
+	 * @throws BadMethodCallException
 	 */
-	public function offsetExists($id)
+	public function offsetExists($id): bool
 	{
-		throw new \BadMethodCallException("The method is not implemented");
+		throw new BadMethodCallException("The method is not implemented");
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($id)
 	{
 		if (empty($this->collection[$id]))

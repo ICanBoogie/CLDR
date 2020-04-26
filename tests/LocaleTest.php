@@ -11,7 +11,10 @@
 
 namespace ICanBoogie\CLDR;
 
-class LocaleTest extends \PHPUnit\Framework\TestCase
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+
+class LocaleTest extends TestCase
 {
     use StringHelpers;
 
@@ -20,7 +23,7 @@ class LocaleTest extends \PHPUnit\Framework\TestCase
 	 */
 	static private $locale;
 
-	static public function setupBeforeClass()
+	static public function setupBeforeClass(): void
 	{
 		self::$locale = new Locale(get_repository(), 'fr');
 	}
@@ -95,7 +98,7 @@ class LocaleTest extends \PHPUnit\Framework\TestCase
 	public function test_sections($section, $path, $key)
 	{
 		$section_data = self::$locale[$section];
-		$this->assertInternalType('array', $section_data);
+		$this->assertIsArray($section_data);
 		$this->assertArrayHasKey($key, $section_data);
 	}
 
@@ -162,11 +165,9 @@ class LocaleTest extends \PHPUnit\Framework\TestCase
 		];
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function test_empty_identifier()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		new Locale(get_repository(), '');
 	}
 

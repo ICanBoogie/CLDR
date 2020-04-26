@@ -12,6 +12,16 @@
 namespace ICanBoogie\CLDR\Plurals;
 
 use ICanBoogie\CLDR\Number;
+use Traversable;
+
+use function array_merge;
+use function array_slice;
+use function array_values;
+use function explode;
+use function is_array;
+use function str_repeat;
+use function strpos;
+use function trim;
 
 /**
  * Representation of plural samples.
@@ -20,41 +30,31 @@ use ICanBoogie\CLDR\Number;
  */
 final class Samples implements \IteratorAggregate
 {
-	const INFINITY = '…';
-	const SAMPLE_RANGE_SEPARATOR = '~';
-	const TYPE_INTEGER = 'integer';
-	const TYPE_DECIMAL = 'decimal';
+	public const INFINITY = '…';
+	public const SAMPLE_RANGE_SEPARATOR = '~';
+	public const TYPE_INTEGER = 'integer';
+	public const TYPE_DECIMAL = 'decimal';
 
 	/**
-	 * @var array
+	 * @var Samples[]
 	 */
 	static private $instances = [];
 
-	/**
-	 * @param string $samples_string
-	 *
-	 * @return Samples
-	 */
-	static public function from($samples_string)
+	static public function from(string $samples_string): Samples
 	{
 		$instance = &self::$instances[$samples_string];
 
-		return $instance ?: $instance = new static(self::parse_rules($samples_string));
+		return $instance ?? $instance = new self(self::parse_rules($samples_string));
 	}
 
-	/**
-	 * @param string $sample_string Plural rules.
-	 *
-	 * @return array An array of samples.
-	 */
-	static private function parse_rules($sample_string)
+	static private function parse_rules(string $sample_string): array
 	{
 		$samples = [];
 		$type_and_samples_string_list = array_slice(explode('@', $sample_string), 1);
 
 		foreach ($type_and_samples_string_list as $type_and_samples_string)
 		{
-			list($type, $samples_string) = explode(' ', trim($type_and_samples_string), 2);
+			[ $type, $samples_string ] = explode(' ', trim($type_and_samples_string), 2);
 
 			$samples[$type] = self::parse_samples($type, $samples_string);
 		}
@@ -66,11 +66,8 @@ final class Samples implements \IteratorAggregate
 	 * Parse a samples string.
 	 *
 	 * @param string $type One of `TYPE_*`
-	 * @param string $samples_string
-	 *
-	 * @return array
 	 */
-	static private function parse_samples($type, $samples_string)
+	static private function parse_samples(string $type, string $samples_string): array
 	{
 		$samples = [];
 
@@ -88,7 +85,7 @@ final class Samples implements \IteratorAggregate
 				continue;
 			}
 
-			list($start, $end) = explode(self::SAMPLE_RANGE_SEPARATOR, $sample);
+			[ $start, $end ] = explode(self::SAMPLE_RANGE_SEPARATOR, $sample);
 
 			$samples[] = [ self::cast($type, $start), self::cast($type, $end) ];
 		}
@@ -98,21 +95,19 @@ final class Samples implements \IteratorAggregate
 
 	/**
 	 * @param string $type One of `TYPE_*`.
-	 * @param number $number
+	 * @param int|float $number
 	 *
-	 * @return float|int
+	 * @return int|float
 	 */
-	static private function cast($type, $number)
+	static private function cast(string $type, $number)
 	{
 		return $type === self::TYPE_DECIMAL ? (float) $number : (int) $number;
 	}
 
 	/**
-	 * @param number $number
-	 *
-	 * @return int
+	 * @param int|float $number
 	 */
-	static private function precision_from($number)
+	static private function precision_from($number): int
 	{
 		return Number::precision_from($number);
 	}
@@ -122,18 +117,15 @@ final class Samples implements \IteratorAggregate
 	 */
 	private $samples;
 
-	/**
-	 * @param array $samples
-	 */
 	private function __construct(array $samples)
 	{
 		$this->samples = $samples;
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		foreach ($this->samples as $sample)
 		{
@@ -144,7 +136,7 @@ final class Samples implements \IteratorAggregate
 				continue;
 			}
 
-			list($start, $end) = $sample;
+			[ $start, $end ] = $sample;
 
 			$precision = self::precision_from($start) ?: self::precision_from($end);
 			$step = 1 / (int) ('1' . str_repeat('0', $precision));

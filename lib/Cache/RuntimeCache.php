@@ -17,18 +17,12 @@ final class RuntimeCache implements Cache
 {
 	private $cache = [];
 
-	/**
-	 * @inheritdoc
-	 */
-	public function get($path)
+	public function get(string $path): ?array
 	{
 		return isset($this->cache[$path]) ? $this->cache[$path] : null;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function set($path, array $data)
+	public function set(string $path, array $data): void
 	{
 		$this->cache[$path] = $data;
 	}
