@@ -99,11 +99,11 @@ class DateTimeFormatter implements Formatter
 
 		for ($i = 0, $n = strlen($pattern) ; $i < $n ; ++$i)
 		{
-			$c = $pattern{$i};
+			$c = $pattern[$i];
 
 			if ($c === "'")
 			{
-				if ($i < $n-1 && $pattern{$i+1} === "'")
+				if ($i < $n-1 && $pattern[$i+1] === "'")
 				{
 					$tokens[] = "'";
 					$i++;
@@ -128,7 +128,7 @@ class DateTimeFormatter implements Formatter
 			{
 				for ($j = $i + 1 ; $j < $n ; ++$j)
 				{
-					if ($pattern{$j} !== $c) break;
+					if ($pattern[$j] !== $c) break;
 				}
 
 				$l = $j-$i;
@@ -267,7 +267,7 @@ class DateTimeFormatter implements Formatter
 	{
 		$pattern = $pattern_or_width_or_skeleton;
 
-		if ($pattern_or_width_or_skeleton{0} === ':')
+		if ($pattern_or_width_or_skeleton[0] === ':')
 		{
 			$skeleton = substr($pattern, 1);
 			$available_formats = $this->calendar['dateTimeFormats']['availableFormats'];
