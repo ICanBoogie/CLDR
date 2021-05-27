@@ -18,6 +18,7 @@ use ICanBoogie\CLDR\Cache\RuntimeCache;
 use ICanBoogie\CLDR\Provider\CachedProvider;
 use ICanBoogie\CLDR\Provider\WebProvider;
 use Redis;
+
 use function getenv;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -42,7 +43,12 @@ function create_provider()
 	}
 
 	$redis = new Redis();
-	$redis->connect(getenv('ICANBOOGIE_CLDR_REDIS_HOST'), getenv('ICANBOOGIE_CLDR_REDIS_PORT'));
+
+	if (!$redis->connect(getenv('ICANBOOGIE_CLDR_REDIS_HOST'), getenv('ICANBOOGIE_CLDR_REDIS_PORT'))) {
+		echo "Unable to connect to Redis";
+
+		exit(1);
+	}
 
 	return $provider = new CachedProvider(
 		new WebProvider,

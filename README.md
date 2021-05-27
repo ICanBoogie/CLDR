@@ -1,7 +1,6 @@
 # CLDR
 
 [![Release](https://img.shields.io/packagist/v/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
-[![Build Status](https://img.shields.io/travis/ICanBoogie/CLDR/master.svg)](http://travis-ci.org/ICanBoogie/CLDR)
 [![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/CLDR/master.svg)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR)
 [![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/CLDR/master.svg)](https://coveralls.io/r/ICanBoogie/CLDR)
 [![Packagist](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
@@ -389,7 +388,7 @@ echo $calendar->time_formatter->format($datetime, 'long');     // 20:12:22 UTC
 ## Dates and Times
 
 Calendars provide a formatter for dates and times. A width, a skeleton or a pattern can be
-used for the formatting. The datetime can be specified as an Unix timestamp, a string or a 
+used for the formatting. The datetime can be specified as an Unix timestamp, a string or a
 `DateTime` instance.
 
 ```php
@@ -475,7 +474,7 @@ echo $formatter($datetime, $formatter::WIDTH_SHORT);  // 9:22 PM
 ### Localized DateTime
 
 `DateTime` can be localized by wrapping them inside a [LocalizedDateTime][] instance, or by using
-the `localize` method of the desired locale: 
+the `localize` method of the desired locale:
 
 ```php
 <?php
@@ -975,11 +974,6 @@ To ensure tests are running with the minimum requirements, it is advised to run 
 provided container. The container is started with the `make test-container` command. Once inside the
 container, `make test` and `make test-coverage` can be used. Xdebug is available in the container
 and ready for debugging, it uses the servername `cldr-tests` and the absolute path `/app`.
-
-The package is continuously tested by [Travis CI](http://about.travis-ci.org/).
-
-[![Build Status](https://img.shields.io/travis/ICanBoogie/CLDR/master.svg)](https://travis-ci.org/ICanBoogie/CLDR)
-[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/CLDR/master.svg)](https://coveralls.io/r/ICanBoogie/CLDR)
 
 
 
