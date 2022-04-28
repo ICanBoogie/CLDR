@@ -61,7 +61,7 @@ class PathMapperTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertSame($origin . "cldr-$expected.json", $url);
 
-		if (getenv('TRAVIS'))
+		if (getenv('ICANBOOGIE_CLDR_CHECK_URL'))
 		{
 			$this->assertURLExists($url);
 		}

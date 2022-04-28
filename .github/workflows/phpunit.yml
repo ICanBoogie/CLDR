@@ -55,6 +55,7 @@ jobs:
       env:
         ICANBOOGIE_CLDR_REDIS_HOST: localhost
         ICANBOOGIE_CLDR_REDIS_PORT: 6379
+        ICANBOOGIE_CLDR_CHECK_URL: 'yes'
 
     - name: Upload code coverage
       if: ${{ matrix.php-version == '7.4' }}
