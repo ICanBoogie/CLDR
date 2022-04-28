@@ -33,7 +33,8 @@
 		"icanboogie/accessor": "^1.0|^2.0|^3.0|^4.0"
 	},
 	"require-dev": {
-		"ext-redis": "*"
+		"ext-redis": "*",
+		"phpunit/phpunit": "^5.7"
 	},
 	"autoload": {
 		"psr-4": {

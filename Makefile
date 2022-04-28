@@ -2,8 +2,7 @@
 
 PACKAGE_NAME = icanboogie/cldr
 PACKAGE_VERSION = 3.0
-PHPUNIT_VERSION = phpunit-5.phar
-PHPUNIT = build/$(PHPUNIT_VERSION)
+PHPUNIT = vendor/bin/phpunit
 
 # do not edit the following lines
 
@@ -14,20 +13,10 @@ usage:
 vendor:
 	@composer install
 
-update:
-	@composer update
-
-autoload: vendor
-	@composer dump-autoload
-
 # testing
 
-test-dependencies: vendor $(PHPUNIT)
-
-$(PHPUNIT):
-	mkdir -p build
-	wget -q https://phar.phpunit.de/$(PHPUNIT_VERSION) -O $(PHPUNIT)
-	chmod +x $(PHPUNIT)
+.PHONY: test-dependencies
+test-dependencies: vendor test-cleanup
 
 .PHONY: test
 test: test-dependencies
@@ -43,10 +32,14 @@ test-coveralls: test-dependencies
 	@mkdir -p build/logs
 	@$(PHPUNIT) --coverage-clover build/logs/clover.xml
 
+.PHONY: test-cleanup
+test-cleanup:
+	@rm -f tests/repository/*
+
 .PHONY: test-container
 test-container:
-	@docker-compose run --rm app sh
-	@docker-compose down
+	@-docker-compose run --rm app bash
+	@docker-compose down -v
 
 .PHONY: doc
 doc: vendor
@@ -56,10 +49,3 @@ doc: vendor
 	--destination build/docs/ \
 	--title "$(PACKAGE_NAME) v$(PACKAGE_VERSION)" \
 	--template-theme "bootstrap"
-
-.PHONY: clean
-clean:
-	@rm -fR build
-	@rm -fR vendor
-	@rm -f composer.lock
-	@rm -f tests/repository/*
