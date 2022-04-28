@@ -24,6 +24,7 @@ class LocalizedDateTimeTest extends \PHPUnit\Framework\TestCase
 	{
 		self::$localized_dates['en'] = new LocalizedDateTime(new DateTime('2013-11-04 20:21:22 UTC'), get_repository()->locales['en']);
 		self::$localized_dates['fr'] = new LocalizedDateTime(new DateTime('2013-11-04 20:21:22 UTC'), get_repository()->locales['fr']);
+		self::$localized_dates['zh'] = new LocalizedDateTime(new DateTime('2013-11-04 20:21:22 UTC'), get_repository()->locales['zh']);
 	}
 
 	public function test_get_target()
@@ -86,6 +87,11 @@ class LocalizedDateTimeTest extends \PHPUnit\Framework\TestCase
 			[ 'fr', 'long', "4 novembre 2013 à 20:21:22 UTC" ],
 			[ 'fr', 'medium', "4 nov. 2013 à 20:21:22" ],
 			[ 'fr', 'short', "04/11/2013 20:21" ],
+
+			[ 'zh', 'full', "2013年11月4日星期一 UTC 下午8:21:22" ],
+			[ 'zh', 'long', "2013年11月4日 UTC 下午8:21:22" ],
+			[ 'zh', 'medium', "2013年11月4日 下午8:21:22" ],
+			[ 'zh', 'short', "2013/11/4 下午8:21" ],
 
 		];
 	}

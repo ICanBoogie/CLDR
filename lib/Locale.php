@@ -153,7 +153,15 @@ class Locale extends AbstractSectionCollection
 	 */
 	protected function lazy_get_context_transforms()
 	{
-		return new ContextTransforms($this['contextTransforms']);
+		try
+		{
+			return new ContextTransforms($this['contextTransforms']);
+		}
+		catch (ResourceNotFound $e)
+		{
+			// Not all locales have context transforms e.g. zh
+			return new ContextTransforms([]);
+		}
 	}
 
 	/**
