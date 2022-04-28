@@ -973,7 +973,7 @@ later be cleaned with the `make clean` command.
 To ensure tests are running with the minimum requirements, it is advised to run them inside the
 provided container. The container is started with the `make test-container` command. Once inside the
 container, `make test` and `make test-coverage` can be used. Xdebug is available in the container
-and ready for debugging, it uses the servername `cldr-tests` and the absolute path `/app`.
+and ready for debugging, it uses the servername `icanboogie-cldr` and the absolute path `/app`.
 
 
 

@@ -1,20 +1,25 @@
-FROM php:5.6-alpine
+FROM php:5.6-cli-stretch
 
-RUN apk add --update --no-cache make $PHPIZE_DEPS && \
-	pecl install redis xdebug-2.5.5 && \
-	docker-php-ext-enable redis xdebug
+RUN apt-get update && \
+	apt-get install -y autoconf pkg-config && \
+	pecl channel-update pecl.php.net && \
+	pecl install redis-2.2.8 xdebug-2.5.5 && \
+	docker-php-ext-enable opcache redis xdebug
 
-RUN echo $'\
-xdebug.remote_autostart=1\n\
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+RUN apt-get update && \
+	apt-get install unzip && \
+	curl -s https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer | php -- --quiet && \
+	mv composer.phar /usr/local/bin/composer
+
+RUN echo '\
+display_errors=On\n\
+error_reporting=E_ALL\n\
+date.timezone=UTC\n\
+' >> /usr/local/etc/php/conf.d/php.ini
+
+RUN echo '\
 xdebug.remote_enable=1\n\
 xdebug.remote_host=host.docker.internal\n\
 ' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-ENV PHP_IDE_CONFIG serverName=cldr-tests
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && \
-    curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig && \
-    php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" && \
-    php /tmp/composer-setup.php && \
-    mv composer.phar /usr/local/bin/composer
