@@ -25,7 +25,7 @@ use function substr;
 class PathMapper
 {
 	public const DEFAULT_ORIGIN = "https://raw.githubusercontent.com/unicode-cldr/";
-	public const DEFAULT_VERSION = "34.0.0";
+	public const DEFAULT_VERSION = "35.0.0";
 	public const DEFAULT_VARIATION = self::PREFER_MODERN;
 
 	public const PREFER_MODERN = 'modern';

@@ -191,7 +191,7 @@ class UnitsTest extends TestCase
 					->duration_second(56)
 					->as_narrow;
 
-				}, "12h 34{$s1}min 56s" ],
+				}, "12h 34min 56s" ],
 
 		];
 	}
