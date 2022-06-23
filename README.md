@@ -936,6 +936,12 @@ this project and its community, you are expected to uphold this code.
 
 
 
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+
+
 ## License
 
 **icanboogie/cldr** is released under the [BSD-3-Clause](LICENSE).
