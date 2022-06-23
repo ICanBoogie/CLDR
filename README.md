@@ -11,7 +11,7 @@ It provides many useful locale information and data (such as locale names for te
 languages, days…) as well as formatters for numbers, currencies, date and times, units, sequences,
 lists…
 
-> The package targets [CLDR version 35][1], from which data is retrieved when required.
+> The package targets [CLDR version 36][1], from which data is retrieved when required.
 
 **Example usage:**
 
@@ -960,5 +960,5 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 [Repository]:                 lib/Repository.php
 [Territory]:                  lib/Territory.php
 
-[1]:                          http://cldr.unicode.org/index/downloads/cldr-35
+[1]:                          http://cldr.unicode.org/index/downloads/cldr-36
 [2]:                          https://github.com/unicode-cldr

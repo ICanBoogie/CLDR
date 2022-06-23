@@ -21,4 +21,4 @@ None
 ### Other Changes
 
 - Compatible with PHP 8.1+
-- Targets [CLDR v35](http://cldr.unicode.org/index/downloads/cldr-35)
+- Targets [CLDR v36](http://cldr.unicode.org/index/downloads/cldr-36)

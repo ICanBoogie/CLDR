@@ -33,7 +33,7 @@ test-coveralls: test-dependencies
 
 .PHONY: test-cleanup
 test-cleanup:
-	@rm -f tests/repository/*
+	@rm -f cache/*
 
 .PHONY: test-container-71
 test-container-71:
