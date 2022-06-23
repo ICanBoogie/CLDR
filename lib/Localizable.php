@@ -20,10 +20,7 @@ interface Localizable
 	 * Localize the source object.
 	 *
 	 * @param object $source
-	 * @param Locale $locale
-	 * @param array $options
-	 *
-	 * @return LocalizedObject
+	 * @param array<string, mixed> $options
 	 */
-	static public function localize($source, Locale $locale, array $options = []);
+	static public function localize($source, Locale $locale, array $options = []): LocalizedObject;
 }

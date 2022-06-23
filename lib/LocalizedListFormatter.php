@@ -18,10 +18,10 @@ namespace ICanBoogie\CLDR;
  */
 class LocalizedListFormatter extends LocalizedObject implements Formatter
 {
-	const TYPE_STANDARD = 'standard';
-	const TYPE_UNIT = 'unit';
-	const TYPE_UNIT_NARROW = 'unit-narrow';
-	const TYPE_UNIT_SHORT = 'unit-short';
+	public const TYPE_STANDARD = 'standard';
+	public const TYPE_UNIT = 'unit';
+	public const TYPE_UNIT_NARROW = 'unit-narrow';
+	public const TYPE_UNIT_SHORT = 'unit-short';
 
 	/**
 	 * Formats a variable-length lists of things.
@@ -29,10 +29,8 @@ class LocalizedListFormatter extends LocalizedObject implements Formatter
 	 * @param array $list The list to format.
 	 * @param array|string $list_patterns_or_type A list patterns or a list patterns type (one
 	 * of `TYPE_*`).
-	 *
-	 * @return string
 	 */
-	public function __invoke(array $list, $list_patterns_or_type = self::TYPE_STANDARD)
+	public function __invoke(array $list, $list_patterns_or_type = self::TYPE_STANDARD): string
 	{
 		return $this->format($list, $list_patterns_or_type);
 	}
@@ -43,10 +41,8 @@ class LocalizedListFormatter extends LocalizedObject implements Formatter
 	 * @param array $list The list to format.
 	 * @param array|string $list_patterns_or_type A list patterns or a list patterns type (one
 	 * of TYPE_*).
-	 *
-	 * @return string
 	 */
-	public function format(array $list, $list_patterns_or_type = self::TYPE_STANDARD)
+	public function format(array $list, $list_patterns_or_type = self::TYPE_STANDARD): string
 	{
 		if (is_string($list_patterns_or_type))
 		{

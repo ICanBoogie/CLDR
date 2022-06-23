@@ -21,13 +21,10 @@ class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats a number.
 	 *
-	 * @param int|float $number The number to format.
-	 * @param null $pattern
+	 * @param numeric $number The number to format.
 	 * @param array $symbols Symbols used to format the number.
-	 *
-	 * @return string
 	 */
-	public function __invoke($number, $pattern = null, array $symbols = [])
+	public function __invoke($number, string $pattern = null, array $symbols = []): string
 	{
 		return $this->format($number, $pattern, $symbols);
 	}
@@ -35,13 +32,10 @@ class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats a number.
 	 *
-	 * @param int|float $number The number to format.
-	 * @param string|null $pattern
+	 * @param numeric $number The number to format.
 	 * @param array $symbols Symbols used to format the number.
-	 *
-	 * @return string
 	 */
-	public function format($number, $pattern = null, array $symbols = [])
+	public function format($number, string $pattern = null, array $symbols = []): string
 	{
 		$numbers = $this->locale->numbers;
 

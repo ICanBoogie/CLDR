@@ -51,10 +51,10 @@ final class WebProvider implements Provider
 	/**
 	 * @inheritDoc
 	 */
-	public function provide(string $key): array
+	public function provide(string $path): array
 	{
 		$connection = $this->obtain_connection();
-		$url = $this->map($key);
+		$url = $this->map($path);
 
 		curl_setopt($connection, CURLOPT_URL, $url);
 
@@ -64,7 +64,7 @@ final class WebProvider implements Provider
 
 		if ($http_code != 200)
 		{
-			throw new ResourceNotFound($key);
+			throw new ResourceNotFound($path);
 		}
 
 		return json_decode($rc, true);
@@ -79,7 +79,7 @@ final class WebProvider implements Provider
 	{
 		$connection = &$this->connection;
 
-		return $connection ?: $connection = $this->create_connection();
+		return $connection ?: $connection = $this->create_connection(); // @phpstan-ignore-line
 	}
 
 	/**
@@ -96,7 +96,7 @@ final class WebProvider implements Provider
 
 		]);
 
-		return $connection;
+		return $connection; // @phpstan-ignore-line
 	}
 
 	/**

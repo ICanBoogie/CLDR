@@ -164,7 +164,7 @@ class DateTimeFormatter implements Formatter
 	 */
 	static private function numeric_pad(int $value, int $length = 2): string
 	{
-		return str_pad($value, $length, '0', STR_PAD_LEFT);
+		return str_pad((string) $value, $length, '0', STR_PAD_LEFT);
 	}
 
 	/**
@@ -200,7 +200,7 @@ class DateTimeFormatter implements Formatter
 	 * Formats a date according to a pattern.
 	 *
 	 * @param DateTimeInterface|string|int $datetime The datetime to format.
-	 * @param string $pattern_or_width_or_skeleton The datetime can be formatted using a pattern,
+	 * @param string|null $pattern_or_width_or_skeleton The datetime can be formatted using a pattern,
 	 * a width (WIDTH_*) or a skeleton. To format the datetime using a so-called "skeleton",
 	 * the skeleton identifier must be prefixed with the colon sign ":" e.g. ":Ehm". The skeleton
 	 * identifies the patterns defined under `availableFormats`.
@@ -540,7 +540,7 @@ class DateTimeFormatter implements Formatter
 			return '';
 		}
 
-		return floor(($datetime->day + 6) / 7);
+		return (string) floor(($datetime->day + 6) / 7);
 	}
 
 	/*

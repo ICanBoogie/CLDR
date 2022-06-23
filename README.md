@@ -926,6 +926,7 @@ $repository->plurals->rule_for(2, 'ar');   // two
 The project is continuously tested by [GitHub actions](https://github.com/ICanBoogie/CLDR/actions).
 
 [![Tests](https://github.com/ICanBoogie/CLDR/workflows/test/badge.svg?branch=master)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Atest)
+[![Static Analysis](https://github.com/ICanBoogie/CLDR/workflows/static-analysis/badge.svg?branch=master)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Astatic-analysis)
 
 
 

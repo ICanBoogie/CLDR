@@ -103,7 +103,7 @@ class PathMapper
 		if (strpos($file, 'ca-') === 0)
 		{
 			$calendar = substr($file, 3);
-			$repository = "cal-{$calendar}";
+			$repository = "cal-$calendar";
 
 			if ($calendar === 'generic' || $calendar === 'gregorian')
 			{

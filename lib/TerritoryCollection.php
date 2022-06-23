@@ -27,7 +27,7 @@ use ICanBoogie\Accessor\AccessorTrait;
  * isset($territories['FR']);          // true
  * isset($territories['MADONNA']);     // false
  *
- * @method Territory offsetGet($id)
+ * @extends AbstractCollection<Territory>
  */
 final class TerritoryCollection extends AbstractCollection
 {
@@ -51,18 +51,16 @@ final class TerritoryCollection extends AbstractCollection
 	}
 
 	/**
-	 * Whether a territory is defined.
+	 * Checks if a territory exists.
 	 *
-	 * @inheritDoc
-	 *
-	 * @param string $territory_code Territory ISO code.
+	 * @param string $offset Territory ISO code.
 	 */
-	public function offsetExists($territory_code): bool
+	public function offsetExists($offset): bool
 	{
 		$supplemental = $this->repository->supplemental;
 
-		return isset($supplemental['territoryInfo'][ $territory_code ])
-			|| isset($supplemental['territoryContainment'][ $territory_code ]);
+		return isset($supplemental['territoryInfo'][ $offset ])
+			|| isset($supplemental['territoryContainment'][ $offset ]);
 	}
 
 	/**

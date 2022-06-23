@@ -50,7 +50,7 @@ final class Operands
 	{
 		$instance = &self::$instances["number-$number"];
 
-		return $instance ?? $instance = new self($number);
+		return $instance ?? $instance = new self($number); // @phpstan-ignore-line
 	}
 
 	/**

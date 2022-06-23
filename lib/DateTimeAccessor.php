@@ -11,6 +11,9 @@
 
 namespace ICanBoogie\CLDR;
 
+use DateTimeInterface;
+use LogicException;
+
 /**
  * @property-read int $timestamp Unix timestamp.
  * @property-read int $year Year.
@@ -29,22 +32,19 @@ namespace ICanBoogie\CLDR;
 class DateTimeAccessor
 {
 	/**
-	 * @var \DateTimeInterface
+	 * @var DateTimeInterface
 	 */
 	private $datetime;
 
-	/**
-	 * @param \DateTimeInterface $datetime
-	 */
-	public function __construct(\DateTimeInterface $datetime)
+	public function __construct(DateTimeInterface $datetime)
 	{
 		$this->datetime = $datetime;
 	}
 
 	/**
-	 * @inheritDoc
+	 * @retrun mixed
 	 */
-	public function __get($property)
+	public function __get(string $property)
 	{
 		$dt = $this->datetime;
 
@@ -72,13 +72,13 @@ class DateTimeAccessor
 				return (int) $dt->format('w') ?: 7;
 		}
 
-		throw new \LogicException("Undefined property: $property");
+		throw new LogicException("Undefined property: $property");
 	}
 
 	/**
-	 * @inheritDoc
+	 * @return mixed
 	 */
-	public function __call($name, $params)
+	public function __call(string $name, array $params)
 	{
 		return $this->datetime->$name(...$params);
 	}

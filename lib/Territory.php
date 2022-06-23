@@ -14,8 +14,8 @@ namespace ICanBoogie\CLDR;
 use DateTimeImmutable;
 use DateTimeInterface;
 use ICanBoogie\Accessor\AccessorTrait;
-use InvalidArgumentException;
 use Throwable;
+
 use function current;
 use function extract;
 use function in_array;
@@ -187,6 +187,7 @@ final class Territory
 			$_to = null;
 			extract($interval);
 
+			// @phpstan-ignore-next-line
 			if (($_from && $_from > $normalized_date) || ($_to && $_to < $normalized_date))
 			{
 				continue;
@@ -233,7 +234,7 @@ final class Territory
 	}
 
 	/**
-	 * @param DateTimeInterface|string $datetime
+	 * @param DateTimeInterface|string|null $datetime
 	 *
 	 * @throws Throwable
 	 */

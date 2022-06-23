@@ -50,6 +50,9 @@ final class Currency
 	use RepositoryPropertyTrait;
 	use CodePropertyTrait;
 
+	/**
+	 * @var array<string, string>
+	 */
 	static private $fraction_mapping = [
 
 		'digits' => '_digits',
@@ -105,8 +108,6 @@ final class Currency
 		$code = $this->code;
 		$fractions = $this->repository->supplemental['currencyData']['fractions'];
 
-		return $fraction_data = isset($fractions[$code])
-			? $fractions[$code]
-			: $fractions[self::FRACTION_FALLBACK];
+		return $fraction_data = $fractions[$code] ?? $fractions[self::FRACTION_FALLBACK];
 	}
 }

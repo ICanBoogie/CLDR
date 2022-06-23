@@ -13,21 +13,25 @@ namespace ICanBoogie\CLDR;
 
 use ArrayAccess;
 use BadMethodCallException;
+use ReturnTypeWillChange;
 
 /**
  * An abstract collection.
+ *
+ * @template T
+ * @implements ArrayAccess<string, T>
  */
 abstract class AbstractCollection implements ArrayAccess
 {
 	use CollectionTrait;
 
 	/**
-	 * @var object[]
+	 * @var array<string, T>
 	 */
 	private $collection = [];
 
 	/**
-	 * @var callable
+	 * @var callable(string): T
 	 */
 	private $create_instance;
 
@@ -37,27 +41,27 @@ abstract class AbstractCollection implements ArrayAccess
 	}
 
 	/**
-	 * @inheritDoc
+	 * @param string $offset
 	 *
 	 * @throws BadMethodCallException
 	 */
-	public function offsetExists($id): bool
+	public function offsetExists($offset): bool
 	{
 		throw new BadMethodCallException("The method is not implemented");
 	}
 
 	/**
-	 * @inheritDoc
+	 * @param string $offset
 	 */
-	#[\ReturnTypeWillChange]
-	public function offsetGet($id)
+	#[ReturnTypeWillChange]
+	public function offsetGet($offset)
 	{
-		if (empty($this->collection[$id]))
+		if (empty($this->collection[$offset]))
 		{
 			$create_instance = $this->create_instance;
-			$this->collection[$id] = $create_instance($id);
+			$this->collection[$offset] = $create_instance($offset);
 		}
 
-		return $this->collection[$id];
+		return $this->collection[$offset];
 	}
 }

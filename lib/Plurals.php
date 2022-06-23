@@ -37,17 +37,19 @@ final class Plurals extends ArrayObject
 	public const RULE_COUNT_PREFIX = 'pluralRule-count-';
 
 	/**
-	 * @var Rule[][]
+	 * @var array<string, array<string, Rule>>
+	 *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
 	 */
 	private $rules = [];
 
 	/**
-	 * @var Samples[][]
+	 * @var array<string, array<string, Samples>>
+	 *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
 	 */
 	private $samples = [];
 
 	/**
-	 * @param int|float $number
+	 * @param numeric $number
 	 *
 	 * @return string One of `COUNT_*`.
 	 */
@@ -73,7 +75,7 @@ final class Plurals extends ArrayObject
 	}
 
 	/**
-	 * @return Samples[]
+	 * @return array<string, Samples>
 	 */
 	public function samples_for(string $locale): array
 	{
@@ -83,7 +85,7 @@ final class Plurals extends ArrayObject
 	}
 
 	/**
-	 * @return Rule[]
+	 * @return array<string, Rule>
 	 */
 	private function rule_instances_for(string $locale): array
 	{
@@ -93,7 +95,7 @@ final class Plurals extends ArrayObject
 	}
 
 	/**
-	 * @return Rule[]
+	 * @return array<string, Rule>
 	 */
 	private function create_rules_for(string $locale): array
 	{
@@ -113,11 +115,13 @@ final class Plurals extends ArrayObject
 	{
 		$rule = explode('@', $rule_string, 2);
 		$rule = array_shift($rule);
-		$rule = trim($rule);
 
-		return $rule;
+		return trim($rule);
 	}
 
+	/**
+	 * @return array<string, Samples>
+	 */
 	private function create_samples_for(string $locale): array
 	{
 		$samples = [];

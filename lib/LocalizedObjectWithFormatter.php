@@ -22,10 +22,13 @@ namespace ICanBoogie\CLDR;
 abstract class LocalizedObjectWithFormatter extends LocalizedObject
 {
 	/**
-	 * @var Formatter
+	 * @var Formatter|null
 	 */
 	private $formatter;
 
+	/**
+	 * @return mixed
+	 */
 	public function __get($property)
 	{
 		if ($property === 'formatter')

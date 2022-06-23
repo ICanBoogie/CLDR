@@ -13,9 +13,10 @@ namespace ICanBoogie\CLDR;
 
 use BadMethodCallException;
 use ICanBoogie\Accessor\AccessorTrait;
-use ICanBoogie\CLDR\Units\Unit;
 use ICanBoogie\CLDR\Units\Sequence;
+use ICanBoogie\CLDR\Units\Unit;
 use LogicException;
+
 use function array_shift;
 use function is_string;
 use function str_replace;
@@ -322,7 +323,7 @@ class Units
 		$this->data = $locale['units'];
 	}
 
-	public function __call($name, $arguments)
+	public function __call(string $name, array $arguments): string
 	{
 		$unit = strtr($name, '_', '-');
 
@@ -336,7 +337,10 @@ class Units
 		throw new BadMethodCallException("Unit is not defined: $name.");
 	}
 
-	public function __get($property)
+	/**
+	 * @return mixed
+	 */
+	public function __get(string $property)
 	{
 		$unit = strtr($property, '_', '-');
 
@@ -411,8 +415,10 @@ class Units
 
 	/**
 	 * Units may be used in composed sequences, such as 5° 30′ for 5 degrees 30 minutes,
-	 * or 3 ft 2 in.For that purpose, the appropriate width of the unit listPattern can be used
+	 * or 3 ft 2 in. For that purpose, the appropriate width of the unit listPattern can be used
 	 * to compose the units in a sequence.
+	 *
+	 * @param array<string, numeric> $units_and_numbers
 	 *
 	 * @see http://unicode.org/reports/tr35/tr35-general.html#Unit_Sequences
 	 */
@@ -462,7 +468,7 @@ class Units
 	{
 		$plurals = &$this->plurals;
 
-		if (!$plurals)
+		if (!$plurals) // @phpstan-ignore-line
 		{
 			$plurals = $this->locale->repository->plurals;
 		}

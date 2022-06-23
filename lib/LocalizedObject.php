@@ -32,12 +32,10 @@ abstract class LocalizedObject
 	 * Creates a localized instance from the specified source and location.
 	 *
 	 * @param object $source
-	 *
-	 * @return LocalizedObject A localized instance.
 	 */
-	static public function from($source, Locale $locale, array $options = [])
+	static public function from($source, Locale $locale, array $options = []): LocalizedObject
 	{
-		return new static($source, $locale, $options);
+		return new static($source, $locale, $options); // @phpstan-ignore-line
 	}
 
 	/**

@@ -13,6 +13,8 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
 
+use function var_dump;
+
 /**
  * Representation of a CLDR.
  *
@@ -125,6 +127,8 @@ final class Repository
 	/**
 	 * Fetches the data available at the specified path.
 	 *
+	 * @return array<string, mixed>
+	 *
 	 * @throws ResourceNotFound
 	 */
 	public function fetch(string $path): array
@@ -135,7 +139,7 @@ final class Repository
 	/**
 	 * Format a number with the specified pattern.
 	 *
-	 * @param int|float $number The number to be formatted.
+	 * @param numeric $number The number to be formatted.
 	 *
 	 * @see NumberFormatter::format()
 	 */
@@ -147,7 +151,7 @@ final class Repository
 	/**
 	 * Format a number with the specified pattern.
 	 *
-	 * @param int|float $number The number to be formatted.
+	 * @param numeric $number The number to be formatted.
 	 *
 	 * @see CurrencyFormatter::format()
 	 */

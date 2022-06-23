@@ -11,6 +11,9 @@
 
 namespace ICanBoogie\CLDR;
 
+use InvalidArgumentException;
+use LogicException;
+
 /**
  * Representation of a locale.
  *
@@ -73,16 +76,13 @@ class Locale extends AbstractSectionCollection
 	protected $sections = [];
 
 	/**
-	 * Initializes the {@link $repository} and {@link $code} properties.
-	 *
-	 * @param Repository $repository
 	 * @param string $code The ISO code of the locale.
 	 */
-	public function __construct(Repository $repository, $code)
+	public function __construct(Repository $repository, string $code)
 	{
 		if (!$code)
 		{
-			throw new \InvalidArgumentException("Locale identifier cannot be empty.");
+			throw new InvalidArgumentException("Locale identifier cannot be empty.");
 		}
 
 		parent::__construct($repository, "main/$code", self::$available_sections);
@@ -90,68 +90,44 @@ class Locale extends AbstractSectionCollection
 		$this->code = $code;
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function get_language()
+	protected function get_language(): string
 	{
-		list($language) = explode('-', $this->code, 2);
+		[ $language ] = explode('-', $this->code, 2);
 
 		return $language;
 	}
 
-	/**
-	 * @return CalendarCollection
-	 */
-	protected function lazy_get_calendars()
+	protected function lazy_get_calendars(): CalendarCollection
 	{
 		return new CalendarCollection($this);
 	}
 
-	/**
-	 * @return Calendar
-	 */
-	protected function lazy_get_calendar()
+	protected function lazy_get_calendar(): Calendar
 	{
 		return $this->calendars['gregorian']; // TODO-20131101: use preferred data
 	}
 
-	/**
-	 * @return Numbers
-	 */
-	protected function lazy_get_numbers()
+	protected function lazy_get_numbers(): Numbers
 	{
 		return new Numbers($this, $this['numbers']);
 	}
 
-	/**
-	 * @return LocalizedNumberFormatter
-	 */
-	protected function lazy_get_number_formatter()
+	protected function lazy_get_number_formatter(): LocalizedNumberFormatter
 	{
 		return $this->localize($this->repository->number_formatter);
 	}
 
-	/**
-	 * @return LocalizedCurrencyFormatter
-	 */
-	protected function lazy_get_currency_formatter()
+	protected function lazy_get_currency_formatter(): LocalizedCurrencyFormatter
 	{
 		return $this->localize($this->repository->currency_formatter);
 	}
 
-	/**
-	 * @return LocalizedListFormatter
-	 */
-	protected function lazy_get_list_formatter()
+	protected function lazy_get_list_formatter(): LocalizedListFormatter
 	{
 		return $this->localize($this->repository->list_formatter);
 	}
 
-	/**
-	 * @return ContextTransforms
-	 */
-	protected function lazy_get_context_transforms()
+	protected function lazy_get_context_transforms(): ContextTransforms
 	{
 		try
 		{
@@ -164,10 +140,7 @@ class Locale extends AbstractSectionCollection
 		}
 	}
 
-	/**
-	 * @return Units
-	 */
-	protected function lazy_get_units()
+	protected function lazy_get_units(): Units
 	{
 		return new Units($this);
 	}
@@ -195,15 +168,15 @@ class Locale extends AbstractSectionCollection
 			return $constructor($source_or_code, $this, $options);
 		}
 
-		throw new \LogicException("Unable to localize source");
+		throw new LogicException("Unable to localize source");
 	}
 
 	/**
 	 * @param object $source
 	 *
-	 * @return array|null
+	 * @return callable|null
 	 */
-	private function resolve_localize_constructor($source)
+	private function resolve_localize_constructor($source): ?callable
 	{
 		$class = get_class($source);
 
@@ -226,29 +199,21 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * Formats a number using {@link $number_formatter}.
 	 *
-	 * @param int|float $number
-	 * @param string|null $pattern
-	 * @param array $symbols
-	 *
-	 * @return string
+	 * @param numeric $number
 	 *
 	 * @see LocalizedNumberFormatter::format
 	 */
-	public function format_number($number, $pattern = null, array $symbols = [])
+	public function format_number($number, string $pattern = null, array $symbols = []): string
 	{
 		return $this->number_formatter->format($number, $pattern, $symbols);
 	}
 
 	/**
-	 * @param int|float $number
-	 * @param string|null $pattern
-	 * @param array $symbols
-	 *
-	 * @return string
+	 * @param numeric $number
 	 *
 	 * @see LocalizedNumberFormatter::format
 	 */
-	public function format_percent($number, $pattern = null, array $symbols = [])
+	public function format_percent($number, string $pattern = null, array $symbols = []): string
 	{
 		return $this->number_formatter->format(
 			$number,
@@ -260,7 +225,7 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param int|float $number
+	 * @param numeric $number
 	 * @param Currency|string $currency
 	 * @param string $pattern
 	 * @param array $symbols
@@ -270,9 +235,9 @@ class Locale extends AbstractSectionCollection
 	public function format_currency(
 		$number,
 		$currency,
-		$pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD,
+		string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD,
 		array $symbols = []
-	) {
+	): string {
 		return $this->currency_formatter->format($number, $currency, $pattern, $symbols);
 	}
 
@@ -282,10 +247,8 @@ class Locale extends AbstractSectionCollection
 	 * @param array $list The list to format.
 	 * @param array|string $list_patterns_or_type A list patterns or a list patterns type (one
 	 * of `LocalizedListFormatter::TYPE_*`).
-	 *
-	 * @return string
 	 */
-	public function format_list(array $list, $list_patterns_or_type = LocalizedListFormatter::TYPE_STANDARD)
+	public function format_list(array $list, $list_patterns_or_type = LocalizedListFormatter::TYPE_STANDARD): string
 	{
 		return $this->list_formatter->format($list, $list_patterns_or_type);
 	}
@@ -293,13 +256,10 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * Transforms a string depending on the context and the locale rules.
 	 *
-	 * @param string $str
 	 * @param string $usage One of `ContextTransforms::USAGE_*`
 	 * @param string $type One of `ContextTransforms::TYPE_*`
-	 *
-	 * @return string
 	 */
-	public function context_transform($str, $usage, $type)
+	public function context_transform(string $str, string $usage, string $type): string
 	{
 		return $this->context_transforms->transform($str, $usage, $type);
 	}

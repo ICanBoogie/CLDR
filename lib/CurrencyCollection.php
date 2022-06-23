@@ -30,7 +30,7 @@ use function key;
  * echo $collection['EUR']->code;        // EUR
  * ```
  *
- * @method Currency offsetGet($id)
+ * @extends AbstractCollection<Currency>
  */
 final class CurrencyCollection extends AbstractCollection
 {
@@ -44,7 +44,7 @@ final class CurrencyCollection extends AbstractCollection
 	{
 		$this->repository = $repository;
 
-		parent::__construct(function ($currency_code) {
+		parent::__construct(function (string $currency_code): Currency {
 
 			$this->assert_defined($currency_code);
 
@@ -54,22 +54,21 @@ final class CurrencyCollection extends AbstractCollection
 	}
 
 	/**
-	 * Whether a currency is defined.
+	 * Checks if a currency exists.
 	 *
-	 * @inheritDoc
-	 * @param string $currency_code
+	 * @param string $offset Currency code.
 	 */
-	public function offsetExists($currency_code): bool
+	public function offsetExists($offset): bool
 	{
 		$data = $this->repository->supplemental['currencyData']['region'];
 
-		foreach ($data as $territory_code => $currencies)
+		foreach ($data as $currencies)
 		{
 			foreach ($currencies as $currency_info)
 			{
 				$code = key($currency_info);
 
-				if ($code === $currency_code)
+				if ($code === $offset)
 				{
 					return true;
 				}

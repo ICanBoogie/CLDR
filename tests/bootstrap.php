@@ -30,10 +30,7 @@ if (!file_exists(CACHE_DIR))
 	mkdir(CACHE_DIR);
 }
 
-/**
- * @return Provider
- */
-function create_provider()
+function create_provider(): Provider
 {
 	static $provider;
 
@@ -60,10 +57,7 @@ function create_provider()
 	);
 }
 
-/**
- * @return Repository
- */
-function get_repository()
+function get_repository(): Repository
 {
 	static $repository;
 

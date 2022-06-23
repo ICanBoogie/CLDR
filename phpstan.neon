@@ -1,0 +1,9 @@
+parameters:
+  level: 6
+  paths:
+    - lib
+  ignoreErrors:
+    - '/.* is not writable./'
+    - '/get_.* is unused./'
+    - '/__call\(\) has parameter \$arguments/'
+    - '/__call\(\) has no return type specified./'

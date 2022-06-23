@@ -12,7 +12,10 @@
 namespace ICanBoogie\CLDR;
 
 use DateTime;
+use DateTimeInterface;
 use ICanBoogie\PropertyNotDefined;
+
+use function substr;
 
 /**
  * A localized date time.
@@ -33,7 +36,7 @@ use ICanBoogie\PropertyNotDefined;
  * echo $ldt->as_short;         // 04/11/2013 20:21
  * </pre>
  *
- * @property-read \DateTimeInterface $target The object to localize.
+ * @property-read DateTimeInterface $target The object to localize.
  * @property-read DateTimeFormatter $formatter
  * @property-read string $as_full
  * @property-read string $as_long
@@ -59,9 +62,14 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 		return $this->locale->calendar->datetime_formatter;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function __get($property)
 	{
-		if (strpos($property, 'as_') === 0 && in_array($width = substr($property, 3), self::$format_widths))
+		$width = substr($property, 3);
+
+		if (strpos($property, 'as_') === 0 && in_array($width, self::$format_widths))
 		{
 			return $this->{ 'format_as_' . $width }();
 		}

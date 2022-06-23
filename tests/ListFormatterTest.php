@@ -59,14 +59,6 @@ class ListFormatterTest extends TestCase
 		];
 	}
 
-	public function test_localize_without_repository()
-	{
-		$this->expectException(LogicException::class);
-		$formatter = new ListFormatter;
-		$this->expectException(\LogicException::class);
-		$formatter->localize('es');
-	}
-
 	public function test_localize()
 	{
 		$formatter = new ListFormatter(get_repository());

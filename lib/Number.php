@@ -19,7 +19,7 @@ final class Number
 	/**
 	 * Returns the precision of a number.
 	 *
-	 * @param int|float $number
+	 * @param numeric $number
 	 */
 	static public function precision_from($number): int
 	{
@@ -37,7 +37,7 @@ final class Number
 	/**
 	 * Returns a number rounded to the specified precision.
 	 *
-	 * @param int|float $number
+	 * @param numeric $number
 	 */
 	static public function round_to($number, int $precision): float
 	{
@@ -47,7 +47,7 @@ final class Number
 	/**
 	 * Parses a number.
 	 *
-	 * @param int|float $number
+	 * @param numeric $number
 	 * @param null|int $precision
 	 *
 	 * @return array An array of [ $integer, $fractional ]. The fractional part is `null` if

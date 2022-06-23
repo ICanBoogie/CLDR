@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR\Plurals;
 
 use ICanBoogie\CLDR\Number;
+
 use function array_merge;
 use function explode;
 use function extract;
@@ -42,7 +43,7 @@ final class Relation
 	{
 		$instance = &self::$instances[$relation];
 
-		return $instance ?? $instance = new self(...self::parse_relation($relation));
+		return $instance ?? $instance = new self(...self::parse_relation($relation));  // @phpstan-ignore-line
 	}
 
 	/**
@@ -124,7 +125,7 @@ final class Relation
 
 		$precision = self::precision_from($start) ?: self::precision_from($end);
 		$step = 1 / (int) ('1' . str_repeat('0', $precision));
-		$end += $step;
+		$end = (int) $end + $step;
 
 		$ranges = [];
 
@@ -137,7 +138,7 @@ final class Relation
 	}
 
 	/**
-	 * @param int|float $number
+	 * @param numeric $number
 	 */
 	static private function precision_from($number): int
 	{

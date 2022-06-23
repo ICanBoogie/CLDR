@@ -6,6 +6,7 @@ We accept contributions via Pull Requests.
 
 ## Pull Requests
 
+- **Code health** — We're using [PHPStan][] to analyse the code, with maximum scrutiny. Check the code with `make lint`.
 - **Add tests!** — Your contribution won't be accepted if it doesn't have tests.
 - **Document any change in behaviour** — Make sure the `README.md` and any other relevant documentation are kept
   up-to-date.

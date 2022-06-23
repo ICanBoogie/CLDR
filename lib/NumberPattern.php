@@ -80,7 +80,7 @@ final class NumberPattern
 	/**
 	 * @return array
 	 */
-	protected function get_format()
+	protected function get_format(): array
 	{
 		return $this->format;
 	}
@@ -123,8 +123,9 @@ final class NumberPattern
 		}
 
 		$number = "$number";
+		$pos = strpos($number, '.');
 
-		if (($pos = strpos($number, '.')) !== false)
+		if ($pos !== false)
 		{
 			return [ substr($number, 0, $pos), substr($number, $pos + 1) ];
 		}
@@ -137,7 +138,7 @@ final class NumberPattern
 	 */
 	public function format_integer_with_group(int $integer, string $group_symbol): string
 	{
-		$integer = str_pad($integer, $this->integer_digits, '0', STR_PAD_LEFT);
+		$integer = str_pad((string) $integer, $this->integer_digits, '0', STR_PAD_LEFT);
 		$group_size1 = $this->group_size1;
 
 		if ($group_size1 < 1 || strlen($integer) <= $this->group_size1)

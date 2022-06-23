@@ -32,7 +32,7 @@ final class Rule
 	{
 		$instance = &self::$instances[$rule];
 
-		return $instance ?? $instance = new self(self::parse_rule($rule));
+		return $instance ?? $instance = new self(self::parse_rule($rule)); // @phpstan-ignore-line
 	}
 
 	/**

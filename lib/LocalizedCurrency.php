@@ -31,7 +31,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	    return $this->locale->currency_formatter;
 	}
 
-	protected function get_name()
+	protected function get_name(): string
 	{
 		return $this->name_for();
 	}
@@ -40,10 +40,8 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 * Returns the localized name of the currency.
 	 *
 	 * @param int|null $count Used for pluralization.
-	 *
-	 * @return string
 	 */
-	public function name_for($count = null)
+	public function name_for(int $count = null): string
 	{
 		$offset = 'displayName';
 
@@ -66,10 +64,8 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 
 	/**
 	 * Returns the localized symbol of the currency.
-	 *
-	 * @return string
 	 */
-	protected function get_symbol()
+	protected function get_symbol(): string
 	{
 		$symbol = &$this->symbol;
 
@@ -79,13 +75,9 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param int|float $number
-	 * @param string $pattern
-	 * @param array $symbols
-	 *
-	 * @return string
+	 * @param numeric $number
 	 */
-	public function format($number, $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD, array $symbols = [])
+	public function format($number, string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD, array $symbols = []): string
 	{
 		return $this->formatter->format($number, $this->target, $pattern, $symbols);
 	}

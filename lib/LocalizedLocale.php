@@ -19,10 +19,7 @@ namespace ICanBoogie\CLDR;
  */
 class LocalizedLocale extends LocalizedObject
 {
-	/**
-	 * @return string
-	 */
-	protected function get_name()
+	protected function get_name(): string
 	{
 		return $this->locale['languages'][$this->target->code];
 	}

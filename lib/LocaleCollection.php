@@ -12,11 +12,12 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use InvalidArgumentException;
 
 /**
  * Representation of a locale collection.
  *
- * @method Locale offsetGet($id)
+ * @extends AbstractCollection<Locale>
  */
 class LocaleCollection extends AbstractCollection
 {
@@ -27,7 +28,7 @@ class LocaleCollection extends AbstractCollection
 	{
 		$this->repository = $repository;
 
-		parent::__construct(function ($code) {
+		parent::__construct(function (string $code): Locale {
 
 			$this->assert_locale_is_valid($code);
 			$this->assert_locale_is_available($code);
@@ -38,30 +39,26 @@ class LocaleCollection extends AbstractCollection
 	}
 
 	/**
-	 * @param string $code
-	 *
-	 * @throws \InvalidArgumentException if the specified locale is not valid.
+	 * @throws InvalidArgumentException if the specified locale is not valid.
 	 */
-	private function assert_locale_is_valid($code)
+	private function assert_locale_is_valid(string $code): void
 	{
 		if (!$code)
 		{
-			throw new \InvalidArgumentException("Locale code should not be empty.");
+			throw new InvalidArgumentException("Locale code should not be empty.");
 		}
 	}
 
 	/**
-	 * @param string $code
-	 *
-	 * @throws \InvalidArgumentException if the specified locale is not available.
+	 * @throws InvalidArgumentException if the specified locale is not available.
 	 */
-	private function assert_locale_is_available($code)
+	private function assert_locale_is_available(string $code): void
 	{
 		if ($this->repository->is_locale_available($code))
 		{
 			return;
 		}
 
-		throw new \InvalidArgumentException("Locale is not available: $code.");
+		throw new InvalidArgumentException("Locale is not available: $code.");
 	}
 }

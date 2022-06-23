@@ -36,9 +36,6 @@ final class ResourceNotFound extends \Exception implements Exception
 		return $this->path;
 	}
 
-	/**
-	 * @param string $path
-	 */
 	public function __construct(string $path, int $code = 500, Throwable $previous = null)
 	{
 		$this->path = $path;

@@ -17,22 +17,15 @@ namespace ICanBoogie\CLDR;
 trait LocalizeTrait
 {
 	/**
-	 * Localize the instance.
-	 *
-	 * @param string $locale_code
+	 * Localizes the instance.
 	 *
 	 * @return mixed
-	 *
-	 * @throw \LogicException when the instance was created without a repository.
 	 */
-	public function localize($locale_code)
+	public function localize(string $locale_code)
 	{
 		$repository = $this->repository;
 
-		if (!$repository)
-		{
-			throw new \LogicException("The instance was created without a repository.");
-		}
+		assert($repository instanceof Repository);
 
 		return $repository->locales[$locale_code]->localize($this);
 	}

@@ -19,7 +19,7 @@ final class RuntimeCache implements Cache
 
 	public function get(string $path): ?array
 	{
-		return isset($this->cache[$path]) ? $this->cache[$path] : null;
+		return $this->cache[$path] ?? null;
 	}
 
 	public function set(string $path, array $data): void

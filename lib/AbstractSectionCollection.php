@@ -14,6 +14,8 @@ namespace ICanBoogie\CLDR;
 use ArrayAccess;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\OffsetNotDefined;
+use ReturnTypeWillChange;
+
 use function explode;
 
 abstract class AbstractSectionCollection implements ArrayAccess
@@ -57,7 +59,7 @@ abstract class AbstractSectionCollection implements ArrayAccess
 	/**
 	 * @inheritDoc
 	 */
-	#[\ReturnTypeWillChange]
+	#[ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		$sections = &$this->sections;
@@ -76,7 +78,7 @@ abstract class AbstractSectionCollection implements ArrayAccess
 
 		$name = $this->name;
 		$data = $this->repository->fetch("$name/$offset");
-		$path = "$name/{$available_sections[$offset]}";
+		$path = "$name/$available_sections[$offset]";
 		$path_parts = explode('/', $path);
 
 		foreach ($path_parts as $part)

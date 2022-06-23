@@ -13,6 +13,8 @@ namespace ICanBoogie\CLDR\Cache;
 
 use ICanBoogie\CLDR\Cache;
 use Redis;
+use RedisCluster;
+
 use function serialize;
 use function unserialize;
 
@@ -21,10 +23,10 @@ use function unserialize;
  */
 final class RedisCache implements Cache
 {
-	const DEFAULT_PREFIX = 'icanboogie-cldr-';
+	public const DEFAULT_PREFIX = 'icanboogie-cldr-';
 
 	/**
-	 * @var Redis
+	 * @var Redis|RedisCluster
 	 */
 	private $redis;
 
@@ -34,7 +36,7 @@ final class RedisCache implements Cache
 	private $prefix;
 
 	/**
-	 * @param Redis $redis
+	 * @param Redis|RedisCluster $redis
 	 */
 	public function __construct($redis, string $prefix = self::DEFAULT_PREFIX)
 	{

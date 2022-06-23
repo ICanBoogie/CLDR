@@ -16,7 +16,7 @@ use ICanBoogie\Accessor\AccessorTrait;
 /**
  * Formats numbers.
  *
- * @method LocalizedNumberFormatter localize($locale_code)
+ * @method LocalizedNumberFormatter localize(string $locale_code)
  */
 class NumberFormatter implements Formatter
 {
@@ -46,13 +46,11 @@ class NumberFormatter implements Formatter
 	 * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
 	 * pattern contains '‰', the number will be multiplied by 1000.
 	 *
-	 * @param mixed $number The number to be formatted.
+	 * @param numeric $number The number to be formatted.
 	 * @param string $pattern The pattern used to format the number.
 	 * @param array $symbols Symbols.
-	 *
-	 * @return string The formatted number.
 	 */
-	public function __invoke($number, $pattern, array $symbols = [])
+	public function __invoke($number, string $pattern, array $symbols = []): string
 	{
 		return $this->format($number, $pattern, $symbols);
 	}
@@ -63,11 +61,9 @@ class NumberFormatter implements Formatter
 	 * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
 	 * pattern contains '‰', the number will be multiplied by 1000.
 	 *
-	 * @param int|float $number The number to be formatted.
+	 * @param numeric $number The number to be formatted.
 	 * @param string|NumberPattern $pattern The pattern used to format the number.
 	 * @param array $symbols Symbols.
-	 *
-	 * @return string The formatted number.
 	 */
 	public function format($number, $pattern, array $symbols = []): string
 	{

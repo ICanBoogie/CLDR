@@ -18,20 +18,16 @@ namespace ICanBoogie\CLDR;
  */
 class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 {
-	const PATTERN_STANDARD = 'standard';
-	const PATTERN_ACCOUNTING = 'accounting';
+	public const PATTERN_STANDARD = 'standard';
+	public const PATTERN_ACCOUNTING = 'accounting';
 
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param int|float $number
+	 * @param numeric $number
 	 * @param Currency|string $currency
-	 * @param string $pattern
-	 * @param array $symbols
-	 *
-	 * @return string
 	 */
-	public function __invoke($number, $currency, $pattern = self::PATTERN_STANDARD, array $symbols = [])
+	public function __invoke($number, $currency, string $pattern = self::PATTERN_STANDARD, array $symbols = []): string
 	{
 		return $this->format($number, $currency, $pattern, $symbols);
 	}
@@ -39,14 +35,10 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param int|float $number
+	 * @param numeric $number
 	 * @param Currency|string $currency
-	 * @param string $pattern
-	 * @param array $symbols
-	 *
-	 * @return string
 	 */
-	public function format($number, $currency, $pattern = self::PATTERN_STANDARD, array $symbols = [])
+	public function format($number, $currency, string $pattern = self::PATTERN_STANDARD, array $symbols = []): string
 	{
 		$symbols += $this->locale->numbers->symbols + [
 
@@ -59,10 +51,8 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 
 	/**
 	 * @param Currency|string $currency
-	 *
-	 * @return string
 	 */
-	private function resolve_currency_symbol($currency)
+	private function resolve_currency_symbol($currency): string
 	{
 		return $this->locale['currencies'][(string) $currency]['symbol'];
 	}
@@ -72,12 +62,8 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	 *
 	 * The special patterns {@link PATTERN_STANDARD} and {@link PATTERN_ACCOUNTING} are resolved
 	 * from the currency formats.
-	 *
-	 * @param string $pattern
-	 *
-	 * @return string
 	 */
-	private function resolve_pattern($pattern)
+	private function resolve_pattern(string $pattern): string
 	{
 		switch ($pattern)
 		{

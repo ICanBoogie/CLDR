@@ -114,6 +114,9 @@ final class Calendar extends ArrayObject
 	 */
 	private $context_transforms;
 
+	/**
+	 * @param array<string, mixed> $data
+	 */
 	public function __construct(Locale $locale, array $data)
 	{
 		$this->locale = $locale;
@@ -124,7 +127,10 @@ final class Calendar extends ArrayObject
 		parent::__construct($data);
 	}
 
-	public function __get($property)
+	/**
+	 * @return mixed
+	 */
+	public function __get(string $property)
 	{
 		if (!preg_match(self::SHORTHANDS_REGEX, $property, $matches))
 		{
@@ -199,11 +205,11 @@ final class Calendar extends ArrayObject
 
 		foreach ($transformable as $name)
 		{
-			array_walk($data[$name], function(array &$data, string $context) use ($name) {
+			array_walk($data[$name], function(array &$data, string $context) use ($name): void {
 
 				$is_stand_alone = self::CONTEXT_STAND_ALONE === $context;
 
-				array_walk($data, function (array &$names, string $width) use ($name, $is_stand_alone) {
+				array_walk($data, function (array &$names, string $width) use ($name, $is_stand_alone): void {
 
 					$names = $this->{ 'transform_' . $name }($names, $width, $is_stand_alone);
 
@@ -215,7 +221,7 @@ final class Calendar extends ArrayObject
 
 		if (isset($data[self::CALENDAR_ERAS]))
 		{
-			array_walk($data[self::CALENDAR_ERAS], function(array &$names, string $width) {
+			array_walk($data[self::CALENDAR_ERAS], function(array &$names, string $width): void {
 
 				$names = $this->transform_eras($names, $width);
 

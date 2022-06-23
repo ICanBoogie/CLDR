@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR\Plurals;
 
 use ICanBoogie\CLDR\Number;
+use IteratorAggregate;
 use Traversable;
 
 use function array_merge;
@@ -28,7 +29,7 @@ use function trim;
  *
  * @see http://unicode.org/reports/tr35/tr35-numbers.html#Samples
  */
-final class Samples implements \IteratorAggregate
+final class Samples implements IteratorAggregate
 {
 	public const INFINITY = '…';
 	public const SAMPLE_RANGE_SEPARATOR = '~';
@@ -44,7 +45,7 @@ final class Samples implements \IteratorAggregate
 	{
 		$instance = &self::$instances[$samples_string];
 
-		return $instance ?? $instance = new self(self::parse_rules($samples_string));
+		return $instance ?? $instance = new self(self::parse_rules($samples_string)); // @phpstan-ignore-line
 	}
 
 	static private function parse_rules(string $sample_string): array
@@ -95,7 +96,7 @@ final class Samples implements \IteratorAggregate
 
 	/**
 	 * @param string $type One of `TYPE_*`.
-	 * @param int|float $number
+	 * @param int|float|string $number
 	 *
 	 * @return int|float
 	 */

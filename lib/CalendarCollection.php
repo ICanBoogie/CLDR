@@ -23,7 +23,7 @@ use ICanBoogie\Accessor\AccessorTrait;
  * $gregorian_calendar = $calendar_collection['gregorian'];
  * </pre>
  *
- * @method Calendar offsetGet(string $id)
+ * @extends AbstractCollection<Calendar>
  */
 final class CalendarCollection extends AbstractCollection
 {
@@ -37,7 +37,7 @@ final class CalendarCollection extends AbstractCollection
 	{
 		$this->locale = $locale;
 
-		parent::__construct(function ($id): Calendar {
+		parent::__construct(function (string $id): Calendar {
 
 			return new Calendar($this->locale, $this->locale["ca-$id"]);
 

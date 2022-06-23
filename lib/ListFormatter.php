@@ -18,7 +18,7 @@ use ICanBoogie\Accessor\AccessorTrait;
  *
  * @see http://www.unicode.org/reports/tr35/tr35-general.html#ListPatterns
  *
- * @method LocalizedListFormatter localize($locale_code)
+ * @method LocalizedListFormatter localize(string $locale_code)
  */
 class ListFormatter implements Formatter
 {
@@ -26,9 +26,6 @@ class ListFormatter implements Formatter
 	use RepositoryPropertyTrait;
 	use LocalizeTrait;
 
-	/**
-	 * @param Repository $repository
-	 */
 	public function __construct(Repository $repository = null)
 	{
 		$this->repository = $repository;
@@ -39,10 +36,8 @@ class ListFormatter implements Formatter
 	 *
 	 * @param array $list The list to format.
 	 * @param array $list_patterns A list patterns.
-	 *
-	 * @return string
 	 */
-	public function __invoke(array $list, array $list_patterns)
+	public function __invoke(array $list, array $list_patterns): string
 	{
 		return $this->format($list, $list_patterns);
 	}
@@ -52,29 +47,23 @@ class ListFormatter implements Formatter
 	 *
 	 * @param array $list The list to format.
 	 * @param array $list_patterns A list patterns.
-	 *
-	 * @return string
 	 */
-	public function format(array $list, array $list_patterns)
+	public function format(array $list, array $list_patterns): string
 	{
 		$list = array_values($list);
 
 		switch (count($list))
 		{
 			case 0:
-
 				return "";
 
 			case 1:
-
 				return (string) current($list);
 
 			case 2:
-
 				return $this->format_pattern($list_patterns[2], $list[0], $list[1]);
 
 			default:
-
 				$n = count($list) - 1;
 				$v1 = $list[$n];
 
@@ -102,14 +91,7 @@ class ListFormatter implements Formatter
 		}
 	}
 
-	/**
-	 * @param string $pattern
-	 * @param string $v0
-	 * @param string $v1
-	 *
-	 * @return string
-	 */
-	private function format_pattern($pattern, $v0, $v1)
+	private function format_pattern(string $pattern, string $v0, string $v1): string
 	{
 		return strtr($pattern, [
 

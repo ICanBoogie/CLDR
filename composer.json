@@ -37,6 +37,7 @@
 	},
 	"require-dev": {
 		"ext-redis": "*",
+		"phpstan/phpstan": "^1.4",
 		"phpunit/phpunit": "^7.5.20|^8.5"
 	},
 	"autoload": {

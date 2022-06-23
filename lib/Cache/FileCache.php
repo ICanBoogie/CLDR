@@ -57,7 +57,7 @@ final class FileCache implements Cache
 
 		if (self::$release_after === null)
 		{
-			self::$release_after = strpos(PHP_OS, 'WIN') === 0 ? false : true;
+			self::$release_after = !(strpos(PHP_OS, 'WIN') === 0);
 		}
 	}
 
@@ -82,15 +82,11 @@ final class FileCache implements Cache
 
 		$pathname = $this->format_absolute_pathname($path);
 
-		set_error_handler(function() {});
+		set_error_handler(function() {}); // @phpstan-ignore-line
 
 		try
 		{
 			$this->safe_set($pathname, $data);
-		}
-		catch (Throwable $e)
-		{
-			throw $e;
 		}
 		finally
 		{
@@ -121,7 +117,7 @@ final class FileCache implements Cache
 	private function safe_set(string $pathname, array $data): void
 	{
 		$dir = dirname($pathname);
-		$uniqid = uniqid(mt_rand(), true);
+		$uniqid = uniqid((string) mt_rand(), true);
 		$tmp_pathname = $dir . '/var-' . $uniqid;
 		$garbage_pathname = $dir . '/garbage-var-' . $uniqid;
 
@@ -184,7 +180,9 @@ final class FileCache implements Cache
 	 */
 	private function assert_writable(): void
 	{
-		if (!is_writable($path = $this->path))
+		$path = $this->path;
+
+		if (!is_writable($path))
 		{
 			throw new Exception("The directory $path is not writable.");
 		}
