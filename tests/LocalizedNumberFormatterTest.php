@@ -13,17 +13,14 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class LocalizedNumberFormatterTest extends TestCase
+final class LocalizedNumberFormatterTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_format
 	 *
-	 * @param string $locale_code
-	 * @param number $number
-	 * @param string|null $pattern
-	 * @param string $expected
+	 * @param numeric $number
 	 */
-	public function test_format($locale_code, $number, $pattern, $expected)
+	public function test_format(string $locale_code, $number, ?string $pattern, string $expected): void
 	{
 		$formatter = new NumberFormatter();
 		$localized = new LocalizedNumberFormatter($formatter, get_repository()->locales[$locale_code]);
@@ -31,7 +28,7 @@ class LocalizedNumberFormatterTest extends TestCase
 		$this->assertSame($expected, $localized->format($number, $pattern));
 	}
 
-	public function provide_test_format()
+	public function provide_test_format(): array
 	{
 		return [
 
@@ -50,7 +47,7 @@ class LocalizedNumberFormatterTest extends TestCase
 		];
 	}
 
-	public function test_invoke()
+	public function test_invoke(): void
 	{
 		$formatter = new NumberFormatter();
 		$localized = new LocalizedNumberFormatter($formatter, get_repository()->locales['fr']);

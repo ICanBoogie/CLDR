@@ -203,9 +203,9 @@ class Locale extends AbstractSectionCollection
 	 *
 	 * @see LocalizedNumberFormatter::format
 	 */
-	public function format_number($number, string $pattern = null, array $symbols = []): string
+	public function format_number($number, string $pattern = null): string
 	{
-		return $this->number_formatter->format($number, $pattern, $symbols);
+		return $this->number_formatter->format($number, $pattern);
 	}
 
 	/**
@@ -213,12 +213,11 @@ class Locale extends AbstractSectionCollection
 	 *
 	 * @see LocalizedNumberFormatter::format
 	 */
-	public function format_percent($number, string $pattern = null, array $symbols = []): string
+	public function format_percent($number, string $pattern = null): string
 	{
 		return $this->number_formatter->format(
 			$number,
-			$pattern ?: $this->numbers->percent_formats['standard'],
-			$symbols
+			$pattern ?: $this->numbers->percent_formats['standard']
 		);
 	}
 
@@ -227,18 +226,13 @@ class Locale extends AbstractSectionCollection
 	 *
 	 * @param numeric $number
 	 * @param Currency|string $currency
-	 * @param string $pattern
-	 * @param array $symbols
-	 *
-	 * @return string
 	 */
 	public function format_currency(
 		$number,
 		$currency,
-		string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD,
-		array $symbols = []
+		string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD
 	): string {
-		return $this->currency_formatter->format($number, $currency, $pattern, $symbols);
+		return $this->currency_formatter->format($number, $currency, $pattern);
 	}
 
 	/**

@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\Numbers\Symbols;
 
 /**
  * Formats numbers.
@@ -23,17 +24,6 @@ class NumberFormatter implements Formatter
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
 	use LocalizeTrait;
-
-	static private $default_symbols = [
-
-		'decimal' => ".",
-		'group' => ",",
-		'percentSign' => "%",
-		'plusSign' => "+",
-		'minusSign' => "-",
-		'perMille' => "‰"
-
-	];
 
 	public function __construct(Repository $repository = null)
 	{
@@ -48,9 +38,8 @@ class NumberFormatter implements Formatter
 	 *
 	 * @param numeric $number The number to be formatted.
 	 * @param string $pattern The pattern used to format the number.
-	 * @param array $symbols Symbols.
 	 */
-	public function __invoke($number, string $pattern, array $symbols = []): string
+	public function __invoke($number, string $pattern, Symbols $symbols = null): string
 	{
 		return $this->format($number, $pattern, $symbols);
 	}
@@ -63,21 +52,20 @@ class NumberFormatter implements Formatter
 	 *
 	 * @param numeric $number The number to be formatted.
 	 * @param string|NumberPattern $pattern The pattern used to format the number.
-	 * @param array $symbols Symbols.
 	 */
-	public function format($number, $pattern, array $symbols = []): string
+	public function format($number, $pattern, Symbols $symbols = null): string
 	{
 		if (!$pattern instanceof NumberPattern)
 		{
 			$pattern = NumberPattern::from($pattern);
 		}
 
-		$symbols += self::$default_symbols;
+		$symbols = $symbols ?? Symbols::defaults();
 
 		[ $integer, $decimal ] = $pattern->parse_number($number);
 
-		$formatted_integer = $pattern->format_integer_with_group($integer, $symbols['group']);
-		$formatted_number = $pattern->format_integer_with_decimal($formatted_integer, $decimal, $symbols['decimal']);
+		$formatted_integer = $pattern->format_integer_with_group($integer, $symbols->group);
+		$formatted_number = $pattern->format_integer_with_decimal($formatted_integer, $decimal, $symbols->decimal);
 
 		if ($number < 0)
 		{
@@ -90,8 +78,8 @@ class NumberFormatter implements Formatter
 
 		return strtr($number, [
 
-			'%' => $symbols['percentSign'],
-			'‰' => $symbols['perMille']
+			'%' => $symbols->percentSign,
+			'‰' => $symbols->perMille,
 
 		]);
 	}

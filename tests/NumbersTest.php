@@ -11,18 +11,15 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Numbers\Symbols;
 use PHPUnit\Framework\TestCase;
 
-class NumbersTest extends TestCase
+final class NumbersTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_shortcuts
-	 *
-	 * @param string $locale_code
-	 * @param string $property
-	 * @param string $offset
 	 */
-	public function test_shortcuts($locale_code, $property, $offset)
+	public function test_shortcuts(string $locale_code, string $property, string $offset): void
 	{
 		$locale = get_repository()->locales[$locale_code];
 		$numbers_data = $locale['numbers'];
@@ -31,11 +28,10 @@ class NumbersTest extends TestCase
 		$this->assertSame($numbers_data[$offset], $numbers->$property);
 	}
 
-	public function provide_test_shortcuts()
+	public function provide_test_shortcuts(): array
 	{
 		return [
 
-			[ 'fr', 'symbols', 'symbols-numberSystem-latn' ],
 			[ 'fr', 'decimal_formats', 'decimalFormats-numberSystem-latn' ],
 			[ 'fr', 'scientific_formats', 'scientificFormats-numberSystem-latn' ],
 			[ 'fr', 'percent_formats', 'percentFormats-numberSystem-latn' ],
@@ -46,14 +42,79 @@ class NumbersTest extends TestCase
 	}
 
 	/**
-	 * @dataProvider provide_test_decimal_width_shortcuts
-	 *
-	 * @param string $locale_code
-	 * @param string $property
-	 * @param string $offset
-	 * @param string $width_offset
+	 * @dataProvider provide_symbols
 	 */
-	public function test_decimal_width_shortcuts($locale_code, $property, $offset, $width_offset)
+	public function test_symbols(string $locale_code, Symbols $expected): void
+	{
+		$locale = get_repository()->locales[$locale_code];
+		$numbers_data = $locale['numbers'];
+		$numbers = new Numbers($locale, $numbers_data);
+
+		$this->assertEquals($expected, $numbers->symbols);
+	}
+
+	public function provide_symbols(): array
+	{
+		return [
+
+			[ 'fr', new Symbols(
+				',',
+				' ',
+				';',
+				'%',
+				'-',
+				'+',
+				'~',
+				'E',
+				'×',
+				'‰',
+				'∞',
+				'NaN',
+				'.',
+				',',
+				':'
+			) ],
+			[ 'en', new Symbols(
+				'.',
+				',',
+				';',
+				'%',
+				'-',
+				'+',
+				'~',
+				'E',
+				'×',
+				'‰',
+				'∞',
+				'NaN',
+				'.',
+				',',
+				':'
+			) ],
+			[ 'ru', new Symbols(
+				',',
+				' ',
+				';',
+				'%',
+				'-',
+				'+',
+				'~',
+				'E',
+				'×',
+				'‰',
+				'∞',
+				'не число',
+				'.',
+				',',
+				':'
+			) ],
+		];
+	}
+
+	/**
+	 * @dataProvider provide_test_decimal_width_shortcuts
+	 */
+	public function test_decimal_width_shortcuts(string $locale_code, string $property, string $offset, string $width_offset): void
 	{
 		$locale = get_repository()->locales[$locale_code];
 		$numbers_data = $locale['numbers'];
@@ -62,7 +123,7 @@ class NumbersTest extends TestCase
 		$this->assertSame($numbers_data[$offset][$width_offset]['decimalFormat'], $numbers->$property);
 	}
 
-	public function provide_test_decimal_width_shortcuts()
+	public function provide_test_decimal_width_shortcuts(): array
 	{
 		return [
 
@@ -74,11 +135,8 @@ class NumbersTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_get_decimal_format
-	 *
-	 * @param string $locale_code
-	 * @param string $expected
 	 */
-	public function test_get_decimal_format($locale_code, $expected)
+	public function test_get_decimal_format(string $locale_code, string $expected): void
 	{
 		$locale = get_repository()->locales[$locale_code];
 		$numbers = new Numbers($locale, $locale['numbers']);
@@ -86,7 +144,7 @@ class NumbersTest extends TestCase
 		$this->assertEquals($expected, $numbers->decimal_format);
 	}
 
-	public function provide_test_get_decimal_format()
+	public function provide_test_get_decimal_format(): array
 	{
 		return [
 

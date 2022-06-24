@@ -730,7 +730,7 @@ $formatter([ "Monday", "Tuesday", "Friday", "Saturday" ], $list_patterns);
 // Monday, Tuesday, Friday, and Saturday
 ```
 
-> **Note:** You can also obtained a list formatter, or format a list from the repository.
+> **Note:** You can also obtain a list formatter, or format a list from the repository.
 
 ```php
 <?php

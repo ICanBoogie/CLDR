@@ -22,23 +22,21 @@ class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 	 * Formats a number.
 	 *
 	 * @param numeric $number The number to format.
-	 * @param array $symbols Symbols used to format the number.
 	 */
-	public function __invoke($number, string $pattern = null, array $symbols = []): string
+	public function __invoke($number, string $pattern = null): string
 	{
-		return $this->format($number, $pattern, $symbols);
+		return $this->format($number, $pattern);
 	}
 
 	/**
 	 * Formats a number.
 	 *
 	 * @param numeric $number The number to format.
-	 * @param array $symbols Symbols used to format the number.
 	 */
-	public function format($number, string $pattern = null, array $symbols = []): string
+	public function format($number, string $pattern = null): string
 	{
 		$numbers = $this->locale->numbers;
 
-		return $this->target->format($number, $pattern ?: $numbers->decimal_format, $symbols + $numbers->symbols);
+		return $this->target->format($number, $pattern ?: $numbers->decimal_format, $numbers->symbols);
 	}
 }

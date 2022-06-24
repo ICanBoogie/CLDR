@@ -12,8 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
-
-use function var_dump;
+use ICanBoogie\CLDR\Numbers\Symbols;
 
 /**
  * Representation of a CLDR.
@@ -143,7 +142,7 @@ final class Repository
 	 *
 	 * @see NumberFormatter::format()
 	 */
-	public function format_number($number, string $pattern, array $symbols = []): string
+	public function format_number($number, string $pattern, Symbols $symbols = null): string
 	{
 		return $this->number_formatter->format($number, $pattern, $symbols);
 	}
@@ -155,9 +154,13 @@ final class Repository
 	 *
 	 * @see CurrencyFormatter::format()
 	 */
-	public function format_currency($number, string $pattern, array $symbols = []): string
-	{
-		return $this->currency_formatter->format($number, $pattern, $symbols);
+	public function format_currency(
+		$number,
+		string $pattern,
+		Symbols $symbols = null,
+		string $currencySymbol = CurrencyFormatter::DEFAULT_CURRENCY_SYMBOL
+	): string {
+		return $this->currency_formatter->format($number, $pattern, $symbols, $currencySymbol);
 	}
 
 	/**

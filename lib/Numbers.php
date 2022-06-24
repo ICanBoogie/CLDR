@@ -13,12 +13,13 @@ namespace ICanBoogie\CLDR;
 
 use ArrayObject;
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\Numbers\Symbols;
 
 /**
  * Representation of a locale numbers
  *
  * @property-read Locale $locale
- * @property-read array $symbols Shortcuts to the `symbols-numberSystem-<defaultNumberingSystem>`.
+ * @property-read Symbols $symbols Shortcuts to the `symbols-numberSystem-<defaultNumberingSystem>`.
  * @property-read array $decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>`.
  * @property-read string $decimal_format Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/standard`.
  * @property-read array $short_decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/short/decimalFormats`.
@@ -44,9 +45,9 @@ final class Numbers extends ArrayObject
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
-	private function get_symbols(): array
+	private function get_symbols(): Symbols
 	{
-		return $this['symbols-numberSystem-' . $this['defaultNumberingSystem']];
+		return Symbols::from($this['symbols-numberSystem-' . $this['defaultNumberingSystem']]);
 	}
 
 	private function get_decimal_formats(): array

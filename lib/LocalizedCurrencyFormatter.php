@@ -27,9 +27,9 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	 * @param numeric $number
 	 * @param Currency|string $currency
 	 */
-	public function __invoke($number, $currency, string $pattern = self::PATTERN_STANDARD, array $symbols = []): string
+	public function __invoke($number, $currency, string $pattern = self::PATTERN_STANDARD): string
 	{
-		return $this->format($number, $currency, $pattern, $symbols);
+		return $this->format($number, $currency, $pattern);
 	}
 
 	/**
@@ -38,23 +38,19 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	 * @param numeric $number
 	 * @param Currency|string $currency
 	 */
-	public function format($number, $currency, string $pattern = self::PATTERN_STANDARD, array $symbols = []): string
+	public function format($number, $currency, string $pattern = self::PATTERN_STANDARD): string
 	{
-		$symbols += $this->locale->numbers->symbols + [
-
-			'currencySymbol' => $this->resolve_currency_symbol($currency)
-
-		];
-
-		return $this->target->format($number, $this->resolve_pattern($pattern), $symbols);
+		return $this->target->format(
+			$number,
+			$this->resolve_pattern($pattern),
+			$this->locale->numbers->symbols,
+			$this->resolve_currency_symbol($currency)
+		);
 	}
 
-	/**
-	 * @param Currency|string $currency
-	 */
-	private function resolve_currency_symbol($currency): string
+	private function resolve_currency_symbol(string $currency): string
 	{
-		return $this->locale['currencies'][(string) $currency]['symbol'];
+		return $this->locale['currencies'][$currency]['symbol'];
 	}
 
 	/**

@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class LocalizedCurrencyFormatterTest extends TestCase
+final class LocalizedCurrencyFormatterTest extends TestCase
 {
     use StringHelpers;
 
@@ -36,12 +36,9 @@ class LocalizedCurrencyFormatterTest extends TestCase
 	/**
 	 * @dataProvider provide_test_format
 	 *
-	 * @param string $currency_code
-	 * @param string $locale_code
-	 * @param int $number
-	 * @param string $expected
+	 * @param numeric $number
 	 */
-	public function test_format($currency_code, $locale_code, $number, $expected)
+	public function test_format(string $currency_code, string $locale_code, $number, string $expected): void
 	{
 		$formatter = new LocalizedCurrencyFormatter(
 			$this->formatter,
@@ -52,7 +49,7 @@ class LocalizedCurrencyFormatterTest extends TestCase
 		$this->assertStringSame($expected, $formatter($number, $currency_code));
 	}
 
-	public function provide_test_format()
+	public function provide_test_format(): array
 	{
         $s1 = Spaces::NARROW_NO_BREAK_SPACE;
         $s2 = Spaces::NO_BREAK_SPACE;
@@ -72,12 +69,9 @@ class LocalizedCurrencyFormatterTest extends TestCase
 	/**
 	 * @dataProvider provide_test_format_accounting
 	 *
-	 * @param string $currency_code
-	 * @param string $locale_code
-	 * @param int $number
-	 * @param string $expected
+	 * @param numeric $number
 	 */
-	public function test_format_accounting($currency_code, $locale_code, $number, $expected)
+	public function test_format_accounting(string $currency_code, string $locale_code, $number, string $expected): void
 	{
 		$formatter = new LocalizedCurrencyFormatter(
 			$this->formatter,
@@ -95,7 +89,7 @@ class LocalizedCurrencyFormatterTest extends TestCase
 		);
 	}
 
-	public function provide_test_format_accounting()
+	public function provide_test_format_accounting(): array
 	{
         $s1 = Spaces::NARROW_NO_BREAK_SPACE;
         $s2 = Spaces::NO_BREAK_SPACE;
@@ -112,7 +106,7 @@ class LocalizedCurrencyFormatterTest extends TestCase
 		];
 	}
 
-	public function test_should_format_with_custom_pattern()
+	public function test_should_format_with_custom_pattern(): void
 	{
 		$formatter = new LocalizedCurrencyFormatter(
 			$this->formatter,

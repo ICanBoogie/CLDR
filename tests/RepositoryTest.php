@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class RepositoryTest extends TestCase
+final class RepositoryTest extends TestCase
 {
 	/**
 	 * @var Repository
@@ -27,11 +27,8 @@ class RepositoryTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_properties_instanceof
-	 *
-	 * @param string $property
-	 * @param string $expected
 	 */
-	public function test_properties_instanceof($property, $expected)
+	public function test_properties_instanceof(string $property, string $expected): void
 	{
 		$repository = $this->repository;
 		$instance = $repository->$property;
@@ -39,7 +36,7 @@ class RepositoryTest extends TestCase
 		$this->assertSame($instance, $repository->$property);
 	}
 
-	public function provide_test_properties_instanceof()
+	public function provide_test_properties_instanceof(): array
 	{
 		return [
 
@@ -56,21 +53,23 @@ class RepositoryTest extends TestCase
 		];
 	}
 
-	public function test_format_number()
+	public function test_format_number(): void
 	{
-		$this->assertSame("4,123.37", $this->repository->format_number(4123.37, "#,#00.#0"));
+		$this->assertSame(
+			"4,123.37",
+			$this->repository->format_number(4123.37, "#,#00.#0")
+		);
 	}
 
-	public function test_format_currency()
+	public function test_format_currency(): void
 	{
-		$this->assertSame("$4,123.37", $this->repository->format_currency(4123.37, "¤#,#00.#0", [
-
-			'currencySymbol' => '$'
-
-		]));
+		$this->assertSame(
+			"$4,123.37",
+			$this->repository->format_currency(4123.37, "¤#,#00.#0", null, '$')
+		);
 	}
 
-	public function test_format_list()
+	public function test_format_list(): void
 	{
 		$list = [ 'one', 'two', 'three' ];
 
@@ -88,16 +87,13 @@ class RepositoryTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_properties
-	 *
-	 * @param string $property
-	 * @param callable $assert
 	 */
-	public function test_properties($property, callable $assert)
+	public function test_properties(string $property, callable $assert): void
 	{
 		$assert($this->repository->$property);
 	}
 
-	public function provide_test_properties()
+	public function provide_test_properties(): array
 	{
 		return [
 
@@ -115,19 +111,13 @@ class RepositoryTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_is_locale_available
-	 *
-	 * @param string $locale
-	 * @param bool $expected
 	 */
-	public function test_is_locale_available($locale, $expected)
+	public function test_is_locale_available(string $locale, bool $expected): void
 	{
 		$this->assertSame($expected, get_repository()->is_locale_available($locale));
 	}
 
-	/**
-	 * @return array
-	 */
-	public function provide_test_is_locale_available()
+	public function provide_test_is_locale_available(): array
 	{
 		return [
 

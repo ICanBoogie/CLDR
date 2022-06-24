@@ -77,8 +77,8 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 *
 	 * @param numeric $number
 	 */
-	public function format($number, string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD, array $symbols = []): string
+	public function format($number, string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD): string
 	{
-		return $this->formatter->format($number, $this->target, $pattern, $symbols);
+		return $this->formatter->format($number, $this->target, $pattern);
 	}
 }

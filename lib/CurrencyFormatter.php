@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Numbers\Symbols;
+
 use function str_replace;
 
 /**
@@ -18,17 +20,21 @@ use function str_replace;
  */
 final class CurrencyFormatter extends NumberFormatter
 {
+	public const DEFAULT_CURRENCY_SYMBOL = '¤';
+
 	/**
 	 * @inheritDoc
 	 */
-	public function format($number, $pattern, array $symbols = []): string
-	{
-		$symbols += [
-
-			'currencySymbol' => "¤"
-
-		];
-
-		return str_replace("¤", $symbols['currencySymbol'], parent::format($number, $pattern, $symbols));
+	public function format(
+		$number,
+		$pattern,
+		Symbols $symbols = null,
+		$currencySymbol = self::DEFAULT_CURRENCY_SYMBOL
+	): string {
+		return str_replace(
+			self::DEFAULT_CURRENCY_SYMBOL,
+			$currencySymbol,
+			parent::format($number, $pattern, $symbols)
+		);
 	}
 }
