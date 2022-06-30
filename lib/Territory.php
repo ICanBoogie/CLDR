@@ -27,14 +27,14 @@ use function substr;
 /**
  * A territory.
  *
- * @property-read array $containment The `territoryContainment` data.
- * @property-read array $info The `territoryInfo` data.
- * @property-read array $currencies The currencies available in the country.
+ * @property-read array<string, mixed> $containment The `territoryContainment` data.
+ * @property-read array<string, mixed> $info The `territoryInfo` data.
+ * @property-read array<string, mixed> $currencies The currencies available in the country.
  * @property-read Currency|null $currency The current currency.
  * @property-read string $first_day The code of the first day of the week for the territory.
  * @property-read string $weekend_start The code of the first day of the weekend.
  * @property-read string $weekend_end The code of the last day of the weekend.
- * @property-read string|bool $language The ISO code of the official language, or `false' if it
+ * @property-read string|bool $language The ISO code of the official language, or `false` if it
  * cannot be determined.
  * @property-read string $name_as_* The name of the territory in the specified language.
  * @property-read int $population The population of the territory.
@@ -58,11 +58,17 @@ final class Territory
 	use RepositoryPropertyTrait;
 	use CodePropertyTrait;
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function lazy_get_containment(): array
 	{
 		return $this->retrieve_from_supplemental('territoryContainment');
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function lazy_get_currencies(): array
 	{
 		return $this->repository->supplemental['currencyData']['region'][$this->code];
@@ -76,6 +82,9 @@ final class Territory
 		return $this->currency_at();
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function lazy_get_info(): array
 	{
 		return $this->retrieve_from_supplemental('territoryInfo');
@@ -84,7 +93,7 @@ final class Territory
 	/**
 	 * Return the ISO code of the official language of the territory.
 	 *
-	 * @return string|bool The ISO code of the official language, or `false' if it cannot be
+	 * @return string|bool The ISO code of the official language, or `false` if it cannot be
 	 * determined.
 	 */
 	private function lazy_get_language()
@@ -134,7 +143,10 @@ final class Territory
 		$repository->territories->assert_defined($code);
 	}
 
-	public function __get($property)
+	/**
+	 * @return mixed
+	 */
+	public function __get(string $property)
 	{
 		if (strpos($property, 'name_as_') === 0)
 		{
@@ -147,6 +159,9 @@ final class Territory
 		return $this->accessor_get($property);
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function retrieve_from_supplemental(string $section): array
 	{
 		return $this->repository->supplemental[$section][$this->code];
@@ -174,6 +189,8 @@ final class Territory
 
 	/**
 	 * Return the currency in a list used at a point in time.
+	 *
+	 * @param array<string, mixed> $currencies
 	 */
 	private function find_currency_at(array $currencies, string $normalized_date): string
 	{

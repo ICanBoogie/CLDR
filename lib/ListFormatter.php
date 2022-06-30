@@ -45,8 +45,8 @@ class ListFormatter implements Formatter
 	/**
 	 * Formats a variable-length lists of things.
 	 *
-	 * @param array $list The list to format.
-	 * @param array $list_patterns A list patterns.
+	 * @param string[]|numeric[] $list The list to format.
+	 * @param array<string, string> $list_patterns A list patterns.
 	 */
 	public function format(array $list, array $list_patterns): string
 	{

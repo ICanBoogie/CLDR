@@ -26,6 +26,10 @@ namespace ICanBoogie\CLDR;
  */
 final class Supplemental extends AbstractSectionCollection
 {
+	/**
+	 * @var array<string, string>
+	 * @readonly
+	 */
 	static private $available_sections = [
 
 	    'aliases'                => 'metadata/alias',

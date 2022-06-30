@@ -18,6 +18,9 @@ use ReturnTypeWillChange;
 
 use function explode;
 
+/**
+ * @implements ArrayAccess<string, array>
+ */
 abstract class AbstractSectionCollection implements ArrayAccess
 {
 	use AccessorTrait;

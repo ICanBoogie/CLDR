@@ -5,7 +5,7 @@ parameters:
   scanFiles:
     - tests/bootstrap.php
   ignoreErrors:
-    - '/.* is not writable./'
-    - '/get_.* is unused./'
-    - '/__call\(\) has parameter \$arguments/'
-    - '/__call\(\) has no return type specified./'
+    - '#.* is not writable.#'
+    - '#get_.* is unused.#'
+    - '#__call\(\) has parameter \$arguments#'
+    - '#__call\(\) has no return type specified.#'

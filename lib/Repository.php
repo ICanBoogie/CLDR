@@ -166,6 +166,9 @@ final class Repository
 	/**
 	 * Formats a variable-length lists of things.
 	 *
+	 * @param string[]|numeric[] $list
+	 * @param array<string, string> $list_patterns
+	 *
 	 * @see ListFormatter::format()
 	 */
 	public function format_list(array $list, array $list_patterns): string
