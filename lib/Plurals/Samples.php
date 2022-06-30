@@ -18,8 +18,10 @@ use Traversable;
 use function array_merge;
 use function array_slice;
 use function array_values;
+use function assert;
 use function explode;
 use function is_array;
+use function is_numeric;
 use function str_repeat;
 use function strpos;
 use function trim;
@@ -28,6 +30,8 @@ use function trim;
  * Representation of plural samples.
  *
  * @see http://unicode.org/reports/tr35/tr35-numbers.html#Samples
+ *
+ * @implements IteratorAggregate<string>
  */
 final class Samples implements IteratorAggregate
 {
@@ -48,6 +52,9 @@ final class Samples implements IteratorAggregate
 		return $instance ?? $instance = new self(self::parse_rules($samples_string)); // @phpstan-ignore-line
 	}
 
+	/**
+	 * @return array<numeric|numeric[]>
+	 */
 	static private function parse_rules(string $sample_string): array
 	{
 		$samples = [];
@@ -67,6 +74,8 @@ final class Samples implements IteratorAggregate
 	 * Parse a samples string.
 	 *
 	 * @param string $type One of `TYPE_*`
+	 *
+	 * @return array<numeric|numeric[]>
 	 */
 	static private function parse_samples(string $type, string $samples_string): array
 	{
@@ -81,12 +90,17 @@ final class Samples implements IteratorAggregate
 
 			if (strpos($sample, self::SAMPLE_RANGE_SEPARATOR) === false)
 			{
+				assert(is_numeric($sample));
+
 				$samples[] = self::cast($type, $sample);
 
 				continue;
 			}
 
 			[ $start, $end ] = explode(self::SAMPLE_RANGE_SEPARATOR, $sample);
+
+			assert(is_numeric($start));
+			assert(is_numeric($end));
 
 			$samples[] = [ self::cast($type, $start), self::cast($type, $end) ];
 		}
@@ -96,7 +110,7 @@ final class Samples implements IteratorAggregate
 
 	/**
 	 * @param string $type One of `TYPE_*`.
-	 * @param int|float|string $number
+	 * @param numeric $number
 	 *
 	 * @return int|float
 	 */
@@ -106,7 +120,7 @@ final class Samples implements IteratorAggregate
 	}
 
 	/**
-	 * @param int|float $number
+	 * @param numeric $number
 	 */
 	static private function precision_from($number): int
 	{
@@ -114,10 +128,13 @@ final class Samples implements IteratorAggregate
 	}
 
 	/**
-	 * @var array
+	 * @var array<numeric|numeric[]>
 	 */
 	private $samples;
 
+	/**
+	 * @param array<numeric|numeric[]> $samples
+	 */
 	private function __construct(array $samples)
 	{
 		$this->samples = $samples;
@@ -142,7 +159,7 @@ final class Samples implements IteratorAggregate
 			$precision = self::precision_from($start) ?: self::precision_from($end);
 			$step = 1 / (int) ('1' . str_repeat('0', $precision));
 
-			// we use a for/times so we don't loose quantities, compared to a $start += $step
+			// we use a for/times, so we don't lose quantities, compared to a $start += $step
 			$times = ($end - $start) / $step;
 
 			for ($i = 0 ; $i < $times + 1 ; $i++)

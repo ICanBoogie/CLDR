@@ -54,10 +54,13 @@ final class Operands
 	}
 
 	/**
-	 * @var int|float
+	 * @var float|int
 	 */
 	private $n;
 
+	/**
+	 * @return float|int
+	 */
 	private function get_n()
 	{
 		return $this->n;
@@ -140,7 +143,7 @@ final class Operands
 	}
 
 	/**
-	 * @return array An array made of [ $n, $i, $v, $w, $f, $t ].
+	 * @return array{ n: float|int, i: mixed, v: int, w: int, f: int, t: int }
 	 */
 	public function to_array(): array
 	{

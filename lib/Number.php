@@ -50,8 +50,10 @@ final class Number
 	 * @param numeric $number
 	 * @param null|int $precision
 	 *
-	 * @return array An array of [ $integer, $fractional ]. The fractional part is `null` if
-	 * `$number` has no decimal separator.
+	 * @return array{ 0: int, 1: string|null}
+	 *     Where `0` is the integer part and `1` the fractional part. The fractional part is `null` if
+	 *     `$number` has no decimal separator. The fractional part is returned as a string to preserve '03' from
+	 *     '1.03'.
 	 */
 	static public function parse($number, int $precision = null): array
 	{

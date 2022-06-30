@@ -96,7 +96,7 @@ final class WebProvider implements Provider
 
 		]);
 
-		return $connection; // @phpstan-ignore-line
+		return $connection;
 	}
 
 	/**

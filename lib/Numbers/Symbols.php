@@ -29,6 +29,9 @@ final class Symbols
 
 	];
 
+	/**
+	 * @param array<string, string> $symbols
+	 */
 	public static function from(array $symbols): self
 	{
 		$symbols += self::DEFAULTS;

@@ -14,6 +14,7 @@ namespace ICanBoogie\CLDR;
 use ArrayObject;
 use ICanBoogie\CLDR\Plurals\Rule;
 use ICanBoogie\CLDR\Plurals\Samples;
+
 use function array_keys;
 use function array_shift;
 use function explode;
@@ -24,6 +25,9 @@ use function trim;
 
 /**
  * Representation of plurals
+ *
+ * @extends ArrayObject<string, array<string, string>>
+ *     Where _key_ is a locale and _value_ a rule.
  */
 final class Plurals extends ArrayObject
 {

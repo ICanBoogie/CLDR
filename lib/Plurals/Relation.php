@@ -17,6 +17,7 @@ use function array_merge;
 use function explode;
 use function extract;
 use function implode;
+use function is_numeric;
 use function rtrim;
 use function str_repeat;
 use function strlen;
@@ -35,7 +36,8 @@ final class Relation
 	public const MODULUS_SIGN = '%';
 
 	/**
-	 * @var Relation[]
+	 * @var array<string, Relation>
+	 *     Where _key_ is a relation statement and _value_ a {@link Relation}.
 	 */
 	static private $instances = [];
 
@@ -47,7 +49,8 @@ final class Relation
 	}
 
 	/**
-	 * @return array [ string $x_expression, string $range ]
+	 * @return array{ 0: string, 1: string }
+	 *     Where `0` is the x_expressions and `1` the range.
 	 */
 	static private function parse_relation(string $relation): array
 	{
@@ -65,7 +68,8 @@ final class Relation
 	}
 
 	/**
-	 * @return array [ ?string $x_expression, bool $negative ]
+	 * @return array{ 0: string|null, 1: bool}
+	 *     Where `0` is the x_expressions and `1` whether it's negative.
 	 */
 	static private function parse_x_expression(string $x_expression): array
 	{
@@ -119,9 +123,16 @@ final class Relation
 		return implode(' || ', $ranges);
 	}
 
+	/**
+	 * @return string[]
+	 *     Where _value_ is PHP code to evaluate.
+	 */
 	static private function unwind_range(string $range): array
 	{
 		[ $start, $end ] = explode(self::RANGE_SEPARATOR, $range);
+
+		assert(is_numeric($start));
+		assert(is_numeric($end));
 
 		$precision = self::precision_from($start) ?: self::precision_from($end);
 		$step = 1 / (int) ('1' . str_repeat('0', $precision));

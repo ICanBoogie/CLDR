@@ -36,23 +36,26 @@ final class Rule
 	}
 
 	/**
-	 * @return Relation[][]
+	 * @return array<Relation[]>
+	 *     An array of 'AND' rules, where _value_ is an array of 'OR' rules.
 	 */
 	static private function parse_rule(string $rules): array
 	{
 		$rules = self::extract_rule($rules);
-
 		array_walk_recursive($rules, function (&$rule) {
 
 			$rule = Relation::from($rule);
 
 		});
 
+		/** @var array<Relation[]> $rules */
+
 		return $rules;
 	}
 
 	/**
-	 * @return array An array of ands[ors][]
+	 * @return array<string[]>
+	 *      An array of 'AND' rules, where _value_ is an array of 'OR' rules.
 	 */
 	static private function extract_rule(string $rule): array
 	{

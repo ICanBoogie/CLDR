@@ -19,15 +19,26 @@ use ICanBoogie\CLDR\Numbers\Symbols;
  * Representation of a locale numbers
  *
  * @property-read Locale $locale
- * @property-read Symbols $symbols Shortcuts to the `symbols-numberSystem-<defaultNumberingSystem>`.
- * @property-read array $decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>`.
- * @property-read string $decimal_format Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/standard`.
- * @property-read array $short_decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/short/decimalFormats`.
- * @property-read array $long_decimal_formats Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/long/decimalFormats`.
- * @property-read array $scientific_formats Shortcuts to the `scientificFormats-numberSystem-<defaultNumberingSystem>`.
- * @property-read array $percent_formats Shortcuts to the `percentFormats-numberSystem-<defaultNumberingSystem>`.
- * @property-read array $currency_formats Shortcuts to the `currencyFormats-numberSystem-<defaultNumberingSystem>`.
- * @property-read array $misc_patterns Shortcuts to the `miscPatterns-numberSystem-<defaultNumberingSystem>`.
+ * @property-read Symbols $symbols
+ *     Shortcuts to the `symbols-numberSystem-<defaultNumberingSystem>`.
+ * @property-read array<string, mixed> $decimal_formats
+ *     Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>`.
+ * @property-read string $decimal_format
+ *     Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/standard`.
+ * @property-read array<string, mixed> $short_decimal_formats
+ *     Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/short/decimalFormats`.
+ * @property-read array<string, mixed> $long_decimal_formats
+ *     Shortcuts to the `decimalFormats-numberSystem-<defaultNumberingSystem>/long/decimalFormats`.
+ * @property-read array<string, mixed> $scientific_formats
+ *     Shortcuts to the `scientificFormats-numberSystem-<defaultNumberingSystem>`.
+ * @property-read array<string, mixed> $percent_formats
+ *     Shortcuts to the `percentFormats-numberSystem-<defaultNumberingSystem>`.
+ * @property-read array<string, mixed> $currency_formats
+ *     Shortcuts to the `currencyFormats-numberSystem-<defaultNumberingSystem>`.
+ * @property-read array<string, mixed> $misc_patterns
+ *     Shortcuts to the `miscPatterns-numberSystem-<defaultNumberingSystem>`.
+ *
+ * @extends ArrayObject<string, mixed>
  */
 final class Numbers extends ArrayObject
 {
@@ -50,6 +61,9 @@ final class Numbers extends ArrayObject
 		return Symbols::from($this['symbols-numberSystem-' . $this['defaultNumberingSystem']]);
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function get_decimal_formats(): array
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']];
@@ -60,36 +74,57 @@ final class Numbers extends ArrayObject
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['standard'];
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function get_short_decimal_formats(): array
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['short']['decimalFormat'];
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function get_long_decimal_formats(): array
 	{
 		return $this['decimalFormats-numberSystem-' . $this['defaultNumberingSystem']]['long']['decimalFormat'];
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function get_scientific_formats(): array
 	{
 		return $this['scientificFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function get_percent_formats(): array
 	{
 		return $this['percentFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function get_currency_formats(): array
 	{
 		return $this['currencyFormats-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	private function get_misc_patterns(): array
 	{
 		return $this['miscPatterns-numberSystem-' . $this['defaultNumberingSystem']];
 	}
 
+	/**
+	 * @param array<string, mixed> $data
+	 */
 	public function __construct(Locale $locale, array $data)
 	{
 		$this->locale = $locale;

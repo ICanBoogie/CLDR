@@ -18,6 +18,7 @@ use function explode;
 use function implode;
 use function strpos;
 use function substr;
+use function var_dump;
 
 /**
  * Maps CLDR paths to GitHub URLs.
@@ -31,6 +32,10 @@ class PathMapper
 	public const PREFER_MODERN = 'modern';
 	public const PREFER_FULL = 'full';
 
+	/**
+	 * @var array<string, string>
+	 *     Where _key_ is a location and _value_ properties separated by white space.
+	 */
 	static private $compact_files = [
 
 		'dates' => 'dateFields timeZoneNames',
@@ -58,7 +63,8 @@ class PathMapper
 	private $variation;
 
 	/**
-	 * @var array
+	 * @var array<string, string>
+	 *     Where _key_ is a property and _value_ its location.
 	 */
 	private $files;
 
@@ -96,6 +102,13 @@ class PathMapper
 		return "{$this->origin}cldr-$path.json";
 	}
 
+	/**
+	 * @param string[] $parts
+	 *     Parts of the localized path.
+	 *
+	 * @return string[]
+	 *     Adjusted parts of the localized path.
+	 */
 	private function map_localized(array $parts): array
 	{
 		$file = $parts[2];
@@ -120,6 +133,13 @@ class PathMapper
 		return $parts;
 	}
 
+	/**
+	 * @param array<string, string> $compact_files
+	 *     Where _key_ is a location and _value_ properties separated by white space.
+	 *
+	 * @return array<string, string>
+	 *     Where _key_ is a property and _value_ its location.
+	 */
 	private function compile_files(array $compact_files): array
 	{
 		$compiled = [];
