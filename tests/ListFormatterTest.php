@@ -1,44 +1,49 @@
 <?php
 
+/*
+ * This file is part of the ICanBoogie package.
+ *
+ * (c) Olivier Laviale <olivier.laviale@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace ICanBoogie\CLDR;
 
-use LogicException;
+use ICanBoogie\CLDR\Locale\ListPattern;
 use PHPUnit\Framework\TestCase;
 
-class ListFormatterTest extends TestCase
+final class ListFormatterTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_format
-	 *
-	 * @param $list
-	 * @param $list_patterns
-	 * @param $expected
 	 */
-	public function test_format($list, $list_patterns, $expected)
+	public function test_format(array $list, ListPattern $list_pattern, string $expected): void
 	{
 		$formatter = new ListFormatter;
-		$this->assertSame($expected, $formatter($list, $list_patterns));
+		$this->assertSame($expected, $formatter($list, $list_pattern));
 	}
 
-	public function provide_test_format()
+	public function provide_test_format(): array
 	{
-		$lp1 = [
+		$lp1 = ListPattern::from([
 
+            '2' =>  "{0} and {1}",
 			'start' => "{0}, {1}",
             'middle' => "{0}, {1}",
             'end' => "{0}, and {1}",
-            '2' =>  "{0} and {1}"
 
-		];
+		]);
 
-		$lp2 = [
+		$lp2 = ListPattern::from([
 
+			'2' =>  "{0} et {1}",
 			'start' => "{0}, {1}",
 			'middle' => "{0}, {1}",
 			'end' => "{0} et {1}",
-			'2' =>  "{0} et {1}"
 
-		];
+		]);
 
 		return [
 

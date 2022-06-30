@@ -12,7 +12,7 @@ None
 
 ### Backward Incompatible Changes
 
-- [Numbers symbols](https://unicode.org/reports/tr35/tr35-numbers.html#Number_Symbols) are now
+- [Numbers symbols](https://www.unicode.org/reports/tr35/tr35-57/tr35-numbers.html#Number_Symbols) are now
   represented by a `Symbols` instance instead of an array. Methods using numeric symbols have been
   updated. The currency symbol is no longer added to the numeric symbols, it is now a separated
   parameter.
@@ -36,11 +36,37 @@ None
 	$formatter->format($number, $pattern, $symbols, $currencySymbol);
 	```
 
+- [List patterns](https://www.unicode.org/reports/tr35/tr35-57/tr35-general.html#ListPatterns) are
+  now represented by a `ListPattern` instance instead of an array. Methods using a list pattern have
+  been updated.
+
+	```php
+	<?php
+
+	/* @var ICanBoogie\CLDR\ListFormatter $formatter */
+	/* @var array $list_pattern */
+
+	$formatter->format([ 1, 2, 3 ], list_pattern);
+	```
+
+	```php
+	<?php
+
+	/* @var ICanBoogie\CLDR\ListFormatter $formatter */
+	/* @var ICanBoogie\CLDR\Locale\ListPattern $list_pattern */
+
+	$formatter->format([ 1, 2, 3 ], list_pattern);
+	```
+
 ### Deprecated Features
 
-- Removed the `$symbols` parameters formatter methods that use a localized formatter. If you need to
-  customize how numbers are formatted, create your own `Symbols` instance and use it with a
-  non-localized number/currency formatter.
+- The localized currency formatter no longer supports a `$symbols` parameter. If you need to
+  customize how a currency is formatted, create your own `Symbols` instance and use it with a
+  non-localized formatter e.g. `$repository->format_currency()`.
+
+- The localized list formatter no longer accepts a list pattern or a type, only a type. If you
+  need to customize how a list is formatted, create you own `ListPattern` instance and use it with
+  a non-localized formatter e.g. `$repository->format_list()`.
 
 ### Other Changes
 

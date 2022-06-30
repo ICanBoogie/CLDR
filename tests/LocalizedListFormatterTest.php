@@ -1,46 +1,35 @@
 <?php
 
+/*
+ * This file is part of the ICanBoogie package.
+ *
+ * (c) Olivier Laviale <olivier.laviale@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class LocalizedListFormatterTest extends TestCase
+final class LocalizedListFormatterTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_format
-	 *
-	 * @param $list
-	 * @param $list_patterns_ot_type
-	 * @param $locale_code
-	 * @param $expected
 	 */
-	public function test_format($list, $list_patterns_ot_type, $locale_code, $expected)
+	public function test_format(array $list, string $type, string $locale_code, string $expected): void
 	{
 		$lp = new LocalizedListFormatter(new ListFormatter, get_repository()->locales[$locale_code]);
-		$this->assertSame($expected, $lp($list, $list_patterns_ot_type));
+		$this->assertSame($expected, $lp($list, $type));
 	}
 
-	public function provide_test_format()
+	public function provide_test_format(): array
 	{
-		$lp = [
-
-			'start' => "{0}, {1}",
-            'middle' => "{0}, {1}",
-            'end' => "{0}, and {1}",
-            '2' =>  "{0} and {1}"
-
-		];
-
 		$sd = LocalizedListFormatter::TYPE_STANDARD;
 		$st = LocalizedListFormatter::TYPE_UNIT_SHORT;
 
 		return [
-
-			[ [ ], $lp, 'en', "" ],
-			[ [ 'one' ], $lp, 'en', "one" ],
-			[ [ 'one', 'two' ], $lp, 'en', "one and two" ],
-			[ [ 'one', 'two', 'three' ], $lp, 'en', "one, two, and three" ],
-			[ [ 'one', 'two', 'three', 'four' ], $lp, 'en', "one, two, three, and four" ],
 
 			[ [ ], $sd, 'en', "" ],
 			[ [ 'one' ], $sd, 'en', "one" ],
@@ -61,10 +50,10 @@ class LocalizedListFormatterTest extends TestCase
 			[ [ 'un', 'deux', 'trois', 'quatre' ], $sd, 'fr', "un, deux, trois et quatre" ],
 
 			[ [ ], $sd, 'de', "" ],
-			[ [ 'un' ], $sd, 'de', "un" ],
-			[ [ 'un', 'deux' ], $sd, 'de', "un und deux" ],
-			[ [ 'un', 'deux', 'trois' ], $sd, 'de', "un, deux und trois" ],
-			[ [ 'un', 'deux', 'trois', 'quatre' ], $sd, 'de', "un, deux, trois und quatre" ],
+			[ [ 'eins' ], $sd, 'de', "eins" ],
+			[ [ 'eins', 'zwei' ], $sd, 'de', "eins und zwei" ],
+			[ [ 'eins', 'zwei', 'drei' ], $sd, 'de', "eins, zwei und drei" ],
+			[ [ 'eins', 'zwei', 'drei', 'vier' ], $sd, 'de', "eins, zwei, drei und vier" ],
 
 		];
 	}

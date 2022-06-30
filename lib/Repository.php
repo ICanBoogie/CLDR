@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\Locale\ListPattern;
 use ICanBoogie\CLDR\Numbers\Symbols;
 
 /**
@@ -164,16 +165,15 @@ final class Repository
 	}
 
 	/**
-	 * Formats a variable-length lists of things.
+	 * Formats a variable-length lists of scalars.
 	 *
-	 * @param string[]|numeric[] $list
-	 * @param array<string, string> $list_patterns
+	 * @param scalar[] $list
 	 *
 	 * @see ListFormatter::format()
 	 */
-	public function format_list(array $list, array $list_patterns): string
+	public function format_list(array $list, ListPattern $list_pattern): string
 	{
-		return $this->list_formatter->format($list, $list_patterns);
+		return $this->list_formatter->format($list, $list_pattern);
 	}
 
 	/**

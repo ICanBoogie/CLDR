@@ -197,7 +197,7 @@ class LocaleTest extends TestCase
 		);
 	}
 
-	public function test_format_list()
+	public function test_format_list(): void
 	{
 		$this->assertSame(
 			"lundi, mardi et mercredi",

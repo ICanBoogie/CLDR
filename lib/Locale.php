@@ -236,15 +236,16 @@ class Locale extends AbstractSectionCollection
 	}
 
 	/**
-	 * Formats a variable-length lists of things using {@link $list_formatter}.
+	 * Formats a variable-length lists of scalars.
 	 *
-	 * @param array $list The list to format.
-	 * @param array|string $list_patterns_or_type A list patterns or a list patterns type (one
-	 * of `LocalizedListFormatter::TYPE_*`).
+	 * @param scalar[] $list
+	 * @param LocalizedListFormatter::TYPE_*|string $type
+	 *
+	 * @see LocalizedListFormatter::format()
 	 */
-	public function format_list(array $list, $list_patterns_or_type = LocalizedListFormatter::TYPE_STANDARD): string
+	public function format_list(array $list, string $type = LocalizedListFormatter::TYPE_STANDARD): string
 	{
-		return $this->list_formatter->format($list, $list_patterns_or_type);
+		return $this->list_formatter->format($list, $type);
 	}
 
 	/**

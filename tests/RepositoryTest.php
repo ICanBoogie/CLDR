@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Locale\ListPattern;
 use PHPUnit\Framework\TestCase;
 
 final class RepositoryTest extends TestCase
@@ -72,17 +73,16 @@ final class RepositoryTest extends TestCase
 	public function test_format_list(): void
 	{
 		$list = [ 'one', 'two', 'three' ];
+		$list_pattern = ListPattern::from([
 
-		$list_patterns = [
-
+			'2' =>  "{0} and {1}",
 			'start' => "{0}, {1}",
 			'middle' => "{0}, {1}",
 			'end' => "{0}, and {1}",
-			'2' =>  "{0} and {1}"
 
-		];
+		]);
 
-		$this->assertSame("one, two, and three", $this->repository->format_list($list, $list_patterns));
+		$this->assertSame("one, two, and three", $this->repository->format_list($list, $list_pattern));
 	}
 
 	/**

@@ -707,16 +707,16 @@ echo $repository->locales['fr']->format_number(123456.78);
 ```php
 <?php
 
-use ICanBoogie\CLDR\ListFormatter;
+namespace ICanBoogie\CLDR;
 
-$list_patterns = [
+$list_patterns = Locale\ListPattern::from([
 
 	'start' => "{0}, {1}",
 	'middle' => "{0}, {1}",
 	'end' => "{0}, and {1}",
 	'2' =>  "{0} and {1}"
 
-];
+]);
 
 $formatter = new ListFormatter;
 
@@ -735,16 +735,18 @@ $formatter([ "Monday", "Tuesday", "Friday", "Saturday" ], $list_patterns);
 ```php
 <?php
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+namespace ICanBoogie\CLDR;
 
-$list_patterns = [
+/* @var $repository Repository */
 
+$list_patterns = Locale\ListPattern::from([
+
+	'2' =>  "{0} and {1}",
 	'start' => "{0}, {1}",
 	'middle' => "{0}, {1}",
 	'end' => "{0}, and {1}",
-	'2' =>  "{0} and {1}"
 
-];
+]);
 
 $list_formatter = $repository->list_formatter;
 echo $repository->format_list([ "Monday", "Tuesday", "Friday" ], $list_patterns);
@@ -765,8 +767,7 @@ provide your own list patterns.
 ```php
 <?php
 
-use ICanBoogie\CLDR\ListFormatter;
-use ICanBoogie\CLDR\LocalizedListFormatter;
+namespace ICanBoogie\CLDR;
 
 /* @var $repository \ICanBoogie\CLDR\Repository */
 
@@ -791,7 +792,9 @@ $localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], LocalizedListFo
 ```php
 <?php
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+namespace ICanBoogie\CLDR;
+
+/* @var $repository Repository */
 
 $localized_list_formatter = $repository->locales['fr']->list_formatter;
 echo $repository->locales['fr']->format_list([ "Monday", "Tuesday", "Friday" ]);

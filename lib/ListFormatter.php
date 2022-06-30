@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\Locale\ListPattern;
 
 /**
  * Formats variable-length lists of things such as "Monday, Tuesday, Friday, and Saturday".
@@ -32,23 +33,21 @@ class ListFormatter implements Formatter
 	}
 
 	/**
-	 * Formats a variable-length lists of things.
+	 * Formats a variable-length lists of scalars.
 	 *
-	 * @param array $list The list to format.
-	 * @param array $list_patterns A list patterns.
+	 * @param scalar[] $list
 	 */
-	public function __invoke(array $list, array $list_patterns): string
+	public function __invoke(array $list, ListPattern $list_pattern): string
 	{
-		return $this->format($list, $list_patterns);
+		return $this->format($list, $list_pattern);
 	}
 
 	/**
-	 * Formats a variable-length lists of things.
+	 * Formats a variable-length lists of scalars.
 	 *
-	 * @param string[]|numeric[] $list The list to format.
-	 * @param array<string, string> $list_patterns A list patterns.
+	 * @param scalar[] $list
 	 */
-	public function format(array $list, array $list_patterns): string
+	public function format(array $list, ListPattern $list_pattern): string
 	{
 		$list = array_values($list);
 
@@ -61,7 +60,7 @@ class ListFormatter implements Formatter
 				return (string) current($list);
 
 			case 2:
-				return $this->format_pattern($list_patterns[2], $list[0], $list[1]);
+				return $this->format_pattern($list_pattern->two, $list[0], $list[1]);
 
 			default:
 				$n = count($list) - 1;
@@ -71,17 +70,17 @@ class ListFormatter implements Formatter
 				{
 					$v0 = $list[$i];
 
-					if ($i == 0)
+					if ($i === 0)
 					{
-						$pattern = $list_patterns['start'];
+						$pattern = $list_pattern->start;
 					}
-					else if ($i + 1 == $n)
+					else if ($i + 1 === $n)
 					{
-						$pattern = $list_patterns['end'];
+						$pattern = $list_pattern->end;
 					}
 					else
 					{
-						$pattern = $list_patterns['middle'];
+						$pattern = $list_pattern->middle;
 					}
 
 					$v1 = $this->format_pattern($pattern, $v0, $v1);

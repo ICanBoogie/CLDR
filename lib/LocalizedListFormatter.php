@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Locale\ListPattern;
+
 /**
  * Formats a variable-length lists of things.
  *
@@ -24,31 +26,26 @@ class LocalizedListFormatter extends LocalizedObject implements Formatter
 	public const TYPE_UNIT_SHORT = 'unit-short';
 
 	/**
-	 * Formats a variable-length lists of things.
+	 * Formats a variable-length lists of scalars.
 	 *
-	 * @param array $list The list to format.
-	 * @param array|string $list_patterns_or_type A list patterns or a list patterns type (one
-	 * of `TYPE_*`).
+	 * @param scalar[] $list
+	 * @param self::TYPE_* $type
 	 */
-	public function __invoke(array $list, $list_patterns_or_type = self::TYPE_STANDARD): string
+	public function __invoke(array $list, string $type = self::TYPE_STANDARD): string
 	{
-		return $this->format($list, $list_patterns_or_type);
+		return $this->format($list, $type);
 	}
 
 	/**
-	 * Formats a variable-length lists of things.
+	 * Formats a variable-length lists of scalars.
 	 *
-	 * @param array $list The list to format.
-	 * @param array|string $list_patterns_or_type A list patterns or a list patterns type (one
-	 * of TYPE_*).
+	 * @param scalar[] $list
+	 * @param self::TYPE_* $type
 	 */
-	public function format(array $list, $list_patterns_or_type = self::TYPE_STANDARD): string
+	public function format(array $list, string $type = self::TYPE_STANDARD): string
 	{
-		if (is_string($list_patterns_or_type))
-		{
-			$list_patterns_or_type = $this->locale['listPatterns']["listPattern-type-$list_patterns_or_type"];
-		}
+		$list_pattern = ListPattern::from($this->locale['listPatterns']["listPattern-type-$type"]);
 
-		return $this->target->format($list, $list_patterns_or_type);
+		return $this->target->format($list, $list_pattern);
 	}
 }
