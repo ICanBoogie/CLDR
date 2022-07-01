@@ -16,7 +16,7 @@ use ICanBoogie\CLDR\Cache;
 final class RuntimeCache implements Cache
 {
 	/**
-	 * @var array<string, array>
+	 * @var array<string, mixed>
 	 */
 	private $cache = [];
 

@@ -15,6 +15,8 @@ use ArrayObject;
 use DateTimeInterface;
 use ICanBoogie\Accessor\AccessorTrait;
 
+use function var_dump;
+
 /**
  * Representation of a locale calendar.
  *
@@ -55,6 +57,8 @@ use ICanBoogie\Accessor\AccessorTrait;
  * @property-read string[] $wide_eras                       Shortcut to `eras/eraNames`.
  * @property-read string[] $wide_months                     Shortcut to `months/format/wide`.
  * @property-read string[] $wide_quarters                   Shortcut to `quarters/format/wide`.
+ *
+ * @extends ArrayObject<string, mixed>
  */
 final class Calendar extends ArrayObject
 {
@@ -85,6 +89,9 @@ final class Calendar extends ArrayObject
 	use AccessorTrait;
 	use LocalePropertyTrait;
 
+	/**
+	 * @var array<string, string>
+	 */
 	static private $era_widths_mapping = [
 
 		self::WIDTH_ABBR => self::ERA_ABBR,
@@ -189,6 +196,10 @@ final class Calendar extends ArrayObject
 	/**
 	 * Transforms calendar data according to context transforms rules.
 	 *
+	 * @param array<string, mixed> $data
+	 *
+	 * @return array<string, mixed>
+	 *
 	 * @uses transform_months
 	 * @uses transform_days
 	 * @uses transform_quarters
@@ -233,6 +244,10 @@ final class Calendar extends ArrayObject
 
 	/**
 	 * Transforms month names according to context transforms rules.
+	 *
+	 * @param string[] $names
+	 *
+	 * @return string[]
 	 */
 	private function transform_months(array $names, string $width, bool $standalone): array
 	{
@@ -246,6 +261,10 @@ final class Calendar extends ArrayObject
 
 	/**
 	 * Transforms day names according to context transforms rules.
+	 *
+	 * @param string[] $names
+	 *
+	 * @return string[]
 	 */
 	private function transform_days(array $names, string $width, bool $standalone): array
 	{
@@ -259,6 +278,10 @@ final class Calendar extends ArrayObject
 
 	/**
 	 * Transforms day names according to context transforms rules.
+	 *
+	 * @param string[] $names
+	 *
+	 * @return string[]
 	 */
 	private function transform_months_or_days(array $names, string $width, bool $standalone, string $usage): array
 	{
@@ -276,6 +299,10 @@ final class Calendar extends ArrayObject
 
 	/**
 	 * Transforms era names according to context transforms rules.
+	 *
+	 * @param string[] $names
+	 *
+	 * @return string[]
 	 */
 	private function transform_eras(array $names, string $width): array
 	{
@@ -311,6 +338,10 @@ final class Calendar extends ArrayObject
 
 	/**
 	 * Transforms quarters names according to context transforms rules.
+	 *
+	 * @param string[] $names
+	 *
+	 * @return string[]
 	 */
 	private function transform_quarters(array $names, string $width, bool $standalone): array
 	{
@@ -361,12 +392,16 @@ final class Calendar extends ArrayObject
 
 	/**
 	 * Applies transformation to names.
+	 *
+	 * @param string[] $names
+	 *
+	 * @return string[]
 	 */
 	private function apply_transform(array $names, string $usage, string $type): array
 	{
 		$context_transforms = $this->context_transforms;
 
-		return array_map(function (string $str) use ($context_transforms, $usage, $type) {
+		return array_map(function (string $str) use ($context_transforms, $usage, $type): string {
 
 			return $context_transforms->transform($str, $usage, $type);
 

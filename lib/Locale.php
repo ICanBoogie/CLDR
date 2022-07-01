@@ -31,6 +31,10 @@ use LogicException;
  */
 class Locale extends AbstractSectionCollection
 {
+	/**
+	 * @var array<string, string>
+	 *     Where _key_ is a property and _value_ its CLDR path.
+	 */
 	static private $available_sections = [
 
 		'ca-buddhist'            => 'dates/calendars/buddhist',
@@ -67,13 +71,6 @@ class Locale extends AbstractSectionCollection
 	];
 
 	use CodePropertyTrait;
-
-	/**
-	 * Loaded sections.
-	 *
-	 * @var array
-	 */
-	protected $sections = [];
 
 	/**
 	 * @param string $code The ISO code of the locale.
@@ -148,9 +145,10 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * Localize the specified source.
 	 *
-	 * @param object|string $source_or_code The source to localize, or the locale code to localize
-	 * this instance.
-	 * @param array $options The options are passed to the localizer.
+	 * @param object|string $source_or_code
+	 *     The source to localize, or the locale code to localize this instance.
+	 * @param array<string, mixed> $options
+	 *     The options are passed to the localizer.
 	 *
 	 * @return mixed
 	 */
@@ -173,8 +171,6 @@ class Locale extends AbstractSectionCollection
 
 	/**
 	 * @param object $source
-	 *
-	 * @return callable|null
 	 */
 	private function resolve_localize_constructor($source): ?callable
 	{
@@ -182,7 +178,7 @@ class Locale extends AbstractSectionCollection
 
 		if ($source instanceof Localizable)
 		{
-			return [ $class, 'localize' ];
+			return [ $class, 'localize' ]; // @phpstan-ignore-line
 		}
 
 		$base = basename(strtr($class, '\\', '/'));
@@ -193,13 +189,13 @@ class Locale extends AbstractSectionCollection
 			return null;
 		}
 
-		return [ $constructor, 'from' ];
+		return [ $constructor, 'from' ]; // @phpstan-ignore-line
 	}
 
 	/**
 	 * Formats a number using {@link $number_formatter}.
 	 *
-	 * @param numeric $number
+	 * @param float|int $number
 	 *
 	 * @see LocalizedNumberFormatter::format
 	 */
@@ -209,7 +205,7 @@ class Locale extends AbstractSectionCollection
 	}
 
 	/**
-	 * @param numeric $number
+	 * @param float|int $number
 	 *
 	 * @see LocalizedNumberFormatter::format
 	 */
@@ -224,7 +220,7 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param numeric $number
+	 * @param float|int $number
 	 * @param Currency|string $currency
 	 */
 	public function format_currency(
@@ -239,7 +235,7 @@ class Locale extends AbstractSectionCollection
 	 * Formats a variable-length lists of scalars.
 	 *
 	 * @param scalar[] $list
-	 * @param LocalizedListFormatter::TYPE_*|string $type
+	 * @param LocalizedListFormatter::TYPE_* $type
 	 *
 	 * @see LocalizedListFormatter::format()
 	 */

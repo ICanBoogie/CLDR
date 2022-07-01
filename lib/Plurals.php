@@ -53,7 +53,7 @@ final class Plurals extends ArrayObject
 	private $samples = [];
 
 	/**
-	 * @param numeric $number
+	 * @param float|int $number
 	 *
 	 * @return string One of `COUNT_*`.
 	 */
@@ -142,6 +142,12 @@ final class Plurals extends ArrayObject
 
 	private function extract_samples(string $rule_string): string
 	{
-		return substr($rule_string, strpos($rule_string, '@'));
+		$pos = strpos($rule_string, '@');
+
+		if ($pos === false) {
+			throw new \Exception("Unable to locate rule string in '$rule_string'");
+		}
+
+		return substr($rule_string, $pos);
 	}
 }

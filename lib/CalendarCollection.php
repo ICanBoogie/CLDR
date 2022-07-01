@@ -13,6 +13,8 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
 
+use function is_array;
+
 /**
  * Representation of a calendar collection.
  *
@@ -39,7 +41,11 @@ final class CalendarCollection extends AbstractCollection
 
 		parent::__construct(function (string $id): Calendar {
 
-			return new Calendar($this->locale, $this->locale["ca-$id"]);
+			$data = $this->locale["ca-$id"];
+
+			assert(is_array($data));
+
+			return new Calendar($this->locale, $data);
 
 		});
 	}

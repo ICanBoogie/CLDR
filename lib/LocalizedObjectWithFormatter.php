@@ -14,7 +14,12 @@ namespace ICanBoogie\CLDR;
 /**
  * A localized object with a formatter.
  *
- * @property-read Formatter $formatter The formatter used to format the target object.
+ * @template TTarget of object
+ * @template TFormatter of Formatter
+ *
+ * @extends LocalizedObject<TTarget>
+ *
+ * @property-read TFormatter $formatter The formatter used to format the target object.
  *
  * @method string format() Formats the instance's target. Although the method is not
  * defined by the class, it should be implemented by subclasses.
@@ -22,7 +27,7 @@ namespace ICanBoogie\CLDR;
 abstract class LocalizedObjectWithFormatter extends LocalizedObject
 {
 	/**
-	 * @var Formatter|null
+	 * @var TFormatter|null
 	 */
 	private $formatter;
 
@@ -35,7 +40,7 @@ abstract class LocalizedObjectWithFormatter extends LocalizedObject
 	{
 		if ($property === 'formatter')
 		{
-			if (!$this->formatter)
+			if ($this->formatter === null)
 			{
 				$this->formatter = $this->lazy_get_formatter();
 			}
@@ -48,6 +53,8 @@ abstract class LocalizedObjectWithFormatter extends LocalizedObject
 
 	/**
 	 * Returns the formatter used to format the target object.
+	 *
+	 * @return TFormatter
 	 */
 	abstract protected function lazy_get_formatter(): Formatter;
 }

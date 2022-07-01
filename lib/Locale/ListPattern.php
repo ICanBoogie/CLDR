@@ -40,6 +40,14 @@ final class ListPattern
 	 */
 	public $end;
 
+	/**
+	 * @param array{
+	 *     2: string,
+	 *     start: string,
+	 *     middle: string,
+	 *     end: string,
+	 * } $list_pattern
+	 */
 	static public function from(array $list_pattern): self
 	{
 		return new self(

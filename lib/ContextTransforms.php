@@ -14,6 +14,7 @@ namespace ICanBoogie\CLDR;
 use LogicException;
 use function mb_strtoupper;
 use function mb_substr;
+use function var_dump;
 
 /**
  * @see http://unicode.org/reports/tr35/tr35-general.html#contextTransformUsage_type_attribute_values
@@ -60,10 +61,13 @@ final class ContextTransforms
 	public const TRANSFORM_NO_CHANGE = 'no-change';
 
 	/**
-	 * @var array
+	 * @var array<array<string, string>>
 	 */
 	private $rules;
 
+	/**
+	 * @param array<array<string, string>> $rules
+	 */
 	public function __construct(array $rules)
 	{
 		$this->rules = $rules;

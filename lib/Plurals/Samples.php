@@ -31,7 +31,7 @@ use function trim;
  *
  * @see http://unicode.org/reports/tr35/tr35-numbers.html#Samples
  *
- * @implements IteratorAggregate<string>
+ * @implements IteratorAggregate<numeric>
  */
 final class Samples implements IteratorAggregate
 {

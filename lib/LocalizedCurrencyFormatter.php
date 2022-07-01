@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 /**
  * Formats currencies using locale conventions.
  *
- * @property-read CurrencyFormatter $target
+ * @extends LocalizedObject<CurrencyFormatter>
  */
 class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 {
@@ -24,7 +24,7 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param numeric $number
+	 * @param float|int $number
 	 * @param Currency|string $currency
 	 */
 	public function __invoke($number, $currency, string $pattern = self::PATTERN_STANDARD): string
@@ -35,7 +35,7 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param numeric $number
+	 * @param float|int $number
 	 * @param Currency|string $currency
 	 */
 	public function format($number, $currency, string $pattern = self::PATTERN_STANDARD): string

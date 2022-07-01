@@ -37,7 +37,7 @@ final class Number
 	/**
 	 * Returns a number rounded to the specified precision.
 	 *
-	 * @param numeric $number
+	 * @param float|int $number
 	 */
 	static public function round_to($number, int $precision): float
 	{
@@ -47,7 +47,7 @@ final class Number
 	/**
 	 * Parses a number.
 	 *
-	 * @param numeric $number
+	 * @param float|int $number
 	 * @param null|int $precision
 	 *
 	 * @return array{ 0: int, 1: string|null}

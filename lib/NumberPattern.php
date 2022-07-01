@@ -224,7 +224,7 @@ final class NumberPattern
 		$size = $group_size2 > 0 ? $group_size2 : $group_size1;
 		$str1 = str_pad($str1, (int) ((strlen($str1) + $size - 1) / $size) * $size, ' ', STR_PAD_LEFT);
 
-		return ltrim(implode($group_symbol, str_split($str1, $size))) . $group_symbol . $str2;
+		return ltrim(implode($group_symbol, (array) str_split($str1, $size))) . $group_symbol . $str2;
 	}
 
 	/**

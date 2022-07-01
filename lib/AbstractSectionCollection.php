@@ -19,7 +19,7 @@ use ReturnTypeWillChange;
 use function explode;
 
 /**
- * @implements ArrayAccess<string, array>
+ * @implements ArrayAccess<string, array<string, mixed>>
  */
 abstract class AbstractSectionCollection implements ArrayAccess
 {
@@ -33,17 +33,23 @@ abstract class AbstractSectionCollection implements ArrayAccess
 	private $name;
 
 	/**
-	 * @var array
+	 * @var array<string, string>
+	 *     Where _key_ is a section name and _value_ its CLDR path.
 	 */
 	private $available_sections;
 
 	/**
-	 * Loaded sections.
-	 *
-	 * @var array
+	 * @var array<string, array<string, mixed>>
+	 *     Loaded sections, where _key_ is a section name and _value_ its data.
 	 */
 	private $sections = [];
 
+	/**
+	 * @param Repository $repository
+	 * @param string $name
+	 * @param array<string, string> $available_sections
+	 *     Where _key_ is a section name and _value_ its CLDR path.
+	 */
 	public function __construct(Repository $repository, string $name, array $available_sections)
 	{
 		$this->repository = $repository;

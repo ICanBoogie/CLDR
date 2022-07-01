@@ -60,7 +60,7 @@ class ListFormatter implements Formatter
 				return (string) current($list);
 
 			case 2:
-				return $this->format_pattern($list_pattern->two, $list[0], $list[1]);
+				return $this->format_pattern($list_pattern->two, (string) $list[0], (string) $list[1]);
 
 			default:
 				$n = count($list) - 1;
@@ -83,7 +83,7 @@ class ListFormatter implements Formatter
 						$pattern = $list_pattern->middle;
 					}
 
-					$v1 = $this->format_pattern($pattern, $v0, $v1);
+					$v1 = $this->format_pattern($pattern, (string) $v0, (string) $v1);
 				}
 
 				return $v1;

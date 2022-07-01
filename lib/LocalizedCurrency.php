@@ -12,25 +12,27 @@
 namespace ICanBoogie\CLDR;
 
 /**
- * Localized currency.
+ * A localized currency.
+ *
+ * @extends LocalizedObjectWithFormatter<Currency, LocalizedCurrencyFormatter>
  *
  * @property-read Currency $target
  * @property-read string $name The localized name of the currency.
  * @property-read string $symbol The localized symbol of the currency.
- * @property-read LocalizedCurrencyFormatter $formatter
  */
 class LocalizedCurrency extends LocalizedObjectWithFormatter
 {
 	/**
-	 * @inheritDoc
-	 *
-	 * @return LocalizedCurrencyFormatter|Formatter
+	 * @return LocalizedCurrencyFormatter
 	 */
 	protected function lazy_get_formatter(): Formatter
 	{
 	    return $this->locale->currency_formatter;
 	}
 
+	/**
+	 * @uses get_name
+	 */
 	protected function get_name(): string
 	{
 		return $this->name_for();
@@ -64,6 +66,8 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 
 	/**
 	 * Returns the localized symbol of the currency.
+	 *
+	 * @uses get_symbol
 	 */
 	protected function get_symbol(): string
 	{
@@ -75,7 +79,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param numeric $number
+	 * @param float|int $number
 	 */
 	public function format($number, string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD): string
 	{

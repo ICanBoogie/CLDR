@@ -14,11 +14,16 @@ namespace ICanBoogie\CLDR;
 /**
  * A localized territory.
  *
- * @property-read Territory $target
- * @property-read string $name The localized name of the territory.
+ * @property-read string $name
+ *     The localized name of the territory.
+ *
+ * @extends LocalizedObject<Territory>
  */
 class LocalizedTerritory extends LocalizedObject
 {
+	/**
+	 * @uses get_name
+	 */
 	protected function get_name(): string
 	{
 		return $this->locale['territories'][$this->target->code];

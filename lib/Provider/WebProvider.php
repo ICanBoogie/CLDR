@@ -14,12 +14,15 @@ namespace ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\Provider\WebProvider\PathMapper;
 use ICanBoogie\CLDR\ResourceNotFound;
+
 use function curl_exec;
 use function curl_getinfo;
 use function curl_init;
 use function curl_setopt;
 use function curl_setopt_array;
+use function is_string;
 use function json_decode;
+
 use const CURLINFO_HTTP_CODE;
 use const CURLOPT_FAILONERROR;
 use const CURLOPT_RETURNTRANSFER;
@@ -66,6 +69,8 @@ final class WebProvider implements Provider
 		{
 			throw new ResourceNotFound($path);
 		}
+
+		assert(is_string($rc));
 
 		return json_decode($rc, true);
 	}

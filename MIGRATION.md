@@ -74,3 +74,4 @@ None
 
 - Compatible with PHP 8.1+
 - Targets [CLDR v36](http://cldr.unicode.org/index/downloads/cldr-36)
+- Improved type annotations, including generics.

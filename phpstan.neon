@@ -1,5 +1,5 @@
 parameters:
-  level: 6
+  level: 7
   paths:
     - lib
   scanFiles:
@@ -8,4 +8,3 @@ parameters:
     - '#.* is not writable.#'
     - '#get_.* is unused.#'
     - '#__call\(\) has parameter \$arguments#'
-    - '#__call\(\) has no return type specified.#'

@@ -12,13 +12,18 @@
 namespace ICanBoogie\CLDR;
 
 /**
- * A localized locale
+ * A localized locale.
  *
- * @property-read Locale $target
- * @property-read string $name The localized name of the locale.
+ * @property-read string $name
+ *     The localized name of the locale.
+ *
+ * @extends LocalizedObject<Locale>
  */
 class LocalizedLocale extends LocalizedObject
 {
+	/**
+	 * @uses get_name
+	 */
 	protected function get_name(): string
 	{
 		return $this->locale['languages'][$this->target->code];

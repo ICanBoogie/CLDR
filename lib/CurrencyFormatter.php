@@ -29,7 +29,7 @@ final class CurrencyFormatter extends NumberFormatter
 		$number,
 		$pattern,
 		Symbols $symbols = null,
-		$currencySymbol = self::DEFAULT_CURRENCY_SYMBOL
+		string $currencySymbol = self::DEFAULT_CURRENCY_SYMBOL
 	): string {
 		return str_replace(
 			self::DEFAULT_CURRENCY_SYMBOL,

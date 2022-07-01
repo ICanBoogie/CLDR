@@ -139,7 +139,7 @@ final class Repository
 	/**
 	 * Format a number with the specified pattern.
 	 *
-	 * @param numeric $number The number to be formatted.
+	 * @param float|int $number The number to be formatted.
 	 *
 	 * @see NumberFormatter::format()
 	 */
@@ -151,7 +151,7 @@ final class Repository
 	/**
 	 * Format a number with the specified pattern.
 	 *
-	 * @param numeric $number The number to be formatted.
+	 * @param float|int $number The number to be formatted.
 	 *
 	 * @see CurrencyFormatter::format()
 	 */

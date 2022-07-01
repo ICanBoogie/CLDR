@@ -287,7 +287,7 @@ class Units
 	/**
 	 * @param string $length One of `LENGTH_*`.
 	 *
-	 * @return string One of `LocalizedListFormatter::TYPE_UNIT*`.
+	 * @return LocalizedListFormatter::TYPE_UNIT_*
 	 */
 	static private function length_to_unit_type(string $length): string
 	{
@@ -418,7 +418,7 @@ class Units
 	 * or 3 ft 2 in. For that purpose, the appropriate width of the unit listPattern can be used
 	 * to compose the units in a sequence.
 	 *
-	 * @param array<string, numeric> $units_and_numbers
+	 * @param array<string, int|float> $units_and_numbers
 	 *
 	 * @see http://unicode.org/reports/tr35/tr35-general.html#Unit_Sequences
 	 */

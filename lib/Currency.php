@@ -63,7 +63,7 @@ final class Currency
 	];
 
 	/**
-	 * @var array
+	 * @var array<string, string>
 	 */
 	private $fraction_data;
 
@@ -73,6 +73,9 @@ final class Currency
 		$this->code = $code;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function __get(string $property)
 	{
 		$fraction_mapping = self::$fraction_mapping;
@@ -96,6 +99,9 @@ final class Currency
 		return $this->repository->locales[$locale_code]->localize($this);
 	}
 
+	/**
+	 * @return array<string, string>
+	 */
 	private function resolve_fraction_data(): array
 	{
 		$fraction_data = &$this->fraction_data;

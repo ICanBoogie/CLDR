@@ -16,7 +16,7 @@ use ICanBoogie\CLDR\Locale\ListPattern;
 /**
  * Formats a variable-length lists of things.
  *
- * @property-read ListFormatter $target
+ * @extends LocalizedObject<ListFormatter>
  */
 class LocalizedListFormatter extends LocalizedObject implements Formatter
 {

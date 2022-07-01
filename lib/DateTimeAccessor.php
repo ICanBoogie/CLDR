@@ -42,7 +42,7 @@ class DateTimeAccessor
 	}
 
 	/**
-	 * @retrun mixed
+	 * @return mixed
 	 */
 	public function __get(string $property)
 	{
@@ -76,6 +76,8 @@ class DateTimeAccessor
 	}
 
 	/**
+	 * @param mixed[] $params
+	 *
 	 * @return mixed
 	 */
 	public function __call(string $name, array $params)

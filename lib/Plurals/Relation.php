@@ -18,6 +18,7 @@ use function explode;
 use function extract;
 use function implode;
 use function is_numeric;
+use function is_string;
 use function rtrim;
 use function str_repeat;
 use function strlen;
@@ -49,12 +50,13 @@ final class Relation
 	}
 
 	/**
-	 * @return array{ 0: string, 1: string }
+	 * @return array{ 0: string|null, 1: string }
 	 *     Where `0` is the x_expressions and `1` the range.
 	 */
 	static private function parse_relation(string $relation): array
 	{
 		[ $x_expression, $range_list ] = explode('= ', $relation) + [ 1 => null ];
+		assert(is_string($x_expression));
 		[ $x_expression, $negative ] = self::parse_x_expression($x_expression);
 
 		$range = $range_list ? self::parse_range_list($range_list) : '($x == 0)';

@@ -36,8 +36,8 @@ use function substr;
  * echo $ldt->as_short;         // 04/11/2013 20:21
  * </pre>
  *
- * @property-read DateTimeInterface $target The object to localize.
- * @property-read DateTimeFormatter $formatter
+ * @extends LocalizedObjectWithFormatter<DateTimeInterface, DateTimeFormatter>
+ *
  * @property-read string $as_full
  * @property-read string $as_long
  * @property-read string $as_medium
@@ -50,12 +50,15 @@ use function substr;
  */
 final class LocalizedDateTime extends LocalizedObjectWithFormatter
 {
+	/**
+	 * @var string[]
+	 */
 	static private $format_widths = [ 'full', 'long', 'medium', 'short' ];
 
 	/**
 	 * @inheritDoc
 	 *
-	 * @return DateTimeFormatter|Formatter
+	 * @return DateTimeFormatter
 	 */
 	protected function lazy_get_formatter(): Formatter
 	{
@@ -63,6 +66,8 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 	}
 
 	/**
+	 * @param string $property
+	 *
 	 * @return mixed
 	 */
 	public function __get($property)
@@ -84,11 +89,23 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 		}
 	}
 
-	public function __set($property, $value)
+	/**
+	 * @param string $property
+	 * @param mixed $value
+	 */
+	public function __set($property, $value): void
 	{
 		$this->target->$property = $value;
 	}
 
+	/**
+	 * @param string $method
+	 * @param array<string, mixed> $arguments
+	 *
+	 * @return mixed
+	 *
+	 * @throws \Exception
+	 */
 	public function __call($method, $arguments)
 	{
 		if (strpos($method, 'format_as_') === 0 && in_array($width = substr($method, 10), self::$format_widths))
@@ -99,7 +116,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 		return $this->target->$method(...$arguments);
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		$target = $this->target;
 

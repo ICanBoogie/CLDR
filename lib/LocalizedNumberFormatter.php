@@ -14,14 +14,14 @@ namespace ICanBoogie\CLDR;
 /**
  * Formats numbers using locale conventions.
  *
- * @property-read NumberFormatter $target
+ * @extends LocalizedObject<NumberFormatter>
  */
 class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 {
 	/**
 	 * Formats a number.
 	 *
-	 * @param numeric $number The number to format.
+	 * @param float|int $number The number to format.
 	 */
 	public function __invoke($number, string $pattern = null): string
 	{
@@ -31,12 +31,12 @@ class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats a number.
 	 *
-	 * @param numeric $number The number to format.
+	 * @param float|int $number The number to format.
 	 */
 	public function format($number, string $pattern = null): string
 	{
 		$numbers = $this->locale->numbers;
 
-		return $this->target->format($number, $pattern ?: $numbers->decimal_format, $numbers->symbols);
+		return $this->target->format($number, $pattern ?? $numbers->decimal_format, $numbers->symbols);
 	}
 }

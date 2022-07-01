@@ -39,6 +39,9 @@ use function unlink;
  */
 final class FileCache implements Cache
 {
+	/**
+	 * @var bool
+	 */
 	static private $release_after;
 
 	/**
@@ -99,11 +102,17 @@ final class FileCache implements Cache
 		return $this->path . str_replace('/', '--', $path);
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	private function read(string $pathname): array
 	{
-		return json_decode(file_get_contents($pathname), true);
+		return json_decode(file_get_contents($pathname), true); // @phpstan-ignore-line
 	}
 
+	/**
+	 * @param mixed[] $data
+	 */
 	private function write(string $pathname, array $data): void
 	{
 		file_put_contents($pathname, json_encode($data));
@@ -111,6 +120,8 @@ final class FileCache implements Cache
 
 	/**
 	 * Safely set the value.
+	 *
+	 * @param mixed[] $data
 	 *
 	 * @throws Exception
 	 */

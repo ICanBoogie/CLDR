@@ -45,6 +45,9 @@ class DateTimeFormatter implements Formatter
 	public const WIDTH_MEDIUM = 'medium';
 	public const WIDTH_SHORT = 'short';
 
+	/**
+	 * @var string[]
+	 */
 	static private $widths = [
 
 		self::WIDTH_FULL,
@@ -57,7 +60,8 @@ class DateTimeFormatter implements Formatter
 	/**
 	 * Pattern characters mapping to the corresponding translator methods.
 	 *
-	 * @var array
+	 * @var array<string, string>
+	 *     Where _key_ is a pattern character and _value_ its formatter.
 	 */
 	private static $formatters = [
 
@@ -94,6 +98,9 @@ class DateTimeFormatter implements Formatter
 
 	/**
 	 * Parses the datetime format pattern.
+	 *
+	 * @return array<string|array{0: string, 1: int}>
+	 *     Where _value_ is either a literal or an array where `0` is a formatter method and `1` a length.
 	 */
 	private static function tokenize(string $pattern): array
 	{
@@ -488,7 +495,7 @@ class DateTimeFormatter implements Formatter
 			return '';
 		}
 
-		return ceil($datetime->day / 7) ?: "0";
+		return (string) ceil($datetime->day / 7) ?: "0";
 	}
 
 	/*
