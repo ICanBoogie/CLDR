@@ -13,11 +13,12 @@ namespace ICanBoogie\CLDR;
 
 use BadMethodCallException;
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\Units\NumberWithUnit;
 use ICanBoogie\CLDR\Units\Sequence;
 use ICanBoogie\CLDR\Units\Unit;
 use LogicException;
 
-use function array_shift;
+use function count;
 use function is_string;
 use function str_replace;
 use function strtr;
@@ -147,127 +148,127 @@ use function strtr;
  * @property-read Unit $volume_tablespoon
  * @property-read Unit $volume_teaspoon
  *
- * @method string acceleration_g_force(mixed $number, string $length = "long")
- * @method string acceleration_meter_per_second_squared(mixed $number, string $length = "long")
- * @method string angle_arc_minute(mixed $number, string $length = "long")
- * @method string angle_arc_second(mixed $number, string $length = "long")
- * @method string angle_degree(mixed $number, string $length = "long")
- * @method string angle_radian(mixed $number, string $length = "long")
- * @method string area_acre(mixed $number, string $length = "long")
- * @method string area_hectare(mixed $number, string $length = "long")
- * @method string area_square_centimeter(mixed $number, string $length = "long")
- * @method string area_square_foot(mixed $number, string $length = "long")
- * @method string area_square_inch(mixed $number, string $length = "long")
- * @method string area_square_kilometer(mixed $number, string $length = "long")
- * @method string area_square_meter(mixed $number, string $length = "long")
- * @method string area_square_mile(mixed $number, string $length = "long")
- * @method string area_square_yard(mixed $number, string $length = "long")
- * @method string consumption_liter_per_kilometer(mixed $number, string $length = "long")
- * @method string consumption_mile_per_gallon(mixed $number, string $length = "long")
- * @method string digital_bit(mixed $number, string $length = "long")
- * @method string digital_byte(mixed $number, string $length = "long")
- * @method string digital_gigabit(mixed $number, string $length = "long")
- * @method string digital_gigabyte(mixed $number, string $length = "long")
- * @method string digital_kilobit(mixed $number, string $length = "long")
- * @method string digital_kilobyte(mixed $number, string $length = "long")
- * @method string digital_megabit(mixed $number, string $length = "long")
- * @method string digital_megabyte(mixed $number, string $length = "long")
- * @method string digital_terabit(mixed $number, string $length = "long")
- * @method string digital_terabyte(mixed $number, string $length = "long")
- * @method string duration_day(mixed $number, string $length = "long")
- * @method string duration_hour(mixed $number, string $length = "long")
- * @method string duration_microsecond(mixed $number, string $length = "long")
- * @method string duration_millisecond(mixed $number, string $length = "long")
- * @method string duration_minute(mixed $number, string $length = "long")
- * @method string duration_month(mixed $number, string $length = "long")
- * @method string duration_nanosecond(mixed $number, string $length = "long")
- * @method string duration_second(mixed $number, string $length = "long")
- * @method string duration_week(mixed $number, string $length = "long")
- * @method string duration_year(mixed $number, string $length = "long")
- * @method string electric_ampere(mixed $number, string $length = "long")
- * @method string electric_milliampere(mixed $number, string $length = "long")
- * @method string electric_ohm(mixed $number, string $length = "long")
- * @method string electric_volt(mixed $number, string $length = "long")
- * @method string energy_calorie(mixed $number, string $length = "long")
- * @method string energy_foodcalorie(mixed $number, string $length = "long")
- * @method string energy_joule(mixed $number, string $length = "long")
- * @method string energy_kilocalorie(mixed $number, string $length = "long")
- * @method string energy_kilojoule(mixed $number, string $length = "long")
- * @method string energy_kilowatt_hour(mixed $number, string $length = "long")
- * @method string frequency_gigahertz(mixed $number, string $length = "long")
- * @method string frequency_hertz(mixed $number, string $length = "long")
- * @method string frequency_kilohertz(mixed $number, string $length = "long")
- * @method string frequency_megahertz(mixed $number, string $length = "long")
- * @method string length_astronomical_unit(mixed $number, string $length = "long")
- * @method string length_centimeter(mixed $number, string $length = "long")
- * @method string length_decimeter(mixed $number, string $length = "long")
- * @method string length_fathom(mixed $number, string $length = "long")
- * @method string length_foot(mixed $number, string $length = "long")
- * @method string length_furlong(mixed $number, string $length = "long")
- * @method string length_inch(mixed $number, string $length = "long")
- * @method string length_kilometer(mixed $number, string $length = "long")
- * @method string length_light_year(mixed $number, string $length = "long")
- * @method string length_meter(mixed $number, string $length = "long")
- * @method string length_micrometer(mixed $number, string $length = "long")
- * @method string length_mile(mixed $number, string $length = "long")
- * @method string length_millimeter(mixed $number, string $length = "long")
- * @method string length_nanometer(mixed $number, string $length = "long")
- * @method string length_nautical_mile(mixed $number, string $length = "long")
- * @method string length_parsec(mixed $number, string $length = "long")
- * @method string length_picometer(mixed $number, string $length = "long")
- * @method string length_yard(mixed $number, string $length = "long")
- * @method string light_lux(mixed $number, string $length = "long")
- * @method string mass_carat(mixed $number, string $length = "long")
- * @method string mass_gram(mixed $number, string $length = "long")
- * @method string mass_kilogram(mixed $number, string $length = "long")
- * @method string mass_metric_ton(mixed $number, string $length = "long")
- * @method string mass_microgram(mixed $number, string $length = "long")
- * @method string mass_milligram(mixed $number, string $length = "long")
- * @method string mass_ounce(mixed $number, string $length = "long")
- * @method string mass_ounce_troy(mixed $number, string $length = "long")
- * @method string mass_pound(mixed $number, string $length = "long")
- * @method string mass_stone(mixed $number, string $length = "long")
- * @method string mass_ton(mixed $number, string $length = "long")
- * @method string power_gigawatt(mixed $number, string $length = "long")
- * @method string power_horsepower(mixed $number, string $length = "long")
- * @method string power_kilowatt(mixed $number, string $length = "long")
- * @method string power_megawatt(mixed $number, string $length = "long")
- * @method string power_milliwatt(mixed $number, string $length = "long")
- * @method string power_watt(mixed $number, string $length = "long")
- * @method string pressure_hectopascal(mixed $number, string $length = "long")
- * @method string pressure_inch_hg(mixed $number, string $length = "long")
- * @method string pressure_millibar(mixed $number, string $length = "long")
- * @method string pressure_millimeter_of_mercury(mixed $number, string $length = "long")
- * @method string pressure_pound_per_square_inch(mixed $number, string $length = "long")
- * @method string proportion_karat(mixed $number, string $length = "long")
- * @method string speed_kilometer_per_hour(mixed $number, string $length = "long")
- * @method string speed_meter_per_second(mixed $number, string $length = "long")
- * @method string speed_mile_per_hour(mixed $number, string $length = "long")
- * @method string temperature_celsius(mixed $number, string $length = "long")
- * @method string temperature_fahrenheit(mixed $number, string $length = "long")
- * @method string temperature_kelvin(mixed $number, string $length = "long")
- * @method string volume_acre_foot(mixed $number, string $length = "long")
- * @method string volume_bushel(mixed $number, string $length = "long")
- * @method string volume_centiliter(mixed $number, string $length = "long")
- * @method string volume_cubic_centimeter(mixed $number, string $length = "long")
- * @method string volume_cubic_foot(mixed $number, string $length = "long")
- * @method string volume_cubic_inch(mixed $number, string $length = "long")
- * @method string volume_cubic_kilometer(mixed $number, string $length = "long")
- * @method string volume_cubic_meter(mixed $number, string $length = "long")
- * @method string volume_cubic_mile(mixed $number, string $length = "long")
- * @method string volume_cubic_yard(mixed $number, string $length = "long")
- * @method string volume_cup(mixed $number, string $length = "long")
- * @method string volume_deciliter(mixed $number, string $length = "long")
- * @method string volume_fluid_ounce(mixed $number, string $length = "long")
- * @method string volume_gallon(mixed $number, string $length = "long")
- * @method string volume_hectoliter(mixed $number, string $length = "long")
- * @method string volume_liter(mixed $number, string $length = "long")
- * @method string volume_megaliter(mixed $number, string $length = "long")
- * @method string volume_milliliter(mixed $number, string $length = "long")
- * @method string volume_pint(mixed $number, string $length = "long")
- * @method string volume_quart(mixed $number, string $length = "long")
- * @method string volume_tablespoon(mixed $number, string $length = "long")
- * @method string volume_teaspoon(mixed $number, string $length = "long")
+ * @method NumberWithUnit acceleration_g_force(float|int $number)
+ * @method NumberWithUnit acceleration_meter_per_second_squared(float|int $number)
+ * @method NumberWithUnit angle_arc_minute(float|int $number)
+ * @method NumberWithUnit angle_arc_second(float|int $number)
+ * @method NumberWithUnit angle_degree(float|int $number)
+ * @method NumberWithUnit angle_radian(float|int $number)
+ * @method NumberWithUnit area_acre(float|int $number)
+ * @method NumberWithUnit area_hectare(float|int $number)
+ * @method NumberWithUnit area_square_centimeter(float|int $number)
+ * @method NumberWithUnit area_square_foot(float|int $number)
+ * @method NumberWithUnit area_square_inch(float|int $number)
+ * @method NumberWithUnit area_square_kilometer(float|int $number)
+ * @method NumberWithUnit area_square_meter(float|int $number)
+ * @method NumberWithUnit area_square_mile(float|int $number)
+ * @method NumberWithUnit area_square_yard(float|int $number)
+ * @method NumberWithUnit consumption_liter_per_kilometer(float|int $number)
+ * @method NumberWithUnit consumption_mile_per_gallon(float|int $number)
+ * @method NumberWithUnit digital_bit(float|int $number)
+ * @method NumberWithUnit digital_byte(float|int $number)
+ * @method NumberWithUnit digital_gigabit(float|int $number)
+ * @method NumberWithUnit digital_gigabyte(float|int $number)
+ * @method NumberWithUnit digital_kilobit(float|int $number)
+ * @method NumberWithUnit digital_kilobyte(float|int $number)
+ * @method NumberWithUnit digital_megabit(float|int $number)
+ * @method NumberWithUnit digital_megabyte(float|int $number)
+ * @method NumberWithUnit digital_terabit(float|int $number)
+ * @method NumberWithUnit digital_terabyte(float|int $number)
+ * @method NumberWithUnit duration_day(float|int $number)
+ * @method NumberWithUnit duration_hour(float|int $number)
+ * @method NumberWithUnit duration_microsecond(float|int $number)
+ * @method NumberWithUnit duration_millisecond(float|int $number)
+ * @method NumberWithUnit duration_minute(float|int $number)
+ * @method NumberWithUnit duration_month(float|int $number)
+ * @method NumberWithUnit duration_nanosecond(float|int $number)
+ * @method NumberWithUnit duration_second(float|int $number)
+ * @method NumberWithUnit duration_week(float|int $number)
+ * @method NumberWithUnit duration_year(float|int $number)
+ * @method NumberWithUnit electric_ampere(float|int $number)
+ * @method NumberWithUnit electric_milliampere(float|int $number)
+ * @method NumberWithUnit electric_ohm(float|int $number)
+ * @method NumberWithUnit electric_volt(float|int $number)
+ * @method NumberWithUnit energy_calorie(float|int $number)
+ * @method NumberWithUnit energy_foodcalorie(float|int $number)
+ * @method NumberWithUnit energy_joule(float|int $number)
+ * @method NumberWithUnit energy_kilocalorie(float|int $number)
+ * @method NumberWithUnit energy_kilojoule(float|int $number)
+ * @method NumberWithUnit energy_kilowatt_hour(float|int $number)
+ * @method NumberWithUnit frequency_gigahertz(float|int $number)
+ * @method NumberWithUnit frequency_hertz(float|int $number)
+ * @method NumberWithUnit frequency_kilohertz(float|int $number)
+ * @method NumberWithUnit frequency_megahertz(float|int $number)
+ * @method NumberWithUnit length_astronomical_unit(float|int $number)
+ * @method NumberWithUnit length_centimeter(float|int $number)
+ * @method NumberWithUnit length_decimeter(float|int $number)
+ * @method NumberWithUnit length_fathom(float|int $number)
+ * @method NumberWithUnit length_foot(float|int $number)
+ * @method NumberWithUnit length_furlong(float|int $number)
+ * @method NumberWithUnit length_inch(float|int $number)
+ * @method NumberWithUnit length_kilometer(float|int $number)
+ * @method NumberWithUnit length_light_year(float|int $number)
+ * @method NumberWithUnit length_meter(float|int $number)
+ * @method NumberWithUnit length_micrometer(float|int $number)
+ * @method NumberWithUnit length_mile(float|int $number)
+ * @method NumberWithUnit length_millimeter(float|int $number)
+ * @method NumberWithUnit length_nanometer(float|int $number)
+ * @method NumberWithUnit length_nautical_mile(float|int $number)
+ * @method NumberWithUnit length_parsec(float|int $number)
+ * @method NumberWithUnit length_picometer(float|int $number)
+ * @method NumberWithUnit length_yard(float|int $number)
+ * @method NumberWithUnit light_lux(float|int $number)
+ * @method NumberWithUnit mass_carat(float|int $number)
+ * @method NumberWithUnit mass_gram(float|int $number)
+ * @method NumberWithUnit mass_kilogram(float|int $number)
+ * @method NumberWithUnit mass_metric_ton(float|int $number)
+ * @method NumberWithUnit mass_microgram(float|int $number)
+ * @method NumberWithUnit mass_milligram(float|int $number)
+ * @method NumberWithUnit mass_ounce(float|int $number)
+ * @method NumberWithUnit mass_ounce_troy(float|int $number)
+ * @method NumberWithUnit mass_pound(float|int $number)
+ * @method NumberWithUnit mass_stone(float|int $number)
+ * @method NumberWithUnit mass_ton(float|int $number)
+ * @method NumberWithUnit power_gigawatt(float|int $number)
+ * @method NumberWithUnit power_horsepower(float|int $number)
+ * @method NumberWithUnit power_kilowatt(float|int $number)
+ * @method NumberWithUnit power_megawatt(float|int $number)
+ * @method NumberWithUnit power_milliwatt(float|int $number)
+ * @method NumberWithUnit power_watt(float|int $number)
+ * @method NumberWithUnit pressure_hectopascal(float|int $number)
+ * @method NumberWithUnit pressure_inch_hg(float|int $number)
+ * @method NumberWithUnit pressure_millibar(float|int $number)
+ * @method NumberWithUnit pressure_millimeter_of_mercury(float|int $number)
+ * @method NumberWithUnit pressure_pound_per_square_inch(float|int $number)
+ * @method NumberWithUnit proportion_karat(float|int $number)
+ * @method NumberWithUnit speed_kilometer_per_hour(float|int $number)
+ * @method NumberWithUnit speed_meter_per_second(float|int $number)
+ * @method NumberWithUnit speed_mile_per_hour(float|int $number)
+ * @method NumberWithUnit temperature_celsius(float|int $number)
+ * @method NumberWithUnit temperature_fahrenheit(float|int $number)
+ * @method NumberWithUnit temperature_kelvin(float|int $number)
+ * @method NumberWithUnit volume_acre_foot(float|int $number)
+ * @method NumberWithUnit volume_bushel(float|int $number)
+ * @method NumberWithUnit volume_centiliter(float|int $number)
+ * @method NumberWithUnit volume_cubic_centimeter(float|int $number)
+ * @method NumberWithUnit volume_cubic_foot(float|int $number)
+ * @method NumberWithUnit volume_cubic_inch(float|int $number)
+ * @method NumberWithUnit volume_cubic_kilometer(float|int $number)
+ * @method NumberWithUnit volume_cubic_meter(float|int $number)
+ * @method NumberWithUnit volume_cubic_mile(float|int $number)
+ * @method NumberWithUnit volume_cubic_yard(float|int $number)
+ * @method NumberWithUnit volume_cup(float|int $number)
+ * @method NumberWithUnit volume_deciliter(float|int $number)
+ * @method NumberWithUnit volume_fluid_ounce(float|int $number)
+ * @method NumberWithUnit volume_gallon(float|int $number)
+ * @method NumberWithUnit volume_hectoliter(float|int $number)
+ * @method NumberWithUnit volume_liter(float|int $number)
+ * @method NumberWithUnit volume_megaliter(float|int $number)
+ * @method NumberWithUnit volume_milliliter(float|int $number)
+ * @method NumberWithUnit volume_pint(float|int $number)
+ * @method NumberWithUnit volume_quart(float|int $number)
+ * @method NumberWithUnit volume_tablespoon(float|int $number)
+ * @method NumberWithUnit volume_teaspoon(float|int $number)
  */
 class Units
 {
@@ -323,18 +324,25 @@ class Units
 		$this->data = $locale['units'];
 	}
 
-	public function __call(string $name, array $arguments): string
+	public function __call(string $name, array $arguments): NumberWithUnit
 	{
 		$unit = strtr($name, '_', '-');
 
-		if (isset($this->data[self::DEFAULT_LENGTH][$unit]))
+		if (empty($this->data[self::DEFAULT_LENGTH][$unit]))
 		{
-			$number = array_shift($arguments);
-
-			return $this->format($number, $unit, ...$arguments);
+			throw new BadMethodCallException("No such unit: $unit");
 		}
 
-		throw new BadMethodCallException("Unit is not defined: $name.");
+		$n = count($arguments);
+
+		if ($n !== 1)
+		{
+			throw new BadMethodCallException("$name() expects one argument, got $n");
+		}
+
+		$number = $arguments[0];
+
+		return new NumberWithUnit($number + 0, $unit, $this);
 	}
 
 	/**
@@ -357,7 +365,7 @@ class Units
 	 */
 	public function assert_is_unit(string $unit): void
 	{
-		if (!isset($this->data[self::DEFAULT_LENGTH][$unit]))
+		if (empty($this->data[self::DEFAULT_LENGTH][$unit]))
 		{
 			throw new LogicException("No such unit: $unit");
 		}
@@ -388,8 +396,12 @@ class Units
 	 *
 	 * @see http://unicode.org/reports/tr35/tr35-general.html#perUnitPatterns
 	 */
-	public function format_combination($number, string $number_unit, string $per_unit, string $length = self::DEFAULT_LENGTH): string
-	{
+	public function format_combination(
+		$number,
+		string $number_unit,
+		string $per_unit,
+		string $length = self::DEFAULT_LENGTH
+	): string {
 		$formatted = $this->format($number, $number_unit, $length);
 		$data = $this->data[$length][$per_unit];
 
@@ -477,7 +489,7 @@ class Units
 	}
 
 	/**
-	 * @param int|float|string $number
+	 * @param numeric $number
 	 */
 	private function ensure_number_if_formatted($number): string
 	{

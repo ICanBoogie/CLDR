@@ -62,8 +62,28 @@ None
 
 - Removed the `localized()` method on entities that don't naturally require access to the
   repository: `NumberFormatter` and `ListFormatter`. You can use
-  `$repository->locales['fr']->localize($formatter)` to get a localized formatter, the
+  `$repository->locales['fr']->localize($formatter)` to get a localized formatter, or the
   `number_formatter` and `list_formater` properties of the `Locale` object.
+
+- The fluent interface of units is now more on par with the rest of the API.
+
+	```php
+	<?php
+
+	echo $units->duration_hour(23);
+	echo $units->duration_hour(23, $units::LENGTH_SHORT);
+	echo $units->volume_liter->per_unit(12.345, $units->duration_hour);
+	echo $units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_SHORT);
+	```
+
+	```php
+	<?php
+
+	echo $units->duration_hour(23);
+	echo $units->duration_hour(23)->as_short;
+	echo $units->volume_liter(12.345)->per($units->duration_hour);
+	echo $units->volume_liter(12.345)->per($units->duration_hour)->as_short;
+	```
 
 ### Deprecated Features
 

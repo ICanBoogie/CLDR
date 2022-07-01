@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 
-class UnitsTest extends TestCase
+final class UnitsTest extends TestCase
 {
     use StringHelpers;
 
@@ -31,22 +31,24 @@ class UnitsTest extends TestCase
 	/**
 	 * @dataProvider provide_test_cases
 	 *
-	 * @param string $locale
-	 * @param string $unit
-	 * @param number $number
-	 * @param string $length
-	 * @param string $expected
+	 * @param float|int $number
 	 */
-	public function test_cases($locale, $unit, $number, $length, $expected)
+	public function test_cases(string $locale, string $unit, $number, string $length, string $expected): void
 	{
-		$this->assertSame($expected, $this->units_for($locale)->$unit($number, $length));
+		$this->assertSame($expected, $this->units_for($locale)->$unit($number)->{ 'as_' . $length });
 	}
 
-	public function provide_test_cases()
+	public function provide_test_cases(): array
 	{
 		return [
 
-			[ 'fr', 'acceleration-g-force', 123.4504, Units::LENGTH_LONG, "123,45 fois l’accélération de pesanteur terrestre" ]
+			[ 'fr', 'acceleration-g-force', 123.4504, Units::LENGTH_LONG, "123,45 fois l’accélération de pesanteur terrestre" ],
+			[ 'fr', 'digital_gigabyte', 123.4504, Units::LENGTH_LONG, "123,45 gigaoctets" ],
+			[ 'fr', 'digital_gigabyte', 123.4504, Units::LENGTH_SHORT, "123,45 Go" ],
+			[ 'fr', 'digital_gigabyte', 123.4504, Units::LENGTH_NARROW, "123,45 Go" ],
+			[ 'fr', 'duration_hour', 123.4504, Units::LENGTH_LONG, "123,45 heures" ],
+			[ 'fr', 'duration_hour', 123.4504, Units::LENGTH_SHORT, "123,45 h" ],
+			[ 'fr', 'duration_hour', 123.4504, Units::LENGTH_NARROW, "123,45h" ],
 
 		];
 	}
@@ -54,14 +56,16 @@ class UnitsTest extends TestCase
 	/**
 	 * @dataProvider provide_test_format_combination
 	 *
-	 * @param string $locale
-	 * @param number $number
-	 * @param string $number_unit
-	 * @param string $per_unit
-	 * @param string $length
-	 * @param string $expected
+	 * @param float|int $number
 	 */
-	public function test_format_combination($locale, $number, $number_unit, $per_unit, $length, $expected)
+	public function test_format_combination(
+		string $locale,
+		$number,
+		string $number_unit,
+		string $per_unit,
+		string $length,
+		string $expected
+	): void
 	{
 		$this->assertSame(
 			$expected,
@@ -69,7 +73,7 @@ class UnitsTest extends TestCase
 		);
 	}
 
-	public function provide_test_format_combination()
+	public function provide_test_format_combination(): array
 	{
 		return [
 
@@ -89,17 +93,13 @@ class UnitsTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_format_sequence
-	 *
-	 * @param string $locale
-	 * @param callable $sequence
-	 * @param string $expected
 	 */
-	public function test_format_sequence($locale, callable $sequence, $expected)
+	public function test_format_sequence(string $locale, callable $sequence, string $expected): void
 	{
 		$this->assertStringSame($expected, $sequence($this->units_for($locale)));
 	}
 
-	public function provide_test_format_sequence()
+	public function provide_test_format_sequence(): array
 	{
 	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
 	    $s2 = Spaces::NO_BREAK_SPACE;
@@ -198,17 +198,13 @@ class UnitsTest extends TestCase
 
 	/**
 	 * @dataProvider provide_name_for
-	 *
-	 * @param string $unit
-	 * @param string $length
-	 * @param string $expected_name
 	 */
-	public function test_name_for($unit, $length, $expected_name)
+	public function test_name_for(string $unit, string $length, string $expected_name): void
 	{
 		$this->assertSame($expected_name, $this->units_for('fr')->name_for($unit, $length));
 	}
 
-	public function provide_name_for()
+	public function provide_name_for(): array
 	{
 		return [
 
@@ -222,7 +218,7 @@ class UnitsTest extends TestCase
 		];
 	}
 
-	public function test_getter()
+	public function test_getter(): void
 	{
 		$units = $this->units_for('fr');
 		$unit = $units->angle_degree;
@@ -235,12 +231,20 @@ class UnitsTest extends TestCase
 	 */
 	public function should_fail_with_undefined_unit()
 	{
-		$this->expectExceptionMessage("Unit is not defined: madonna.");
+		$this->expectExceptionMessage("No such unit: undefined-unit");
 		$this->expectException(BadMethodCallException::class);
-		$this->units_for('fr')->madonna();
+		$this->units_for('fr')->{ 'undefined_unit' }();
 	}
 
-	private function units_for($locale)
+	public function test_unit_method_requires_one_argument(): void
+	{
+		$this->expectExceptionMessage("acceleration_g_force() expects one argument, got 0");
+		$this->expectException(BadMethodCallException::class);
+
+		$this->units_for('en')->acceleration_g_force();
+	}
+
+	private function units_for($locale): Units
 	{
 		return new Units(self::$locales[$locale]);
 	}

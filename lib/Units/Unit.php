@@ -74,15 +74,7 @@ final class Unit
 	}
 
 	/**
-	 * @param int|float $number
-	 */
-	public function per_unit($number, string $unit, string $length = Units::DEFAULT_LENGTH): string
-	{
-		return $this->units->format_combination($number, (string) $this, $unit, $length);
-	}
-
-	/**
-	 * @param string $length One of `Units::LENGTH_*`.
+	 * @param Units::LENGTH_* $length
 	 */
 	private function name_for(string $length): string
 	{

@@ -7,7 +7,7 @@
 
 The __CLDR__ package provides means to internationalize your application by leveraging the data and
 conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
-It provides many useful locale information and data (such as locale names for territories,
+It offers many helpful locale information and data (such as locale names for territories,
 languages, days…) as well as formatters for numbers, currencies, dates and times, units, sequences,
 lists…
 
@@ -62,19 +62,19 @@ echo $fr_datetime->as_short;                        // 04/11/2013 20:21
 
 # You can format units
 $units = $repository->locales['en']->units;
-$units->duration_hour->name;                        // hours
-$units->duration_hour->short_name;                  // h
-$units->duration_hour(1);                           // 1 hour
-$units->duration_hour(23);                          // 23 hours
-$units->duration_hour(23, $units::LENGTH_SHORT);    // 23 hr
-$units->duration_hour(23, $units::LENGTH_NARROW);   // 23h
+echo $units->duration_hour->name;                   // hours
+echo $units->duration_hour->short_name;             // h
+echo $units->duration_hour(1);                      // 1 hour
+echo $units->duration_hour(23);                     // 23 hours
+echo $units->duration_hour(23)->as_short;           // 23 hr
+echo $units->duration_hour(23)->as_narrow;          // 23h
 
 # You can format a unit per another unit
-$units->volume_liter->per_unit(12.345, $units->duration_hour);
+echo $units->volume_liter(12.345)->per($units->duration_hour);
 // 12.345 liters per hour
-$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_SHORT);
+echo $units->volume_liter(12.345)->per($units->duration_hour)->as_short;
 // 12.345 L/h
-$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_NARROW);
+echo $units->volume_liter(12.345)->per($units->duration_hour)->as_narrow;
 // 12.345L/h
 
 # You can format sequences of units
@@ -694,15 +694,15 @@ units:
 /* @var $repository \ICanBoogie\CLDR\Repository */
 
 $units = $repository->locales['en']->units;
-$units->duration_hour->name;                      // hours
-$units->duration_hour->short_name;                // h
-$units->duration_hour(1);                         // 1 hour
-$units->duration_hour(23);                        // 23 hours
-$units->duration_hour(23, $units::LENGTH_SHORT);  // 23 hr
-$units->duration_hour(23, $units::LENGTH_NARROW); // 23h
+echo $units->duration_hour->name;                   // hours
+echo $units->duration_hour->short_name;             // h
+echo $units->duration_hour(1);                      // 1 hour
+echo $units->duration_hour(23);                     // 23 hours
+echo $units->duration_hour(23)->as_short;           // 23 hr
+echo $units->duration_hour(23)->as_narrow;          // 23h
 ```
 
-[Many units are available](http://unicode.org/reports/tr35/tr35-general.html#Unit_Elements).
+[Many units are available](https://www.unicode.org/reports/tr35/tr35-57/tr35-general.html#Unit_Elements).
 
 ### Per unit
 
@@ -716,13 +716,12 @@ be used in preference.
 /* @var $repository \ICanBoogie\CLDR\Repository */
 
 $units = $repository->locales['en']->units;
-$units->volume_liter->per_unit(12.345, $units->duration_hour);
-// 12.345 liters per hour
-$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_SHORT);
-// 12.345 Lph
-$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_NARROW);
-// 12.345l/h
+echo $units->volume_liter(12.345)->per($units->duration_hour);              // 12.345 liters per hour
+echo $units->volume_liter(12.345)->per($units->duration_hour)->as_short;    // 12.345 Lph
+echo $units->volume_liter(12.345)->per($units->duration_hour)->as_narrow;   // 12.345l/h
 ```
+
+
 
 ### Units in composed sequence
 

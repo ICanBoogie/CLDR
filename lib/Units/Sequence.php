@@ -17,6 +17,8 @@ use ICanBoogie\CLDR\Units;
 /**
  * Representation of a unit/number sequence.
  *
+ * @internal
+ *
  * @property-read string $as_long Long string representation.
  * @property-read string $as_short Short string representation.
  * @property-read string $as_narrow Narrow string representation.

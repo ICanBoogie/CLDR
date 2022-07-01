@@ -14,17 +14,12 @@ namespace ICanBoogie\CLDR\Units;
 use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\TestCase;
 
-class UnitTest extends TestCase
+final class UnitTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_properties
-	 *
-	 * @param string $unit
-	 * @param string $property
-	 * @param string $length
-	 * @param string $expected
 	 */
-	public function test_properties($unit, $property, $length, $expected)
+	public function test_properties(string $unit, string $property, string $length, string $expected): void
 	{
 		$units = $this->mockUnits(function ($units) use ($unit, $length, $expected) {
 
@@ -37,7 +32,7 @@ class UnitTest extends TestCase
 		$this->assertSame($expected, (new Unit($units, $unit))->$property);
 	}
 
-	public function provide_test_properties()
+	public function provide_test_properties(): array
 	{
 		return [
 
@@ -49,38 +44,17 @@ class UnitTest extends TestCase
 		];
 	}
 
-	public function test_to_string()
+	public function test_to_string(): void
 	{
 		$unit = uniqid();
 
 		$this->assertSame($unit, (string) new Unit($this->mockUnits(), $unit));
 	}
 
-	public function test_per_unit()
-	{
-		$number = uniqid();
-		$unit = uniqid();
-		$per_unit = uniqid();
-		$length = uniqid();
-		$expected = uniqid();
-
-		$units = $this->mockUnits(function ($units) use($number, $unit, $per_unit, $length, $expected) {
-
-			$units->format_combination($number, $unit, $per_unit, $length)
-				->shouldBeCalled()
-				->willReturn($expected);
-
-		});
-
-		$this->assertSame($expected, (new Unit($units, $unit))->per_unit($number, $per_unit, $length));
-	}
-
 	/**
 	 * @param callable|null $init
-	 *
-	 * @return Units
 	 */
-	private function mockUnits(callable $init = null)
+	private function mockUnits(callable $init = null): Units
 	{
 		$units = $this->prophesize(Units::class);
 
