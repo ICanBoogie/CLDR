@@ -26,30 +26,9 @@ use const STR_PAD_LEFT;
 
 /**
  * Representation of a number pattern.
- *
- * @property-read array $format
- * @property-read string $positive_prefix Prefix to positive number.
- * @property-read string $positive_suffix Suffix to positive number.
- * @property-read string $negative_prefix Prefix to negative number.
- * @property-read string $negative_suffix Suffix to negative number.
- * @property-read int $multiplier 100 for percent, 1000 for per mille.
- * @property-read int $decimal_digits The number of required digits after decimal point. The
- * string is padded with zeros if there is not enough digits. `-1` means the decimal point should
- * be dropped.
- * @property-read int $max_decimal_digits The maximum number of digits after decimal point.
- * Additional digits will be truncated.
- * @property-read int $integer_digits The number of required digits before decimal point. The
- * string is padded with zeros if there is not enough digits.
- * @property-read int $group_size1 The primary grouping size. `0` means no grouping.
- * @property-read int $group_size2 The secondary grouping size. `0` means no secondary grouping
  */
 final class NumberPattern
 {
-	/**
-	 * @uses get_format
-	 */
-	use AccessorTrait;
-
 	/**
 	 * @var NumberPattern[]
 	 */
@@ -62,9 +41,21 @@ final class NumberPattern
 			return self::$instances[$pattern];
 		}
 
-		$format = NumberPatternParser::parse($pattern);
+		$parsed_pattern = NumberPatternParser::parse($pattern);
 
-		return self::$instances[$pattern] = new self($pattern, $format);
+		return self::$instances[$pattern] = new self(
+			$pattern,
+			$parsed_pattern['positive_prefix'],
+			$parsed_pattern['positive_suffix'],
+			$parsed_pattern['negative_prefix'],
+			$parsed_pattern['negative_suffix'],
+			$parsed_pattern['multiplier'],
+			$parsed_pattern['decimal_digits'],
+			$parsed_pattern['max_decimal_digits'],
+			$parsed_pattern['integer_digits'],
+			$parsed_pattern['group_size1'],
+			$parsed_pattern['group_size2']
+		);
 	}
 
 	/**
@@ -73,32 +64,111 @@ final class NumberPattern
 	private $pattern;
 
 	/**
-	 * @var array
+	 * Prefix to positive number.
+	 *
+	 * @var string
+	 * @readonly
 	 */
-	private $format;
+	public $positive_prefix;
 
 	/**
-	 * @return array
+	 * Suffix to positive number.
+	 *
+	 * @var string
+	 * @readonly
 	 */
-	protected function get_format(): array
-	{
-		return $this->format;
-	}
+	public $positive_suffix;
 
-	private function __construct(string $pattern, array $format)
-	{
+	/**
+	 * Prefix to negative number.
+	 *
+	 * @var string
+	 * @readonly
+	 */
+	public $negative_prefix;
+
+	/**
+	 * Suffix to negative number.
+	 *
+	 * @var string
+	 * @readonly
+	 */
+	public $negative_suffix;
+
+	/**
+	 * 100 for percent, 1000 for per mille.
+	 *
+	 * @var int
+	 * @readonly
+	 */
+	public $multiplier;
+
+	/**
+	 * The number of required digits after decimal point. The string is padded with zeros if there is not enough digits.
+	 * `-1` means the decimal point should be dropped.
+	 *
+	 * @var int
+	 * @readonly
+	 */
+	public $decimal_digits;
+
+	/**
+	 * The maximum number of digits after decimal point. Additional digits will be truncated.
+	 *
+	 * @var int
+	 * @readonly
+	 */
+	public $max_decimal_digits;
+
+	/**
+	 * The number of required digits before decimal point. The string is padded with zeros if there is not enough
+	 * digits.
+	 *
+	 * @var int
+	 * @readonly
+	 */
+	public $integer_digits;
+
+	/**
+	 * The primary grouping size. `0` means no grouping.
+	 *
+	 * @var int
+	 * @readonly
+	 */
+	public $group_size1;
+
+	/**
+	 * The secondary grouping size. `0` means no secondary grouping.
+	 *
+	 * @var int
+	 * @readonly
+	 */
+	public $group_size2;
+
+	private function __construct(
+		string $pattern,
+		string $positive_prefix,
+	    string $positive_suffix,
+	    string $negative_prefix,
+	    string $negative_suffix,
+	    int $multiplier,
+	    int $decimal_digits,
+	    int $max_decimal_digits,
+	    int $integer_digits,
+	    int $group_size1,
+	    int $group_size2
+	) {
 		$this->pattern = $pattern;
-		$this->format = $format;
-	}
-
-	public function __get($property)
-	{
-		if (array_key_exists($property, $this->format))
-		{
-			return $this->format[$property];
-		}
-
-		return $this->accessor_get($property);
+		$this->positive_prefix = $positive_prefix;
+	    $this->positive_suffix = $positive_suffix;
+	    $this->negative_prefix = $negative_prefix;
+	    $this->negative_suffix = $negative_suffix;
+	    $this->multiplier = $multiplier;
+	    $this->decimal_digits = $decimal_digits;
+	    $this->max_decimal_digits = $max_decimal_digits;
+	    $this->integer_digits = $integer_digits;
+	    $this->group_size1 = $group_size1;
+	    $this->group_size2 = $group_size2;
 	}
 
 	public function __toString(): string
@@ -111,7 +181,8 @@ final class NumberPattern
 	 *
 	 * @param int|float $number
 	 *
-	 * @return array An array made with the integer and decimal parts of the number.
+	 * @return array{ 0: int, 1: string}
+	 *     Where `0` is the integer part and `1` the decimal part.
 	 */
 	public function parse_number($number): array
 	{
@@ -127,10 +198,10 @@ final class NumberPattern
 
 		if ($pos !== false)
 		{
-			return [ substr($number, 0, $pos), substr($number, $pos + 1) ];
+			return [ (int) substr($number, 0, $pos), substr($number, $pos + 1) ];
 		}
 
-		return [ $number, '' ];
+		return [ (int) $number, '' ];
 	}
 
 	/**

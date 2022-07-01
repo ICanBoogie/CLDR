@@ -17,7 +17,7 @@ namespace ICanBoogie\CLDR;
  * @property-read Formatter $formatter The formatter used to format the target object.
  *
  * @method string format() Formats the instance's target. Although the method is not
- * defined by the class, it should be implemented by sub-classes.
+ * defined by the class, it should be implemented by subclasses.
  */
 abstract class LocalizedObjectWithFormatter extends LocalizedObject
 {
@@ -27,6 +27,8 @@ abstract class LocalizedObjectWithFormatter extends LocalizedObject
 	private $formatter;
 
 	/**
+	 * @param string $property
+	 *
 	 * @return mixed
 	 */
 	public function __get($property)

@@ -25,6 +25,9 @@ final class NumberPatternParser
 {
 	public const PATTERN_REGEX = '/^(.*?)[#,\.0]+(.*?)$/';
 
+	/**
+	 * @var array<string, int|string>
+	 */
 	static private $initial_format = [
 
 		'positive_prefix' => '',
@@ -42,6 +45,19 @@ final class NumberPatternParser
 
 	/**
 	 * Parses a given string pattern.
+	 *
+	 * @return array{
+	 *     positive_prefix: string,
+	 *     positive_suffix: string,
+	 *     negative_prefix: string,
+	 *     negative_suffix: string,
+	 *     multiplier: int,
+	 *     decimal_digits: int,
+	 *     max_decimal_digits: int,
+	 *     integer_digits: int,
+	 *     group_size1: int,
+	 *     group_size2: int
+	 * }
 	 */
 	static public function parse(string $pattern): array
 	{
@@ -56,6 +72,20 @@ final class NumberPatternParser
 		return $format;
 	}
 
+	/**
+	 * @param array{
+	 *     positive_prefix: string,
+	 *     positive_suffix: string,
+	 *     negative_prefix: string,
+	 *     negative_suffix: string,
+	 *     multiplier: int,
+	 *     decimal_digits: int,
+	 *     max_decimal_digits: int,
+	 *     integer_digits: int,
+	 *     group_size1: int,
+	 *     group_size2: int
+	 * } $format
+	 */
 	static private function parse_multiple_patterns(string &$pattern, array &$format): void
 	{
 		$patterns = explode(';', $pattern);
@@ -80,6 +110,20 @@ final class NumberPatternParser
 		$pattern = $patterns[0];
 	}
 
+	/**
+	 * @param array{
+	 *     positive_prefix: string,
+	 *     positive_suffix: string,
+	 *     negative_prefix: string,
+	 *     negative_suffix: string,
+	 *     multiplier: int,
+	 *     decimal_digits: int,
+	 *     max_decimal_digits: int,
+	 *     integer_digits: int,
+	 *     group_size1: int,
+	 *     group_size2: int
+	 * } $format
+	 */
 	static private function parse_multiplier(string $pattern, array &$format): void
 	{
 		if (strpos($pattern, '%') !== false)
@@ -95,6 +139,20 @@ final class NumberPatternParser
 		}
 	}
 
+	/**
+	 * @param array{
+	 *     positive_prefix: string,
+	 *     positive_suffix: string,
+	 *     negative_prefix: string,
+	 *     negative_suffix: string,
+	 *     multiplier: int,
+	 *     decimal_digits: int,
+	 *     max_decimal_digits: int,
+	 *     integer_digits: int,
+	 *     group_size1: int,
+	 *     group_size2: int
+	 * } $format
+	 */
 	static private function parse_decimal_part(string &$pattern, array &$format): void
 	{
 		$pos = strpos($pattern, '.');
@@ -116,6 +174,20 @@ final class NumberPatternParser
 
 	}
 
+	/**
+	 * @param array{
+	 *     positive_prefix: string,
+	 *     positive_suffix: string,
+	 *     negative_prefix: string,
+	 *     negative_suffix: string,
+	 *     multiplier: int,
+	 *     decimal_digits: int,
+	 *     max_decimal_digits: int,
+	 *     integer_digits: int,
+	 *     group_size1: int,
+	 *     group_size2: int
+	 * } $format
+	 */
 	static private function parse_integer_part(string $pattern, array &$format): void
 	{
 		$p = str_replace(',', '', $pattern);
@@ -126,6 +198,20 @@ final class NumberPatternParser
 			: 0;
 	}
 
+	/**
+	 * @param array{
+	 *     positive_prefix: string,
+	 *     positive_suffix: string,
+	 *     negative_prefix: string,
+	 *     negative_suffix: string,
+	 *     multiplier: int,
+	 *     decimal_digits: int,
+	 *     max_decimal_digits: int,
+	 *     integer_digits: int,
+	 *     group_size1: int,
+	 *     group_size2: int
+	 * } $format
+	 */
 	static private function parse_group_sizes(string $pattern, array &$format): void
 	{
 		$p = str_replace('#', '0', $pattern);

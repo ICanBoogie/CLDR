@@ -58,6 +58,8 @@ None
 	$formatter->format([ 1, 2, 3 ], list_pattern);
 	```
 
+- Removed `NumberPattern:$format`, it was never used.
+
 ### Deprecated Features
 
 - The localized currency formatter no longer supports a `$symbols` parameter. If you need to

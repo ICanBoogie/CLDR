@@ -13,18 +13,16 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class NumberPatternTest extends TestCase
+final class NumberPatternTest extends TestCase
 {
 	/**
-	 * @param $pattern
-	 * @param array $properties Expected properties
-	 *
 	 * @dataProvider provide_test_properties
 	 */
-	public function test_properties($pattern, array $properties)
+	public function test_properties(string $pattern, array $properties): void
 	{
 		$instance = NumberPattern::from($pattern);
-		$this->assertSame($properties, $instance->format);
+
+		$this->assertSame($pattern, (string) $instance);
 
 		foreach ($properties as $property => $value)
 		{
@@ -32,7 +30,7 @@ class NumberPatternTest extends TestCase
 		}
 	}
 
-	public function provide_test_properties()
+	public function provide_test_properties(): array
 	{
 		$default = [
 
@@ -121,19 +119,14 @@ class NumberPatternTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_format_integer_with_decimal
-	 *
-	 * @param string $pattern
-	 * @param int $integer
-	 * @param int $decimal
-	 * @param string $expected
 	 */
-	public function test_format_integer_with_decimal($pattern, $integer, $decimal, $expected)
+	public function test_format_integer_with_decimal(string $pattern, int $integer, int $decimal, string $expected): void
 	{
 		$instance = NumberPattern::from($pattern);
 		$this->assertSame($expected, $instance->format_integer_with_decimal($integer, $decimal, '/'));
 	}
 
-	public function provide_test_format_integer_with_decimal()
+	public function provide_test_format_integer_with_decimal(): array
 	{
 		return [
 
