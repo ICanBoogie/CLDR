@@ -91,17 +91,17 @@ final class Repository
 
 	private function lazy_get_number_formatter(): NumberFormatter
 	{
-		return new NumberFormatter($this);
+		return new NumberFormatter();
 	}
 
 	private function lazy_get_currency_formatter(): CurrencyFormatter
 	{
-		return new CurrencyFormatter($this);
+		return new CurrencyFormatter();
 	}
 
 	private function lazy_get_list_formatter(): ListFormatter
 	{
-		return new ListFormatter($this);
+		return new ListFormatter();
 	}
 
 	private function lazy_get_plurals(): Plurals

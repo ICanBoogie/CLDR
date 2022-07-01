@@ -63,10 +63,4 @@ final class ListFormatterTest extends TestCase
 
 		];
 	}
-
-	public function test_localize()
-	{
-		$formatter = new ListFormatter(get_repository());
-		$this->assertInstanceOf(LocalizedListFormatter::class, $formatter->localize('es'));
-	}
 }

@@ -11,27 +11,15 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Locale\ListPattern;
 
 /**
  * Formats variable-length lists of things such as "Monday, Tuesday, Friday, and Saturday".
  *
  * @see http://www.unicode.org/reports/tr35/tr35-general.html#ListPatterns
- *
- * @method LocalizedListFormatter localize(string $locale_code)
  */
 class ListFormatter implements Formatter
 {
-	use AccessorTrait;
-	use RepositoryPropertyTrait;
-	use LocalizeTrait;
-
-	public function __construct(Repository $repository = null)
-	{
-		$this->repository = $repository;
-	}
-
 	/**
 	 * Formats a variable-length lists of scalars.
 	 *

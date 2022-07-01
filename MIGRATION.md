@@ -60,6 +60,11 @@ None
 
 - Removed `NumberPattern:$format`, it was never used.
 
+- Removed the `localized()` method on entities that don't naturally require access to the
+  repository: `NumberFormatter` and `ListFormatter`. You can use
+  `$repository->locales['fr']->localize($formatter)` to get a localized formatter, the
+  `number_formatter` and `list_formater` properties of the `Locale` object.
+
 ### Deprecated Features
 
 - The localized currency formatter no longer supports a `$symbols` parameter. If you need to

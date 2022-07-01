@@ -669,8 +669,6 @@ use ICanBoogie\CLDR\LocalizedNumberFormatter;
 
 $formatter = new NumberFormatter($repository);
 
-$localized_formatter = $formatter->localize('fr');
-# or
 $localized_formatter = $repository->locales['fr']->localize($formatter);
 # or
 $localized_formatter = new LocalizedNumberFormatter($formatter, $repository->locales['fr']);
@@ -773,8 +771,6 @@ namespace ICanBoogie\CLDR;
 
 $formatter = new ListFormatter($repository);
 
-$localized_formatter = $formatter->localize('fr');
-# or
 $localized_formatter = $repository->locales['fr']->localize($formatter);
 # or
 $localized_formatter = new LocalizedListFormatter($formatter, $repository->locales['fr']);

@@ -18,19 +18,16 @@ class NumberFormatterTest extends TestCase
 	/**
 	 * @dataProvider provide_test_format
 	 *
-	 * @param string $locale_code
-	 * @param number $number
-	 * @param string $pattern
-	 * @param string $expected
+	 * @param int|float $number
 	 */
-	public function test_format($locale_code, $number, $pattern, $expected)
+	public function test_format(string $locale_code, $number, string $pattern, string $expected): void
 	{
 		$formatter = new NumberFormatter();
 		$symbols = get_repository()->locales[$locale_code]->numbers->symbols;
 		$this->assertSame($expected, $formatter->format($number, $pattern, $symbols));
 	}
 
-	public function provide_test_format()
+	public function provide_test_format(): array
 	{
 		return [
 
@@ -45,11 +42,5 @@ class NumberFormatterTest extends TestCase
 			[ 'fr',      .3789, '#0.#0 %',      "37,89 %" ],
 
 		];
-	}
-
-	public function test_localize()
-	{
-		$formatter = new NumberFormatter(get_repository());
-		$this->assertInstanceOf(LocalizedNumberFormatter::class, $formatter->localize('fr'));
 	}
 }

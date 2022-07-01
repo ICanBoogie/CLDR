@@ -11,25 +11,13 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Numbers\Symbols;
 
 /**
- * Formats numbers.
- *
- * @method LocalizedNumberFormatter localize(string $locale_code)
+ * A number formatter.
  */
 class NumberFormatter implements Formatter
 {
-	use AccessorTrait;
-	use RepositoryPropertyTrait;
-	use LocalizeTrait;
-
-	public function __construct(Repository $repository = null)
-	{
-		$this->repository = $repository;
-	}
-
 	/**
 	 * Format a number with the specified pattern.
 	 *
