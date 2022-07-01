@@ -8,55 +8,96 @@
 The __CLDR__ package provides means to internationalize your application by leveraging the data and
 conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
 It provides many useful locale information and data (such as locale names for territories,
-languages, days…) as well as formatters for numbers, currencies, date and times, units, sequences,
+languages, days…) as well as formatters for numbers, currencies, dates and times, units, sequences,
 lists…
 
-> The package targets [CLDR version 36][1], from which data is retrieved when required.
+> **Note**
+>
+> The package targets [CLDR version 36](https://www.unicode.org/reports/tr35/tr35-57/tr35.html).
 
-**Example usage:**
+
+
+#### Example usage
 
 ```php
 <?php
 
-/* @var \ICanBoogie\CLDR\Repository $repository */
+/* @var ICanBoogie\CLDR\Repository $repository */
 
-# Locale
-
+# You get a locale from the repository, here the locale for French.
 $fr = $repository->locales['fr'];
 
+# You can use a locale instance as an array to get data
 echo $fr['characters']['auxiliary'];                // [á å ä ã ā ē í ì ī ñ ó ò ö ø ú ǔ]
 echo $fr['delimiters']['quotationStart'];           // «
 echo $fr['territories']['TF'];                      // Terres australes françaises
+
+# You can localize it, to get its local name for example
 echo $fr->localize($fr)->name;                      // Français
+
+# You can format numbers, percents, currencies, and lists directly from there
 echo $fr->format_number(12345.67);                  // 12 345,67
 echo $fr->format_percent(.1234567);                 // 12 %
 echo $fr->format_currency(12345.67, 'EUR');         // 12 345,67 €
 echo $fr->format_list([ "Un", "deux", "trois" ]);   // Un, deux et trois
 
-# Calendar
-
+# You can get the default calendar for that locale, and access its data
 $calendar = $fr->calendar;
-$datetime = '2018-11-24 20:12:22 UTC';
-
 echo $calendar['days']['format']['wide']['sun'];    // dimanche
-echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 à 20:12:22 UTC
+echo $calendar->wide_days['sun'];                   // dimanche
+
+# You can use the calendar to format dates and times, or both
+$datetime = '2018-11-24 20:12:22 UTC';
 echo $calendar->format_date($datetime, 'long');     // 24 novembre 2018
 echo $calendar->format_time($datetime, 'long');     // 20:12:22 UTC
+echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 à 20:12:22 UTC
 
-# Localized datetime
-
+# Alternatively, you can localize a DateTimeInterface instance and get formatted dates of various length
 $datetime = new \DateTime('2013-11-04 20:21:22 UTC');
 $fr_datetime = $fr->localize($datetime);
-
 echo $fr_datetime->as_full;                         // lundi 4 novembre 2013 à 20:21:22 UTC
 echo $fr_datetime->as_long;                         // 4 novembre 2013 à 20:21:22 UTC
 echo $fr_datetime->as_medium;                       // 4 nov. 2013 20:21:22
 echo $fr_datetime->as_short;                        // 04/11/2013 20:21
 
-# Territories
+# You can format units
+$units = $repository->locales['en']->units;
+$units->duration_hour->name;                        // hours
+$units->duration_hour->short_name;                  // h
+$units->duration_hour(1);                           // 1 hour
+$units->duration_hour(23);                          // 23 hours
+$units->duration_hour(23, $units::LENGTH_SHORT);    // 23 hr
+$units->duration_hour(23, $units::LENGTH_NARROW);   // 23h
 
+# You can format a unit per another unit
+$units->volume_liter->per_unit(12.345, $units->duration_hour);
+// 12.345 liters per hour
+$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_SHORT);
+// 12.345 L/h
+$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_NARROW);
+// 12.345L/h
+
+# You can format sequences of units
+$units->sequence->angle_degree(5)->duration_minute(30)->as_narrow;
+// 5° 30m
+$units->sequence->length_foot(3)->length_inch(2)->as_short;
+// 3 ft, 2 in
+
+# You can access plural rules
+$repository->plurals->rule_for(1.5, 'fr'); // one
+$repository->plurals->rule_for(2, 'fr');   // other
+$repository->plurals->rule_for(2, 'ar');   // two
+
+# You can access currencies and their localized data
+$euro = $repository->currencies['EUR'];
+$fr_euro = $euro->localize('fr');
+echo $fr_euro->name;
+echo $fr_euro->name_for(1);                         // euro
+echo $fr_euro->name_for(10);                        // euros
+echo $fr_euro->format(12345.67);                    // 12 345,67 €
+
+# You can access territories and their localized data
 $territory = $repository->territories['FR'];
-
 echo $territory;                                    // FR
 echo $territory->currency;                          // EUR
 echo $territory->currency_at('1977-06-06');         // FRF
@@ -72,50 +113,6 @@ echo $repository->territories['AE']->weekend_end;   // sat
 echo $territory->localize('fr')->name;              // France
 echo $territory->localize('it')->name;              // Francia
 echo $territory->localize('ja')->name;              // フランス
-
-# Currencies
-
-$euro = $repository->currencies['EUR'];
-$fr_euro = $euro->localize('fr');
-echo $fr_euro->name;
-echo $fr_euro->name_for(1);                         // euro
-echo $fr_euro->name_for(10);                        // euros
-echo $fr_euro->format(12345.67);                    // 12 345,67 €
-
-# Units
-
-$units = $repository->locales['en']->units;
-$units->duration_hour->name;                        // hours
-$units->duration_hour->short_name;                  // h
-$units->duration_hour(1);                           // 1 hour
-$units->duration_hour(23);                          // 23 hours
-$units->duration_hour(23, $units::LENGTH_SHORT);    // 23 hr
-$units->duration_hour(23, $units::LENGTH_NARROW);   // 23h
-
-$units->volume_liter->per_unit(12.345, $units->duration_hour);
-// 12.345 liters per hour
-$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_SHORT);
-// 12.345 L/h
-$units->volume_liter->per_unit(12.345, $units->duration_hour, $units::LENGTH_NARROW);
-// 12.345L/h
-
-$units->sequence
-	->angle_degree(5)
-	->duration_minute(30)
-	->as_narrow;
-	// 5° 30m
-
-$units->sequence
-	->length_foot(3)
-	->length_inch(2)
-	->as_short;
-	// 3 ft, 2 in
-
-# Plurals
-
-$repository->plurals->rule_for(1.5, 'fr'); // one
-$repository->plurals->rule_for(2, 'fr');   // other
-$repository->plurals->rule_for(2, 'ar');   // two
 ```
 
 
@@ -312,8 +309,6 @@ echo $repository->locales['fr']->context_transform(
 
 
 
-
-
 ## Calendars
 
 Calendars are represented by a [Calendar][] instance, they can be accessed as arrays, and also
@@ -377,6 +372,7 @@ $datetime = '2018-11-24 20:12:22 UTC';
 $calendar = $repository->locales['fr']->calendar;
 
 echo $calendar['days']['format']['wide']['sun'];    // dimanche
+echo $calendar->wide_days['sun'];                   // dimanche
 
 echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 20:12:22 UTC
 echo $calendar->format_date($datetime, 'long');     // 24 novembre 2018
@@ -506,120 +502,6 @@ echo $ldt->as_short;         // 04/11/2013 20:21
 
 
 
-## Territories
-
-The information about a territory is represented by a [Territory][] instance, which aggregates
-information that is actually scattered across the CLDR.
-
-```php
-<?php
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$territory = $repository->territories['FR'];
-
-echo $territory;                                    // FR
-echo $territory->currency;                          // EUR
-echo $territory->currency_at('1977-06-06');         // FRF
-echo $territory->currency_at('now');                // EUR
-
-echo $territory->language;                          // fr
-echo $territory->population;                        // 66259000
-
-echo $territory->name_as('fr-FR');                  // France
-echo $territory->name_as('it');                     // Francia
-echo $territory->name_as('ja');                     // フランス
-
-echo $territory->name_as_fr_FR;                     // France
-echo $territory->name_as_it;                        // Francia
-echo $territory->name_as_ja;                        // フランス
-
-echo $repository->territories['FR']->first_day;     // mon
-echo $repository->territories['EG']->first_day;     // sat
-echo $repository->territories['BS']->first_day;     // sun
-
-echo $repository->territories['AE']->weekend_start; // fri
-echo $repository->territories['AE']->weekend_end;   // sat
-```
-
-
-
-
-
-### Localized territories
-
-A localized territory can be obtained with the `localize()` method, or the `localize()` method of
-the desired locale.
-
-```php
-<?php
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$territory = $repository->territories['FR'];
-
-$localized_territory = $territory->localize('fr');
-# or
-$localized_territory = $repository->locales['fr']->localize($territory);
-
-echo $territory->localize('fr')->name;   // France
-echo $territory->localize('it')->name;   // Francia
-echo $territory->localize('ja')->name;   // フランス
-```
-
-
-
-
-
-## Currencies
-
-Currencies are represented by instances of [Currency][]. You can create the instance yourself or
-get one through the currency collection.
-
-```php
-<?php
-
-use ICanBoogie\CLDR\Currency;
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$euro = new Currency($repository, 'EUR');
-# or
-$euro = $repository->currencies['EUR'];
-```
-
-
-
-
-
-### Localized currencies
-
-A localized currency can be obtained with the `localize()` method, or the `localize()` method
-of the desired locale, it is often used to format a currency using the convention of a locale.
-
-```php
-<?php
-
-use ICanBoogie\CLDR\Currency;
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$currency = new Currency($repository, 'EUR');
-
-$localized_currency = $currency->localize('fr');
-# or
-$localized_currency = $repository->locales['fr']->localize($currency);
-
-echo $localized_currency->name;             // euro
-echo $localized_currency->name(1);          // euro
-echo $localized_currency->name(10);         // euros
-echo $localized_currency->format(12345.67); // 12 345,67 €
-```
-
-
-
-
-
 ## Number formatting
 
 [NumberFormatter][] can be used to format numbers.
@@ -675,7 +557,7 @@ $localized_formatter = new LocalizedNumberFormatter($formatter, $repository->loc
 
 $localized_formatter(123456.78);
 // 123 456,78
-$formatter->localize('en')->format(123456.78);
+$repository->locales['en']->localize($formatter)->format(123456.78);
 // 123,456.78
 ```
 
@@ -910,6 +792,125 @@ $repository->plurals->rules_for('ar'); // [ 'zero', 'one', 'two', 'few', 'many',
 $repository->plurals->rule_for(1.5, 'fr'); // one
 $repository->plurals->rule_for(2, 'fr');   // other
 $repository->plurals->rule_for(2, 'ar');   // two
+```
+
+
+
+
+
+
+
+
+
+
+## Territories
+
+The information about a territory is represented by a [Territory][] instance, which aggregates
+information that is actually scattered across the CLDR.
+
+```php
+<?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
+$territory = $repository->territories['FR'];
+
+echo $territory;                                    // FR
+echo $territory->currency;                          // EUR
+echo $territory->currency_at('1977-06-06');         // FRF
+echo $territory->currency_at('now');                // EUR
+
+echo $territory->language;                          // fr
+echo $territory->population;                        // 66259000
+
+echo $territory->name_as('fr-FR');                  // France
+echo $territory->name_as('it');                     // Francia
+echo $territory->name_as('ja');                     // フランス
+
+echo $territory->name_as_fr_FR;                     // France
+echo $territory->name_as_it;                        // Francia
+echo $territory->name_as_ja;                        // フランス
+
+echo $repository->territories['FR']->first_day;     // mon
+echo $repository->territories['EG']->first_day;     // sat
+echo $repository->territories['BS']->first_day;     // sun
+
+echo $repository->territories['AE']->weekend_start; // fri
+echo $repository->territories['AE']->weekend_end;   // sat
+```
+
+
+
+
+
+### Localized territories
+
+A localized territory can be obtained with the `localize()` method, or the `localize()` method of
+the desired locale.
+
+```php
+<?php
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
+$territory = $repository->territories['FR'];
+
+$localized_territory = $territory->localize('fr');
+# or
+$localized_territory = $repository->locales['fr']->localize($territory);
+
+echo $territory->localize('fr')->name;   // France
+echo $territory->localize('it')->name;   // Francia
+echo $territory->localize('ja')->name;   // フランス
+```
+
+
+
+
+
+## Currencies
+
+Currencies are represented by instances of [Currency][]. You can create the instance yourself or
+get one through the currency collection.
+
+```php
+<?php
+
+use ICanBoogie\CLDR\Currency;
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
+$euro = new Currency($repository, 'EUR');
+# or
+$euro = $repository->currencies['EUR'];
+```
+
+
+
+
+
+### Localized currencies
+
+A localized currency can be obtained with the `localize()` method, or the `localize()` method
+of the desired locale, it is often used to format a currency using the convention of a locale.
+
+```php
+<?php
+
+use ICanBoogie\CLDR\Currency;
+
+/* @var $repository \ICanBoogie\CLDR\Repository */
+
+$currency = new Currency($repository, 'EUR');
+
+$localized_currency = $currency->localize('fr');
+# or
+$localized_currency = $repository->locales['fr']->localize($currency);
+
+echo $localized_currency->name;             // euro
+echo $localized_currency->name(1);          // euro
+echo $localized_currency->name(10);         // euros
+echo $localized_currency->format(12345.67); // 12 345,67 €
 ```
 
 
