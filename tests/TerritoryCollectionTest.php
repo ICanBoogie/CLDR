@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 use ICanBoogie\OffsetNotWritable;
 use PHPUnit\Framework\TestCase;
 
-class TerritoryCollectionTest extends TestCase
+final class TerritoryCollectionTest extends TestCase
 {
 	/**
 	 * @var TerritoryCollection

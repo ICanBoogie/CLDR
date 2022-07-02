@@ -13,7 +13,7 @@ lists…
 
 > **Note**
 >
-> The package targets [CLDR version 36](https://www.unicode.org/reports/tr35/tr35-57/tr35.html).
+> The package targets [CLDR version 41](https://www.unicode.org/reports/tr35/tr35-66/tr35.html).
 
 
 
@@ -702,7 +702,7 @@ echo $units->duration_hour(23)->as_short;           // 23 hr
 echo $units->duration_hour(23)->as_narrow;          // 23h
 ```
 
-[Many units are available](https://www.unicode.org/reports/tr35/tr35-57/tr35-general.html#Unit_Elements).
+[Many units are available](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#Unit_Elements).
 
 ### Per unit
 
@@ -960,5 +960,4 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 [Repository]:                 lib/Repository.php
 [Territory]:                  lib/Territory.php
 
-[1]:                          http://cldr.unicode.org/index/downloads/cldr-36
 [2]:                          https://github.com/unicode-cldr

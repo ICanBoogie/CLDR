@@ -14,17 +14,22 @@ namespace ICanBoogie\CLDR\Plurals;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Number;
 
+use function abs;
+
 /**
  * Representation of plural operands.
  *
- * @property-read int|float $n
+ * @internal
+ *
+ * @property-read float|int $n
  * @property-read int $i
  * @property-read int $v
  * @property-read int $w
  * @property-read int $f
  * @property-read int $t
+ * @property-read int $e
  *
- * @see http://unicode.org/reports/tr35/tr35-numbers.html#Operands
+ * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Operands
  */
 final class Operands
 {
@@ -35,22 +40,18 @@ final class Operands
 	 * @uses get_w
 	 * @uses get_f
 	 * @uses get_t
+	 * @uses get_e
 	 */
 	use AccessorTrait;
 
 	/**
-	 * @var Operands[]
-	 */
-	static private $instances = [];
-
-	/**
-	 * @param int|float $number
+	 * @param numeric $number
 	 */
 	static public function from($number): self
 	{
-		$instance = &self::$instances["number-$number"];
-
-		return $instance ?? $instance = new self($number); // @phpstan-ignore-line
+		return OperandsCache::get($number, static function () use ($number): self {
+			return new self($number);
+		});
 	}
 
 	/**
@@ -117,16 +118,35 @@ final class Operands
 	}
 
 	/**
-	 * @param int|float $number
+	 * @var int
+	 */
+	private $e; // @phpstan-ignore-line
+
+	private function get_e(): int
+	{
+		return $this->e;
+	}
+
+	/**
+	 * @param numeric $number
 	 */
 	private function __construct($number)
 	{
-		[ $integer, $precision ] = Number::parse($number);
+		$number = $this->expand_compact_decimal_exponent($number);
 
-		$this->n = abs($number);
+		[ $integer, $fractional ] = Number::parse($number);
+
+		$n = abs($number);
+
+		if ($fractional === null || (int) $fractional === 0)
+		{
+			$n = (int) $n;
+		}
+
+		$this->n = $n;
 		$this->i = $integer;
 
-		if ($precision === null)
+		if ($fractional === null)
 		{
 			$this->v = 0;
 			$this->w = 0;
@@ -135,15 +155,15 @@ final class Operands
 		}
 		else
 		{
-			$this->v = strlen($precision);
-			$this->w = strlen(rtrim($precision, '0'));
-			$this->f = (int) ltrim($precision, '0');
-			$this->t = (int) trim($precision, '0');
+			$this->v = strlen($fractional);
+			$this->w = strlen(rtrim($fractional, '0'));
+			$this->f = (int) ltrim($fractional, '0');
+			$this->t = (int) trim($fractional, '0');
 		}
 	}
 
 	/**
-	 * @return array{ n: float|int, i: mixed, v: int, w: int, f: int, t: int }
+	 * @return array{ n: float|int, i: int, v: int, w: int, f: int, t: int, e: int }
 	 */
 	public function to_array(): array
 	{
@@ -154,8 +174,19 @@ final class Operands
 			'v' => $this->v,
 			'w' => $this->w,
 			'f' => $this->f,
-			't' => $this->t
+			't' => $this->t,
+			'e' => $this->e,
 
 		];
+	}
+
+	/**
+	 * @param numeric $number
+	 *
+	 * @return numeric
+	 */
+	private function expand_compact_decimal_exponent($number)
+	{
+		return Number::expand_compact_decimal_exponent($number, $this->e);
 	}
 }

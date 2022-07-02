@@ -25,8 +25,8 @@ use function var_dump;
  */
 class PathMapper
 {
-	public const DEFAULT_ORIGIN = "https://raw.githubusercontent.com/unicode-cldr/";
-	public const DEFAULT_VERSION = "36.0.0";
+	public const DEFAULT_ORIGIN = "https://raw.githubusercontent.com/unicode-org/cldr-json";
+	public const DEFAULT_VERSION = "41.0.0";
 	public const DEFAULT_VARIATION = self::PREFER_MODERN;
 
 	public const PREFER_MODERN = 'modern';
@@ -94,12 +94,7 @@ class PathMapper
 				array_unshift($parts, 'core');
 		}
 
-		$p0 = array_shift($parts);
-		array_unshift($parts, $p0, $this->version);
-
-		$path = implode('/', $parts);
-
-		return "{$this->origin}cldr-$path.json";
+		return "$this->origin/$this->version/cldr-json/cldr-" . implode('/', $parts) . ".json";
 	}
 
 	/**

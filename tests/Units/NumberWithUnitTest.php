@@ -58,7 +58,7 @@ final class NumberWithUnitTest extends TestCase
 			[ 'fr', 'acceleration-g-force', 123.4504, Units::LENGTH_LONG, "123,45 fois l’accélération de pesanteur terrestre" ],
 			[ 'fr', 'digital-gigabyte', 123.4504, Units::LENGTH_LONG, "123,45 gigaoctets" ],
 			[ 'fr', 'digital-gigabyte', 123.4504, Units::LENGTH_SHORT, "123,45 Go" ],
-			[ 'fr', 'digital-gigabyte', 123.4504, Units::LENGTH_NARROW, "123,45 Go" ],
+			[ 'fr', 'digital-gigabyte', 123.4504, Units::LENGTH_NARROW, "123,45Go" ],
 			[ 'fr', 'duration-hour', 123.4504, Units::LENGTH_LONG, "123,45 heures" ],
 			[ 'fr', 'duration-hour', 123.4504, Units::LENGTH_SHORT, "123,45 h" ],
 			[ 'fr', 'duration-hour', 123.4504, Units::LENGTH_NARROW, "123,45h" ],

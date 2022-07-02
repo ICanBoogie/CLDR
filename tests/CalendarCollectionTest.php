@@ -15,7 +15,7 @@ use BadMethodCallException;
 use ICanBoogie\OffsetNotWritable;
 use PHPUnit\Framework\TestCase;
 
-class CalendarCollectionTest extends TestCase
+final class CalendarCollectionTest extends TestCase
 {
 	/**
 	 * @var CalendarCollection
@@ -27,19 +27,19 @@ class CalendarCollectionTest extends TestCase
 		self::$collection = get_repository()->locales['fr']->calendars;
 	}
 
-	public function test_offsetExists()
+	public function test_offsetExists(): void
 	{
 		$this->expectException(BadMethodCallException::class);
 		self::$collection->offsetExists('gregorian');
 	}
 
-	public function test_offsetSet()
+	public function test_offsetSet(): void
 	{
 		$this->expectException(OffsetNotWritable::class);
 		self::$collection['gregorian'] = null;
 	}
 
-	public function test_offsetUnset()
+	public function test_offsetUnset(): void
 	{
 		$this->expectException(OffsetNotWritable::class);
 		unset(self::$collection['gregorian']);
@@ -47,16 +47,14 @@ class CalendarCollectionTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_get
-	 *
-	 * @param string $calendar_id
 	 */
-	public function test_get($calendar_id)
+	public function test_get(string $calendar_id): void
 	{
 		$calendar = self::$collection[$calendar_id];
 		$this->assertInstanceOf(Calendar::class, $calendar);
 	}
 
-	public function provide_test_get()
+	public function provide_test_get(): array
 	{
 		return [
 

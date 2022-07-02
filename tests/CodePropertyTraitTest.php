@@ -14,16 +14,16 @@ namespace ICanBoogie\CLDR;
 use ICanBoogie\CLDR\CodePropertyTraitTest\A;
 use PHPUnit\Framework\TestCase;
 
-class CodePropertyTraitTest extends TestCase
+final class CodePropertyTraitTest extends TestCase
 {
-	public function test_get_code()
+	public function test_get_code(): void
 	{
 		$expected = 'fr';
 		$a = new A($expected);
 		$this->assertSame($expected, $a->code);
 	}
 
-	public function test_to_string()
+	public function test_to_string(): void
 	{
 		$expected = 'fr';
 		$a = new A($expected);

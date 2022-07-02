@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class CurrencyTest extends TestCase
+final class CurrencyTest extends TestCase
 {
 	/**
 	 * @var Repository
@@ -27,19 +27,15 @@ class CurrencyTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_properties
-	 *
-	 * @param $code
-	 * @param $property
-	 * @param $expected
 	 */
-	public function test_properties($code, $property, $expected)
+	public function test_properties(string $code, string $property, ?int $expected): void
 	{
 		$currency = new Currency(self::$repository, $code);
 
 		$this->assertSame($expected, $currency->$property);
 	}
 
-	public function provide_test_properties()
+	public function provide_test_properties(): array
 	{
 		return [
 

@@ -15,7 +15,7 @@ use DateTime;
 use ICanBoogie\PropertyNotReadable;
 use PHPUnit\Framework\TestCase;
 
-class LocalizedDateTimeTest extends TestCase
+final class LocalizedDateTimeTest extends TestCase
 {
 	/**
 	 * @var LocalizedDateTime[]
@@ -29,21 +29,21 @@ class LocalizedDateTimeTest extends TestCase
 		self::$localized_dates['zh'] = new LocalizedDateTime(new DateTime('2013-11-04 20:21:22 UTC'), get_repository()->locales['zh']);
 	}
 
-	public function test_get_target()
+	public function test_get_target(): void
 	{
 		$ld = self::$localized_dates['en'];
 
 		$this->assertInstanceOf(DateTime::class, $ld->target);
 	}
 
-	public function test_get_locale()
+	public function test_get_locale(): void
 	{
 		$ld = self::$localized_dates['en'];
 
 		$this->assertInstanceOf(Locale::class, $ld->locale);
 	}
 
-	public function test_get_options()
+	public function test_get_options(): void
 	{
 		$ld = self::$localized_dates['en'];
 
@@ -51,7 +51,7 @@ class LocalizedDateTimeTest extends TestCase
 		$this->assertIsArray($ld->options);
 	}
 
-	public function test_get_formatter()
+	public function test_get_formatter(): void
 	{
 		$ld = self::$localized_dates['en'];
 
@@ -60,12 +60,8 @@ class LocalizedDateTimeTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_as
-	 *
-	 * @param string $locale
-	 * @param string $as
-	 * @param string $expected
 	 */
-	public function test_as($locale, $as, $expected)
+	public function test_as(string $locale, string $as, string $expected): void
 	{
 		$property = 'as_' . $as;
 		$method = 'format_' . $property;
@@ -74,7 +70,7 @@ class LocalizedDateTimeTest extends TestCase
 		$this->assertEquals($expected, self::$localized_dates[$locale]->$method());
 	}
 
-	public function provide_test_as()
+	public function provide_test_as(): array
 	{
 		return [
 
@@ -85,18 +81,18 @@ class LocalizedDateTimeTest extends TestCase
 
 			[ 'fr', 'full', "lundi 4 novembre 2013 à 20:21:22 UTC" ],
 			[ 'fr', 'long', "4 novembre 2013 à 20:21:22 UTC" ],
-			[ 'fr', 'medium', "4 nov. 2013 à 20:21:22" ],
+			[ 'fr', 'medium', "4 nov. 2013, 20:21:22" ],
 			[ 'fr', 'short', "04/11/2013 20:21" ],
 
-			[ 'zh', 'full', "2013年11月4日星期一 UTC 下午8:21:22" ],
-			[ 'zh', 'long', "2013年11月4日 UTC 下午8:21:22" ],
-			[ 'zh', 'medium', "2013年11月4日 下午8:21:22" ],
-			[ 'zh', 'short', "2013/11/4 下午8:21" ],
+			[ 'zh', 'full', "2013年11月4日星期一 UTC 20:21:22" ],
+			[ 'zh', 'long', "2013年11月4日 UTC 20:21:22" ],
+			[ 'zh', 'medium', "2013年11月4日 20:21:22" ],
+			[ 'zh', 'short', "2013/11/4 20:21" ],
 
 		];
 	}
 
-	public function test_to_string()
+	public function test_to_string(): void
 	{
 		$this->assertEquals('2013-11-04T20:21:22+00:00', (string) self::$localized_dates['fr']);
 	}

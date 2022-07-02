@@ -14,17 +14,12 @@ namespace ICanBoogie\CLDR;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-class CurrencyNotDefinedTest extends TestCase
+final class CurrencyNotDefinedTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_instance
-	 *
-	 * @param string $currency_code
-	 * @param string|null $message
-	 * @param string $expected_message
-	 * @param Exception|null $previous
 	 */
-	public function test_instance($currency_code, $message, $expected_message, Exception $previous = null)
+	public function test_instance(string $currency_code, ?string $message, string $expected_message, Exception $previous = null)
 	{
 		$sut = new CurrencyNotDefined($currency_code, $message, $previous);
 
@@ -33,7 +28,7 @@ class CurrencyNotDefinedTest extends TestCase
 		$this->assertSame($previous, $sut->getPrevious());
 	}
 
-	public function provide_instance()
+	public function provide_instance(): array
 	{
 		$currency_code = 'EUR';
 		$previous = new Exception;

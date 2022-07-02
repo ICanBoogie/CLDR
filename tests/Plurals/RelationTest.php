@@ -16,23 +16,21 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group plurals
  */
-class RelationTest extends TestCase
+final class RelationTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_cases
 	 *
-	 * @param string $relation
-	 * @param number $number
-	 * @param bool $expected
+	 * @param float|int $number
 	 */
-	public function test_cases($relation, $number, $expected)
+	public function test_cases(string $relation, $number, bool $expected): void
 	{
 		$operands = Operands::from($number);
 
 		$this->assertSame($expected, Relation::from($relation)->evaluate($operands));
 	}
 
-	public function provide_test_cases()
+	public function provide_test_cases(): array
 	{
 		return [
 

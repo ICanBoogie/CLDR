@@ -13,11 +13,12 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Plurals\Samples;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * @group plurals
  */
-class PluralsTest extends TestCase
+final class PluralsTest extends TestCase
 {
 	/**
 	 * @var Plurals
@@ -28,7 +29,7 @@ class PluralsTest extends TestCase
 	{
 		$plurals = &$this->plurals;
 
-		if (!$plurals)
+		if (!$plurals) // @phpstan-ignore-line
 		{
 			$plurals = new Plurals(get_repository()->supplemental['plurals']);
 		}
@@ -36,11 +37,8 @@ class PluralsTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_samples_for
-	 *
-	 * @param string $locale
-	 * @param array $expected_keys
 	 */
-	public function test_samples_for($locale, array $expected_keys)
+	public function test_samples_for(string $locale, array $expected_keys): void
 	{
 		$samples = $this->plurals->samples_for($locale);
 
@@ -48,13 +46,14 @@ class PluralsTest extends TestCase
 		$this->assertContainsOnlyInstancesOf(Samples::class, $samples);
 	}
 
-	public function provide_test_samples_for()
+	public function provide_test_samples_for(): array
 	{
 		return [
 
 			[ 'fr', [
 
 				Plurals::COUNT_ONE,
+				Plurals::COUNT_MANY,
 				Plurals::COUNT_OTHER
 
 			] ],
@@ -81,7 +80,7 @@ class PluralsTest extends TestCase
 		];
 	}
 
-	public function test_samples_should_be_the_same_for_the_same_locale()
+	public function test_samples_should_be_the_same_for_the_same_locale(): void
 	{
 		$samples = $this->plurals->samples_for('fr');
 
@@ -90,24 +89,22 @@ class PluralsTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_rules_for
-	 *
-	 * @param string $locale
-	 * @param array $expected_keys
 	 */
-	public function test_rules_for($locale, array $expected_keys)
+	public function test_rules_for(string $locale, array $expected_keys): void
 	{
 		$rules = $this->plurals->rules_for($locale);
 
 		$this->assertSame($expected_keys, $rules);
 	}
 
-	public function provide_test_rules_for()
+	public function provide_test_rules_for(): array
 	{
 		return [
 
 			[ 'fr', [
 
 				Plurals::COUNT_ONE,
+				Plurals::COUNT_MANY,
 				Plurals::COUNT_OTHER
 
 			] ],
@@ -137,16 +134,14 @@ class PluralsTest extends TestCase
 	/**
 	 * @dataProvider provide_test_rule_for
 	 *
-	 * @param number $number
-	 * @param string $locale
-	 * @param string $expected
+	 * @param numeric $number
 	 */
-	public function test_rule_for($number, $locale, $expected)
+	public function test_rule_for($number, string $locale, string $expected): void
 	{
 		$this->assertSame($expected, $this->plurals->rule_for($number, $locale));
 	}
 
-	public function provide_test_rule_for()
+	public function provide_test_rule_for(): array
 	{
 		return [
 
@@ -165,30 +160,28 @@ class PluralsTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_rule_with_samples
-	 *
-	 * @param string $locale
 	 */
-	public function test_rule_with_samples($locale)
+	public function test_rule_with_samples(string $locale): void
 	{
 		$plurals = $this->plurals;
-		$samples = $plurals->samples_for($locale);
+		$samples_per_count = $plurals->samples_for($locale);
 
-		foreach ($samples as $expected => $sample)
+		foreach ($samples_per_count as $expected => $samples)
 		{
-			foreach ($sample as $i => $number)
+			foreach ($samples as $number)
 			{
 				$count = $plurals->rule_for($number, $locale);
 
 				try {
 					$this->assertSame($expected, $count);
-				} catch (\Exception $e) {
-					$this->fail("Expected `$expected` but got `$count` for number `$number` ($locale, $i)");
+				} catch (Throwable $e) {
+					$this->fail("Expected `$expected` but got `$count` for number `$number` ($locale)");
 				}
 			}
 		}
 	}
 
-	public function provide_test_rule_with_samples()
+	public function provide_test_rule_with_samples(): array
 	{
 		return [
 
@@ -196,6 +189,7 @@ class PluralsTest extends TestCase
 			[ 'be' ],
 			[ 'br' ],
 			[ 'cy' ],
+			[ 'es' ],
 			[ 'fr' ],
 			[ 'naq' ],
 

@@ -45,7 +45,7 @@ final class UnitsTest extends TestCase
 			[ 'fr', 'acceleration-g-force', 123.4504, Units::LENGTH_LONG, "123,45 fois l’accélération de pesanteur terrestre" ],
 			[ 'fr', 'digital_gigabyte', 123.4504, Units::LENGTH_LONG, "123,45 gigaoctets" ],
 			[ 'fr', 'digital_gigabyte', 123.4504, Units::LENGTH_SHORT, "123,45 Go" ],
-			[ 'fr', 'digital_gigabyte', 123.4504, Units::LENGTH_NARROW, "123,45 Go" ],
+			[ 'fr', 'digital_gigabyte', 123.4504, Units::LENGTH_NARROW, "123,45Go" ],
 			[ 'fr', 'duration_hour', 123.4504, Units::LENGTH_LONG, "123,45 heures" ],
 			[ 'fr', 'duration_hour', 123.4504, Units::LENGTH_SHORT, "123,45 h" ],
 			[ 'fr', 'duration_hour', 123.4504, Units::LENGTH_NARROW, "123,45h" ],
@@ -241,7 +241,7 @@ final class UnitsTest extends TestCase
 		$this->expectExceptionMessage("acceleration_g_force() expects one argument, got 0");
 		$this->expectException(BadMethodCallException::class);
 
-		$this->units_for('en')->acceleration_g_force();
+		$this->units_for('en')->acceleration_g_force(); // @phpstan-ignore-line
 	}
 
 	private function units_for($locale): Units

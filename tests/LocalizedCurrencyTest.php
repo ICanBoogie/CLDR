@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class LocalizedCurrencyTest extends TestCase
+final class LocalizedCurrencyTest extends TestCase
 {
     use StringHelpers;
 
@@ -33,24 +33,24 @@ class LocalizedCurrencyTest extends TestCase
 		self::$localized = new LocalizedCurrency(self::$currency, get_repository()->locales['fr']);
 	}
 
-	public function test_name()
+	public function test_name(): void
 	{
 		$this->assertEquals("livre irlandaise", self::$localized->name);
 	}
 
-	public function test_name_for()
+	public function test_name_for(): void
 	{
 		$this->assertEquals("livre irlandaise", self::$localized->name);
 		$this->assertEquals("livre irlandaise", self::$localized->name_for(1));
 		$this->assertEquals("livres irlandaises", self::$localized->name_for(10));
 	}
 
-	public function test_get_symbol()
+	public function test_get_symbol(): void
 	{
 		$this->assertEquals("£IE", self::$localized->symbol);
 	}
 
-	public function test_localize()
+	public function test_localize(): void
 	{
 		$localized = self::$currency->localize('en');
 		$this->assertInstanceOf(LocalizedCurrency::class, $localized);
@@ -60,19 +60,16 @@ class LocalizedCurrencyTest extends TestCase
 	/**
 	 * @dataProvider provide_test_format
 	 *
-	 * @param string $currency_code
-	 * @param string $locale_code
-	 * @param int $number
-	 * @param string $expected
+	 * @param float|int $number
 	 */
-	public function test_format($currency_code, $locale_code, $number, $expected)
+	public function test_format(string $currency_code, string $locale_code, $number, string $expected): void
 	{
 		$currency = new Currency(get_repository(), $currency_code);
 		$localized = $currency->localize($locale_code);
 		$this->assertEquals($expected, $localized->format($number));
 	}
 
-	public function provide_test_format()
+	public function provide_test_format(): array
 	{
 		return [
 
@@ -89,12 +86,9 @@ class LocalizedCurrencyTest extends TestCase
 	/**
 	 * @dataProvider provide_test_format_accounting
 	 *
-	 * @param string $currency_code
-	 * @param string $locale_code
-	 * @param int $number
-	 * @param string $expected
+	 * @param float|int $number
 	 */
-	public function test_format_accounting($currency_code, $locale_code, $number, $expected)
+	public function test_format_accounting(string $currency_code, string $locale_code, $number, string $expected)
 	{
 		$currency = new Currency(get_repository(), $currency_code);
 		$localized = $currency->localize($locale_code);
@@ -102,7 +96,7 @@ class LocalizedCurrencyTest extends TestCase
 		$this->assertStringSame($expected, $localized->format($number, LocalizedCurrencyFormatter::PATTERN_ACCOUNTING));
 	}
 
-	public function provide_test_format_accounting()
+	public function provide_test_format_accounting(): array
 	{
 	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
 	    $s2 = Spaces::NO_BREAK_SPACE;

@@ -18,10 +18,8 @@ use Traversable;
 use function array_merge;
 use function array_slice;
 use function array_values;
-use function assert;
 use function explode;
 use function is_array;
-use function is_numeric;
 use function str_repeat;
 use function strpos;
 use function trim;
@@ -29,31 +27,33 @@ use function trim;
 /**
  * Representation of plural samples.
  *
- * @see http://unicode.org/reports/tr35/tr35-numbers.html#Samples
+ * @internal
  *
- * @implements IteratorAggregate<numeric>
+ * @implements IteratorAggregate<string>
+ *
+ * @see http://unicode.org/reports/tr35/tr35-numbers.html#Samples
  */
 final class Samples implements IteratorAggregate
 {
+	/**
+	 * @private
+	 */
 	public const INFINITY = '…';
-	public const SAMPLE_RANGE_SEPARATOR = '~';
-	public const TYPE_INTEGER = 'integer';
-	public const TYPE_DECIMAL = 'decimal';
 
 	/**
-	 * @var Samples[]
+	 * @private
 	 */
-	static private $instances = [];
+	public const SAMPLE_RANGE_SEPARATOR = '~';
 
-	static public function from(string $samples_string): Samples
+	static public function from(string $samples): Samples
 	{
-		$instance = &self::$instances[$samples_string];
-
-		return $instance ?? $instance = new self(self::parse_rules($samples_string)); // @phpstan-ignore-line
+		return SamplesCache::get($samples, static function () use ($samples): Samples {
+			return new self(self::parse_rules($samples));
+		});
 	}
 
 	/**
-	 * @return array<numeric|numeric[]>
+	 * @return array<string|string[]>
 	 */
 	static private function parse_rules(string $sample_string): array
 	{
@@ -64,7 +64,7 @@ final class Samples implements IteratorAggregate
 		{
 			[ $type, $samples_string ] = explode(' ', trim($type_and_samples_string), 2);
 
-			$samples[$type] = self::parse_samples($type, $samples_string);
+			$samples[$type] = self::parse_samples($samples_string);
 		}
 
 		return array_merge(...array_values($samples));
@@ -73,11 +73,10 @@ final class Samples implements IteratorAggregate
 	/**
 	 * Parse a samples string.
 	 *
-	 * @param string $type One of `TYPE_*`
 	 *
-	 * @return array<numeric|numeric[]>
+	 * @return array<string|string[]>
 	 */
-	static private function parse_samples(string $type, string $samples_string): array
+	static private function parse_samples(string $samples_string): array
 	{
 		$samples = [];
 
@@ -90,33 +89,17 @@ final class Samples implements IteratorAggregate
 
 			if (strpos($sample, self::SAMPLE_RANGE_SEPARATOR) === false)
 			{
-				assert(is_numeric($sample));
-
-				$samples[] = self::cast($type, $sample);
+				$samples[] = $sample;
 
 				continue;
 			}
 
 			[ $start, $end ] = explode(self::SAMPLE_RANGE_SEPARATOR, $sample);
 
-			assert(is_numeric($start));
-			assert(is_numeric($end));
-
-			$samples[] = [ self::cast($type, $start), self::cast($type, $end) ];
+			$samples[] = [ $start, $end ];
 		}
 
 		return $samples;
-	}
-
-	/**
-	 * @param string $type One of `TYPE_*`.
-	 * @param numeric $number
-	 *
-	 * @return int|float
-	 */
-	static private function cast(string $type, $number)
-	{
-		return $type === self::TYPE_DECIMAL ? (float) $number : (int) $number;
 	}
 
 	/**
@@ -128,12 +111,12 @@ final class Samples implements IteratorAggregate
 	}
 
 	/**
-	 * @var array<numeric|numeric[]>
+	 * @var array<string|string[]>
 	 */
 	private $samples;
 
 	/**
-	 * @param array<numeric|numeric[]> $samples
+	 * @param array<string|string[]> $samples
 	 */
 	private function __construct(array $samples)
 	{
@@ -141,7 +124,8 @@ final class Samples implements IteratorAggregate
 	}
 
 	/**
-	 * @inheritDoc
+	 * Note: The iterator yields numeric strings to avoid '0.30000000000000004' when '0.3' is correct,
+	 * and to avoid removing trailing zeros e.g. '1.0' or '1.00'.
 	 */
 	public function getIterator(): Traversable
 	{
@@ -154,10 +138,17 @@ final class Samples implements IteratorAggregate
 				continue;
 			}
 
+			/**
+			 * @var numeric-string $start
+			 * @var numeric-string $end
+			 */
+
 			[ $start, $end ] = $sample;
 
 			$precision = self::precision_from($start) ?: self::precision_from($end);
 			$step = 1 / (int) ('1' . str_repeat('0', $precision));
+			$start += 0;
+			$end += 0;
 
 			// we use a for/times, so we don't lose quantities, compared to a $start += $step
 			$times = ($end - $start) / $step;

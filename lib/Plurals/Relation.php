@@ -29,24 +29,20 @@ use function trim;
 /**
  * Representation of a plural rule relation.
  *
- * @see http://unicode.org/reports/tr35/tr35-numbers.html#Relations
+ * @internal
+ *
+ * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Relations
  */
 final class Relation
 {
 	public const RANGE_SEPARATOR = '..';
 	public const MODULUS_SIGN = '%';
 
-	/**
-	 * @var array<string, Relation>
-	 *     Where _key_ is a relation statement and _value_ a {@link Relation}.
-	 */
-	static private $instances = [];
-
 	static public function from(string $relation): Relation
 	{
-		$instance = &self::$instances[$relation];
-
-		return $instance ?? $instance = new self(...self::parse_relation($relation));  // @phpstan-ignore-line
+		return RelationCache::get($relation, static function () use ($relation): Relation {
+			return new self(...self::parse_relation($relation));
+		});
 	}
 
 	/**
@@ -93,7 +89,7 @@ final class Relation
 
 		if (strpos($x_expression, self::MODULUS_SIGN) !== false)
 		{
-			list($operand, $modulus) = explode(self::MODULUS_SIGN, $x_expression);
+			[ $operand, $modulus ] = explode(self::MODULUS_SIGN, $x_expression);
 
 			$operand = trim($operand);
 
@@ -142,7 +138,7 @@ final class Relation
 
 		$ranges = [];
 
-		for ( ; $start < $end ; $start += $step)
+		for (; $start < $end; $start += $step)
 		{
 			$ranges[] = "(\$x == $start)";
 		}
@@ -179,13 +175,24 @@ final class Relation
 	 */
 	public function resolve_x(Operands $operands)
 	{
-		if ($this->x_expression === null) {
+		if ($this->x_expression === null)
+		{
 			return null;
 		}
 
 		$operands = $operands->to_array();
 
 		extract($operands);
+
+		/**
+		 * @var float|int $n
+		 * @var int $i
+		 * @var int $v
+		 * @var int $w
+		 * @var int $f
+		 * @var int $t
+		 * @var int $e
+		 */
 
 		return eval("return ($this->x_expression);");
 	}

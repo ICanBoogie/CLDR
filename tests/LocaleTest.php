@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class LocaleTest extends TestCase
+final class LocaleTest extends TestCase
 {
     use StringHelpers;
 
@@ -28,25 +28,22 @@ class LocaleTest extends TestCase
 		self::$locale = new Locale(get_repository(), 'fr');
 	}
 
-	public function test_get_code()
+	public function test_get_code(): void
 	{
 		$this->assertEquals('fr', self::$locale->code);
 	}
 
 	/**
 	 * @dataProvider provide_test_get_language
-	 *
-	 * @param string $locale_code
-	 * @param string $expected
 	 */
-	public function test_get_language($locale_code, $expected)
+	public function test_get_language(string $locale_code, string $expected): void
 	{
 		$locale = new Locale(get_repository(), $locale_code);
 
 		$this->assertEquals($expected, $locale->language);
 	}
 
-	public function provide_test_get_language()
+	public function provide_test_get_language(): array
 	{
 		return [
 
@@ -59,11 +56,8 @@ class LocaleTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_properties_instanceof
-	 *
-	 * @param string $property
-	 * @param string $expected
 	 */
-	public function test_properties_instanceof($property, $expected)
+	public function test_properties_instanceof(string $property, string $expected): void
 	{
 		$locale = new Locale(get_repository(), 'fr');
 		$instance = $locale->$property;
@@ -71,7 +65,7 @@ class LocaleTest extends TestCase
 		$this->assertSame($instance, $locale->$property);
 	}
 
-	public function provide_test_properties_instanceof()
+	public function provide_test_properties_instanceof(): array
 	{
 		return [
 
@@ -90,19 +84,15 @@ class LocaleTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_sections
-	 *
-	 * @param string $section
-	 * @param string $path
-	 * @param string $key
 	 */
-	public function test_sections($section, $path, $key)
+	public function test_sections(string $section, string $path, string $key): void
 	{
 		$section_data = self::$locale[$section];
 		$this->assertIsArray($section_data);
 		$this->assertArrayHasKey($key, $section_data);
 	}
 
-	public function provide_test_sections()
+	public function provide_test_sections(): array
 	{
 		return [
 
@@ -143,16 +133,15 @@ class LocaleTest extends TestCase
 	/**
 	 * @dataProvider provide_test_localize
 	 *
-	 * @param string $expected
 	 * @param object $source
 	 */
-	public function test_localize($expected, $source)
+	public function test_localize(string $expected, $source): void
 	{
 		$localized = get_repository()->locales['fr']->localize($source);
 		$this->assertInstanceOf($expected, $localized);
 	}
 
-	public function provide_test_localize()
+	public function provide_test_localize(): array
 	{
 		return [
 
@@ -165,13 +154,13 @@ class LocaleTest extends TestCase
 		];
 	}
 
-	public function test_empty_identifier()
+	public function test_empty_identifier(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 		new Locale(get_repository(), '');
 	}
 
-	public function test_format_number()
+	public function test_format_number(): void
 	{
 	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
 
@@ -181,7 +170,7 @@ class LocaleTest extends TestCase
 		);
 	}
 
-	public function test_format_percent()
+	public function test_format_percent(): void
 	{
 		$this->assertStringSame(
 			"12 %",
@@ -189,7 +178,7 @@ class LocaleTest extends TestCase
 		);
 	}
 
-	public function test_format_currency()
+	public function test_format_currency(): void
 	{
 		$this->assertStringSame(
 			"123 456,78 €",
@@ -205,7 +194,7 @@ class LocaleTest extends TestCase
 		);
 	}
 
-	public function test_context_transform()
+	public function test_context_transform(): void
 	{
 		$this->assertEquals(
 			"Juin",

@@ -13,14 +13,14 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class NumberTest extends TestCase
+final class NumberTest extends TestCase
 {
-	public function test_should_return_correct_precision()
+	public function test_should_return_correct_precision(): void
 	{
 		$this->assertEquals(3, Number::precision_from(12.123));
 	}
 
-	public function test_should_return_zero_precision_if_the_number_is_not_a_decimal()
+	public function test_should_return_zero_precision_if_the_number_is_not_a_decimal(): void
 	{
 		$this->assertEquals(0, Number::precision_from(12));
 	}
@@ -30,16 +30,15 @@ class NumberTest extends TestCase
 	 *
 	 * @dataProvider provide_test_round_to
 	 *
-	 * @param number $number
-	 * @param int $precision
-	 * @param number $expected
+	 * @param float|int $number
+	 * @param float|int $expected
 	 */
-	public function test_round_to($number, $precision, $expected)
+	public function test_round_to($number, int $precision, $expected): void
 	{
 		$this->assertEquals($expected, Number::round_to($number, $precision));
 	}
 
-	public function provide_test_round_to()
+	public function provide_test_round_to(): array
 	{
 		return [
 
@@ -58,16 +57,14 @@ class NumberTest extends TestCase
 	 *
 	 * @dataProvider provide_test_parse
 	 *
-	 * @param number $number
-	 * @param int $precision
-	 * @param array $expected
+	 * @param float|int $number
 	 */
-	public function test_parse($number, $precision, $expected)
+	public function test_parse($number, int $precision, array $expected): void
 	{
 		$this->assertSame($expected, Number::parse($number, $precision));
 	}
 
-	public function provide_test_parse()
+	public function provide_test_parse(): array
 	{
 		return [
 

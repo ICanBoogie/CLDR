@@ -14,7 +14,6 @@ namespace ICanBoogie\CLDR\Plurals;
 use function array_map;
 use function array_walk_recursive;
 use function explode;
-use function in_array;
 
 /**
  * Representation of plural samples.
@@ -23,46 +22,36 @@ use function in_array;
  */
 final class Rule
 {
-	/**
-	 * @var Rule[]
-	 */
-	static private $instances = [];
-
 	static public function from(string $rule): Rule
 	{
-		$instance = &self::$instances[$rule];
-
-		return $instance ?? $instance = new self(self::parse_rule($rule)); // @phpstan-ignore-line
+		return RuleCache::get($rule, static function () use ($rule): Rule {
+			return new self(self::parse_rule($rule));
+		});
 	}
 
 	/**
 	 * @return array<Relation[]>
-	 *     An array of 'AND' rules, where _value_ is an array of 'OR' rules.
+	 *     An array of 'OR' relations, where _value_ is an array of 'AND' relations.
 	 */
 	static private function parse_rule(string $rules): array
 	{
-		$rules = self::extract_rule($rules);
-		array_walk_recursive($rules, function (&$rule) {
-
-			$rule = Relation::from($rule);
-
+		$relations = self::extract_relations($rules);
+		array_walk_recursive($relations, function (string &$relation): void {
+			$relation = Relation::from($relation);
 		});
 
-		/** @var array<Relation[]> $rules */
-
-		return $rules;
+		/** @var array<Relation[]> */
+		return $relations;
 	}
 
 	/**
 	 * @return array<string[]>
-	 *      An array of 'AND' rules, where _value_ is an array of 'OR' rules.
+	 *      An array of 'OR' relations, where _value_ is an array of 'AND' relations.
 	 */
-	static private function extract_rule(string $rule): array
+	static private function extract_relations(string $rule): array
 	{
 		return array_map(function ($rule) {
-
 			return explode(' and ', $rule);
-
 		}, explode(' or ', $rule));
 	}
 
@@ -80,28 +69,45 @@ final class Rule
 	}
 
 	/**
-	 * Whether a number matches the rules.
+	 * Whether a number matches the rule.
 	 *
-	 * @param int|float $number
+	 * @param numeric $number
 	 */
 	public function validate($number): bool
 	{
-		$relations = $this->relations;
 		$operands = Operands::from($number);
 
-		// replace the relations with their evaluations
-		array_walk_recursive($relations, function (Relation &$relation) use ($operands) {
+		return $this->validate_or($operands, $this->relations);
+	}
 
-			$relation = $relation->evaluate($operands);
+	/**
+	 * @param Relation[][] $or_relations
+	 */
+	public function validate_or(Operands $operands, iterable $or_relations): bool
+	{
+		foreach ($or_relations as $and_relations) {
+			if ($this->validate_and($operands, $and_relations))
+			{
+				return true;
+			}
+		}
 
-		});
+		return false;
+	}
 
-		$relations = array_map(function ($evaluations) {
+	/**
+	 * @param Relation[] $and_relations
+	 */
+	public function validate_and(Operands $operands, iterable $and_relations): bool
+	{
+		foreach ($and_relations as $relation)
+		{
+			if (!$relation->evaluate($operands))
+			{
+				return false;
+			}
+		}
 
-			return !in_array(false, $evaluations);
-
-		}, $relations);
-
-		return in_array(true, $relations);
+		return true;
 	}
 }

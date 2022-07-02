@@ -30,7 +30,7 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 	protected function setUp(): void
 	{
 		$this->repository = get_repository();
-		$this->formatter = new CurrencyFormatter($this->repository);
+		$this->formatter = new CurrencyFormatter();
 	}
 
 	/**

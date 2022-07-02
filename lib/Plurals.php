@@ -38,28 +38,33 @@ final class Plurals extends ArrayObject
 	public const COUNT_MANY = 'many';
 	public const COUNT_OTHER = 'other';
 
+	/**
+	 * @private
+	 */
 	public const RULE_COUNT_PREFIX = 'pluralRule-count-';
 
 	/**
-	 * @var array<string, array<string, Rule>>
+	 * @var array<string, array<self::COUNT_*, Rule>>
 	 *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
 	 */
 	private $rules = [];
 
 	/**
-	 * @var array<string, array<string, Samples>>
+	 * @var array<string, array<self::COUNT_*, Samples>>
 	 *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
 	 */
 	private $samples = [];
 
 	/**
-	 * @param float|int $number
+	 * @param numeric $number
 	 *
-	 * @return string One of `COUNT_*`.
+	 * @return self::COUNT_*
 	 */
 	public function rule_for($number, string $locale): string
 	{
-		foreach ($this->rule_instances_for($locale) as $count => $rule)
+		$rules = $this->rule_instances_for($locale);
+
+		foreach ($rules as $count => $rule)
 		{
 			if ($rule->validate($number))
 			{
@@ -67,11 +72,11 @@ final class Plurals extends ArrayObject
 			}
 		}
 
-		return self::COUNT_OTHER; // @codeCoverageIgnore
+		return self::COUNT_OTHER;
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<self::COUNT_*>
 	 */
 	public function rules_for(string $locale): array
 	{
@@ -79,7 +84,7 @@ final class Plurals extends ArrayObject
 	}
 
 	/**
-	 * @return array<string, Samples>
+	 * @return array<self::COUNT_*, Samples>
 	 */
 	public function samples_for(string $locale): array
 	{
@@ -89,7 +94,7 @@ final class Plurals extends ArrayObject
 	}
 
 	/**
-	 * @return array<string, Rule>
+	 * @return array<self::COUNT_*, Rule>
 	 */
 	private function rule_instances_for(string $locale): array
 	{
@@ -99,7 +104,7 @@ final class Plurals extends ArrayObject
 	}
 
 	/**
-	 * @return array<string, Rule>
+	 * @return array<self::COUNT_*, Rule>
 	 */
 	private function create_rules_for(string $locale): array
 	{
@@ -112,6 +117,7 @@ final class Plurals extends ArrayObject
 			$rules[$count] = Rule::from($this->extract_rule($rule_string));
 		}
 
+		/** @var array<self::COUNT_*, Rule> */
 		return $rules;
 	}
 
@@ -124,7 +130,7 @@ final class Plurals extends ArrayObject
 	}
 
 	/**
-	 * @return array<string, Samples>
+	 * @return array<self::COUNT_*, Samples>
 	 */
 	private function create_samples_for(string $locale): array
 	{
@@ -137,6 +143,7 @@ final class Plurals extends ArrayObject
 			$samples[$count] = Samples::from($this->extract_samples($rule_string));
 		}
 
+		/** @var array<self::COUNT_*, Samples> */
 		return $samples;
 	}
 
@@ -145,7 +152,7 @@ final class Plurals extends ArrayObject
 		$pos = strpos($rule_string, '@');
 
 		if ($pos === false) {
-			throw new \Exception("Unable to locate rule string in '$rule_string'");
+			return "";
 		}
 
 		return substr($rule_string, $pos);

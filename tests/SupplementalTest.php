@@ -15,7 +15,7 @@ use ICanBoogie\OffsetNotDefined;
 use ICanBoogie\OffsetNotWritable;
 use PHPUnit\Framework\TestCase;
 
-class SupplementalTest extends TestCase
+final class SupplementalTest extends TestCase
 {
 	/**
 	 * @var Supplemental
@@ -29,23 +29,15 @@ class SupplementalTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_sections
-	 *
-	 * @param string $section
-	 * @param string $key
 	 */
-	public function test_sections($section, $key)
+	public function test_sections(string $section, string $key): void
 	{
 		$section_data = self::$supplemental[$section];
 		$this->assertIsArray($section_data);
 		$this->assertArrayHasKey($key, $section_data);
 	}
 
-	public function test_default_calendar()
-	{
-		$this->assertArrayHasKey('001', self::$supplemental['calendarPreferenceData']);
-	}
-
-	public function provide_test_sections()
+	public function provide_test_sections(): array
 	{
 		return [
 
@@ -59,7 +51,7 @@ class SupplementalTest extends TestCase
 			[ 'gender'                 , 'personList' ],
 			[ 'languageData'           , 'aa' ],
 			[ 'languageGroups'         , 'aav' ],
-			[ 'languageMatching'       , 'written' ],
+			[ 'languageMatching'       , 'written-new' ],
 			[ 'likelySubtags'          , 'aa' ],
 			[ 'measurementData'        , 'measurementSystem' ],
 			[ 'metaZones'              , 'metazoneInfo' ],
@@ -72,14 +64,18 @@ class SupplementalTest extends TestCase
 			[ 'territoryContainment'   , 'EU' ],
 			[ 'territoryInfo'          , 'AC' ],
 			[ 'timeData'               , 'AD' ],
-            [ 'unitPreferenceData'     , 'unitPreferences' ],
 			[ 'weekData'               , 'minDays' ],
 			[ 'windowsZones'           , 'mapTimezones' ],
 
 		];
 	}
 
-    public function test_offset_exists()
+	public function test_default_calendar(): void
+	{
+		$this->assertArrayHasKey('001', self::$supplemental['calendarPreferenceData']);
+	}
+
+    public function test_offset_exists(): void
     {
         $s = self::$supplemental;
 
@@ -88,21 +84,21 @@ class SupplementalTest extends TestCase
         $this->assertFalse(isset($s[uniqid()]));
     }
 
-	public function test_should_throw_exception_when_getting_undefined_offset()
+	public function test_should_throw_exception_when_getting_undefined_offset(): void
     {
 	    $s = self::$supplemental;
 	    $this->expectException(OffsetNotDefined::class);
-        $s[uniqid()];
+        $s[uniqid()]; // @phpstan-ignore-line
     }
 
-	public function test_should_throw_exception_in_attempt_to_set_offset()
+	public function test_should_throw_exception_in_attempt_to_set_offset(): void
     {
 	    $s = self::$supplemental;
 	    $this->expectException(OffsetNotWritable::class);
         $s['timeData'] = null;
     }
 
-	public function test_should_throw_exception_in_attempt_to_unset_offset()
+	public function test_should_throw_exception_in_attempt_to_unset_offset(): void
     {
 	    $s = self::$supplemental;
 	    $this->expectException(OffsetNotWritable::class);

@@ -16,21 +16,22 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group plurals
  */
-class RuleTest extends TestCase
+final class RuleTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_cases
 	 *
-	 * @param string $rule
 	 * @param number $number
-	 * @param bool $expected
 	 */
-	public function test_cases($rule, $number, $expected)
+	public function test_cases(string $rule, $number, bool $expected): void
 	{
 		$this->assertSame($expected, Rule::from($rule)->validate($number));
 	}
 
-	public function provide_test_cases()
+	/**
+	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/plurals.json
+	 */
+	public function provide_test_cases(): array
 	{
 		$r1 = "n = 0 or n != 1 and n % 100 = 1..19";
 		$r2 = "n % 10 = 2..4 and n % 100 != 12..14";
@@ -55,6 +56,7 @@ class RuleTest extends TestCase
 			[ $r3, 3, true ],
 			[ $r3, 29, true ],
 			[ $r3, 1003.0, true ],
+			[ $r3, "1003.0", true ],
 			[ $r3, 8, false ],
 
 			[ $r4,   2, true ],
@@ -74,6 +76,15 @@ class RuleTest extends TestCase
 			[ $r7, 1002, true ],
 			[ $r7, 3.2, true ],
 			[ $r7, 1000.2, true ],
+			[ $r7, "1000.2", true ],
+
+			[ "e = 0", "1.0000001c6", false ],
+			[ "e = 0 or e != 0..5", "1.0000001c6", true ],
+			[ $r8 = "e = 0 and i != 0 and i % 1000000 = 0 and v = 0 or e != 0..5", "1.0000001c6", true ],
+			[ $r8, "1.1c6", true ],
+			[ $r8, "1c6", true ],
+			[ $r8, 1000000, true ],
+			[ $r8, 1000000.1, false ],
 
 		];
 	}

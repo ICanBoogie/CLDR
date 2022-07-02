@@ -12,7 +12,7 @@
 namespace ICanBoogie\CLDR\Locale;
 
 /**
- * @see https://www.unicode.org/reports/tr35/tr35-57/tr35-general.html#ListPatterns (v36)
+ * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#ListPatterns
  */
 final class ListPattern
 {

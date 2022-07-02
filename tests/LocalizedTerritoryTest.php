@@ -13,16 +13,12 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class LocalizedTerritoryTest extends TestCase
+final class LocalizedTerritoryTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_get_name
-	 *
-	 * @param string $locale_code
-	 * @param string $territory_code
-	 * @param string $expected
 	 */
-	public function test_get_name($locale_code, $territory_code, $expected)
+	public function test_get_name(string $locale_code, string $territory_code, string $expected): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
 		$localized = new LocalizedTerritory($territory, get_repository()->locales[$locale_code]);
@@ -30,7 +26,7 @@ class LocalizedTerritoryTest extends TestCase
 		$this->assertEquals($expected, $localized->name);
 	}
 
-	public function provide_test_get_name()
+	public function provide_test_get_name(): array
 	{
 		return [
 

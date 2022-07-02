@@ -14,22 +14,19 @@ namespace ICanBoogie\CLDR;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 
-class DateTimeAccessorTest extends TestCase
+final class DateTimeAccessorTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_properties
-	 *
-	 * @param string $property
-	 * @param string $expected
 	 */
-	public function test_properties($property, $expected)
+	public function test_properties(string $property, int $expected): void
 	{
 		$datetime = new \DateTime("2016-09-17T12:22:32+02:00");
 
 		$this->assertSame($expected, (new DateTimeAccessor($datetime))->$property);
 	}
 
-	public function provide_test_properties()
+	public function provide_test_properties(): array
 	{
 		return [
 
@@ -47,7 +44,7 @@ class DateTimeAccessorTest extends TestCase
 		];
 	}
 
-	public function test_should_throw_exception_accessing_undefined_property()
+	public function test_should_throw_exception_accessing_undefined_property(): void
 	{
 		$this->expectException(LogicException::class);
 		$property = uniqid();

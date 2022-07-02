@@ -1,5 +1,31 @@
 # Migration
 
+## v4.x to v5.x
+
+### New Requirements
+
+None
+
+### New features
+
+- Added support for the new [plural operand](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#table-plural-operand-meanings) `e` and compact decimal exponent e.g. `123c6`.
+
+### Backward Incompatible Changes
+
+None
+
+### Deprecated Features
+
+None
+
+### Other Changes
+
+- Targets [CLDR v41](https://www.unicode.org/reports/tr35/tr35-66/tr35.html)
+
+
+
+
+
 ## v3.x to v4.x
 
 ### New Requirements
@@ -98,5 +124,5 @@ None
 ### Other Changes
 
 - Compatible with PHP 8.1+
-- Targets [CLDR v36](http://cldr.unicode.org/index/downloads/cldr-36)
+- Targets [CLDR v36](https://www.unicode.org/reports/tr35/tr35-57/tr35.html)
 - Improved type annotations, including generics.

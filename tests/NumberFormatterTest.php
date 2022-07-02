@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class NumberFormatterTest extends TestCase
+final class NumberFormatterTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_format

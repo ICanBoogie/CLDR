@@ -14,23 +14,23 @@ namespace ICanBoogie\CLDR;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 
-class ContextTransformsTest extends TestCase
+final class ContextTransformsTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_transform
-	 *
-	 * @param string $str
-	 * @param string $expected
-	 * @param string $usage
-	 * @param string $type
-	 * @param array $rules
 	 */
-	public function test_transform($str, $expected, $usage, $type, $rules)
+	public function test_transform(
+		string $str,
+		string $expected,
+		string $usage,
+		string $type,
+		array $rules
+	): void
 	{
 		$this->assertSame($expected, (new ContextTransforms($rules))->transform($str, $usage, $type));
 	}
 
-	public function provide_test_transform()
+	public function provide_test_transform(): array
 	{
 		return [
 
@@ -150,7 +150,7 @@ class ContextTransformsTest extends TestCase
 		];
 	}
 
-	public function test_should_throw_exception_on_unknown_transform()
+	public function test_should_throw_exception_on_unknown_transform(): void
 	{
 		$usage = ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW;
 		$type = ContextTransforms::TYPE_STAND_ALONE;

@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 use ICanBoogie\PropertyNotDefined;
 use PHPUnit\Framework\TestCase;
 
-class CalendarTest extends TestCase
+final class CalendarTest extends TestCase
 {
 	/**
 	 * @var Calendar
@@ -26,25 +26,22 @@ class CalendarTest extends TestCase
 		self::$calendar = get_repository()->locales['fr']->calendars['gregorian'];
 	}
 
-	public function test_instanceof()
+	public function test_instanceof(): void
 	{
 		$this->assertInstanceOf(Calendar::class, self::$calendar);
 	}
 
 	/**
 	 * @dataProvider provider_test_property_instanceof
-	 *
-	 * @param string $property
-	 * @param string $expected
 	 */
-	public function test_property_instanceof($property, $expected)
+	public function test_property_instanceof(string $property, string $expected): void
 	{
 		$instance = self::$calendar->$property;
 		$this->assertInstanceOf($expected, $instance);
 		$this->assertSame($instance, self::$calendar->$property);
 	}
 
-	public function provider_test_property_instanceof()
+	public function provider_test_property_instanceof(): array
 	{
 		return [
 
@@ -56,7 +53,7 @@ class CalendarTest extends TestCase
 		];
 	}
 
-	public function test_get_undefined_property()
+	public function test_get_undefined_property(): void
 	{
 		$this->expectException(PropertyNotDefined::class);
 		self::$calendar->undefined_property;
@@ -64,15 +61,13 @@ class CalendarTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_access
-	 *
-	 * @param string $key
 	 */
-	public function test_access($key)
+	public function test_access(string $key): void
 	{
 		$this->assertTrue(self::$calendar->offsetExists($key));
 	}
 
-	public function provide_test_access()
+	public function provide_test_access(): array
 	{
 		return [
 
@@ -90,11 +85,8 @@ class CalendarTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_date_patterns_shortcuts
-	 *
-	 * @param string $property
-	 * @param string $path
 	 */
-	public function test_date_patterns_shortcuts($property, $path)
+	public function test_date_patterns_shortcuts(string $property, string $path): void
 	{
 		$path_parts = explode('/', $path);
 		$expected = self::$calendar;
@@ -107,7 +99,7 @@ class CalendarTest extends TestCase
 		$this->assertEquals(self::$calendar->$property, $expected);
 	}
 
-	public function provide_test_date_patterns_shortcuts()
+	public function provide_test_date_patterns_shortcuts(): array
 	{
 		return [
 
@@ -147,7 +139,7 @@ class CalendarTest extends TestCase
 		];
 	}
 
-	public function testFormatDateTime()
+	public function testFormatDateTime(): void
     {
         $this->assertSame(
             self::$calendar->format_datetime('2018-11-24 20:12:22 UTC', 'full'),
@@ -155,7 +147,7 @@ class CalendarTest extends TestCase
         );
     }
 
-	public function testFormatDate()
+	public function testFormatDate(): void
     {
         $this->assertSame(
             self::$calendar->format_date('2018-11-24 20:12:22 UTC', 'long'),
@@ -163,7 +155,7 @@ class CalendarTest extends TestCase
         );
     }
 
-	public function testFormatTime()
+	public function testFormatTime(): void
     {
         $this->assertSame(
             self::$calendar->format_time('2018-11-24 20:12:22 UTC', 'long'),

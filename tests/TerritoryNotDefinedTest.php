@@ -14,17 +14,12 @@ namespace ICanBoogie\CLDR;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-class TerritoryNotDefinedTest extends TestCase
+final class TerritoryNotDefinedTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_instance
-	 *
-	 * @param string $territory_code
-	 * @param string|null $message
-	 * @param string $expected_message
-	 * @param Exception|null $previous
 	 */
-	public function test_instance($territory_code, $message, $expected_message, Exception $previous = null)
+	public function test_instance(string $territory_code, ?string $message, string $expected_message, Exception $previous = null): void
 	{
 		$sut = new TerritoryNotDefined($territory_code, $message, $previous);
 
@@ -33,7 +28,7 @@ class TerritoryNotDefinedTest extends TestCase
 		$this->assertSame($previous, $sut->getPrevious());
 	}
 
-	public function provide_instance()
+	public function provide_instance(): array
 	{
 		$territory_code = 'FR';
 		$previous = new Exception;

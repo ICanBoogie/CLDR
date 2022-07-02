@@ -11,8 +11,15 @@
 
 namespace ICanBoogie\CLDR;
 
+use function assert;
+use function is_numeric;
+use function is_string;
+use function preg_match;
+use function str_repeat;
 use function strlen;
+use function strpos;
 use function strrpos;
+use function substr;
 
 final class Number
 {
@@ -47,8 +54,7 @@ final class Number
 	/**
 	 * Parses a number.
 	 *
-	 * @param float|int $number
-	 * @param null|int $precision
+	 * @param numeric $number
 	 *
 	 * @return array{ 0: int, 1: string|null}
 	 *     Where `0` is the integer part and `1` the fractional part. The fractional part is `null` if
@@ -62,12 +68,48 @@ final class Number
 			$precision = self::precision_from($number);
 		}
 
-		$number = self::round_to($number, $precision);
+		$number = self::round_to($number+0, $precision);
 		$number = abs($number);
 		$number = number_format($number, $precision, '.', '');
 
 		[ $integer, $fractional ] = explode('.', (string) $number) + [ 1 => null ];
 
 		return [ (int) $integer, $fractional ];
+	}
+
+	/**
+	 * @param numeric $number
+	 * @param int|null $c
+	 *
+	 * @return numeric
+	 */
+	static public function expand_compact_decimal_exponent($number, int &$c = null)
+	{
+		$c = 0;
+
+		if (!is_string($number))
+		{
+			return $number;
+		}
+
+		$c_pos = strpos($number, 'c');
+
+		if ($c_pos === false)
+		{
+			return $number;
+		}
+
+		$c = (int) substr($number, $c_pos + 1);
+		$number = substr($number, 0, $c_pos);
+		preg_match('/0+$/', $number, $match);
+		assert(is_numeric($number));
+		$multiplier = (int) ('1' . str_repeat('0', $c));
+		$number *= $multiplier;
+
+		if ($match) {
+			return $number . $match[0]; // @phpstan-ignore-line
+		}
+
+		return $number;
 	}
 }

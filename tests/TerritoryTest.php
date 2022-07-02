@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class TerritoryTest extends TestCase
+final class TerritoryTest extends TestCase
 {
 	public function test_get_info()
 	{
@@ -37,17 +37,14 @@ class TerritoryTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_get_currency
-	 *
-	 * @param string $expected
-	 * @param string $territory_code
 	 */
-	public function test_get_currency($expected, $territory_code)
+	public function test_get_currency(string $expected, string $territory_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertEquals($expected, $territory->currency);
 	}
 
-	public function provide_test_get_currency()
+	public function provide_test_get_currency(): array
 	{
 		return [
 
@@ -61,17 +58,15 @@ class TerritoryTest extends TestCase
 	/**
 	 * @dataProvider provide_test_currency_at
 	 *
-	 * @param string $expected
-	 * @param string $territory_code
 	 * @param mixed $date
 	 */
-	public function test_currency_at($expected, $territory_code, $date)
+	public function test_currency_at(string $expected, string $territory_code, $date): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertEquals($expected, $territory->currency_at($date));
 	}
 
-	public function provide_test_currency_at()
+	public function provide_test_currency_at(): array
 	{
 		return [
 
@@ -89,17 +84,14 @@ class TerritoryTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_get_language
-	 *
-	 * @param string $expected
-	 * @param string $territory_code
 	 */
-	public function test_get_language($expected, $territory_code)
+	public function test_get_language(string $expected, string $territory_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertSame($expected, $territory->language);
 	}
 
-	public function provide_test_get_language()
+	public function provide_test_get_language(): array
 	{
 		return [
 
@@ -110,7 +102,7 @@ class TerritoryTest extends TestCase
 		];
 	}
 
-	public function test_get_population()
+	public function test_get_population(): void
 	{
 		$territory = new Territory(get_repository(), 'ES');
 		$this->assertNotEmpty($territory->population);
@@ -118,18 +110,14 @@ class TerritoryTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_name_as
-	 *
-	 * @param string $expected
-	 * @param string $territory_code
-	 * @param string $locale_code
 	 */
-	public function test_name_as($expected, $territory_code, $locale_code)
+	public function test_name_as(string $expected, string $territory_code, string $locale_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertEquals($expected, $territory->name_as($locale_code));
 	}
 
-	public function provide_test_name_as()
+	public function provide_test_name_as(): array
 	{
 		return [
 
@@ -143,18 +131,14 @@ class TerritoryTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_get_name_as
-	 *
-	 * @param string $expected
-	 * @param string $territory_code
-	 * @param string $locale_code
 	 */
-	public function test_get_name_as($expected, $territory_code, $locale_code)
+	public function test_get_name_as(string $expected, string $territory_code, string $locale_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertEquals($expected, $territory->{ 'name_as_' . $locale_code });
 	}
 
-	public function provide_test_get_name_as()
+	public function provide_test_get_name_as(): array
 	{
 		return [
 
@@ -168,18 +152,17 @@ class TerritoryTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_get_property
-	 *
-	 * @param string $expected
-	 * @param string $territory_code
-	 * @param string $property
 	 */
-	public function test_get_property($expected, $territory_code, $property)
+	public function test_get_property(string $expected, string $territory_code, string $property): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertEquals($expected, $territory->$property);
 	}
 
-	public function provide_test_get_property()
+	/**
+	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/weekData.json
+	 */
+	public function provide_test_get_property(): array
 	{
 		return [
 
@@ -193,27 +176,27 @@ class TerritoryTest extends TestCase
 			# weekend_start
 
 			[ "sat",  "FR", 'weekend_start' ],
-			[ "fri",  "AE", 'weekend_start' ],
+			[ "sat",  "AE", 'weekend_start' ],
 			[ "thu",  "AF", 'weekend_start' ],
 			[ "sun",  "IN", 'weekend_start' ],
 
 			# weekend_end
 
 			[ "sun",  "FR", 'weekend_end' ],
-			[ "sat",  "AE", 'weekend_end' ],
+			[ "sun",  "AE", 'weekend_end' ],
 			[ "fri",  "AF", 'weekend_end' ]
 
 		];
 	}
 
-	public function test_to_string()
+	public function test_to_string(): void
 	{
 		$territory_code = 'US';
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertEquals($territory_code, (string) $territory);
 	}
 
-	public function test_localize()
+	public function test_localize(): void
 	{
 		$territory = new Territory(get_repository(), 'FR');
 

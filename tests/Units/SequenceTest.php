@@ -14,9 +14,9 @@ namespace ICanBoogie\CLDR\Units;
 use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\TestCase;
 
-class SequenceTest extends TestCase
+final class SequenceTest extends TestCase
 {
-	public function test_format()
+	public function test_format(): void
 	{
 		$unit = "digital-megabyte";
 		$method = strtr($unit, '-', '_');
@@ -46,7 +46,7 @@ class SequenceTest extends TestCase
 		$this->assertSame($expected, $unit->$method($number)->format($length));
 	}
 
-	public function test_to_string()
+	public function test_to_string(): void
 	{
 		$unit = "digital-megabyte";
 		$method = strtr($unit, '-', '_');

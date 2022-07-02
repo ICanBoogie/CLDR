@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class DateFormatterTest extends TestCase
+final class DateFormatterTest extends TestCase
 {
 	/**
 	 * @var DateFormatter[]
@@ -30,18 +30,13 @@ class DateFormatterTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_format
-	 *
-	 * @param string $locale
-	 * @param string $datetime
-	 * @param string $pattern
-	 * @param string $expected
 	 */
-	public function test_format($locale, $datetime, $pattern, $expected)
+	public function test_format(string $locale, string $datetime, string $pattern, string $expected): void
 	{
 		$this->assertEquals($expected, self::$formatters[$locale]->format($datetime, $pattern));
 	}
 
-	public function provide_test_format()
+	public function provide_test_format(): array
 	{
 		return [
 

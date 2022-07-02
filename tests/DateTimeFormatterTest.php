@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use PHPUnit\Framework\TestCase;
 
-class DateTimeFormatterTest extends TestCase
+final class DateTimeFormatterTest extends TestCase
 {
 	/**
 	 * @var DateTimeFormatter[]
@@ -32,27 +32,22 @@ class DateTimeFormatterTest extends TestCase
 		];
 	}
 
-	public function test_get_calendar()
+	public function test_get_calendar(): void
 	{
 		$this->assertInstanceOf(Calendar::class, self::$formatters['en']->calendar);
 	}
 
 	/**
 	 * @dataProvider provide_test_format
-	 *
-	 * @param string $locale_id
-	 * @param string $datetime
-	 * @param string $format
-	 * @param string $expected
 	 */
-	public function test_format($locale_id, $datetime, $format, $expected)
+	public function test_format(string $locale_id, string $datetime, string $format, string $expected): void
 	{
 		$formatter = self::$formatters[$locale_id];
 
 		$this->assertSame($expected, $formatter($datetime, $format));
 	}
 
-	public function provide_test_format()
+	public function provide_test_format(): array
 	{
 		return [
 
@@ -485,7 +480,7 @@ class DateTimeFormatterTest extends TestCase
 
 			[ 'fr', '2013-11-02 22:23:45', 'full', 'samedi 2 novembre 2013 à 22:23:45 CET' ],
 			[ 'fr', '2013-11-02 22:23:45', 'long', '2 novembre 2013 à 22:23:45 CET' ],
-			[ 'fr', '2013-11-02 22:23:45', 'medium', '2 nov. 2013 à 22:23:45' ],
+			[ 'fr', '2013-11-02 22:23:45', 'medium', '2 nov. 2013, 22:23:45' ],
 			[ 'fr', '2013-11-02 22:23:45', 'short', '02/11/2013 22:23' ],
 
 			[ 'fr', '2016-06-06', "''y 'Madonna' y 'Yay", "'2016 Madonna 2016 Yay" ],
@@ -511,12 +506,8 @@ class DateTimeFormatterTest extends TestCase
 
 	/**
 	 * @dataProvider provide_test_format_with_skeleton
-	 *
-	 * @param string $skeleton
-	 * @param string $pattern
-	 * @param string $expected_result
 	 */
-	public function test_format_with_skeleton($skeleton, $pattern, $expected_result)
+	public function test_format_with_skeleton(string $skeleton, string $pattern, string $expected_result): void
 	{
 		$formatter = self::$formatters['fr'];
 		$datetime = new \DateTime('2013-10-26 22:08:30', new \DateTimeZone('Europe/Paris'));
@@ -527,7 +518,7 @@ class DateTimeFormatterTest extends TestCase
 		$this->assertEquals($expected_result, $result);
 	}
 
-	public function provide_test_format_with_skeleton()
+	public function provide_test_format_with_skeleton(): array
 	{
 		return [
 

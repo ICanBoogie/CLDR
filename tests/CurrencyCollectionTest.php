@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 use ICanBoogie\OffsetNotWritable;
 use PHPUnit\Framework\TestCase;
 
-class CurrencyCollectionTest extends TestCase
+final class CurrencyCollectionTest extends TestCase
 {
 	/**
 	 * @var CurrencyCollection
