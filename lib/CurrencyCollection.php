@@ -12,7 +12,9 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
-use function key;
+
+use function array_combine;
+use function array_keys;
 
 /**
  * A currency collection.
@@ -31,11 +33,13 @@ use function key;
  * ```
  *
  * @extends AbstractCollection<Currency>
+ *
+ * @property-read string[] $codes Alphabetic list of currency codes.
  */
 final class CurrencyCollection extends AbstractCollection
 {
 	/**
-	 * @uses get_repository
+	 * @uses lazy_get_codes
 	 */
 	use AccessorTrait;
 	use RepositoryPropertyTrait;
@@ -54,28 +58,32 @@ final class CurrencyCollection extends AbstractCollection
 	}
 
 	/**
+	 * @return string[]
+	 *
+	 * @throws ResourceNotFound
+	 *
+	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
+	 */
+	private function lazy_get_codes(): array
+	{
+		$codes = array_keys($this->repository->fetch(
+			'numbers/en-001/currencies',
+			'main/en-001/numbers/currencies'
+		));
+
+		return array_combine($codes, $codes);
+	}
+
+	/**
 	 * Checks if a currency exists.
 	 *
 	 * @param string $offset Currency code.
 	 */
 	public function offsetExists($offset): bool
 	{
-		$data = $this->repository->supplemental['currencyData']['region'];
+		$codes = $this->codes;
 
-		foreach ($data as $currencies)
-		{
-			foreach ($currencies as $currency_info)
-			{
-				$code = key($currency_info);
-
-				if ($code === $offset)
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
+		return isset($codes[$offset]);
 	}
 
 	/**

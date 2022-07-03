@@ -12,6 +12,8 @@ None
 
 - Added the optional parameter `data_path` to `Repository::fetch()`, it can be used by the function to burrow in the data to fetch a target.
 
+- `CurrencyCollection::$codes` returns the list of defined currency codes.
+
 ### Backward Incompatible Changes
 
 - `PathMapper` was replaced by `GitHub\UrlResolver`.

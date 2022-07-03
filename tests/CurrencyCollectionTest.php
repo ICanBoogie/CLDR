@@ -26,6 +26,11 @@ final class CurrencyCollectionTest extends TestCase
 		$this->sut = new CurrencyCollection(get_repository());
 	}
 
+	public function test_codes(): void
+	{
+		$this->assertArrayHasKey('EUR', $this->sut->codes);
+	}
+
 	public function test_offset_exists(): void
 	{
 		$this->assertTrue(isset($this->sut['EUR']));
@@ -46,7 +51,7 @@ final class CurrencyCollectionTest extends TestCase
 	{
 		$this->expectExceptionMessage("Currency not defined for code: ABC.");
 		$this->expectException(CurrencyNotDefined::class);
-		$this->sut['ABC'];
+		$this->sut['ABC']; // @phpstan-ignore-line
 	}
 
 	public function test_offset_set(): void
