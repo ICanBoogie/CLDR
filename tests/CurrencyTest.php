@@ -15,34 +15,37 @@ use PHPUnit\Framework\TestCase;
 
 final class CurrencyTest extends TestCase
 {
-	/**
-	 * @var Repository
-	 */
-	static private $repository;
-
-	static public function setupBeforeClass(): void
+	public function test_fraction(): void
 	{
-		self::$repository = get_repository();
+		$currency = new Currency(get_repository(), 'EUR');
+		$fraction = $currency->fraction;
+
+		$this->assertSame(2, $fraction->digits);
+		$this->assertSame(0, $fraction->rounding);
+		$this->assertSame($fraction, $currency->fraction);
 	}
 
 	/**
-	 * @dataProvider provide_test_properties
+	 * @dataProvider provide_fraction_properties
 	 */
-	public function test_properties(string $code, string $property, ?int $expected): void
+	public function test_fraction_properties(string $code, string $property, int $expected): void
 	{
-		$currency = new Currency(self::$repository, $code);
+		$currency = new Currency(get_repository(), $code);
 
-		$this->assertSame($expected, $currency->$property);
+		$this->assertSame($expected, $currency->fraction->$property);
 	}
 
-	public function provide_test_properties(): array
+	/**
+	 * @phpstan-ignore-next-line
+	 */
+	public function provide_fraction_properties(): array
 	{
 		return [
 
 			[ 'EUR', 'digits', 2 ],
 			[ 'EUR', 'rounding', 0 ],
-			[ 'EUR', 'cash_digits', null ],
-			[ 'EUR', 'cash_rounding', null ],
+			[ 'EUR', 'cash_digits', 2 ],
+			[ 'EUR', 'cash_rounding', 0 ],
 
 			[ 'HUF', 'digits', 2 ],
 			[ 'HUF', 'rounding', 0 ],
@@ -51,9 +54,23 @@ final class CurrencyTest extends TestCase
 
 			[ 'LYD', 'digits', 3 ],
 			[ 'LYD', 'rounding', 0 ],
-			[ 'LYD', 'cash_digits', null ],
-			[ 'LYD', 'cash_rounding', null ],
+			[ 'LYD', 'cash_digits', 3 ],
+			[ 'LYD', 'cash_rounding', 0 ],
+
+			[ 'DKK', 'digits', 2 ],
+			[ 'DKK', 'rounding', 0 ],
+			[ 'DKK', 'cash_digits', 2 ],
+			[ 'DKK', 'cash_rounding', 50 ],
 
 		];
+	}
+
+	public function test_localize(): void
+	{
+		$currency = new Currency(get_repository(), 'CAD');
+		$localized = $currency->localize('fr');
+
+		$this->assertSame('dollar canadien', $localized->name);
+		$this->assertSame('$CA', $localized->symbol);
 	}
 }

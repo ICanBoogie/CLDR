@@ -125,6 +125,19 @@ composer require icanboogie/cldr
 
 
 
+## Documentation
+
+The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-66/tr35.html#parts):
+
+- Part 1: Core (languages, locales, basic structure)
+- Part 2: General (display names & transforms, etc.)
+- Part 3: Numbers (number & currency formatting)
+- Part 4: Dates (date, time, time zone formatting)
+- Part 5: Collation (sorting, searching, grouping)
+- Part 6: [Supplemental](docs/Supplemental.md) (supplemental data)
+
+
+
 ## Repository
 
 The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,

@@ -8,15 +8,48 @@ None
 
 ### New features
 
-- Added support for the new [plural operand](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#table-plural-operand-meanings) `e` and compact decimal exponent e.g. `123c6`.
+- Support for the new [plural operand](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#table-plural-operand-meanings) `e` and compact decimal exponent e.g. `123c6`.
 
-- Added the optional parameter `data_path` to `Repository::fetch()`, it can be used by the function to burrow in the data to fetch a target.
+- The optional parameter `data_path` to `Repository::fetch()` can be used by the function to burrow in the data to fetch a target.
 
 - `CurrencyCollection::$codes` returns the list of defined currency codes.
+
+- Support for Supplemental Currency Data Fractions:
+
+	```php
+	<?php
+
+	/* @var $cldr \ICanBoogie\CLDR\Repository */
+
+	$euro_fraction = $cldr->supplemental->currency_data->fraction_for('EUR');
+
+	echo $euro_fraction->digits;        // 2
+	echo $euro_fraction->rounding;      // 0
+	echo $euro_fraction->cash_digits;   // 2
+	echo $euro_fraction->cash_rounding; // 0
+	```
 
 ### Backward Incompatible Changes
 
 - `PathMapper` was replaced by `GitHub\UrlResolver`.
+
+- With the advent of `Fraction`, the properties `digits`, `rounding`, `cash_digits`, and `cash_rounding` have been removed from `Currency`. Get them through the `fraction` property:
+
+	```php
+	<?php
+
+	/* @var \ICanBoogie\CLDR\Currency $currency */
+
+	$currency->digits;
+	```
+
+	```php
+	<?php
+
+	/* @var \ICanBoogie\CLDR\Currency $currency */
+
+	$currency->fraction->digits;
+	```
 
 ### Deprecated Features
 

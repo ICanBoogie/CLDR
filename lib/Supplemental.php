@@ -11,6 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Supplemental\CurrencyData;
+
 /**
  * Representation of the "supplemental" section.
  *
@@ -23,6 +25,8 @@ namespace ICanBoogie\CLDR;
  *
  * echo $supplemental['calendarPreferenceData']['001']; // gregorian
  * </pre>
+ *
+ * @property-read CurrencyData $currency_data
  */
 final class Supplemental extends AbstractSectionCollection
 {
@@ -61,6 +65,15 @@ final class Supplemental extends AbstractSectionCollection
 		'windowsZones'           => 'windowsZones',
 
 	];
+
+	/**
+	 * @uses lazy_get_currency_data
+	 */
+	protected function lazy_get_currency_data(): CurrencyData
+	{
+		/* @phpstan-ignore-next-line */
+		return new CurrencyData($this['currencyData']);
+	}
 
 	public function offsetExists($offset): bool
 	{
