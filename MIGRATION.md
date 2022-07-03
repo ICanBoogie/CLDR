@@ -61,6 +61,7 @@ None
 
 - As of CLDR v38, all JSON data is contained in this single repository. References and the way they are resolved internal has been updated, without breaking the public interfaces.
 
+- Improved documentation and moved elements from the README to the [docs](docs) directory.
 
 
 

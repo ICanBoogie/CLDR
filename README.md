@@ -131,7 +131,7 @@ The documentation is divided into the following parts, mimicking [Unicode's docu
 
 - Part 1: Core (languages, locales, basic structure)
 - Part 2: General (display names & transforms, etc.)
-- Part 3: Numbers (number & currency formatting)
+- Part 3: [Numbers](docs/Numbers.md) (number & currency formatting)
 - Part 4: Dates (date, time, time zone formatting)
 - Part 5: Collation (sorting, searching, grouping)
 - Part 6: [Supplemental](docs/Supplemental.md) (supplemental data)
@@ -875,57 +875,6 @@ echo $territory->localize('fr')->name;   // France
 echo $territory->localize('it')->name;   // Francia
 echo $territory->localize('ja')->name;   // フランス
 ```
-
-
-
-
-
-## Currencies
-
-Currencies are represented by instances of [Currency][]. You can create the instance yourself or
-get one through the currency collection.
-
-```php
-<?php
-
-use ICanBoogie\CLDR\Currency;
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$euro = new Currency($repository, 'EUR');
-# or
-$euro = $repository->currencies['EUR'];
-```
-
-
-
-
-
-### Localized currencies
-
-A localized currency can be obtained with the `localize()` method, or the `localize()` method
-of the desired locale, it is often used to format a currency using the convention of a locale.
-
-```php
-<?php
-
-use ICanBoogie\CLDR\Currency;
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$currency = new Currency($repository, 'EUR');
-
-$localized_currency = $currency->localize('fr');
-# or
-$localized_currency = $repository->locales['fr']->localize($currency);
-
-echo $localized_currency->name;             // euro
-echo $localized_currency->name(1);          // euro
-echo $localized_currency->name(10);         // euros
-echo $localized_currency->format(12345.67); // 12 345,67 €
-```
-
-
 
 
 
