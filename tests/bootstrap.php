@@ -61,7 +61,8 @@ function get_repository(): Repository
 {
 	static $repository;
 
-	return $repository ?: $repository = new Repository(create_provider());
+	return $repository
+		?? $repository = new Repository(create_provider());
 }
 
 date_default_timezone_set('Europe/Madrid');

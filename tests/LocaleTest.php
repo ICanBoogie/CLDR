@@ -43,6 +43,9 @@ final class LocaleTest extends TestCase
 		$this->assertEquals($expected, $locale->language);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_test_get_language(): array
 	{
 		return [
@@ -65,6 +68,9 @@ final class LocaleTest extends TestCase
 		$this->assertSame($instance, $locale->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_test_properties_instanceof(): array
 	{
 		return [
@@ -85,47 +91,50 @@ final class LocaleTest extends TestCase
 	/**
 	 * @dataProvider provide_test_sections
 	 */
-	public function test_sections(string $section, string $path, string $key): void
+	public function test_sections(string $section, string $key): void
 	{
 		$section_data = self::$locale[$section];
 		$this->assertIsArray($section_data);
 		$this->assertArrayHasKey($key, $section_data);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_test_sections(): array
 	{
 		return [
 
-			[ 'ca-buddhist'            , 'dates/calendars/buddhist'                 , 'months' ],
-			[ 'ca-chinese'             , 'dates/calendars/chinese'                  , 'months' ],
-			[ 'ca-coptic'              , 'dates/calendars/coptic'                   , 'months' ],
-			[ 'ca-dangi'               , 'dates/calendars/dangi'                    , 'months' ],
-			[ 'ca-ethiopic'            , 'dates/calendars/ethiopic'                 , 'months' ],
-			[ 'ca-generic'             , 'dates/calendars/generic'                  , 'months' ],
-			[ 'ca-gregorian'           , 'dates/calendars/gregorian'                , 'months' ],
-			[ 'ca-hebrew'              , 'dates/calendars/hebrew'                   , 'months' ],
-			[ 'ca-indian'              , 'dates/calendars/indian'                   , 'months' ],
-			[ 'ca-islamic'             , 'dates/calendars/islamic'                  , 'months' ],
-			[ 'ca-japanese'            , 'dates/calendars/japanese'                 , 'months' ],
-			[ 'ca-persian'             , 'dates/calendars/persian'                  , 'months' ],
-			[ 'ca-roc'                 , 'dates/calendars/roc'                      , 'months' ],
-			[ 'characters'             , 'characters'                               , 'exemplarCharacters' ],
-			[ 'contextTransforms'      , 'contextTransforms'                        , 'day-format-except-narrow' ],
-			[ 'currencies'             , 'numbers/currencies'                       , 'ADP' ],
-			[ 'dateFields'             , 'dates/fields'                             , 'era' ],
-			[ 'delimiters'             , 'delimiters'                               , 'quotationStart' ],
-			[ 'languages'              , 'localeDisplayNames/languages'             , 'aa' ],
-			[ 'layout'                 , 'layout'                                   , 'orientation' ],
-			[ 'listPatterns'           , 'listPatterns'                             , 'listPattern-type-standard' ],
-			[ 'localeDisplayNames'     , 'localeDisplayNames'                       , 'localeDisplayPattern' ],
-			[ 'measurementSystemNames' , 'localeDisplayNames/measurementSystemNames', 'metric' ],
-			[ 'numbers'                , 'numbers'                                  , 'defaultNumberingSystem' ],
-			[ 'posix'                  , 'posix'                                    , 'messages' ],
-			[ 'scripts'                , 'localeDisplayNames/scripts'               , 'Arab' ],
-			[ 'territories'            , 'localeDisplayNames/territories'           , 'AC' ],
-			[ 'timeZoneNames'          , 'dates/timeZoneNames'                      , 'hourFormat' ],
-			[ 'units'                  , 'units'                                    , 'long' ],
-			[ 'variants'               , 'localeDisplayNames/variants'              , 'ALUKU' ]
+			[ 'ca-buddhist'            , 'months' ],
+			[ 'ca-chinese'             , 'months' ],
+			[ 'ca-coptic'              , 'months' ],
+			[ 'ca-dangi'               , 'months' ],
+			[ 'ca-ethiopic'            , 'months' ],
+			[ 'ca-hebrew'              , 'months' ],
+			[ 'ca-indian'              , 'months' ],
+			[ 'ca-islamic'             , 'months' ],
+			[ 'ca-japanese'            , 'months' ],
+			[ 'ca-persian'             , 'months' ],
+			[ 'ca-roc'                 , 'months' ],
+			[ 'ca-generic'             , 'months' ],
+			[ 'ca-gregorian'           , 'months' ],
+			[ 'dateFields'             , 'era' ],
+			[ 'timeZoneNames'          , 'hourFormat' ],
+			[ 'languages'              , 'aa' ],
+			[ 'localeDisplayNames'     , 'localeDisplayPattern' ],
+			[ 'scripts'                , 'Arab' ],
+			[ 'territories'            , 'AC' ],
+			[ 'variants'               , 'ALUKU' ],
+			[ 'characters'             , 'exemplarCharacters' ],
+			[ 'contextTransforms'      , 'day-format-except-narrow' ],
+			[ 'delimiters'             , 'quotationStart' ],
+			[ 'layout'                 , 'orientation' ],
+			[ 'listPatterns'           , 'listPattern-type-standard' ],
+			[ 'posix'                  , 'messages' ],
+			[ 'currencies'             , 'ADP' ],
+			[ 'numbers'                , 'defaultNumberingSystem' ],
+			[ 'measurementSystemNames' , 'metric' ],
+			[ 'units'                  , 'long' ],
 
 		];
 	}
@@ -141,6 +150,9 @@ final class LocaleTest extends TestCase
 		$this->assertInstanceOf($expected, $localized);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_test_localize(): array
 	{
 		return [

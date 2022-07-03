@@ -11,8 +11,8 @@
 
 namespace ICanBoogie\CLDR\Provider;
 
+use ICanBoogie\CLDR\GitHub\UrlResolver;
 use ICanBoogie\CLDR\Provider;
-use ICanBoogie\CLDR\Provider\WebProvider\PathMapper;
 use ICanBoogie\CLDR\ResourceNotFound;
 
 use function curl_exec;
@@ -34,21 +34,18 @@ use const CURLOPT_URL;
 final class WebProvider implements Provider
 {
 	/**
-	 * @var resource
+	 * @var mixed
 	 */
 	private $connection;
 
 	/**
-	 * @var PathMapper
+	 * @var UrlResolver
 	 */
-	private $mapper;
+	private $url_resolver;
 
-	public function __construct(
-		string $origin = PathMapper::DEFAULT_ORIGIN,
-		string $version = PathMapper::DEFAULT_VERSION,
-		string $variation = PathMapper::DEFAULT_VARIATION
-	) {
-		$this->mapper = new PathMapper($origin, $version, $variation);
+	public function __construct(UrlResolver $url_resolver = null)
+	{
+		$this->url_resolver = $url_resolver ?? new UrlResolver();
 	}
 
 	/**
@@ -57,7 +54,7 @@ final class WebProvider implements Provider
 	public function provide(string $path): array
 	{
 		$connection = $this->obtain_connection();
-		$url = $this->map($path);
+		$url = $this->url_resolver->resolve($path);
 
 		curl_setopt($connection, CURLOPT_URL, $url);
 
@@ -67,7 +64,7 @@ final class WebProvider implements Provider
 
 		if ($http_code != 200)
 		{
-			throw new ResourceNotFound($path);
+			throw new ResourceNotFound("Unable to fetch '$path', 'GET $url' responds with $http_code");
 		}
 
 		assert(is_string($rc));
@@ -78,17 +75,16 @@ final class WebProvider implements Provider
 	/**
 	 * Returns a reusable cURL connection.
 	 *
-	 * @return resource
+	 * @return mixed
 	 */
 	private function obtain_connection()
 	{
-		$connection = &$this->connection;
-
-		return $connection ?: $connection = $this->create_connection(); // @phpstan-ignore-line
+		return $this->connection
+			?? $this->connection = $this->create_connection();
 	}
 
 	/**
-	 * @return resource
+	 * @return mixed
 	 */
 	private function create_connection()
 	{
@@ -102,13 +98,5 @@ final class WebProvider implements Provider
 		]);
 
 		return $connection;
-	}
-
-	/**
-	 * Map a CLDR path to a distribution URL.
-	 */
-	private function map(string $path): string
-	{
-		return $this->mapper->map($path);
 	}
 }

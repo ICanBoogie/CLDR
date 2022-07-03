@@ -13,7 +13,6 @@ namespace ICanBoogie\CLDR;
 
 use ArrayAccess;
 use BadMethodCallException;
-use ReturnTypeWillChange;
 
 /**
  * An abstract collection.
@@ -53,15 +52,10 @@ abstract class AbstractCollection implements ArrayAccess
 	/**
 	 * @param string $offset
 	 */
-	#[ReturnTypeWillChange]
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
-		if (empty($this->collection[$offset]))
-		{
-			$create_instance = $this->create_instance;
-			$this->collection[$offset] = $create_instance($offset);
-		}
-
-		return $this->collection[$offset];
+		return $this->collection[$offset]
+			?? $this->collection[$offset] = ($this->create_instance)($offset);
 	}
 }

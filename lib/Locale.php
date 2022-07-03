@@ -14,12 +14,14 @@ namespace ICanBoogie\CLDR;
 use InvalidArgumentException;
 use LogicException;
 
+use function str_replace;
+use function strtr;
+
 /**
  * Representation of a locale.
  *
- * @property-read Repository $repository The repository provided during construct.
- * @property-read string $code The ISO code of the locale.
- * @property-read string $language The language code.
+ * @property-read string $code Locale identifier.
+ * @property-read string $language Unicode language.
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
  * @property-read Calendar $calendar The preferred calendar for this locale.
  * @property-read Numbers $numbers
@@ -31,46 +33,50 @@ use LogicException;
  */
 class Locale extends AbstractSectionCollection
 {
-	/**
-	 * @var array<string, string>
-	 *     Where _key_ is a property and _value_ its CLDR path.
-	 */
-	static private $available_sections = [
+	use CodePropertyTrait;
 
-		'ca-buddhist'            => 'dates/calendars/buddhist',
-		'ca-chinese'             => 'dates/calendars/chinese',
-		'ca-coptic'              => 'dates/calendars/coptic',
-		'ca-dangi'               => 'dates/calendars/dangi',
-		'ca-ethiopic'            => 'dates/calendars/ethiopic',
-		'ca-generic'             => 'dates/calendars/generic',
-		'ca-gregorian'           => 'dates/calendars/gregorian',
-		'ca-hebrew'              => 'dates/calendars/hebrew',
-		'ca-indian'              => 'dates/calendars/indian',
-		'ca-islamic'             => 'dates/calendars/islamic',
-		'ca-japanese'            => 'dates/calendars/japanese',
-		'ca-persian'             => 'dates/calendars/persian',
-		'ca-roc'                 => 'dates/calendars/roc',
-		'characters'             => 'characters',
-		'contextTransforms'      => 'contextTransforms',
-		'currencies'             => 'numbers/currencies',
-		'dateFields'             => 'dates/fields',
-		'delimiters'             => 'delimiters',
-		'languages'              => 'localeDisplayNames/languages',
-		'layout'                 => 'layout',
-		'listPatterns'           => 'listPatterns',
-		'localeDisplayNames'     => 'localeDisplayNames',
-		'measurementSystemNames' => 'localeDisplayNames/measurementSystemNames',
-		'numbers'                => 'numbers',
-		'posix'                  => 'posix',
-		'scripts'                => 'localeDisplayNames/scripts',
-		'territories'            => 'localeDisplayNames/territories',
-		'timeZoneNames'          => 'dates/timeZoneNames',
-		'units'                  => 'units',
-		'variants'               => 'localeDisplayNames/variants'
+	/**
+	 * Where _key_ is an offset and _value_ and array where `0` is a pattern for the path and `1` the data path.
+	 */
+	private const OFFSET_MAPPING = [
+
+		'ca-buddhist'            => [ 'cal-buddhist/{locale}/ca-buddhist',       'dates/calendars/buddhist' ],
+		'ca-chinese'             => [ 'cal-chinese/{locale}/ca-chinese',         'dates/calendars/chinese' ],
+		'ca-coptic'              => [ 'cal-coptic/{locale}/ca-coptic',           'dates/calendars/coptic' ],
+		'ca-dangi'               => [ 'cal-dangi/{locale}/ca-dangi',             'dates/calendars/dangi' ],
+		'ca-ethiopic'            => [ 'cal-ethiopic/{locale}/ca-ethiopic',       'dates/calendars/ethiopic' ],
+		'ca-hebrew'              => [ 'cal-hebrew/{locale}/ca-hebrew',           'dates/calendars/hebrew' ],
+		'ca-indian'              => [ 'cal-indian/{locale}/ca-indian',           'dates/calendars/indian' ],
+		'ca-islamic'             => [ 'cal-islamic/{locale}/ca-islamic',         'dates/calendars/islamic' ],
+		'ca-japanese'            => [ 'cal-japanese/{locale}/ca-japanese',       'dates/calendars/japanese' ],
+		'ca-persian'             => [ 'cal-persian/{locale}/ca-persian',         'dates/calendars/persian' ],
+		'ca-roc'                 => [ 'cal-roc/{locale}/ca-roc',                 'dates/calendars/roc' ],
+		'ca-generic'             => [ 'dates/{locale}/ca-generic',               'dates/calendars/generic' ],
+		'ca-gregorian'           => [ 'dates/{locale}/ca-gregorian',             'dates/calendars/gregorian' ],
+		'dateFields'             => [ 'dates/{locale}/dateFields',               'dates/fields' ],
+		'timeZoneNames'          => [ 'dates/{locale}/timeZoneNames',            'dates/timeZoneNames' ],
+		'languages'              => [ 'localenames/{locale}/languages',          'localeDisplayNames/languages' ],
+		'localeDisplayNames'     => [ 'localenames/{locale}/localeDisplayNames', 'localeDisplayNames' ],
+		'scripts'                => [ 'localenames/{locale}/scripts',            'localeDisplayNames/scripts' ],
+		'territories'            => [ 'localenames/{locale}/territories',        'localeDisplayNames/territories' ],
+		'variants'               => [ 'localenames/{locale}/variants',           'localeDisplayNames/variants' ],
+		'characters'             => [ 'misc/{locale}/characters',                'characters' ],
+		'contextTransforms'      => [ 'misc/{locale}/contextTransforms',         'contextTransforms' ],
+		'delimiters'             => [ 'misc/{locale}/delimiters',                'delimiters' ],
+		'layout'                 => [ 'misc/{locale}/layout',                    'layout' ],
+		'listPatterns'           => [ 'misc/{locale}/listPatterns',              'listPatterns' ],
+		'posix'                  => [ 'misc/{locale}/posix',                     'posix' ],
+		'currencies'             => [ 'numbers/{locale}/currencies',             'numbers/currencies' ],
+		'numbers'                => [ 'numbers/{locale}/numbers',                'numbers' ],
+		'measurementSystemNames' => [ 'units/{locale}/measurementSystemNames',   'localeDisplayNames/measurementSystemNames' ],
+		'units'                  => [ 'units/{locale}/units',                    'units' ],
 
 	];
 
-	use CodePropertyTrait;
+	/**
+	 * @var Repository
+	 */
+	private $repository;
 
 	/**
 	 * @param string $code The ISO code of the locale.
@@ -82,11 +88,30 @@ class Locale extends AbstractSectionCollection
 			throw new InvalidArgumentException("Locale identifier cannot be empty.");
 		}
 
-		parent::__construct($repository, "main/$code", self::$available_sections);
-
+		$this->repository = $repository;
 		$this->code = $code;
+
+		parent::__construct($repository);
 	}
 
+	public function offsetExists($offset): bool
+	{
+		return isset(self::OFFSET_MAPPING[$offset]);
+	}
+
+	protected function path_for(string $offset): string
+	{
+		return str_replace('{locale}', $this->code, self::OFFSET_MAPPING[$offset][0]);
+	}
+
+	protected function data_path_for(string $offset): string
+	{
+		return "main/$this->code/" . self::OFFSET_MAPPING[$offset][1];
+	}
+
+	/**
+	 * @uses get_language
+	 */
 	protected function get_language(): string
 	{
 		[ $language ] = explode('-', $this->code, 2);
@@ -94,36 +119,57 @@ class Locale extends AbstractSectionCollection
 		return $language;
 	}
 
+	/**
+	 * @uses lazy_get_calendars
+	 */
 	protected function lazy_get_calendars(): CalendarCollection
 	{
 		return new CalendarCollection($this);
 	}
 
+	/**
+	 * @uses lazy_get_calendar
+	 */
 	protected function lazy_get_calendar(): Calendar
 	{
 		return $this->calendars['gregorian']; // TODO-20131101: use preferred data
 	}
 
+	/**
+	 * @uses lazy_get_numbers
+	 */
 	protected function lazy_get_numbers(): Numbers
 	{
 		return new Numbers($this, $this['numbers']);
 	}
 
+	/**
+	 * @uses lazy_get_number_formatter
+	 */
 	protected function lazy_get_number_formatter(): LocalizedNumberFormatter
 	{
 		return $this->localize($this->repository->number_formatter);
 	}
 
+	/**
+	 * @uses lazy_get_currency_formatter
+	 */
 	protected function lazy_get_currency_formatter(): LocalizedCurrencyFormatter
 	{
 		return $this->localize($this->repository->currency_formatter);
 	}
 
+	/**
+	 * @uses lazy_get_list_formatter
+	 */
 	protected function lazy_get_list_formatter(): LocalizedListFormatter
 	{
 		return $this->localize($this->repository->list_formatter);
 	}
 
+	/**
+	 * @uses lazy_get_context_transforms
+	 */
 	protected function lazy_get_context_transforms(): ContextTransforms
 	{
 		try
@@ -137,6 +183,9 @@ class Locale extends AbstractSectionCollection
 		}
 	}
 
+	/**
+	 * @uses lazy_get_units
+	 */
 	protected function lazy_get_units(): Units
 	{
 		return new Units($this);
@@ -247,8 +296,8 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * Transforms a string depending on the context and the locale rules.
 	 *
-	 * @param string $usage One of `ContextTransforms::USAGE_*`
-	 * @param string $type One of `ContextTransforms::TYPE_*`
+	 * @param ContextTransforms::USAGE_* $usage
+	 * @param ContextTransforms::TYPE_* $type
 	 */
 	public function context_transform(string $str, string $usage, string $type): string
 	{

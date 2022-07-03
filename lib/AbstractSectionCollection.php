@@ -14,12 +14,11 @@ namespace ICanBoogie\CLDR;
 use ArrayAccess;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\OffsetNotDefined;
-use ReturnTypeWillChange;
-
-use function explode;
 
 /**
- * @implements ArrayAccess<string, array<string, mixed>>
+ * @implements ArrayAccess<string, array>
+ *
+ * @property-read Repository $repository
  */
 abstract class AbstractSectionCollection implements ArrayAccess
 {
@@ -28,73 +27,53 @@ abstract class AbstractSectionCollection implements ArrayAccess
 	use RepositoryPropertyTrait;
 
 	/**
-	 * @var string
+	 * @var Repository
 	 */
-	private $name;
+	private $repository;
+
+	public function __construct(Repository $repository)
+	{
+		$this->repository = $repository;
+	}
+
+	abstract public function offsetExists($offset): bool;
 
 	/**
-	 * @var array<string, string>
-	 *     Where _key_ is a section name and _value_ its CLDR path.
-	 */
-	private $available_sections;
-
-	/**
-	 * @var array<string, array<string, mixed>>
+	 * @var array<string, array>
 	 *     Loaded sections, where _key_ is a section name and _value_ its data.
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private $sections = [];
 
 	/**
-	 * @param Repository $repository
-	 * @param string $name
-	 * @param array<string, string> $available_sections
-	 *     Where _key_ is a section name and _value_ its CLDR path.
+	 * @param string $offset
+	 *
+	 * @throws OffsetNotDefined
+	 * @throws ResourceNotFound
 	 */
-	public function __construct(Repository $repository, string $name, array $available_sections)
+	#[\ReturnTypeWillChange]
+	public function offsetGet($offset) /* @phpstan-ignore-line */
 	{
-		$this->repository = $repository;
-		$this->name = $name;
-		$this->available_sections = $available_sections;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function offsetExists($offset): bool
-	{
-		return isset($this->available_sections[$offset]);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	#[ReturnTypeWillChange]
-	public function offsetGet($offset)
-	{
-		$sections = &$this->sections;
-
-		if (isset($sections[$offset]))
-		{
-			return $sections[$offset];
-		}
-
-		$available_sections = $this->available_sections;
-
-		if (empty($available_sections[$offset]))
+		if (!$this->offsetExists($offset))
 		{
 			throw new OffsetNotDefined([ $offset, $this ]);
 		}
 
-		$name = $this->name;
-		$data = $this->repository->fetch("$name/$offset");
-		$path = "$name/$available_sections[$offset]";
-		$path_parts = explode('/', $path);
-
-		foreach ($path_parts as $part)
-		{
-			$data = $data[$part];
-		}
-
-		return $sections[$offset] = $data;
+		return $this->sections[$offset]
+			?? $this->sections[$offset] = $this->repository->fetch(
+				$this->path_for($offset),
+				$this->data_path_for($offset)
+			);
 	}
+
+	/**
+	 * Returns the CLDR path for the offset.
+	 */
+	abstract protected function path_for(string $offset): string;
+
+	/**
+	 * Returns the data path for the offset.
+	 */
+	abstract protected function data_path_for(string $offset): string;
 }

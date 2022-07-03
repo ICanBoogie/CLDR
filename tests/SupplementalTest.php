@@ -37,6 +37,9 @@ final class SupplementalTest extends TestCase
 		$this->assertArrayHasKey($key, $section_data);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_test_sections(): array
 	{
 		return [
@@ -46,9 +49,10 @@ final class SupplementalTest extends TestCase
 			[ 'calendarPreferenceData' , 'AE' ],
 			[ 'characterFallbacks'     , 'U+00AD' ],
 			[ 'codeMappings'           , 'AA' ],
-            [ 'dayPeriods'             , 'af' ],
 			[ 'currencyData'           , 'fractions' ],
+            [ 'dayPeriods'             , 'af' ],
 			[ 'gender'                 , 'personList' ],
+			[ 'grammaticalFeatures'    , 'am-targets-nominal' ],
 			[ 'languageData'           , 'aa' ],
 			[ 'languageGroups'         , 'aav' ],
 			[ 'languageMatching'       , 'written-new' ],
@@ -57,13 +61,15 @@ final class SupplementalTest extends TestCase
 			[ 'metaZones'              , 'metazoneInfo' ],
 			[ 'numberingSystems'       , 'armn' ],
 			[ 'ordinals'               , 'af' ],
-			[ 'parentLocales'          , 'parentLocale' ],
+			[ 'parentLocales'          , 'en-150' ],
+			[ 'pluralRanges'           , 'af' ],
 			[ 'plurals'                , 'af' ],
 			[ 'primaryZones'           , 'CL' ],
 			[ 'references'             , 'R1000' ],
 			[ 'territoryContainment'   , 'EU' ],
 			[ 'territoryInfo'          , 'AC' ],
 			[ 'timeData'               , 'AD' ],
+			[ 'unitPreferenceData'     , 'area' ],
 			[ 'weekData'               , 'minDays' ],
 			[ 'windowsZones'           , 'mapTimezones' ],
 

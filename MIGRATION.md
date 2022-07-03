@@ -10,9 +10,11 @@ None
 
 - Added support for the new [plural operand](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#table-plural-operand-meanings) `e` and compact decimal exponent e.g. `123c6`.
 
+- Added the optional parameter `data_path` to `Repository::fetch()`, it can be used by the function to burrow in the data to fetch a target.
+
 ### Backward Incompatible Changes
 
-None
+- `PathMapper` was replaced by `GitHub\UrlResolver`.
 
 ### Deprecated Features
 
@@ -21,6 +23,8 @@ None
 ### Other Changes
 
 - Targets [CLDR v41](https://www.unicode.org/reports/tr35/tr35-66/tr35.html)
+
+- As of CLDR v38, all JSON data is contained in this single repository. References and the way they are resolved internal has been updated, without breaking the public interfaces.
 
 
 

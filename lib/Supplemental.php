@@ -27,19 +27,19 @@ namespace ICanBoogie\CLDR;
 final class Supplemental extends AbstractSectionCollection
 {
 	/**
-	 * @var array<string, string>
-	 * @readonly
+	 * Where _key_ is a property, matching a CLDR filename, and _value_ is an array path under "supplemental".
 	 */
-	static private $available_sections = [
+	private const OFFSET_MAPPING = [
 
 	    'aliases'                => 'metadata/alias',
 		'calendarData'           => 'calendarData',
 		'calendarPreferenceData' => 'calendarPreferenceData',
 		'characterFallbacks'     => 'characters/character-fallback',
 		'codeMappings'           => 'codeMappings',
-		'dayPeriods'             => 'dayPeriodRuleSet',
 		'currencyData'           => 'currencyData',
+		'dayPeriods'             => 'dayPeriodRuleSet',
 		'gender'                 => 'gender',
+		'grammaticalFeatures'    => 'grammaticalData',
 		'languageData'           => 'languageData',
 		'languageGroups'         => 'languageGroups',
 		'languageMatching'       => 'languageMatching',
@@ -48,7 +48,8 @@ final class Supplemental extends AbstractSectionCollection
 		'metaZones'              => 'metaZones',
 		'numberingSystems'       => 'numberingSystems',
 		'ordinals'               => 'plurals-type-ordinal',
-		'parentLocales'          => 'parentLocales',
+		'parentLocales'          => 'parentLocales/parentLocale',
+		'pluralRanges'           => 'plurals',
 		'plurals'                => 'plurals-type-cardinal',
 		'primaryZones'           => 'primaryZones',
 		'references'             => 'references',
@@ -57,12 +58,22 @@ final class Supplemental extends AbstractSectionCollection
 		'timeData'               => 'timeData',
         'unitPreferenceData'     => 'unitPreferenceData',
 		'weekData'               => 'weekData',
-		'windowsZones'           => 'windowsZones'
+		'windowsZones'           => 'windowsZones',
 
 	];
 
-	public function __construct(Repository $repository)
+	public function offsetExists($offset): bool
 	{
-		parent::__construct($repository, 'supplemental', self::$available_sections);
+		return isset(self::OFFSET_MAPPING[$offset]);
+	}
+
+	protected function path_for(string $offset): string
+	{
+		return "core/supplemental/$offset";
+	}
+
+	protected function data_path_for(string $offset): string
+	{
+		return "supplemental/" . self::OFFSET_MAPPING[$offset];
 	}
 }

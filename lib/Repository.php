@@ -15,6 +15,9 @@ use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Locale\ListPattern;
 use ICanBoogie\CLDR\Numbers\Symbols;
 
+use function array_shift;
+use function explode;
+
 /**
  * Representation of a CLDR.
  *
@@ -116,7 +119,7 @@ final class Repository
 	 */
 	private function lazy_get_available_locales(): array
 	{
-		return $this->fetch('availableLocales')['availableLocales']['modern'];
+		return $this->fetch('core/availableLocales', 'availableLocales/modern');
 	}
 
 	public function __construct(Provider $provider)
@@ -127,13 +130,27 @@ final class Repository
 	/**
 	 * Fetches the data available at the specified path.
 	 *
-	 * @return array<string, mixed>
+	 * @param string|null $data_path Path to the data to extract.
 	 *
 	 * @throws ResourceNotFound
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public function fetch(string $path): array
+	public function fetch(string $path, string $data_path = null): array
 	{
-		return $this->provider->provide($path);
+		$data = $this->provider->provide($path);
+
+		if ($data_path) {
+			$data_path = explode('/', $data_path);
+
+			while ($data_path)
+			{
+				$p = array_shift($data_path);
+				$data = $data[$p];
+			}
+		}
+
+		return $data;
 	}
 
 	/**
