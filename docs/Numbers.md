@@ -6,13 +6,26 @@
 
 ## Number Elements
 
-<!--
-
 ### Default Numbering System
 
-### Other Numbering Systems
+This element indicates which numbering system should be used for presentation of numeric quantities
+in the given locale.
 
--->
+```php
+<?php
+
+namespace ICanBoogie\CLDR;
+
+/**
+ * @var Repository $cldr
+ */
+
+echo $cldr->locales['de']->numbers->default_numbering_system; // latn
+```
+
+[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#21-default-numbering-system)
+
+<!-- ### Other Numbering Systems -->
 
 ### Number Symbols
 
@@ -87,9 +100,28 @@ echo $locale->format_currency(12345.67, $currency_code); // 12 345,67 €
 
 [Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Currencies)
 
-<!--
 
 ## Language Plural Rules
+
+Languages have different pluralization rules for numbers that represent zero, one, tow, few, many or
+other. ICanBoogie's CLDR makes it easy to find the plural rules for any numeric value:
+
+```php
+<?php
+
+/* @var $cldr \ICanBoogie\CLDR\Repository */
+
+$cldr->plurals->rules_for('fr'); // [ 'one', 'other' ]
+$cldr->plurals->rules_for('ar'); // [ 'zero', 'one', 'two', 'few', 'many', 'other' ]
+
+$cldr->plurals->rule_for(1.5, 'fr'); // one
+$cldr->plurals->rule_for(2, 'fr');   // other
+$cldr->plurals->rule_for(2, 'ar');   // two
+```
+
+[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Language_Plural_Rules)
+
+<!--
 
 ## Rule-Based Number Formatting
 

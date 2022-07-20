@@ -38,6 +38,9 @@ final class UnitsTest extends TestCase
 		$this->assertSame($expected, $this->units_for($locale)->$unit($number)->{ 'as_' . $length });
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_test_cases(): array
 	{
 		return [
@@ -54,11 +57,11 @@ final class UnitsTest extends TestCase
 	}
 
 	/**
-	 * @dataProvider provide_test_format_combination
+	 * @dataProvider provide_test_format_compound
 	 *
 	 * @param float|int $number
 	 */
-	public function test_format_combination(
+	public function test_format_compound(
 		string $locale,
 		$number,
 		string $number_unit,
@@ -69,11 +72,14 @@ final class UnitsTest extends TestCase
 	{
 		$this->assertSame(
 			$expected,
-			$this->units_for($locale)->format_combination($number, $number_unit, $per_unit, $length)
+			$this->units_for($locale)->format_compound($number, $number_unit, $per_unit, $length)
 		);
 	}
 
-	public function provide_test_format_combination(): array
+	/**
+	 * @phpstan-ignore-next-line
+	 */
+	public function provide_test_format_compound(): array
 	{
 		return [
 
@@ -99,6 +105,9 @@ final class UnitsTest extends TestCase
 		$this->assertStringSame($expected, $sequence($this->units_for($locale)));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_test_format_sequence(): array
 	{
 	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
@@ -132,6 +141,15 @@ final class UnitsTest extends TestCase
 					->as_short;
 
 			}, "3 ft, 2 in" ],
+
+			[ 'en', function (Units $units) {
+
+				return $units->sequence
+					->length_foot(3)
+					->length_inch(2)
+					->as_narrow;
+
+			}, "3′ 2″" ],
 
 			[ 'en', function (Units $units) {
 
@@ -204,6 +222,9 @@ final class UnitsTest extends TestCase
 		$this->assertSame($expected_name, $this->units_for('fr')->name_for($unit, $length));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_name_for(): array
 	{
 		return [
@@ -229,7 +250,7 @@ final class UnitsTest extends TestCase
 	/**
 	 * @test
 	 */
-	public function should_fail_with_undefined_unit()
+	public function should_fail_with_undefined_unit(): void
 	{
 		$this->expectExceptionMessage("No such unit: undefined-unit");
 		$this->expectException(BadMethodCallException::class);
@@ -244,7 +265,7 @@ final class UnitsTest extends TestCase
 		$this->units_for('en')->acceleration_g_force(); // @phpstan-ignore-line
 	}
 
-	private function units_for($locale): Units
+	private function units_for(string $locale): Units
 	{
 		return new Units(self::$locales[$locale]);
 	}

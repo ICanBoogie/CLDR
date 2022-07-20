@@ -41,9 +41,7 @@ use function explode;
  * @property-read CurrencyFormatter $currency_formatter
  * @property-read ListFormatter $list_formatter
  * @property-read Plurals $plurals
- * @property-read array $available_locales
- *
- * @see http://www.unicode.org/repos/cldr-aux/json/24/
+ * @property-read string[] $available_locales
  */
 final class Repository
 {
@@ -109,6 +107,7 @@ final class Repository
 
 	private function lazy_get_plurals(): Plurals
 	{
+		/** @phpstan-ignore-next-line */
 		return new Plurals($this->supplemental['plurals']);
 	}
 

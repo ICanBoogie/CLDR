@@ -18,6 +18,7 @@ use ICanBoogie\CLDR\Plurals\Samples;
 use function array_keys;
 use function array_shift;
 use function explode;
+use function is_null;
 use function strlen;
 use function strpos;
 use function substr;
@@ -88,9 +89,8 @@ final class Plurals extends ArrayObject
 	 */
 	public function samples_for(string $locale): array
 	{
-		$samples = &$this->samples[$locale];
-
-		return $samples ?: $samples = $this->create_samples_for($locale);
+		return $this->samples[$locale]
+			?? $this->samples[$locale] = $this->create_samples_for($locale);
 	}
 
 	/**
@@ -98,9 +98,8 @@ final class Plurals extends ArrayObject
 	 */
 	private function rule_instances_for(string $locale): array
 	{
-		$rules = &$this->rules[$locale];
-
-		return $rules ?: $rules = $this->create_rules_for($locale);
+		return $this->rules[$locale]
+			?? $this->rules[$locale] = $this->create_rules_for($locale);
 	}
 
 	/**
@@ -111,6 +110,7 @@ final class Plurals extends ArrayObject
 		$rules = [];
 		$prefix_length = strlen(self::RULE_COUNT_PREFIX);
 
+		/** @phpstan-ignore-next-line */
 		foreach ($this[$locale] as $count => $rule_string)
 		{
 			$count = substr($count, $prefix_length);
@@ -136,8 +136,11 @@ final class Plurals extends ArrayObject
 	{
 		$samples = [];
 		$prefix_length = strlen(self::RULE_COUNT_PREFIX);
+		$rules = $this[$locale];
 
-		foreach ($this[$locale] as $count => $rule_string)
+		assert(!is_null($rules));
+
+		foreach ($rules as $count => $rule_string)
 		{
 			$count = substr($count, $prefix_length);
 			$samples[$count] = Samples::from($this->extract_samples($rule_string));

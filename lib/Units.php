@@ -286,7 +286,7 @@ class Units
 	public const COUNT_PREFIX = 'unitPattern-count-';
 
 	/**
-	 * @param string $length One of `LENGTH_*`.
+	 * @param self::LENGTH_* $length
 	 *
 	 * @return LocalizedListFormatter::TYPE_UNIT_*
 	 */
@@ -304,12 +304,13 @@ class Units
 	}
 
 	/**
-	 * @var array<string, mixed>
+	 * @var array
+	 * @phpstan-ignore-next-line
 	 */
 	private $data;
 
 	/**
-	 * @var Plurals
+	 * @var Plurals|null
 	 */
 	private $plurals;
 
@@ -321,6 +322,7 @@ class Units
 	public function __construct(Locale $locale)
 	{
 		$this->locale = $locale;
+		/** @phpstan-ignore-next-line */
 		$this->data = $locale['units'];
 	}
 
@@ -394,9 +396,9 @@ class Units
 	 *
 	 * @param int|float $number
 	 *
-	 * @see http://unicode.org/reports/tr35/tr35-general.html#perUnitPatterns
+	 * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#compound-units
 	 */
-	public function format_combination(
+	public function format_compound(
 		$number,
 		string $number_unit,
 		string $per_unit,
@@ -431,8 +433,9 @@ class Units
 	 * to compose the units in a sequence.
 	 *
 	 * @param array<string, int|float> $units_and_numbers
+	 * @param self::LENGTH_* $length
 	 *
-	 * @see http://unicode.org/reports/tr35/tr35-general.html#Unit_Sequences
+	 * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#Unit_Sequences
 	 */
 	public function format_sequence(array $units_and_numbers, string $length = self::DEFAULT_LENGTH): string
 	{
@@ -478,12 +481,7 @@ class Units
 	 */
 	private function count_for($number): string
 	{
-		$plurals = &$this->plurals;
-
-		if (!$plurals) // @phpstan-ignore-line
-		{
-			$plurals = $this->locale->repository->plurals;
-		}
+		$plurals = $this->plurals ?? $this->plurals = $this->locale->repository->plurals;
 
 		return $plurals->rule_for($number, $this->locale->language);
 	}

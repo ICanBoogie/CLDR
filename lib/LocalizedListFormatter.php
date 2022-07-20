@@ -17,6 +17,8 @@ use ICanBoogie\CLDR\Locale\ListPattern;
  * Formats a variable-length lists of things.
  *
  * @extends LocalizedObject<ListFormatter>
+ *
+ * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#ListPatterns
  */
 class LocalizedListFormatter extends LocalizedObject implements Formatter
 {
@@ -44,6 +46,7 @@ class LocalizedListFormatter extends LocalizedObject implements Formatter
 	 */
 	public function format(array $list, string $type = self::TYPE_STANDARD): string
 	{
+		/** @phpstan-ignore-next-line */
 		$list_pattern = ListPattern::from($this->locale['listPatterns']["listPattern-type-$type"]);
 
 		return $this->target->format($list, $list_pattern);

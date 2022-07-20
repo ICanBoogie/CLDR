@@ -66,6 +66,7 @@ final class Currency
 	 */
 	public function localize(string $locale_id): LocalizedCurrency
 	{
+		/** @phpstan-ignore-next-line */
 		return $this->repository->locales[$locale_id]->localize($this);
 	}
 }

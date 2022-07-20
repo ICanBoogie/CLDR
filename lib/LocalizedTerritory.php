@@ -26,6 +26,7 @@ class LocalizedTerritory extends LocalizedObject
 	 */
 	protected function get_name(): string
 	{
+		/** @phpstan-ignore-next-line */
 		return $this->locale['territories'][$this->target->code];
 	}
 }

@@ -55,11 +55,12 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 			$offset .= '-count-other';
 		}
 
+		/** @phpstan-ignore-next-line */
 		return $this->locale['currencies'][$this->target->code][$offset];
 	}
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	private $symbol;
 
@@ -70,9 +71,8 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 */
 	protected function get_symbol(): string
 	{
-		$symbol = &$this->symbol;
-
-		return $symbol ?: $symbol = $this->locale['currencies'][$this->target->code]['symbol'];
+		return $this->symbol
+			?? $this->symbol = $this->locale['currencies'][$this->target->code]['symbol']; // @phpstan-ignore-line
 	}
 
 	/**

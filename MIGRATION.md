@@ -51,6 +51,8 @@ None
 	$currency->fraction->digits;
 	```
 
+- Renamed `Units::format_combination()` as `format_compound()` to [match the language used by Unicode](http://unicode.org/reports/tr35/tr35-general.html#compound-units).
+
 ### Deprecated Features
 
 None

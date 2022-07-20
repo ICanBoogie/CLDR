@@ -136,7 +136,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 	 *
 	 * @throws \Exception
 	 */
-	public function format(string $pattern = null): string
+	public function format(string $pattern): string
 	{
 		return $this->formatter->format($this->target, $pattern);
 	}

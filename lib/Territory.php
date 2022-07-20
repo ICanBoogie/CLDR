@@ -71,6 +71,7 @@ final class Territory
 	 */
 	private function lazy_get_currencies(): array
 	{
+		/** @phpstan-ignore-next-line */
 		return $this->repository->supplemental['currencyData']['region'][$this->code];
 	}
 
@@ -164,6 +165,7 @@ final class Territory
 	 */
 	private function retrieve_from_supplemental(string $section): array
 	{
+		/** @phpstan-ignore-next-line */
 		return $this->repository->supplemental[$section][$this->code];
 	}
 
@@ -239,15 +241,17 @@ final class Territory
 	 */
 	public function localize(string $locale_code): LocalizedTerritory
 	{
+		/** @phpstan-ignore-next-line */
 		return $this->repository->locales[$locale_code]->localize($this);
 	}
 
 	private function resolve_week_data(string $which): string
 	{
 		$code = $this->code;
+		/** @phpstan-ignore-next-line */
 		$data = $this->repository->supplemental['weekData'][$which];
 
-		return empty($data[$code]) ? $data['001'] : $data[$code];
+		return $data[$code] ?? $data['001'];
 	}
 
 	/**
@@ -262,8 +266,11 @@ final class Territory
 			return new DateTimeImmutable();
 		}
 
-		return $datetime instanceof DateTimeInterface
-			? $datetime
-			: new DateTimeImmutable($datetime);
+		if ($datetime instanceof DateTimeInterface)
+		{
+			return $datetime;
+		}
+
+		return new DateTimeImmutable($datetime);
 	}
 }

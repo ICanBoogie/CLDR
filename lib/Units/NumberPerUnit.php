@@ -86,6 +86,6 @@ final class NumberPerUnit
 	 */
 	private function as(string $length): string
 	{
-		return $this->units->format_combination($this->number, $this->number_unit, $this->per_unit, $length);
+		return $this->units->format_compound($this->number, $this->number_unit, $this->per_unit, $length);
 	}
 }

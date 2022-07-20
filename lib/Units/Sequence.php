@@ -201,9 +201,9 @@ final class Sequence
 	}
 
 	/**
-	 * Format the sequence.
+	 * Formats the sequence.
 	 *
-	 * @param string $length One of `Units::DEFAULT_*`, Defaults to {@link Units::DEFAULT_LENGTH}.
+	 * @param Units::LENGTH_* $length
 	 */
 	public function format(string $length = Units::DEFAULT_LENGTH): string
 	{

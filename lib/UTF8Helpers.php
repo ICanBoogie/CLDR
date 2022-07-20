@@ -17,6 +17,7 @@ final class UTF8Helpers
 {
 	static public function trim(string $string): string
 	{
+		/** @var string */
 		return preg_replace('/^[\pZ\pC]+|[\pZ\pC]+$/u', '', $string);
 	}
 }

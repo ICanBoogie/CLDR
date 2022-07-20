@@ -132,6 +132,7 @@ class Locale extends AbstractSectionCollection
 	 */
 	protected function lazy_get_calendar(): Calendar
 	{
+		/** @var Calendar */
 		return $this->calendars['gregorian']; // TODO-20131101: use preferred data
 	}
 
@@ -140,6 +141,7 @@ class Locale extends AbstractSectionCollection
 	 */
 	protected function lazy_get_numbers(): Numbers
 	{
+		/** @phpstan-ignore-next-line */
 		return new Numbers($this, $this['numbers']);
 	}
 
@@ -174,6 +176,7 @@ class Locale extends AbstractSectionCollection
 	{
 		try
 		{
+			/** @phpstan-ignore-next-line */
 			return new ContextTransforms($this['contextTransforms']);
 		}
 		catch (ResourceNotFound $e)
@@ -205,6 +208,7 @@ class Locale extends AbstractSectionCollection
 	{
 		if (is_string($source_or_code))
 		{
+			/** @phpstan-ignore-next-line */
 			return $this->repository->locales[$source_or_code]->localize($this, $options);
 		}
 
@@ -262,7 +266,7 @@ class Locale extends AbstractSectionCollection
 	{
 		return $this->number_formatter->format(
 			$number,
-			$pattern ?: $this->numbers->percent_formats['standard']
+			$pattern ?? $this->numbers->percent_formats['standard']
 		);
 	}
 

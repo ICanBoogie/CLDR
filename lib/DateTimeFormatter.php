@@ -207,7 +207,7 @@ class DateTimeFormatter implements Formatter
 	 * Formats a date according to a pattern.
 	 *
 	 * @param DateTimeInterface|string|int $datetime The datetime to format.
-	 * @param string|null $pattern_or_width_or_skeleton The datetime can be formatted using a pattern,
+	 * @param string $pattern_or_width_or_skeleton The datetime can be formatted using a pattern,
 	 * a width (WIDTH_*) or a skeleton. To format the datetime using a so-called "skeleton",
 	 * the skeleton identifier must be prefixed with the colon sign ":" e.g. ":Ehm". The skeleton
 	 * identifies the patterns defined under `availableFormats`.
@@ -240,7 +240,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @throws \Exception
 	 */
-	public function format($datetime, ?string $pattern_or_width_or_skeleton): string
+	public function format($datetime, string $pattern_or_width_or_skeleton): string
 	{
 		$datetime = $this->ensure_datetime($datetime);
 		$datetime = new DateTimeAccessor($datetime);
