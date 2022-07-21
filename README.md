@@ -130,7 +130,7 @@ composer require icanboogie/cldr
 The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-66/tr35.html#parts):
 
 - Part 1: Core (languages, locales, basic structure)
-- Part 2: General (display names & transforms, etc.)
+- Part 2: [General](docs/General.md) (display names & transforms, etc.)
 - Part 3: [Numbers](docs/Numbers.md) (number & currency formatting)
 - Part 4: Dates (date, time, time zone formatting)
 - Part 5: Collation (sorting, searching, grouping)
@@ -138,12 +138,12 @@ The documentation is divided into the following parts, mimicking [Unicode's docu
 
 
 
-## Repository
+## Getting started
 
-The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
-data is retrieved through a provider. The _web_ provider fetches data from the JSON distribution
-[hosted on GitHub][2]. In order to avoid hitting the web with every request, a collection of caches
-is used, each with its own strategy.
+CLDR is represented by a [Repository][] instance, from which data is accessed. When required, data
+is retrieved through a provider. The _web_ provider fetches data from the JSON distribution [hosted
+on GitHub][2]. In order to avoid hitting the web with every request, a collection of caches is used,
+each with its own strategy.
 
 The following example demonstrates how a repository can be instantiated:
 
@@ -162,15 +162,15 @@ use ICanBoogie\CLDR\Provider\WebProvider;
 /* @var \Redis $redis_client */
 
 $provider = new CachedProvider(
-	new WebProvider,
-	new CacheCollection([
-		new RunTimeCache,
-		new RedisCache($redis_client),
-		new FileCache("/path/to/storage")
-	])
+    new WebProvider,
+    new CacheCollection([
+        new RunTimeCache,
+        new RedisCache($redis_client),
+        new FileCache("/path/to/storage")
+    ])
 );
 
-$repository = new Repository($provider);
+$cldr = new Repository($provider);
 ```
 
 
@@ -311,9 +311,9 @@ use ICanBoogie\CLDR\ContextTransforms;
 /* @var $repository \ICanBoogie\CLDR\Repository */
 
 echo $repository->locales['fr']->context_transform(
-	"juin",
-	ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-	ContextTransforms::TYPE_STAND_ALONE
+    "juin",
+    ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+    ContextTransforms::TYPE_STAND_ALONE
 );
 
 // Juin
@@ -583,227 +583,6 @@ $repository->locales['en']->localize($formatter)->format(123456.78);
 
 $localized_number_formatter = $repository->locales['fr']->number_formatter;
 echo $repository->locales['fr']->format_number(123456.78);
-```
-
-
-
-
-
-
-
-
-## List formatting
-
-[ListFormatter][] can be used to format variable-length lists of things such as
-"Monday, Tuesday, Friday, and Saturday".
-
-```php
-<?php
-
-namespace ICanBoogie\CLDR;
-
-$list_patterns = Locale\ListPattern::from([
-
-	'start' => "{0}, {1}",
-	'middle' => "{0}, {1}",
-	'end' => "{0}, and {1}",
-	'2' =>  "{0} and {1}"
-
-]);
-
-$formatter = new ListFormatter;
-
-$formatter([ "Monday" ], $list_patterns);
-// Monday
-$formatter([ "Monday", "Tuesday" ], $list_patterns);
-// Monday and Tuesday
-$formatter([ "Monday", "Tuesday", "Friday" ], $list_patterns);
-// Monday, Tuesday, and Friday
-$formatter([ "Monday", "Tuesday", "Friday", "Saturday" ], $list_patterns);
-// Monday, Tuesday, Friday, and Saturday
-```
-
-> **Note:** You can also obtain a list formatter, or format a list from the repository.
-
-```php
-<?php
-
-namespace ICanBoogie\CLDR;
-
-/* @var $repository Repository */
-
-$list_patterns = Locale\ListPattern::from([
-
-	'2' =>  "{0} and {1}",
-	'start' => "{0}, {1}",
-	'middle' => "{0}, {1}",
-	'end' => "{0}, and {1}",
-
-]);
-
-$list_formatter = $repository->list_formatter;
-echo $repository->format_list([ "Monday", "Tuesday", "Friday" ], $list_patterns);
-```
-
-
-
-
-
-
-### Localized list formatting
-
-A localized list formatter can be obtained with the `localize()` method (if the instance was
-created with a repository), or the `localize()` method of the desired locale. By default, the
-list is formatted with the "standard" type, but more types are available, and you can also
-provide your own list patterns.
-
-```php
-<?php
-
-namespace ICanBoogie\CLDR;
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$formatter = new ListFormatter($repository);
-
-$localized_formatter = $repository->locales['fr']->localize($formatter);
-# or
-$localized_formatter = new LocalizedListFormatter($formatter, $repository->locales['fr']);
-
-$localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ]);
-# or
-$localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], 'standard');
-# or
-$localized_formatter([ "lundi", "mardi", "vendredi", "samedi" ], LocalizedListFormatter::TYPE_STANDARD);
-// lundi, mardi, vendredi et samedi
-```
-
-> **Note:** You can also obtain a localized list formatter, or format a list from a locale.
-
-```php
-<?php
-
-namespace ICanBoogie\CLDR;
-
-/* @var $repository Repository */
-
-$localized_list_formatter = $repository->locales['fr']->list_formatter;
-echo $repository->locales['fr']->format_list([ "Monday", "Tuesday", "Friday" ]);
-```
-
-
-
-
-
-## Units
-
-Quantities of units such as years, months, days, hours, minutes and seconds can be formatted— for
-example, in English, "1 day" or "3 days". It's easy to make use of this functionality via a locale's
-units:
-
-```php
-<?php
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$units = $repository->locales['en']->units;
-echo $units->duration_hour->name;                   // hours
-echo $units->duration_hour->short_name;             // h
-echo $units->duration_hour(1);                      // 1 hour
-echo $units->duration_hour(23);                     // 23 hours
-echo $units->duration_hour(23)->as_short;           // 23 hr
-echo $units->duration_hour(23)->as_narrow;          // 23h
-```
-
-[Many units are available](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#Unit_Elements).
-
-### Per unit
-
-Combination of units, such as _miles per hour_ or _liters per second_, can be created. Some units
-already have 'precomputed' forms, such as `kilometer_per_hour`; where such units exist, they should
-be used in preference.
-
-```php
-<?php
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$units = $repository->locales['en']->units;
-echo $units->volume_liter(12.345)->per($units->duration_hour);              // 12.345 liters per hour
-echo $units->volume_liter(12.345)->per($units->duration_hour)->as_short;    // 12.345 Lph
-echo $units->volume_liter(12.345)->per($units->duration_hour)->as_narrow;   // 12.345l/h
-```
-
-
-
-### Units in composed sequence
-
-Units may be used in composed sequences, such as **5° 30m** for 5 degrees 30 minutes, or **3 ft, 2
-in**. For that purpose, the appropriate width can be used to compose the units in a sequence.
-
-```php
-<?php
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$units = $repository->locales['en']->units;
-
-$units->sequence
-	->angle_degree(5)
-	->duration_minute(30)
-	->as_narrow;
-	// 5° 30m
-
-$units->sequence
-	->length_foot(3)
-	->length_inch(2)
-	->as_short;
-	// 3 ft, 2 in
-
-$units = $repository->locales['fr']->units;
-
-$units->sequence
-	->duration_hour(12)
-	->duration_minute(34)
-	->duration_second(45)
-	->as_long;
-	// 12 heures, 34 minutes et 56 secondes
-
-$units->sequence
-	->duration_hour(12)
-	->duration_minute(34)
-	->duration_second(45)
-	->as_short;
-	// 12 h, 34 min et 56 s
-
-$units->sequence
-	->duration_hour(12)
-	->duration_minute(34)
-	->duration_second(45)
-	->as_narrow;
-	// 12h 34m 56s
-```
-
-
-
-
-
-## Plurals
-
-Languages have different pluralization rules for numbers that represent zero, one, tow, few, many or
-other. ICanBoogie's CLDR makes it easy to find the plural rules for any numeric value:
-
-```php
-<?php
-
-/* @var $repository \ICanBoogie\CLDR\Repository */
-
-$repository->plurals->rules_for('fr'); // [ 'one', 'other' ]
-$repository->plurals->rules_for('ar'); // [ 'zero', 'one', 'two', 'few', 'many', 'other' ]
-
-$repository->plurals->rule_for(1.5, 'fr'); // one
-$repository->plurals->rule_for(2, 'fr');   // other
-$repository->plurals->rule_for(2, 'ar');   // two
 ```
 
 
