@@ -14,6 +14,10 @@ namespace ICanBoogie\CLDR\Units;
 use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\TestCase;
 
+use function var_dump;
+
+use const PHP_VERSION_ID;
+
 final class UnitTest extends TestCase
 {
 	/**
@@ -21,17 +25,33 @@ final class UnitTest extends TestCase
 	 */
 	public function test_properties(string $unit, string $property, string $length, string $expected): void
 	{
-		$units = $this->mockUnits(function ($units) use ($unit, $length, $expected) {
+		if (PHP_VERSION_ID < 70200)
+		{
+			$units = $this->getMockBuilder(Units::class)
+				->disableOriginalConstructor()
+				->setMethods([ 'name_for' ])
+				->getMock();
+		}
+		else
+		{
+			$units = $this->getMockBuilder(Units::class)
+				->disableOriginalConstructor()
+				->onlyMethods([ 'name_for' ])
+				->getMock();
+		}
 
-			$units->name_for($unit, $length)
-				->shouldBeCalled()
-				->willReturn($expected);
-
-		});
+		$units
+			->expects($this->once())
+			->method('name_for')
+			->with($unit, $length)
+			->willReturn($expected);
 
 		$this->assertSame($expected, (new Unit($units, $unit))->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function provide_test_properties(): array
 	{
 		return [
@@ -47,22 +67,10 @@ final class UnitTest extends TestCase
 	public function test_to_string(): void
 	{
 		$unit = uniqid();
+		$units = $this->getMockBuilder(Units::class)
+			->disableOriginalConstructor()
+			->getMock();
 
-		$this->assertSame($unit, (string) new Unit($this->mockUnits(), $unit));
-	}
-
-	/**
-	 * @param callable|null $init
-	 */
-	private function mockUnits(callable $init = null): Units
-	{
-		$units = $this->prophesize(Units::class);
-
-		if ($init)
-		{
-			$init($units);
-		}
-
-		return $units->reveal();
+		$this->assertSame($unit, (string) new Unit($units, $unit));
 	}
 }
