@@ -39,7 +39,7 @@ use function array_keys;
 final class CurrencyCollection extends AbstractCollection
 {
 	/**
-	 * @uses lazy_get_codes
+	 * @uses get_codes
 	 */
 	use AccessorTrait;
 
@@ -56,20 +56,29 @@ final class CurrencyCollection extends AbstractCollection
 	}
 
 	/**
+	 * @var string[]
+	 */
+	private array $codes;
+
+	/**
 	 * @return string[]
 	 *
 	 * @throws ResourceNotFound
 	 *
 	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
 	 */
-	private function lazy_get_codes(): array
+	private function get_codes(): array
 	{
-		$codes = array_keys($this->repository->fetch(
-			'numbers/en-001/currencies',
-			'main/en-001/numbers/currencies'
-		));
+		$make = function () {
+			$codes = array_keys($this->repository->fetch(
+				'numbers/en-001/currencies',
+				'main/en-001/numbers/currencies'
+			));
 
-		return array_combine($codes, $codes);
+			return array_combine($codes, $codes);
+		};
+
+		return $this->codes ??= $make();
 	}
 
 	/**
@@ -79,7 +88,7 @@ final class CurrencyCollection extends AbstractCollection
 	 */
 	public function offsetExists($offset): bool
 	{
-		$codes = $this->codes;
+		$codes = $this->get_codes();
 
 		return isset($codes[$offset]);
 	}

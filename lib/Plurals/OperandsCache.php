@@ -29,11 +29,6 @@ final class OperandsCache
 	{
 		$key = "number-$number";
 
-		if (isset(self::$instances[$key]))
-		{
-			return self::$instances[$key];
-		}
-
-		return self::$instances[$key] = $new();
+		return self::$instances[$key] ??= $new();
 	}
 }

@@ -3,6 +3,7 @@
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
 		 bootstrap="./tests/bootstrap.php"
 		 cacheDirectory=".phpunit.cache"
+		 displayDetailsOnTestsThatTriggerDeprecations="true"
 >
 	<testsuites>
 		<testsuite name="icanboogie/cldr">

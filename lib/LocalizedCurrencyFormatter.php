@@ -67,17 +67,10 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	 */
 	private function resolve_pattern(string $pattern): string
 	{
-		switch ($pattern)
-		{
-			case self::PATTERN_STANDARD:
-
-				return $this->locale->numbers->currency_formats['standard'];
-
-			case self::PATTERN_ACCOUNTING:
-
-				return $this->locale->numbers->currency_formats['accounting'];
-		}
-
-		return $pattern;
+		return match ($pattern) {
+			self::PATTERN_STANDARD => $this->locale->numbers->currency_formats['standard'],
+			self::PATTERN_ACCOUNTING => $this->locale->numbers->currency_formats['accounting'],
+			default => $pattern,
+		};
 	}
 }

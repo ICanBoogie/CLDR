@@ -14,6 +14,8 @@ namespace ICanBoogie\CLDR\Plurals;
 use function array_map;
 use function array_walk_recursive;
 use function explode;
+use function ICanBoogie\iterable_every;
+use function ICanBoogie\iterable_some;
 
 /**
  * Representation of plural samples.
@@ -24,9 +26,10 @@ final class Rule
 {
 	static public function from(string $rule): Rule
 	{
-		return RuleCache::get($rule, static function () use ($rule): Rule {
-			return new self(self::parse_rule($rule));
-		});
+		return RuleCache::get(
+			$rule,
+			static fn(): Rule => new self(self::parse_rule($rule))
+		);
 	}
 
 	/**
@@ -50,9 +53,10 @@ final class Rule
 	 */
 	static private function extract_relations(string $rule): array
 	{
-		return array_map(function ($rule) {
-			return explode(' and ', $rule);
-		}, explode(' or ', $rule));
+		return array_map(
+			static fn(string $rule): array => explode(' and ', $rule),
+			explode(' or ', $rule)
+		);
 	}
 
 	/**
@@ -80,14 +84,10 @@ final class Rule
 	 */
 	public function validate_or(Operands $operands, iterable $or_relations): bool
 	{
-		foreach ($or_relations as $and_relations) {
-			if ($this->validate_and($operands, $and_relations))
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return iterable_some(
+			$or_relations,
+			fn($and_relations) => $this->validate_and($operands, $and_relations)
+		);
 	}
 
 	/**
@@ -95,14 +95,9 @@ final class Rule
 	 */
 	public function validate_and(Operands $operands, iterable $and_relations): bool
 	{
-		foreach ($and_relations as $relation)
-		{
-			if (!$relation->evaluate($operands))
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return iterable_every(
+			$and_relations,
+			fn(Relation $relation) => $relation->evaluate($operands)
+		);
 	}
 }

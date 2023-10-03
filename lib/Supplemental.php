@@ -28,10 +28,13 @@ use ICanBoogie\CLDR\Supplemental\CurrencyData;
  * </pre>
  *
  * @property-read CurrencyData $currency_data
- * @uses self::lazy_get_currency_data()
+ * @uses self::get_currency_data()
  */
 final class Supplemental extends AbstractSectionCollection
 {
+	/**
+	 * @uses get_currency_data
+	 */
 	use AccessorTrait;
 
 	/**
@@ -70,10 +73,12 @@ final class Supplemental extends AbstractSectionCollection
 
 	];
 
-	protected function lazy_get_currency_data(): CurrencyData
+	private CurrencyData $currency_data;
+
+	private function get_currency_data(): CurrencyData
 	{
 		/* @phpstan-ignore-next-line */
-		return new CurrencyData($this['currencyData']);
+		return $this->currency_data ??= new CurrencyData($this['currencyData']);
 	}
 
 	public function offsetExists($offset): bool

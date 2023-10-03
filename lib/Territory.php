@@ -43,11 +43,11 @@ use function substr;
 final class Territory
 {
 	/**
-	 * @uses lazy_get_containment
-	 * @uses lazy_get_currencies
-	 * @uses lazy_get_currency
-	 * @uses lazy_get_info
-	 * @uses lazy_get_language
+	 * @uses get_containment
+	 * @uses get_currencies
+	 * @uses get_currency
+	 * @uses get_info
+	 * @uses get_language
 	 * @uses get_first_day
 	 * @uses get_weekend_start
 	 * @uses get_weekend_end
@@ -56,59 +56,82 @@ final class Territory
 	use AccessorTrait;
 
 	/**
-	 * @return array<string, mixed>
+	 * @phpstan-ignore-next-line
 	 */
-	private function lazy_get_containment(): array
-	{
-		return $this->retrieve_from_supplemental('territoryContainment');
-	}
+	private array $containment;
 
 	/**
 	 * @return array<string, mixed>
 	 */
-	private function lazy_get_currencies(): array
+	private function get_containment(): array
+	{
+		return $this->containment ??= $this->retrieve_from_supplemental('territoryContainment');
+	}
+
+	/**
+	 * @phpstan-ignore-next-line
+	 */
+	private array $currencies;
+
+	/**
+	 * @return array<string, mixed>
+	 */
+	private function get_currencies(): array
 	{
 		/** @phpstan-ignore-next-line */
-		return $this->repository->supplemental['currencyData']['region'][$this->code];
+		return $this->currencies ??= $this->repository->supplemental['currencyData']['region'][$this->code];
 	}
+
+	private ?Currency $currency;
 
 	/**
 	 * @throws Throwable
 	 */
-	private function lazy_get_currency(): ?Currency
+	private function get_currency(): ?Currency
 	{
-		return $this->currency_at();
+		return $this->currency ??= $this->currency_at();
 	}
+
+	/**
+	 * @phpstan-ignore-next-line
+	 */
+	private array $info;
 
 	/**
 	 * @return array<string, mixed>
 	 */
-	private function lazy_get_info(): array
+	private function get_info(): array
 	{
-		return $this->retrieve_from_supplemental('territoryInfo');
+		return $this->info ??= $this->retrieve_from_supplemental('territoryInfo');
 	}
+
+	private string|false $language;
 
 	/**
 	 * Return the ISO code of the official language of the territory.
 	 *
-	 * @return string|bool The ISO code of the official language, or `false` if it cannot be
-	 * determined.
+	 * @return string|false
+	 *     The ISO code of the official language, or `false` if it cannot be determined.
 	 */
-	private function lazy_get_language()
+	private function get_language(): string|false
 	{
-		$info = $this->info;
+		$make = function () {
+			$info = $this->get_info();
 
-		foreach ($info['languagePopulation'] as $language => $lp)
-		{
-			if (empty($lp['_officialStatus']) || ($lp['_officialStatus'] != "official" && $lp['_officialStatus'] != "de_facto_official"))
+			foreach ($info['languagePopulation'] as $language => $lp)
 			{
-				continue;
+				if (empty($lp['_officialStatus']) || ($lp['_officialStatus'] != "official" && $lp['_officialStatus'] != "de_facto_official"))
+				{
+					continue;
+				}
+
+				return $language;
 			}
 
-			return $language;
-		}
+			return false;
+		};
 
-		return false;
+		return $this->language ??= $make();
 	}
 
 	private function get_first_day(): string
@@ -128,7 +151,7 @@ final class Territory
 
 	private function get_population(): int
 	{
-		$info = $this->info;
+		$info = $this->get_info();
 
 		return (int) $info['_population'];
 	}
@@ -180,7 +203,7 @@ final class Territory
 	public function currency_at($date = null): ?Currency
 	{
 		$date = $this->ensure_is_datetime($date);
-		$code = $this->find_currency_at($this->currencies, $date->format('Y-m-d'));
+		$code = $this->find_currency_at($this->get_currencies(), $date->format('Y-m-d'));
 
 		if (!$code)
 		{
@@ -224,7 +247,7 @@ final class Territory
 	 */
 	public function is_containing(string $code): bool
 	{
-		$containment = $this->containment;
+		$containment = $this->get_containment();
 
 		return in_array($code, $containment['_contains']);
 	}

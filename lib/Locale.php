@@ -24,21 +24,21 @@ use function strtr;
  * @property-read string $language Unicode language.
  * @uses self::get_language()
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
- * @uses self::lazy_get_calendars()
+ * @uses self::get_calendars()
  * @property-read Calendar $calendar The preferred calendar for this locale.
- * @uses self::lazy_get_calendar()
+ * @uses self::get_calendar()
  * @property-read Numbers $numbers
- * @uses self::lazy_get_numbers()
+ * @uses self::get_numbers()
  * @property-read LocalizedNumberFormatter $number_formatter
- * @uses self::lazy_get_number_formatter()
+ * @uses self::get_number_formatter()
  * @property-read LocalizedCurrencyFormatter $currency_formatter
- * @uses self::lazy_get_currency_formatter()
+ * @uses self::get_currency_formatter()
  * @property-read LocalizedListFormatter $list_formatter
- * @uses self::lazy_get_list_formatter()
+ * @uses self::get_list_formatter()
  * @property-read ContextTransforms $context_transforms
- * @uses self::lazy_get_context_transforms()
+ * @uses self::get_context_transforms()
  * @property-read Units $units
- * @uses self::lazy_get_units()
+ * @uses self::get_units()
  */
 class Locale extends AbstractSectionCollection
 {
@@ -110,62 +110,78 @@ class Locale extends AbstractSectionCollection
 		return "main/$this->code/" . self::OFFSET_MAPPING[$offset][1];
 	}
 
-	protected function get_language(): string
+	private function get_language(): string
 	{
 		[ $language ] = explode('-', $this->code, 2);
 
 		return $language;
 	}
 
-	protected function lazy_get_calendars(): CalendarCollection
+	private CalendarCollection $calendars;
+
+	private function get_calendars(): CalendarCollection
 	{
-		return new CalendarCollection($this);
+		return $this->calendars ??= new CalendarCollection($this);
 	}
 
-	protected function lazy_get_calendar(): Calendar
-	{
-		/** @var Calendar */
-		return $this->calendars['gregorian']; // TODO-20131101: use preferred data
-	}
+	private Calendar $calendar;
 
-	protected function lazy_get_numbers(): Numbers
+	private function get_calendar(): Calendar
 	{
 		/** @phpstan-ignore-next-line */
-		return new Numbers($this, $this['numbers']);
+		return $this->calendar ??= $this->get_calendars()['gregorian']; // TODO-20131101: use preferred data
 	}
 
-	protected function lazy_get_number_formatter(): LocalizedNumberFormatter
+	private Numbers $numbers;
+
+	private function get_numbers(): Numbers
 	{
-		return $this->localize($this->repository->number_formatter);
+		/** @phpstan-ignore-next-line */
+		return $this->numbers ??= new Numbers($this, $this['numbers']);
 	}
 
-	protected function lazy_get_currency_formatter(): LocalizedCurrencyFormatter
+	private LocalizedNumberFormatter $number_formatter;
+
+	private function get_number_formatter(): LocalizedNumberFormatter
 	{
-		return $this->localize($this->repository->currency_formatter);
+		return $this->number_formatter ??= $this->localize($this->repository->number_formatter);
 	}
 
-	protected function lazy_get_list_formatter(): LocalizedListFormatter
+	private LocalizedCurrencyFormatter $currency_formatter;
+
+	private function get_currency_formatter(): LocalizedCurrencyFormatter
 	{
-		return $this->localize($this->repository->list_formatter);
+		return $this->currency_formatter ??= $this->localize($this->repository->currency_formatter);
 	}
 
-	protected function lazy_get_context_transforms(): ContextTransforms
+	private LocalizedListFormatter $list_formatter;
+
+	private function get_list_formatter(): LocalizedListFormatter
+	{
+		return $this->list_formatter ??= $this->localize($this->repository->list_formatter);
+	}
+
+	private ContextTransforms $context_transforms;
+
+	private function get_context_transforms(): ContextTransforms
 	{
 		try
 		{
 			/** @phpstan-ignore-next-line */
-			return new ContextTransforms($this['contextTransforms']);
+			return $this->context_transforms ??= new ContextTransforms($this['contextTransforms']);
 		}
 		catch (ResourceNotFound $e)
 		{
 			// Not all locales have context transforms e.g. zh
-			return new ContextTransforms([]);
+			return $this->context_transforms ??= new ContextTransforms([]);
 		}
 	}
 
-	protected function lazy_get_units(): Units
+	private Units $units;
+
+	private function get_units(): Units
 	{
-		return new Units($this);
+		return $this->units ??= new Units($this);
 	}
 
 	/**
@@ -228,7 +244,7 @@ class Locale extends AbstractSectionCollection
 	 */
 	public function format_number($number, string $pattern = null): string
 	{
-		return $this->number_formatter->format($number, $pattern);
+		return $this->get_number_formatter()->format($number, $pattern);
 	}
 
 	/**
@@ -238,9 +254,9 @@ class Locale extends AbstractSectionCollection
 	 */
 	public function format_percent(float|int|string $number, string $pattern = null): string
 	{
-		return $this->number_formatter->format(
+		return $this->get_number_formatter()->format(
 			$number,
-			$pattern ?? $this->numbers->percent_formats['standard']
+			$pattern ?? $this->get_numbers()->percent_formats['standard']
 		);
 	}
 
@@ -254,7 +270,7 @@ class Locale extends AbstractSectionCollection
 		Currency|string $currency,
 		string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD
 	): string {
-		return $this->currency_formatter->format($number, $currency, $pattern);
+		return $this->get_currency_formatter()->format($number, $currency, $pattern);
 	}
 
 	/**
@@ -267,7 +283,7 @@ class Locale extends AbstractSectionCollection
 	 */
 	public function format_list(array $list, string $type = LocalizedListFormatter::TYPE_STANDARD): string
 	{
-		return $this->list_formatter->format($list, $type);
+		return $this->get_list_formatter()->format($list, $type);
 	}
 
 	/**
@@ -278,6 +294,6 @@ class Locale extends AbstractSectionCollection
 	 */
 	public function context_transform(string $str, string $usage, string $type): string
 	{
-		return $this->context_transforms->transform($str, $usage, $type);
+		return $this->get_context_transforms()->transform($str, $usage, $type);
 	}
 }

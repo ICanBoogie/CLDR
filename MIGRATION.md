@@ -6,7 +6,7 @@
 
 ### New Requirements
 
-- PHP >=8.1 <8.2
+- PHP 8.1+
 
 ### New features
 

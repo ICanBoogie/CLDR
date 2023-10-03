@@ -88,17 +88,11 @@ final class ContextTransforms
 
 		$transform = $rules[$usage][$type];
 
-		switch ($transform)
-		{
-			case self::TRANSFORM_TITLECASE_FIRSTWORD:
-				return $this->titlecase_firstword($str);
-
-			case self::TRANSFORM_NO_CHANGE;
-				return $str;
-
-			default:
-				throw new LogicException("Don't know how to apply transform: $transform");
-		}
+		return match ($transform) {
+			self::TRANSFORM_TITLECASE_FIRSTWORD => $this->titlecase_firstword($str),
+			self::TRANSFORM_NO_CHANGE => $str,
+			default => throw new LogicException("Don't know how to apply transform: $transform"),
+		};
 	}
 
 	private function titlecase_firstword(string $str): string

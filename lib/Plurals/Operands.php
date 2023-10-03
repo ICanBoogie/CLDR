@@ -21,118 +21,33 @@ use function abs;
  *
  * @internal
  *
- * @property-read float|int $n
- * @property-read int $i
- * @property-read int $v
- * @property-read int $w
- * @property-read int $f
- * @property-read int $t
- * @property-read int $e
- *
  * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Operands
  */
 final class Operands
 {
 	/**
-	 * @uses get_n
-	 * @uses get_i
-	 * @uses get_v
-	 * @uses get_w
-	 * @uses get_f
-	 * @uses get_t
-	 * @uses get_e
+	 * @param float|int|numeric-string $number
 	 */
-	use AccessorTrait;
-
-	/**
-	 * @param numeric $number
-	 */
-	static public function from($number): self
+	static public function from(float|int|string $number): self
 	{
-		return OperandsCache::get($number, static function () use ($number): self {
-			return new self($number);
-		});
+		return OperandsCache::get($number, static fn(): self => new self($number));
 	}
 
-	/**
-	 * @var float|int
-	 */
-	private $n;
-
-	/**
-	 * @return float|int
-	 */
-	private function get_n()
-	{
-		return $this->n;
-	}
-
-	/**
-	 * @var int
-	 */
-	private $i;
-
-	private function get_i(): int
-	{
-		return $this->i;
-	}
-
-	/**
-	 * @var int
-	 */
-	private $v;
-
-	private function get_v(): int
-	{
-		return $this->v;
-	}
-
-	/**
-	 * @var int
-	 */
-	private $w;
-
-	private function get_w(): int
-	{
-		return $this->w;
-	}
-
-	/**
-	 * @var int
-	 */
-	private $f;
-
-	private function get_f(): int
-	{
-		return $this->f;
-	}
-
-	/**
-	 * @var int
-	 */
-	private $t;
-
-	private function get_t(): int
-	{
-		return $this->t;
-	}
-
-	/**
-	 * @var int
-	 */
-	private $e; // @phpstan-ignore-line
-
-	private function get_e(): int
-	{
-		return $this->e;
-	}
+	public readonly int|float $n;
+	public readonly int $i;
+	public readonly int $v;
+	public readonly int $w;
+	public readonly int $f;
+	public readonly int $t;
+	public readonly int $e;
 
 	/**
 	 * @param float|int|numeric-string $number
 	 */
 	private function __construct(float|int|string $number)
 	{
-		$number = $this->expand_compact_decimal_exponent($number);
+		$e = 0;
+		$number = Number::expand_compact_decimal_exponent($number, $e);
 
 		[ $integer, $fractional ] = Number::parse($number);
 
@@ -145,6 +60,7 @@ final class Operands
 
 		$this->n = $n;
 		$this->i = $integer;
+		$this->e = $e;
 
 		if ($fractional === null)
 		{
@@ -178,15 +94,5 @@ final class Operands
 			'e' => $this->e,
 
 		];
-	}
-
-	/**
-	 * @param float|int|numeric-string $number
-	 *
-	 * @return float|int|numeric-string
-	 */
-	private function expand_compact_decimal_exponent(float|int|string $number): float|int|string
-	{
-		return Number::expand_compact_decimal_exponent($number, $this->e);
 	}
 }

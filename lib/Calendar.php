@@ -79,9 +79,9 @@ final class Calendar extends ArrayObject
 	public const CONTEXT_STAND_ALONE = 'stand-alone';
 
 	/**
-	 * @uses lazy_get_datetime_formatter
-	 * @uses lazy_get_date_formatter
-	 * @uses lazy_get_time_formatter
+	 * @uses get_datetime_formatter
+	 * @uses get_date_formatter
+	 * @uses get_time_formatter
 	 */
 	use AccessorTrait;
 
@@ -97,19 +97,25 @@ final class Calendar extends ArrayObject
 
 	];
 
-	private function lazy_get_datetime_formatter(): DateTimeFormatter
+	private DateTimeFormatter $datetime_formatter;
+
+	private function get_datetime_formatter(): DateTimeFormatter
 	{
-		return new DateTimeFormatter($this);
+		return $this->datetime_formatter ??= new DateTimeFormatter($this);
 	}
 
-	private function lazy_get_date_formatter(): DateFormatter
+	private DateFormatter $date_formatter;
+
+	private function get_date_formatter(): DateFormatter
 	{
-		return new DateFormatter($this);
+		return $this->date_formatter ??= new DateFormatter($this);
 	}
 
-	private function lazy_get_time_formatter(): TimeFormatter
+	private TimeFormatter $time_formatter;
+
+	private function get_time_formatter(): TimeFormatter
 	{
-		return new TimeFormatter($this);
+		return $this->time_formatter ??= new TimeFormatter($this);
 	}
 
 	private readonly ContextTransforms $context_transforms;
@@ -129,6 +135,11 @@ final class Calendar extends ArrayObject
 	}
 
 	/**
+	 * @phpstan-ignore-next-line
+	 */
+	private array $shortcuts = [];
+
+	/**
 	 * @return mixed
 	 */
 	public function __get(string $property)
@@ -138,23 +149,27 @@ final class Calendar extends ArrayObject
 			return $this->accessor_get($property);
 		}
 
-		[ , $standalone, $width, $type ] = $matches;
+		$make = function () use ($matches) {
+			[ , $standalone, $width, $type ] = $matches;
 
-		$data = $this[$type];
+			$data = $this[$type];
 
-		if ($type === self::CALENDAR_ERAS)
-		{
-			return $this->$property = $data[self::$era_widths_mapping[$width]];
-		}
+			if ($type === self::CALENDAR_ERAS)
+			{
+				return $data[self::$era_widths_mapping[$width]];
+			}
 
-		$data = $data[$standalone ? self::CONTEXT_STAND_ALONE : self::CONTEXT_FORMAT];
+			$data = $data[$standalone ? self::CONTEXT_STAND_ALONE : self::CONTEXT_FORMAT];
 
-		if ($width === self::WIDTH_SHORT && empty($data[$width]))
-		{
-			$width = self::WIDTH_ABBR;
-		}
+			if ($width === self::WIDTH_SHORT && empty($data[$width]))
+			{
+				$width = self::WIDTH_ABBR;
+			}
 
-		return $this->$property = $data[$width];
+			return $data[$width];
+		};
+
+		return $this->shortcuts[$property] ??= $make();
 	}
 
     /**

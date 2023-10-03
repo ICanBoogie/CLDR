@@ -40,9 +40,10 @@ final class Relation
 
 	static public function from(string $relation): Relation
 	{
-		return RelationCache::get($relation, static function () use ($relation): Relation {
-			return new self(...self::parse_relation($relation));
-		});
+		return RelationCache::get(
+			$relation,
+			static fn(): Relation => new self(...self::parse_relation($relation))
+		);
 	}
 
 	/**
@@ -87,7 +88,7 @@ final class Relation
 
 		$x_expression = '$' . rtrim($x_expression);
 
-		if (strpos($x_expression, self::MODULUS_SIGN) !== false)
+		if (str_contains($x_expression, self::MODULUS_SIGN))
 		{
 			[ $operand, $modulus ] = explode(self::MODULUS_SIGN, $x_expression);
 

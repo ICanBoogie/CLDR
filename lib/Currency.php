@@ -42,7 +42,7 @@ use ICanBoogie\CLDR\Supplemental\Fraction;
 final class Currency
 {
 	/**
-	 * @uses lazy_get_fraction
+	 * @uses get_fraction
 	 */
 	use AccessorTrait;
 
@@ -61,9 +61,11 @@ final class Currency
 		return $this->code;
 	}
 
-	private function lazy_get_fraction(): Fraction
+	private Fraction $fraction;
+
+	private function get_fraction(): Fraction
 	{
-		return $this->repository->supplemental->currency_data->fraction_for($this->code);
+		return $this->fraction ??= $this->repository->supplemental->currency_data->fraction_for($this->code);
 	}
 
 	/**

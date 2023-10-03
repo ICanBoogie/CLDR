@@ -54,68 +54,89 @@ use function explode;
 final class Repository
 {
 	/**
-	 * @uses lazy_get_locales
-	 * @uses lazy_get_supplemental
-	 * @uses lazy_get_territories
-	 * @uses lazy_get_currencies
-	 * @uses lazy_get_number_formatter
-	 * @uses lazy_get_currency_formatter
-	 * @uses lazy_get_list_formatter
-	 * @uses lazy_get_list_formatter
-	 * @uses lazy_get_plurals
-	 * @uses lazy_get_available_locales
+	 * @uses get_locales
+	 * @uses get_supplemental
+	 * @uses get_territories
+	 * @uses get_currencies
+	 * @uses get_number_formatter
+	 * @uses get_currency_formatter
+	 * @uses get_list_formatter
+	 * @uses get_list_formatter
+	 * @uses get_plurals
+	 * @uses get_available_locales
 	 */
 	use AccessorTrait;
 
-	private function lazy_get_locales(): LocaleCollection
+	private LocaleCollection $locales;
+
+	private function get_locales(): LocaleCollection
 	{
-		return new LocaleCollection($this);
+		return $this->locales ??= new LocaleCollection($this);
 	}
 
-	private function lazy_get_supplemental(): Supplemental
+	private Supplemental $supplemental;
+
+	private function get_supplemental(): Supplemental
 	{
-		return new Supplemental($this);
+		return $this->supplemental ??= new Supplemental($this);
 	}
 
-	private function lazy_get_territories(): TerritoryCollection
+	private TerritoryCollection $territories;
+
+	private function get_territories(): TerritoryCollection
 	{
-		return new TerritoryCollection($this);
+		return $this->territories ??= new TerritoryCollection($this);
 	}
 
-	private function lazy_get_currencies(): CurrencyCollection
+	private CurrencyCollection $currencies;
+
+	private function get_currencies(): CurrencyCollection
 	{
-		return new CurrencyCollection($this);
+		return $this->currencies ??= new CurrencyCollection($this);
 	}
 
-	private function lazy_get_number_formatter(): NumberFormatter
+	private NumberFormatter $number_formatter;
+
+	private function get_number_formatter(): NumberFormatter
 	{
-		return new NumberFormatter();
+		return $this->number_formatter ??= new NumberFormatter();
 	}
 
-	private function lazy_get_currency_formatter(): CurrencyFormatter
+	private CurrencyFormatter $currency_formatter;
+
+	private function get_currency_formatter(): CurrencyFormatter
 	{
-		return new CurrencyFormatter();
+		return $this->currency_formatter ??= new CurrencyFormatter();
 	}
 
-	private function lazy_get_list_formatter(): ListFormatter
+	private ListFormatter $list_formatter;
+
+	private function get_list_formatter(): ListFormatter
 	{
-		return new ListFormatter();
+		return $this->list_formatter ??= new ListFormatter();
 	}
 
-	private function lazy_get_plurals(): Plurals
+	private Plurals $plurals;
+
+	private function get_plurals(): Plurals
 	{
 		/** @phpstan-ignore-next-line */
-		return new Plurals($this->supplemental['plurals']);
+		return $this->plurals ??= new Plurals($this->supplemental['plurals']);
 	}
 
 	/**
-	 * @return string[]
+	 * @var array<string>
+	 */
+	private array $available_locales;
+
+	/**
+	 * @return array<string>
 	 *
 	 * @throws ResourceNotFound
 	 */
-	private function lazy_get_available_locales(): array
+	private function get_available_locales(): array
 	{
-		return $this->fetch('core/availableLocales', 'availableLocales/modern');
+		return $this->available_locales ??= $this->fetch('core/availableLocales', 'availableLocales/modern');
 	}
 
 	public function __construct(
@@ -202,6 +223,6 @@ final class Repository
 	 */
 	public function is_locale_available(string $locale): bool
 	{
-		return in_array($locale, $this->available_locales);
+		return in_array($locale, $this->get_available_locales());
 	}
 }

@@ -88,7 +88,7 @@ final class Samples implements IteratorAggregate
 				continue;
 			}
 
-			if (strpos($sample, self::SAMPLE_RANGE_SEPARATOR) === false)
+			if (!str_contains($sample, self::SAMPLE_RANGE_SEPARATOR))
 			{
 				$samples[] = $sample;
 

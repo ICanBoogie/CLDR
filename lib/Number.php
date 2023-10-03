@@ -79,11 +79,10 @@ final class Number
 
 	/**
 	 * @param float|int|numeric-string $number
-	 * @param int|null $c
 	 *
 	 * @return float|int|numeric-string
 	 */
-	static public function expand_compact_decimal_exponent(float|int|string $number, int &$c = null): float|int|string
+	static public function expand_compact_decimal_exponent(float|int|string $number, int &$c = 0): float|int|string
 	{
 		$c = 0;
 

@@ -333,6 +333,12 @@ class Units
 	}
 
 	/**
+	 * @var array<string, Unit>
+	 *     Where _key_ is a unit name.
+	 */
+	private array $units = [];
+
+	/**
 	 * @return mixed
 	 */
 	public function __get(string $property)
@@ -341,7 +347,7 @@ class Units
 
 		if (isset($this->data[self::DEFAULT_LENGTH][$unit]))
 		{
-			return $this->$property = new Unit($this, $unit);
+			return $this->units[$property] ??= new Unit($this, $unit);
 		}
 
 		throw new PropertyNotDefined([ $property, $this ]);
