@@ -35,6 +35,9 @@ test-coveralls: test-dependencies
 test-cleanup:
 	@rm -f cache/*
 
+.PHONY: test-container
+test-container: test-container-71
+
 .PHONY: test-container-71
 test-container-71:
 	@-docker-compose run --rm app71 bash
@@ -43,6 +46,11 @@ test-container-71:
 .PHONY: test-container-81
 test-container-81:
 	@-docker-compose run --rm app81 bash
+	@docker-compose down
+
+.PHONY: test-container-82
+test-container-82:
+	@-docker-compose run --rm app82 bash
 	@docker-compose down
 
 .PHONY: lint

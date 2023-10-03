@@ -19,7 +19,26 @@ services:
   app81:
     build:
       context: .
-      dockerfile: Dockerfile81
+      dockerfile: Dockerfile8
+      args:
+          PHP_VERSION: '8.1'
+    environment:
+      PHP_IDE_CONFIG: 'serverName=icanboogie-cldr'
+      ICANBOOGIE_CLDR_REDIS_HOST: redis
+      ICANBOOGIE_CLDR_REDIS_PORT: 6379
+    depends_on:
+    - redis
+    volumes:
+    - .:/app:delegated
+    - ~/.composer:/root/.composer:delegated
+    working_dir: /app
+
+  app82:
+    build:
+      context: .
+      dockerfile: Dockerfile8
+      args:
+          PHP_VERSION: '8.2'
     environment:
       PHP_IDE_CONFIG: 'serverName=icanboogie-cldr'
       ICANBOOGIE_CLDR_REDIS_HOST: redis

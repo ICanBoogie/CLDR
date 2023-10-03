@@ -1,10 +1,10 @@
 # Migration
 
-## v4.x to v5.x
+## v4.x to v5.0
 
 ### New Requirements
 
-None
+- PHP >=7.1 <8.2
 
 ### New features
 
@@ -68,7 +68,7 @@ None
 
 
 
-## v3.x to v4.x
+## v3.x to v4.0
 
 ### New Requirements
 
