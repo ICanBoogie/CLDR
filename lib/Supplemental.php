@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Supplemental\CurrencyData;
 
 /**
@@ -27,9 +28,12 @@ use ICanBoogie\CLDR\Supplemental\CurrencyData;
  * </pre>
  *
  * @property-read CurrencyData $currency_data
+ * @uses self::lazy_get_currency_data()
  */
 final class Supplemental extends AbstractSectionCollection
 {
+	use AccessorTrait;
+
 	/**
 	 * Where _key_ is a property, matching a CLDR filename, and _value_ is an array path under "supplemental".
 	 */
@@ -66,9 +70,6 @@ final class Supplemental extends AbstractSectionCollection
 
 	];
 
-	/**
-	 * @uses lazy_get_currency_data
-	 */
 	protected function lazy_get_currency_data(): CurrencyData
 	{
 		/* @phpstan-ignore-next-line */

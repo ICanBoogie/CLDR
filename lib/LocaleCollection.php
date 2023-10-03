@@ -22,12 +22,10 @@ use InvalidArgumentException;
 class LocaleCollection extends AbstractCollection
 {
 	use AccessorTrait;
-	use RepositoryPropertyTrait;
 
-	public function __construct(Repository $repository)
-	{
-		$this->repository = $repository;
-
+	public function __construct(
+		public readonly Repository $repository
+	) {
 		parent::__construct(function (string $code): Locale {
 
 			$this->assert_locale_is_valid($code);

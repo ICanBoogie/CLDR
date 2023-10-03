@@ -27,7 +27,7 @@ final class NumberFormatterTest extends TestCase
 		$this->assertSame($expected, $formatter->format($number, $pattern, $symbols));
 	}
 
-	public function provide_test_format(): array
+	public static function provide_test_format(): array
 	{
 		return [
 

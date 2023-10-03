@@ -69,7 +69,7 @@ final class LocalizedCurrencyTest extends TestCase
 		$this->assertEquals($expected, $localized->format($number));
 	}
 
-	public function provide_test_format(): array
+	public static function provide_test_format(): array
 	{
 		return [
 
@@ -96,7 +96,7 @@ final class LocalizedCurrencyTest extends TestCase
 		$this->assertStringSame($expected, $localized->format($number, LocalizedCurrencyFormatter::PATTERN_ACCOUNTING));
 	}
 
-	public function provide_test_format_accounting(): array
+	public static function provide_test_format_accounting(): array
 	{
 	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
 	    $s2 = Spaces::NO_BREAK_SPACE;

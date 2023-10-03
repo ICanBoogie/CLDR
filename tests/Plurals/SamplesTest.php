@@ -35,7 +35,7 @@ final class SamplesTest extends TestCase
 		$this->assertSame($expected, iterator_to_array($samples));
 	}
 
-	public function provide_test_samples(): array
+	public static function provide_test_samples(): array
 	{
 		return [
 

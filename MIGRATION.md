@@ -1,5 +1,31 @@
 # Migration
 
+
+
+## v5.x to v6.0
+
+### New Requirements
+
+- PHP >=8.1 <8.2
+
+### New features
+
+None
+
+### Backward Incompatible Changes
+
+None
+
+### Deprecated Features
+
+None
+
+### Other Changes
+
+None
+
+
+
 ## v4.x to v5.0
 
 ### New Requirements
@@ -168,3 +194,29 @@ None
 - Compatible with PHP 8.1+
 - Targets [CLDR v36](https://www.unicode.org/reports/tr35/tr35-57/tr35.html)
 - Improved type annotations, including generics.
+
+<!--
+
+## vX.x to vX.x
+
+### New Requirements
+
+None
+
+### New features
+
+None
+
+### Backward Incompatible Changes
+
+None
+
+### Deprecated Features
+
+None
+
+### Other Changes
+
+None
+
+-->

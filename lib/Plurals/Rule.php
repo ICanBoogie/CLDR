@@ -56,24 +56,19 @@ final class Rule
 	}
 
 	/**
-	 * @var Relation[][]
-	 */
-	private $relations;
-
-	/**
 	 * @param Relation[][] $relations
 	 */
-	private function __construct(array $relations)
-	{
-		$this->relations = $relations;
+	private function __construct(
+		private readonly array $relations
+	) {
 	}
 
 	/**
 	 * Whether a number matches the rule.
 	 *
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 */
-	public function validate($number): bool
+	public function validate(float|int|string $number): bool
 	{
 		$operands = Operands::from($number);
 

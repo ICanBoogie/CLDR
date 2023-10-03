@@ -26,9 +26,9 @@ final class Number
 	/**
 	 * Returns the precision of a number.
 	 *
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 */
-	static public function precision_from($number): int
+	static public function precision_from(float|int|string $number): int
 	{
 		$number = (string) $number;
 		$pos = strrpos($number, '.');
@@ -44,24 +44,24 @@ final class Number
 	/**
 	 * Returns a number rounded to the specified precision.
 	 *
-	 * @param float|int $number
+	 * @param float|int|numeric-string $number
 	 */
-	static public function round_to($number, int $precision): float
+	static public function round_to(float|int|string $number, int $precision): float
 	{
-		return round($number, $precision);
+		return round($number+0, $precision);
 	}
 
 	/**
 	 * Parses a number.
 	 *
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 *
 	 * @return array{ 0: int, 1: string|null}
 	 *     Where `0` is the integer part and `1` the fractional part. The fractional part is `null` if
 	 *     `$number` has no decimal separator. The fractional part is returned as a string to preserve '03' from
 	 *     '1.03'.
 	 */
-	static public function parse($number, int $precision = null): array
+	static public function parse(float|int|string $number, int $precision = null): array
 	{
 		if ($precision === null)
 		{
@@ -78,12 +78,12 @@ final class Number
 	}
 
 	/**
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 * @param int|null $c
 	 *
-	 * @return numeric
+	 * @return float|int|numeric-string
 	 */
-	static public function expand_compact_decimal_exponent($number, int &$c = null)
+	static public function expand_compact_decimal_exponent(float|int|string $number, int &$c = null): float|int|string
 	{
 		$c = 0;
 

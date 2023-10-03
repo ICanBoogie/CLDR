@@ -31,7 +31,7 @@ final class NumbersTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_shortcuts(): array
+	public static function provide_test_shortcuts(): array
 	{
 		return [
 
@@ -59,7 +59,7 @@ final class NumbersTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_symbols(): array
+	public static function provide_symbols(): array
 	{
 		return [
 
@@ -132,7 +132,7 @@ final class NumbersTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_decimal_width_shortcuts(): array
+	public static function provide_test_decimal_width_shortcuts(): array
 	{
 		return [
 
@@ -156,7 +156,7 @@ final class NumbersTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_get_decimal_format(): array
+	public static function provide_test_get_decimal_format(): array
 	{
 		return [
 

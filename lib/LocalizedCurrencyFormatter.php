@@ -24,22 +24,27 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param float|int $number
-	 * @param Currency|string $currency
+	 * @param float|int|numeric-string $number
+	 * @param string|Currency $currency
 	 */
-	public function __invoke($number, $currency, string $pattern = self::PATTERN_STANDARD): string
-	{
+	public function __invoke(
+		float|int|string $number,
+		Currency|string $currency,
+		string $pattern = self::PATTERN_STANDARD
+	): string {
 		return $this->format($number, $currency, $pattern);
 	}
 
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param float|int $number
-	 * @param Currency|string $currency
+	 * @param float|int|numeric-string $number
 	 */
-	public function format($number, $currency, string $pattern = self::PATTERN_STANDARD): string
-	{
+	public function format(
+		float|int|string $number,
+		Currency|string $currency,
+		string $pattern = self::PATTERN_STANDARD
+	): string {
 		return $this->target->format(
 			$number,
 			$this->resolve_pattern($pattern),

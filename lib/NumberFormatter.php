@@ -24,11 +24,16 @@ class NumberFormatter implements Formatter
 	 * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
 	 * pattern contains '‰', the number will be multiplied by 1000.
 	 *
-	 * @param float|int $number The number to be formatted.
-	 * @param string $pattern The pattern used to format the number.
+	 * @param float|int|numeric-string $number
+	 *     The number to format.
+	 * @param string|NumberPattern $pattern
+	 *     The pattern used to format the number.
 	 */
-	public function __invoke($number, string $pattern, Symbols $symbols = null): string
-	{
+	public function __invoke(
+		float|int|string $number,
+		NumberPattern|string $pattern,
+		Symbols $symbols = null,
+	): string {
 		return $this->format($number, $pattern, $symbols);
 	}
 
@@ -38,11 +43,16 @@ class NumberFormatter implements Formatter
 	 * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
 	 * pattern contains '‰', the number will be multiplied by 1000.
 	 *
-	 * @param float|int $number The number to be formatted.
-	 * @param string|NumberPattern $pattern The pattern used to format the number.
+	 * @param float|int|numeric-string $number
+	 *     The number to format.
+	 * @param string|NumberPattern $pattern
+	 *     The pattern used to format the number.
 	 */
-	public function format($number, $pattern, Symbols $symbols = null): string
-	{
+	public function format(
+		float|int|string $number,
+		NumberPattern|string $pattern,
+		Symbols $symbols = null,
+	): string {
 		if (!$pattern instanceof NumberPattern)
 		{
 			$pattern = NumberPattern::from($pattern);

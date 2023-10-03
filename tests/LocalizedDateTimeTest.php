@@ -70,7 +70,7 @@ final class LocalizedDateTimeTest extends TestCase
 		$this->assertEquals($expected, self::$localized_dates[$locale]->$method());
 	}
 
-	public function provide_test_as(): array
+	public static function provide_test_as(): array
 	{
 		return [
 

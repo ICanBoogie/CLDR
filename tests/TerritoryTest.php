@@ -44,7 +44,7 @@ final class TerritoryTest extends TestCase
 		$this->assertEquals($expected, $territory->currency);
 	}
 
-	public function provide_test_get_currency(): array
+	public static function provide_test_get_currency(): array
 	{
 		return [
 
@@ -66,7 +66,7 @@ final class TerritoryTest extends TestCase
 		$this->assertEquals($expected, $territory->currency_at($date));
 	}
 
-	public function provide_test_currency_at(): array
+	public static function provide_test_currency_at(): array
 	{
 		return [
 
@@ -91,7 +91,7 @@ final class TerritoryTest extends TestCase
 		$this->assertSame($expected, $territory->language);
 	}
 
-	public function provide_test_get_language(): array
+	public static function provide_test_get_language(): array
 	{
 		return [
 
@@ -117,7 +117,7 @@ final class TerritoryTest extends TestCase
 		$this->assertEquals($expected, $territory->name_as($locale_code));
 	}
 
-	public function provide_test_name_as(): array
+	public static function provide_test_name_as(): array
 	{
 		return [
 
@@ -138,7 +138,7 @@ final class TerritoryTest extends TestCase
 		$this->assertEquals($expected, $territory->{ 'name_as_' . $locale_code });
 	}
 
-	public function provide_test_get_name_as(): array
+	public static function provide_test_get_name_as(): array
 	{
 		return [
 
@@ -162,7 +162,7 @@ final class TerritoryTest extends TestCase
 	/**
 	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/weekData.json
 	 */
-	public function provide_test_get_property(): array
+	public static function provide_test_get_property(): array
 	{
 		return [
 

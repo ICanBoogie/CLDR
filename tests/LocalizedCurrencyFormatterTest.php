@@ -49,7 +49,7 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 		$this->assertStringSame($expected, $formatter($number, $currency_code));
 	}
 
-	public function provide_test_format(): array
+	public static function provide_test_format(): array
 	{
         $s1 = Spaces::NARROW_NO_BREAK_SPACE;
         $s2 = Spaces::NO_BREAK_SPACE;
@@ -89,7 +89,7 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 		);
 	}
 
-	public function provide_test_format_accounting(): array
+	public static function provide_test_format_accounting(): array
 	{
         $s1 = Spaces::NARROW_NO_BREAK_SPACE;
         $s2 = Spaces::NO_BREAK_SPACE;

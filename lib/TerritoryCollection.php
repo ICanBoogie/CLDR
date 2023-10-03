@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Accessor\AccessorTrait;
-
 /**
  * Representation of a territory collection.
  *
@@ -31,16 +29,9 @@ use ICanBoogie\Accessor\AccessorTrait;
  */
 final class TerritoryCollection extends AbstractCollection
 {
-	/**
-	 * @uses get_repository
-	 */
-	use AccessorTrait;
-	use RepositoryPropertyTrait;
-
-	public function __construct(Repository $repository)
-	{
-		$this->repository = $repository;
-
+	public function __construct(
+		public readonly Repository $repository
+	) {
 		parent::__construct(function (string $territory_code): Territory {
 
 			$this->assert_defined($territory_code);

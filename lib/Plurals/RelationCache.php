@@ -20,18 +20,13 @@ final class RelationCache
 	 * @var array<string, Relation>
 	 *     Where _key_ is a relation statement and _value_ a {@link Relation}.
 	 */
-	static private $instances = [];
+	static private array $instances = [];
 
 	/**
 	 * @param callable():Relation $new
 	 */
 	static public function get(string $relation, callable $new): Relation
 	{
-		if (isset(self::$instances[$relation]))
-		{
-			return self::$instances[$relation];
-		}
-
-		return self::$instances[$relation] = $new();
+		return self::$instances[$relation] ??= $new();
 	}
 }

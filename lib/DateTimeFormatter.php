@@ -13,7 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use ICanBoogie\Accessor\AccessorTrait;
+
 use function ceil;
 use function floor;
 use function in_array;
@@ -23,6 +23,7 @@ use function str_pad;
 use function str_repeat;
 use function strlen;
 use function substr;
+
 use const STR_PAD_LEFT;
 
 /**
@@ -35,11 +36,6 @@ use const STR_PAD_LEFT;
  */
 class DateTimeFormatter implements Formatter
 {
-	/**
-	 * @uses get_calendar
-	 */
-	use AccessorTrait;
-
 	public const WIDTH_FULL = 'full';
 	public const WIDTH_LONG = 'long';
 	public const WIDTH_MEDIUM = 'medium';
@@ -48,7 +44,7 @@ class DateTimeFormatter implements Formatter
 	/**
 	 * @var string[]
 	 */
-	static private $widths = [
+	static private array $widths = [
 
 		self::WIDTH_FULL,
 		self::WIDTH_LONG,
@@ -63,7 +59,7 @@ class DateTimeFormatter implements Formatter
 	 * @var array<string, string>
 	 *     Where _key_ is a pattern character and _value_ its formatter.
 	 */
-	private static $formatters = [
+	private static array $formatters = [
 
 		'G' => 'format_era',
 		'y' => 'format_year',
@@ -174,21 +170,10 @@ class DateTimeFormatter implements Formatter
 		return str_pad((string) $value, $length, '0', STR_PAD_LEFT);
 	}
 
-	/**
-	 * The calendar used to format the datetime.
-	 *
-	 * @var Calendar
-	 */
-	private $calendar;
+	public function __construct(
+		public readonly Calendar $calendar
+	) {
 
-	private function get_calendar(): Calendar
-	{
-		return $this->calendar;
-	}
-
-	public function __construct(Calendar $calendar)
-	{
-		$this->calendar = $calendar;
 	}
 
 	/**
@@ -365,8 +350,8 @@ class DateTimeFormatter implements Formatter
 	 * Quarter - Use one or two "Q" for the numerical quarter, three for the abbreviation, or four
 	 * for the full (wide) name. [1..2,3,4]
 	 *
-	 * @uses \ICanBoogie\CLDR\Calendar::$abbreviated_quarters
-	 * @uses \ICanBoogie\CLDR\Calendar::$wide_quarters
+	 * @uses Calendar::$abbreviated_quarters
+	 * @uses Calendar::$wide_quarters
 	 */
 	private function format_quarter(
 		DateTimeAccessor $datetime,
@@ -396,8 +381,8 @@ class DateTimeFormatter implements Formatter
 	 * Stand-Alone Quarter - Use one or two "q" for the numerical quarter, three for the
 	 * abbreviation, or four for the full (wide) name. [1..2,3,4]
 	 *
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_abbreviated_quarters
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_wide_quarters
+	 * @uses Calendar::$standalone_abbreviated_quarters
+	 * @uses Calendar::$standalone_wide_quarters
 	 */
 	private function format_standalone_quarter(DateTimeAccessor $datetime, int $length): string
 	{
@@ -417,9 +402,9 @@ class DateTimeFormatter implements Formatter
 	 * Month - Use one or two "M" for the numerical month, three for the abbreviation, four for
 	 * the full name, or five for the narrow name. [1..2,3,4,5]
 	 *
-	 * @uses \ICanBoogie\CLDR\Calendar::$abbreviated_months
-	 * @uses \ICanBoogie\CLDR\Calendar::$wide_months
-	 * @uses \ICanBoogie\CLDR\Calendar::$narrow_months
+	 * @uses Calendar::$abbreviated_months
+	 * @uses Calendar::$wide_months
+	 * @uses Calendar::$narrow_months
 	 */
 	private function format_month(
 		DateTimeAccessor $datetime,
@@ -451,9 +436,9 @@ class DateTimeFormatter implements Formatter
 	 * Stand-Alone Month - Use one or two "L" for the numerical month, three for the abbreviation,
 	 * or four for the full (wide) name, or 5 for the narrow name. [1..2,3,4,5]
 	 *
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_abbreviated_months
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_wide_months
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_narrow_months
+	 * @uses Calendar::$standalone_abbreviated_months
+	 * @uses Calendar::$standalone_wide_months
+	 * @uses Calendar::$standalone_narrow_months
 	 */
 	private function format_standalone_month(DateTimeAccessor $datetime, int $length): string
 	{
@@ -594,10 +579,10 @@ class DateTimeFormatter implements Formatter
 	 * three for the abbreviated day name, four for the full (wide) name, five for the narrow name,
 	 * or six for the short name.
 	 *
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_abbreviated_days
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_wide_days
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_narrow_days
-	 * @uses \ICanBoogie\CLDR\Calendar::$standalone_short_days
+	 * @uses Calendar::$standalone_abbreviated_days
+	 * @uses Calendar::$standalone_wide_days
+	 * @uses Calendar::$standalone_narrow_days
+	 * @uses Calendar::$standalone_short_days
 	 */
 	private function format_day_in_week_stand_alone(DateTimeAccessor $datetime, int $length): string
 	{

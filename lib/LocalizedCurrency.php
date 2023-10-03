@@ -59,10 +59,7 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 		return $this->locale['currencies'][$this->target->code][$offset];
 	}
 
-	/**
-	 * @var string|null
-	 */
-	private $symbol;
+	private string $symbol;
 
 	/**
 	 * Returns the localized symbol of the currency.
@@ -71,17 +68,18 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 	 */
 	protected function get_symbol(): string
 	{
-		return $this->symbol
-			?? $this->symbol = $this->locale['currencies'][$this->target->code]['symbol']; // @phpstan-ignore-line
+		return $this->symbol ??= $this->locale['currencies'][$this->target->code]['symbol']; // @phpstan-ignore-line
 	}
 
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param float|int $number
+	 * @param float|int|numeric-string $number
 	 */
-	public function format($number, string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD): string
-	{
+	public function format(
+		float|int|string $number,
+		string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD
+	): string {
 		return $this->formatter->format($number, $this->target, $pattern);
 	}
 }

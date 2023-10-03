@@ -28,7 +28,7 @@ final class LocalizedNumberFormatterTest extends TestCase
 		$this->assertSame($expected, $localized->format($number, $pattern));
 	}
 
-	public function provide_test_format(): array
+	public static function provide_test_format(): array
 	{
 		return [
 

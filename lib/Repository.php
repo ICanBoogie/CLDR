@@ -32,21 +32,28 @@ use function explode;
  * var_dump($repository->territories['FR']);
  * </pre>
  *
- * @property-read Provider $provider
  * @property-read LocaleCollection $locales
+ * @uses self::lazy_get_locales()
  * @property-read Supplemental $supplemental
+ * @uses self::lazy_get_supplemental()
  * @property-read TerritoryCollection $territories
+ * @uses self::lazy_get_territories()
  * @property-read CurrencyCollection $currencies
+ * @uses self::lazy_get_currencies()
  * @property-read NumberFormatter $number_formatter
+ * @uses self::lazy_get_number_formatter()
  * @property-read CurrencyFormatter $currency_formatter
+ * @uses self::lazy_get_currency_formatter()
  * @property-read ListFormatter $list_formatter
+ * @uses self::lazy_get_list_formatter()
  * @property-read Plurals $plurals
+ * @uses self::lazy_get_plurals()
  * @property-read string[] $available_locales
+ * @uses self::lazy_get_available_locales()
  */
 final class Repository
 {
 	/**
-	 * @uses get_provider
 	 * @uses lazy_get_locales
 	 * @uses lazy_get_supplemental
 	 * @uses lazy_get_territories
@@ -59,16 +66,6 @@ final class Repository
 	 * @uses lazy_get_available_locales
 	 */
 	use AccessorTrait;
-
-	/**
-	 * @var Provider
-	 */
-	private $provider;
-
-	private function get_provider(): Provider
-	{
-		return $this->provider;
-	}
 
 	private function lazy_get_locales(): LocaleCollection
 	{
@@ -121,9 +118,9 @@ final class Repository
 		return $this->fetch('core/availableLocales', 'availableLocales/modern');
 	}
 
-	public function __construct(Provider $provider)
-	{
-		$this->provider = $provider;
+	public function __construct(
+		public readonly Provider $provider
+	) {
 	}
 
 	/**
@@ -155,25 +152,33 @@ final class Repository
 	/**
 	 * Format a number with the specified pattern.
 	 *
-	 * @param float|int $number The number to be formatted.
+	 * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
+	 * pattern contains '‰', the number will be multiplied by 1000.
 	 *
-	 * @see NumberFormatter::format()
+	 * @param float|int|numeric-string $number
+	 *     The number to format.
+	 * @param string|NumberPattern $pattern
+	 *     The pattern used to format the number.
 	 */
-	public function format_number($number, string $pattern, Symbols $symbols = null): string
-	{
+	public function format_number(
+		float|int|string $number,
+		NumberPattern|string $pattern,
+		Symbols $symbols = null,
+	): string {
 		return $this->number_formatter->format($number, $pattern, $symbols);
 	}
 
 	/**
 	 * Format a number with the specified pattern.
 	 *
-	 * @param float|int $number The number to be formatted.
+	 * @param float|int|numeric-string $number
+	 *      The number to format.
 	 *
 	 * @see CurrencyFormatter::format()
 	 */
 	public function format_currency(
-		$number,
-		string $pattern,
+		float|int|string $number,
+		NumberPattern|string $pattern,
 		Symbols $symbols = null,
 		string $currencySymbol = CurrencyFormatter::DEFAULT_CURRENCY_SYMBOL
 	): string {

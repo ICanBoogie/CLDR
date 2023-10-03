@@ -28,7 +28,7 @@ final class NumberPatternParser
 	/**
 	 * @var array<string, int|string>
 	 */
-	static private $initial_format = [
+	static private array $initial_format = [
 
 		'positive_prefix' => '',
 		'positive_suffix' => '',
@@ -126,16 +126,13 @@ final class NumberPatternParser
 	 */
 	static private function parse_multiplier(string $pattern, array &$format): void
 	{
-		if (strpos($pattern, '%') !== false)
+		if (str_contains($pattern, '%'))
 		{
 			$format['multiplier'] = 100;
 		}
-		else
+		elseif (str_contains($pattern, '‰'))
 		{
-			if (strpos($pattern, '‰') !== false)
-			{
-				$format['multiplier'] = 1000;
-			}
+			$format['multiplier'] = 1000;
 		}
 	}
 

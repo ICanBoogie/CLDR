@@ -35,7 +35,6 @@ use ICanBoogie\CLDR\Supplemental\Fraction;
  *
  * @internal
  *
- * @property-read string $code The ISO 4217 code for the currency.
  * @property-read Fraction $fraction
  *
  * @see http://unicode.org/reports/tr35/tr35-numbers.html#Supplemental_Currency_Data
@@ -43,17 +42,23 @@ use ICanBoogie\CLDR\Supplemental\Fraction;
 final class Currency
 {
 	/**
-	 * @uses get_code
 	 * @uses lazy_get_fraction
 	 */
 	use AccessorTrait;
-	use RepositoryPropertyTrait;
-	use CodePropertyTrait;
 
-	public function __construct(Repository $repository, string $code)
+	/**
+	 * @param string $code
+	 *     The ISO 4217 code for the currency.
+	 */
+	public function __construct(
+		public readonly Repository $repository,
+		public readonly string $code
+	) {
+	}
+
+	public function __toString(): string
 	{
-		$this->repository = $repository;
-		$this->code = $code;
+		return $this->code;
 	}
 
 	private function lazy_get_fraction(): Fraction

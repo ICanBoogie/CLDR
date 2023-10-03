@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use ICanBoogie\Accessor\AccessorTrait;
 use InvalidArgumentException;
 use LogicException;
 
@@ -20,20 +21,28 @@ use function strtr;
 /**
  * Representation of a locale.
  *
- * @property-read string $code Locale identifier.
  * @property-read string $language Unicode language.
+ * @uses self::get_language()
  * @property-read CalendarCollection $calendars The calendar collection of the locale.
+ * @uses self::lazy_get_calendars()
  * @property-read Calendar $calendar The preferred calendar for this locale.
+ * @uses self::lazy_get_calendar()
  * @property-read Numbers $numbers
+ * @uses self::lazy_get_numbers()
  * @property-read LocalizedNumberFormatter $number_formatter
+ * @uses self::lazy_get_number_formatter()
  * @property-read LocalizedCurrencyFormatter $currency_formatter
+ * @uses self::lazy_get_currency_formatter()
  * @property-read LocalizedListFormatter $list_formatter
+ * @uses self::lazy_get_list_formatter()
  * @property-read ContextTransforms $context_transforms
+ * @uses self::lazy_get_context_transforms()
  * @property-read Units $units
+ * @uses self::lazy_get_units()
  */
 class Locale extends AbstractSectionCollection
 {
-	use CodePropertyTrait;
+	use AccessorTrait;
 
 	/**
 	 * Where _key_ is an offset and _value_ and array where `0` is a pattern for the path and `1` the data path.
@@ -74,22 +83,14 @@ class Locale extends AbstractSectionCollection
 	];
 
 	/**
-	 * @var Repository
+	 * @param string $code
+	 *     The ISO code of the locale.
 	 */
-	private $repository;
-
-	/**
-	 * @param string $code The ISO code of the locale.
-	 */
-	public function __construct(Repository $repository, string $code)
-	{
-		if (!$code)
-		{
-			throw new InvalidArgumentException("Locale identifier cannot be empty.");
-		}
-
-		$this->repository = $repository;
-		$this->code = $code;
+	public function __construct(
+		Repository $repository,
+		public readonly string $code
+	) {
+		strlen($code) > 0 or throw new InvalidArgumentException("Locale identifier cannot be empty.");
 
 		parent::__construct($repository);
 	}
@@ -109,9 +110,6 @@ class Locale extends AbstractSectionCollection
 		return "main/$this->code/" . self::OFFSET_MAPPING[$offset][1];
 	}
 
-	/**
-	 * @uses get_language
-	 */
 	protected function get_language(): string
 	{
 		[ $language ] = explode('-', $this->code, 2);
@@ -119,59 +117,38 @@ class Locale extends AbstractSectionCollection
 		return $language;
 	}
 
-	/**
-	 * @uses lazy_get_calendars
-	 */
 	protected function lazy_get_calendars(): CalendarCollection
 	{
 		return new CalendarCollection($this);
 	}
 
-	/**
-	 * @uses lazy_get_calendar
-	 */
 	protected function lazy_get_calendar(): Calendar
 	{
 		/** @var Calendar */
 		return $this->calendars['gregorian']; // TODO-20131101: use preferred data
 	}
 
-	/**
-	 * @uses lazy_get_numbers
-	 */
 	protected function lazy_get_numbers(): Numbers
 	{
 		/** @phpstan-ignore-next-line */
 		return new Numbers($this, $this['numbers']);
 	}
 
-	/**
-	 * @uses lazy_get_number_formatter
-	 */
 	protected function lazy_get_number_formatter(): LocalizedNumberFormatter
 	{
 		return $this->localize($this->repository->number_formatter);
 	}
 
-	/**
-	 * @uses lazy_get_currency_formatter
-	 */
 	protected function lazy_get_currency_formatter(): LocalizedCurrencyFormatter
 	{
 		return $this->localize($this->repository->currency_formatter);
 	}
 
-	/**
-	 * @uses lazy_get_list_formatter
-	 */
 	protected function lazy_get_list_formatter(): LocalizedListFormatter
 	{
 		return $this->localize($this->repository->list_formatter);
 	}
 
-	/**
-	 * @uses lazy_get_context_transforms
-	 */
 	protected function lazy_get_context_transforms(): ContextTransforms
 	{
 		try
@@ -186,9 +163,6 @@ class Locale extends AbstractSectionCollection
 		}
 	}
 
-	/**
-	 * @uses lazy_get_units
-	 */
 	protected function lazy_get_units(): Units
 	{
 		return new Units($this);
@@ -258,11 +232,11 @@ class Locale extends AbstractSectionCollection
 	}
 
 	/**
-	 * @param float|int $number
+	 * @param float|int|numeric-string $number
 	 *
 	 * @see LocalizedNumberFormatter::format
 	 */
-	public function format_percent($number, string $pattern = null): string
+	public function format_percent(float|int|string $number, string $pattern = null): string
 	{
 		return $this->number_formatter->format(
 			$number,
@@ -273,12 +247,11 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * Formats currency using localized conventions.
 	 *
-	 * @param float|int $number
-	 * @param Currency|string $currency
+	 * @param float|int|numeric-string $number
 	 */
 	public function format_currency(
-		$number,
-		$currency,
+		float|int|string $number,
+		Currency|string $currency,
 		string $pattern = LocalizedCurrencyFormatter::PATTERN_STANDARD
 	): string {
 		return $this->currency_formatter->format($number, $currency, $pattern);

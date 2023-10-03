@@ -18,7 +18,7 @@ final class RuntimeCache implements Cache
 	/**
 	 * @var array<string, mixed>
 	 */
-	private $cache = [];
+	private array $cache = [];
 
 	/**
 	 * @inheritDoc

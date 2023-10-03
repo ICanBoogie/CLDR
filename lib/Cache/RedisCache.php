@@ -25,23 +25,10 @@ final class RedisCache implements Cache
 {
 	public const DEFAULT_PREFIX = 'icanboogie-cldr-';
 
-	/**
-	 * @var Redis|RedisCluster
-	 */
-	private $redis;
-
-	/**
-	 * @var string
-	 */
-	private $prefix;
-
-	/**
-	 * @param Redis|RedisCluster $redis
-	 */
-	public function __construct($redis, string $prefix = self::DEFAULT_PREFIX)
-	{
-		$this->redis = $redis;
-		$this->prefix = $prefix;
+	public function __construct(
+		private readonly RedisCluster|Redis $redis,
+		private readonly string $prefix = self::DEFAULT_PREFIX
+	) {
 	}
 
 	public function get(string $path): ?array

@@ -19,16 +19,11 @@ use ICanBoogie\CLDR\Cache;
 final class CacheCollection implements Cache
 {
 	/**
-	 * @var Cache[]
-	 */
-	private $collection;
-
-	/**
 	 * @param Cache[] $collection
 	 */
-	public function __construct(array $collection)
-	{
-		$this->collection = $collection;
+	public function __construct(
+		private readonly array $collection
+	) {
 	}
 
 	public function get(string $path): ?array

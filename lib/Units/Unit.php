@@ -32,16 +32,6 @@ final class Unit
 	 */
 	use AccessorTrait;
 
-	/**
-	 * @var Units
-	 */
-	private $units;
-
-	/**
-	 * @var string
-	 */
-	private $unit;
-
 	private function get_name(): string
 	{
 		return $this->long_name;
@@ -62,10 +52,10 @@ final class Unit
 		return $this->name_for(Units::LENGTH_NARROW);
 	}
 
-	public function __construct(Units $units, string $unit)
-	{
-		$this->units = $units;
-		$this->unit = $unit;
+	public function __construct(
+		private readonly Units $units,
+		private readonly string $unit
+	) {
 	}
 
 	public function __toString(): string

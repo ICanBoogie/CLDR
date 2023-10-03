@@ -52,7 +52,7 @@ final class UnitTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_properties(): array
+	public static function provide_test_properties(): array
 	{
 		return [
 

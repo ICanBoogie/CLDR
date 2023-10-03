@@ -36,7 +36,7 @@ final class DateFormatterTest extends TestCase
 		$this->assertEquals($expected, self::$formatters[$locale]->format($datetime, $pattern));
 	}
 
-	public function provide_test_format(): array
+	public static function provide_test_format(): array
 	{
 		return [
 

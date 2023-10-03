@@ -30,7 +30,7 @@ final class ContextTransformsTest extends TestCase
 		$this->assertSame($expected, (new ContextTransforms($rules))->transform($str, $usage, $type));
 	}
 
-	public function provide_test_transform(): array
+	public static function provide_test_transform(): array
 	{
 		return [
 

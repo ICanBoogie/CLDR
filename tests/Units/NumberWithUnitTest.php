@@ -51,7 +51,7 @@ final class NumberWithUnitTest extends TestCase
 		$this->assertSame($expected, $stu->{ 'as_' . $length });
 	}
 
-	public function provide_test_cases(): array
+	public static function provide_test_cases(): array
 	{
 		return [
 
@@ -88,7 +88,7 @@ final class NumberWithUnitTest extends TestCase
 		);
 	}
 
-	public function provide_per(): array
+	public static function provide_per(): array
 	{
 		return [
 

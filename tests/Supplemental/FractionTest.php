@@ -33,7 +33,7 @@ final class FractionTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_from(): array
+	public static function provide_from(): array
 	{
 		return [
 

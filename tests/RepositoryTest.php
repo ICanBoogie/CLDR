@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Locale\ListPattern;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 final class RepositoryTest extends TestCase
@@ -37,7 +38,7 @@ final class RepositoryTest extends TestCase
 		$this->assertSame($instance, $repository->$property);
 	}
 
-	public function provide_test_properties_instanceof(): array
+	public static function provide_test_properties_instanceof(): array
 	{
 		return [
 
@@ -93,16 +94,16 @@ final class RepositoryTest extends TestCase
 		$assert($this->repository->$property);
 	}
 
-	public function provide_test_properties(): array
+	public static function provide_test_properties(): array
 	{
 		return [
 
 			[ 'available_locales', function($value) {
 
-				$this->assertContains('fr', $value);
-				$this->assertContains('en', $value);
-				$this->assertNotContains('fr-FR', $value);
-				$this->assertNotContains('en-US', $value);
+				Assert::assertContains('fr', $value);
+				Assert::assertContains('en', $value);
+				Assert::assertNotContains('fr-FR', $value);
+				Assert::assertNotContains('en-US', $value);
 
 			} ]
 
@@ -117,7 +118,7 @@ final class RepositoryTest extends TestCase
 		$this->assertSame($expected, get_repository()->is_locale_available($locale));
 	}
 
-	public function provide_test_is_locale_available(): array
+	public static function provide_test_is_locale_available(): array
 	{
 		return [
 

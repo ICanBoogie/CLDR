@@ -46,7 +46,7 @@ final class LocaleTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_get_language(): array
+	public static function provide_test_get_language(): array
 	{
 		return [
 
@@ -71,7 +71,7 @@ final class LocaleTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_properties_instanceof(): array
+	public static function provide_test_properties_instanceof(): array
 	{
 		return [
 
@@ -101,7 +101,7 @@ final class LocaleTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_sections(): array
+	public static function provide_test_sections(): array
 	{
 		return [
 
@@ -153,7 +153,7 @@ final class LocaleTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_localize(): array
+	public static function provide_test_localize(): array
 	{
 		return [
 

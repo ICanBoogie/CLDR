@@ -57,11 +57,11 @@ final class Plurals extends ArrayObject
 	private $samples = [];
 
 	/**
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 *
 	 * @return self::COUNT_*
 	 */
-	public function rule_for($number, string $locale): string
+	public function rule_for(float|int|string $number, string $locale): string
 	{
 		$rules = $this->rule_instances_for($locale);
 
@@ -89,8 +89,7 @@ final class Plurals extends ArrayObject
 	 */
 	public function samples_for(string $locale): array
 	{
-		return $this->samples[$locale]
-			?? $this->samples[$locale] = $this->create_samples_for($locale);
+		return $this->samples[$locale] ??= $this->create_samples_for($locale);
 	}
 
 	/**
@@ -98,8 +97,7 @@ final class Plurals extends ArrayObject
 	 */
 	private function rule_instances_for(string $locale): array
 	{
-		return $this->rules[$locale]
-			?? $this->rules[$locale] = $this->create_rules_for($locale);
+		return $this->rules[$locale] ??= $this->create_rules_for($locale);
 	}
 
 	/**

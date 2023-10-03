@@ -147,33 +147,20 @@ final class Relation
 	}
 
 	/**
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 */
-	static private function precision_from($number): int
+	static private function precision_from(float|int|string $number): int
 	{
 		return Number::precision_from($number);
 	}
 
-	/**
-	 * @var string|null
-	 */
-	private $x_expression;
-
-	/**
-	 * @var string
-	 */
-	private $conditions;
-
-	private function __construct(?string $x_expression, string $conditions)
-	{
-		$this->x_expression = $x_expression;
-		$this->conditions = $conditions;
+	private function __construct(
+		private readonly ?string $x_expression,
+		private readonly string $conditions
+	) {
 	}
 
-	/**
-	 * @return int|float|null
-	 */
-	public function resolve_x(Operands $operands)
+	public function resolve_x(Operands $operands): float|int|null
 	{
 		if ($this->x_expression === null)
 		{

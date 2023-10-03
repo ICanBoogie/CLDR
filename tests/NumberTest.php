@@ -38,7 +38,7 @@ final class NumberTest extends TestCase
 		$this->assertEquals($expected, Number::round_to($number, $precision));
 	}
 
-	public function provide_test_round_to(): array
+	public static function provide_test_round_to(): array
 	{
 		return [
 
@@ -64,7 +64,7 @@ final class NumberTest extends TestCase
 		$this->assertSame($expected, Number::parse($number, $precision));
 	}
 
-	public function provide_test_parse(): array
+	public static function provide_test_parse(): array
 	{
 		return [
 

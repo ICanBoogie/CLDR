@@ -128,9 +128,9 @@ final class Operands
 	}
 
 	/**
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 */
-	private function __construct($number)
+	private function __construct(float|int|string $number)
 	{
 		$number = $this->expand_compact_decimal_exponent($number);
 
@@ -181,11 +181,11 @@ final class Operands
 	}
 
 	/**
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 *
-	 * @return numeric
+	 * @return float|int|numeric-string
 	 */
-	private function expand_compact_decimal_exponent($number)
+	private function expand_compact_decimal_exponent(float|int|string $number): float|int|string
 	{
 		return Number::expand_compact_decimal_exponent($number, $this->e);
 	}

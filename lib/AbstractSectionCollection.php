@@ -12,28 +12,18 @@
 namespace ICanBoogie\CLDR;
 
 use ArrayAccess;
-use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\OffsetNotDefined;
 
 /**
  * @implements ArrayAccess<string, array>
- *
- * @property-read Repository $repository
  */
 abstract class AbstractSectionCollection implements ArrayAccess
 {
-	use AccessorTrait;
 	use CollectionTrait;
-	use RepositoryPropertyTrait;
 
-	/**
-	 * @var Repository
-	 */
-	private $repository;
-
-	public function __construct(Repository $repository)
-	{
-		$this->repository = $repository;
+	public function __construct(
+		public readonly Repository $repository
+	) {
 	}
 
 	abstract public function offsetExists($offset): bool;
@@ -44,7 +34,7 @@ abstract class AbstractSectionCollection implements ArrayAccess
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	private $sections = [];
+	private array $sections = [];
 
 	/**
 	 * @param string $offset
@@ -52,19 +42,18 @@ abstract class AbstractSectionCollection implements ArrayAccess
 	 * @throws OffsetNotDefined
 	 * @throws ResourceNotFound
 	 */
-	#[\ReturnTypeWillChange]
-	public function offsetGet($offset) /* @phpstan-ignore-line */
+	#[\ReturnTypeWillChange] // @phpstan-ignore-line
+	public function offsetGet($offset)
 	{
 		if (!$this->offsetExists($offset))
 		{
 			throw new OffsetNotDefined([ $offset, $this ]);
 		}
 
-		return $this->sections[$offset]
-			?? $this->sections[$offset] = $this->repository->fetch(
-				$this->path_for($offset),
-				$this->data_path_for($offset)
-			);
+		return $this->sections[$offset] ??= $this->repository->fetch(
+			$this->path_for($offset),
+			$this->data_path_for($offset)
+		);
 	}
 
 	/**

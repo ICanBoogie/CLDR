@@ -38,7 +38,7 @@ final class CurrencyTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_fraction_properties(): array
+	public static function provide_fraction_properties(): array
 	{
 		return [
 

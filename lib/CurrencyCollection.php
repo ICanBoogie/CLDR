@@ -42,12 +42,10 @@ final class CurrencyCollection extends AbstractCollection
 	 * @uses lazy_get_codes
 	 */
 	use AccessorTrait;
-	use RepositoryPropertyTrait;
 
-	public function __construct(Repository $repository)
-	{
-		$this->repository = $repository;
-
+	public function __construct(
+		public readonly Repository $repository
+	) {
 		parent::__construct(function (string $currency_code): Currency {
 
 			$this->assert_defined($currency_code);

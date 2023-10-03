@@ -16,6 +16,7 @@ use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Units\NumberWithUnit;
 use ICanBoogie\CLDR\Units\Sequence;
 use ICanBoogie\CLDR\Units\Unit;
+use ICanBoogie\PropertyNotDefined;
 use LogicException;
 
 use function count;
@@ -24,8 +25,6 @@ use function str_replace;
 use function strtr;
 
 /**
- * @property-read Sequence $sequence
- *
  * @property-read Unit $acceleration_g_force
  * @property-read Unit $acceleration_meter_per_second_squared
  * @property-read Unit $angle_arc_minute
@@ -272,12 +271,6 @@ use function strtr;
  */
 class Units
 {
-	/**
-	 * @uses get_sequence
-	 */
-	use AccessorTrait;
-	use LocalePropertyTrait;
-
 	public const LENGTH_LONG = 'long';
 	public const LENGTH_SHORT = 'short';
 	public const LENGTH_NARROW = 'narrow';
@@ -304,26 +297,18 @@ class Units
 	}
 
 	/**
-	 * @var array
 	 * @phpstan-ignore-next-line
 	 */
-	private $data;
+	private readonly array $data;
 
-	/**
-	 * @var Plurals|null
-	 */
-	private $plurals;
+	public readonly Sequence $sequence;
 
-	private function get_sequence(): Sequence
-	{
-		return new Sequence($this);
-	}
-
-	public function __construct(Locale $locale)
-	{
-		$this->locale = $locale;
+	public function __construct(
+		public readonly Locale $locale
+	) {
 		/** @phpstan-ignore-next-line */
 		$this->data = $locale['units'];
+		$this->sequence = new Sequence($this);
 	}
 
 	public function __call(string $name, array $arguments): NumberWithUnit
@@ -359,7 +344,7 @@ class Units
 			return $this->$property = new Unit($this, $unit);
 		}
 
-		return $this->accessor_get($property);
+		throw new PropertyNotDefined([ $property, $this ]);
 	}
 
 	/**
@@ -381,9 +366,9 @@ class Units
 	}
 
 	/**
-	 * @param int|float $number
+	 * @param float|int|numeric-string $number
 	 */
-	public function format($number, string $unit, string $length = self::DEFAULT_LENGTH): string
+	public function format(float|int|string $number, string $unit, string $length = self::DEFAULT_LENGTH): string
 	{
 		$pattern = $this->pattern_for_unit($unit, $number, $length);
 		$number = $this->ensure_number_if_formatted($number);
@@ -394,12 +379,12 @@ class Units
 	/**
 	 * Format a combination of units is X per Y, such as _miles per hour_ or _liters per second_.
 	 *
-	 * @param int|float $number
+	 * @param float|int|numeric-string $number
 	 *
 	 * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#compound-units
 	 */
 	public function format_compound(
-		$number,
+		float|int|string $number,
 		string $number_unit,
 		string $per_unit,
 		string $length = self::DEFAULT_LENGTH
@@ -450,9 +435,9 @@ class Units
 	}
 
 	/**
-	 * @param int|float $number
+	 * @param float|int|numeric-string $number
 	 */
-	private function pattern_for_unit(string $unit, $number, string $length): string
+	private function pattern_for_unit(string $unit, float|int|string $number, string $length): string
 	{
 		$this->assert_is_unit($unit);
 
@@ -462,9 +447,9 @@ class Units
 	}
 
 	/**
-	 * @param int|float $number
+	 * @param float|int|numeric-string $number
 	 */
-	private function pattern_for_denominator(string $unit, $number, string $length): string
+	private function pattern_for_denominator(string $unit, float|int|string $number, string $length): string
 	{
 		$pattern = $this->pattern_for_unit($unit, $number, $length);
 
@@ -476,20 +461,22 @@ class Units
 		return $this->data[$length]['per']['compoundUnitPattern'];
 	}
 
+	private Plurals $plurals;
+
 	/**
-	 * @param int|float $number
+	 * @param float|int|numeric-string $number
 	 */
-	private function count_for($number): string
+	private function count_for(float|int|string $number): string
 	{
-		$plurals = $this->plurals ?? $this->plurals = $this->locale->repository->plurals;
+		$plurals = $this->plurals ??= $this->locale->repository->plurals;
 
 		return $plurals->rule_for($number, $this->locale->language);
 	}
 
 	/**
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 */
-	private function ensure_number_if_formatted($number): string
+	private function ensure_number_if_formatted(float|int|string $number): string
 	{
 		if (is_string($number))
 		{

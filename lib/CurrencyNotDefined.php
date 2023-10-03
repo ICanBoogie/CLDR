@@ -11,41 +11,25 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Accessor\AccessorTrait;
 use InvalidArgumentException;
 use Throwable;
 
 /**
  * Exception thrown when a currency is not defined.
- *
- * @property-read string $currency_code The ISO code of the currency.
  */
 class CurrencyNotDefined extends InvalidArgumentException implements Exception
 {
 	/**
-	 * @uses get_currency_code
+	 * @param string $currency_code
+	 *     The ISO code of the currency.
 	 */
-	use AccessorTrait;
+	public function __construct(
+		public readonly string $currency_code,
+		string $message = null,
+		Throwable $previous = null
+	) {
+		$message ??= "Currency not defined for code: $currency_code.";
 
-	/**
-	 * @var string
-	 */
-	private $currency_code;
-
-	private function get_currency_code(): string
-	{
-		return $this->currency_code;
-	}
-
-	public function __construct(string $currency_code, string $message = null, Throwable $previous = null)
-	{
-		$this->currency_code = $currency_code;
-
-		if (!$message)
-		{
-			$message = "Currency not defined for code: $currency_code.";
-		}
-
-		parent::__construct($message, 0, $previous);
+		parent::__construct($message, previous: $previous);
 	}
 }

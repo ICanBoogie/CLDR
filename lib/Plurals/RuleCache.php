@@ -20,18 +20,13 @@ final class RuleCache
 	 * @var array<string, Rule>
 	 *     Where _key_ is a rule statement and _value_ a {@link Rule}.
 	 */
-	static private $instances = [];
+	static private array $instances = [];
 
 	/**
 	 * @param callable():Rule $new
 	 */
 	static public function get(string $rule, callable $new): Rule
 	{
-		if (isset(self::$instances[$rule]))
-		{
-			return self::$instances[$rule];
-		}
-
-		return self::$instances[$rule] = $new();
+		return self::$instances[$rule] ??= $new();
 	}
 }

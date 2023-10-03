@@ -31,34 +31,14 @@ final class NumberPerUnit
 	use AccessorTrait;
 
 	/**
-	 * @var float|int
+	 * @param float|int|numeric-string $number
 	 */
-	private $number;
-
-	/**
-	 * @var string
-	 */
-	private $number_unit;
-
-	/**
-	 * @var string
-	 */
-	private $per_unit;
-
-	/**
-	 * @var Units
-	 */
-	private $units;
-
-	/**
-	 * @param float|int $number
-	 */
-	public function __construct($number, string $number_unit, string $per_unit, Units $units)
-	{
-		$this->number = $number;
-		$this->number_unit = $number_unit;
-		$this->per_unit = $per_unit;
-		$this->units = $units;
+	public function __construct(
+		private readonly float|int|string $number,
+		private readonly string $number_unit,
+		private readonly string $per_unit,
+		private readonly Units $units
+	) {
 	}
 
 	public function __toString(): string
@@ -86,6 +66,11 @@ final class NumberPerUnit
 	 */
 	private function as(string $length): string
 	{
-		return $this->units->format_compound($this->number, $this->number_unit, $this->per_unit, $length);
+		return $this->units->format_compound(
+			$this->number,
+			$this->number_unit,
+			$this->per_unit,
+			$length
+		);
 	}
 }

@@ -21,39 +21,28 @@ final class CurrencyData
 	private const FRACTION_FALLBACK = 'DEFAULT';
 
 	/**
-	 * @var array{ fractions: array, region: array }
-	 *
-	 * @phpstan-ignore-next-line
-	 */
-	private $data;
-
-	/**
 	 * @param array{ fractions: array, region: array } $data
 	 *
 	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/currencyData.json
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public function __construct(array $data)
-	{
-		$this->data = $data;
+	public function __construct(
+		private readonly array $data
+	) {
 	}
 
 	/**
 	 * @var array<string, Fraction>
 	 */
-	private $fractions;
+	private array $fractions;
 
 	public function fraction_for(string $currency_code): Fraction
 	{
-		return $this->fractions[$currency_code]
-			?? $this->fractions[$currency_code] = $this->build_fraction($currency_code);
+		return $this->fractions[$currency_code] ??= $this->build_fraction($currency_code);
 	}
 
-	/**
-	 * @var Fraction|null
-	 */
-	private $default_fraction;
+	private Fraction $default_fraction;
 
 	private function build_fraction(string $currency_code): Fraction
 	{
@@ -61,8 +50,7 @@ final class CurrencyData
 
 		if (!$data)
 		{
-			return $this->default_fraction
-				?? $this->default_fraction = $this->build_fraction(self::FRACTION_FALLBACK);
+			return $this->default_fraction ??= $this->build_fraction(self::FRACTION_FALLBACK);
 		}
 
 		return Fraction::from($data);

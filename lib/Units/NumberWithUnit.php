@@ -31,28 +31,13 @@ final class NumberWithUnit
 	use AccessorTrait;
 
 	/**
-	 * @var float|int
+	 * @param float|int|numeric-string $number
 	 */
-	private $number;
-
-	/**
-	 * @var string
-	 */
-	private $unit;
-
-	/**
-	 * @var Units
-	 */
-	private $units;
-
-	/**
-	 * @param float|int $number
-	 */
-	public function __construct($number, string $unit, Units $units)
-	{
-		$this->number = $number;
-		$this->unit = $unit;
-		$this->units = $units;
+	public function __construct(
+		private readonly float|int|string $number,
+		private readonly string $unit,
+		private readonly Units $units
+	) {
 	}
 
 	public function __toString(): string
@@ -60,10 +45,7 @@ final class NumberWithUnit
 		return $this->as(Units::DEFAULT_LENGTH);
 	}
 
-	/**
-	 * @param string|Unit $unit
-	 */
-	public function per($unit): NumberPerUnit
+	public function per(Unit|string $unit): NumberPerUnit
 	{
 		return new NumberPerUnit($this->number, $this->unit, $unit, $this->units);
 	}

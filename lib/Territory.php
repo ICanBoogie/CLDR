@@ -21,7 +21,6 @@ use function extract;
 use function in_array;
 use function key;
 use function strlen;
-use function strpos;
 use function substr;
 
 /**
@@ -55,8 +54,6 @@ final class Territory
 	 * @uses get_population
 	 */
 	use AccessorTrait;
-	use RepositoryPropertyTrait;
-	use CodePropertyTrait;
 
 	/**
 	 * @return array<string, mixed>
@@ -136,12 +133,16 @@ final class Territory
 		return (int) $info['_population'];
 	}
 
-	public function __construct(Repository $repository, string $code)
-	{
-		$this->repository = $repository;
-		$this->code = $code;
-
+	public function __construct(
+		public readonly Repository $repository,
+		public readonly string $code
+	) {
 		$repository->territories->assert_defined($code);
+	}
+
+	public function __toString(): string
+	{
+		return $this->code;
 	}
 
 	/**
@@ -149,7 +150,7 @@ final class Territory
 	 */
 	public function __get(string $property)
 	{
-		if (strpos($property, 'name_as_') === 0)
+		if (str_starts_with($property, 'name_as_'))
 		{
 			$locale_code = substr($property, strlen('name_as_'));
 			$locale_code = strtr($locale_code, '_', '-');

@@ -26,7 +26,7 @@ final class DateTimeAccessorTest extends TestCase
 		$this->assertSame($expected, (new DateTimeAccessor($datetime))->$property);
 	}
 
-	public function provide_test_properties(): array
+	public static function provide_test_properties(): array
 	{
 		return [
 

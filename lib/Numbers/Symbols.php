@@ -59,130 +59,25 @@ final class Symbols
 	{
 		static $defaults;
 
-		return $defaults ?? $defaults = self::from(self::DEFAULTS);
+		return $defaults ??= self::from(self::DEFAULTS);
 	}
 
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $decimal;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $group;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $list;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $percentSign;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $minusSign;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $plusSign;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $approximatelySign;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $exponential;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $superscriptingExponent;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $perMille;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $infinity;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $nan;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $currencyDecimal;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $currencyGroup;
-
-	/**
-	 * @readonly
-	 * @var string
-	 */
-	public $timeSeparator;
-
 	public function __construct(
-		string $decimal = '.',
-		string $group = ',',
-		string $list = ';',
-		string $percentSign = '%',
-		string $minusSign = '-',
-		string $plusSign = '+',
-		string $approximatelySign = '~',
-		string $exponential = 'E',
-		string $superscriptingExponent = '×',
-		string $perMille = '‰',
-		string $infinity = '∞',
-		string $nan = '☹',
-		string $currencyDecimal = '.',
-		string $currencyGroup = ',',
-		string $timeSeparator = ':'
+		public readonly string $decimal = '.',
+		public readonly string $group = ',',
+		public readonly string $list = ';',
+		public readonly string $percentSign = '%',
+		public readonly string $minusSign = '-',
+		public readonly string $plusSign = '+',
+		public readonly string $approximatelySign = '~',
+		public readonly string $exponential = 'E',
+		public readonly string $superscriptingExponent = '×',
+		public readonly string $perMille = '‰',
+		public readonly string $infinity = '∞',
+		public readonly string $nan = '☹',
+		public readonly string $currencyDecimal = '.',
+		public readonly string $currencyGroup = ',',
+		public readonly string $timeSeparator = ':'
 	) {
-		$this->decimal = $decimal;
-		$this->group = $group;
-		$this->list = $list;
-		$this->percentSign = $percentSign;
-		$this->minusSign = $minusSign;
-		$this->plusSign = $plusSign;
-		$this->approximatelySign = $approximatelySign;
-		$this->exponential = $exponential;
-		$this->superscriptingExponent = $superscriptingExponent;
-		$this->perMille = $perMille;
-		$this->infinity = $infinity;
-		$this->nan = $nan;
-		$this->currencyDecimal = $currencyDecimal;
-		$this->currencyGroup = $currencyGroup;
-		$this->timeSeparator = $timeSeparator;
 	}
 }

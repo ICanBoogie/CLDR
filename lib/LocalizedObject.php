@@ -27,7 +27,6 @@ abstract class LocalizedObject
 	 * @uses get_locale
 	 */
 	use AccessorTrait;
-	use LocalePropertyTrait;
 
 	/**
 	 * Creates a localized instance from the specified source and location.
@@ -38,32 +37,19 @@ abstract class LocalizedObject
 	 *
 	 * @return static<T>
 	 */
-	static public function from($source, Locale $locale, array $options = []): LocalizedObject
+	static public function from(object $source, Locale $locale, array $options = []): LocalizedObject
 	{
 		return new static($source, $locale, $options); // @phpstan-ignore-line
 	}
 
 	/**
-	 * The object to localize.
-	 *
-	 * @var T
-	 * @readonly
-	 */
-	public $target;
-
-	/**
-	 * @var array<string, mixed>
-	 */
-	protected $options;
-
-	/**
 	 * @param T $target The object to localize.
 	 * @param array<string, mixed> $options
 	 */
-	public function __construct($target, Locale $locale, array $options = [])
-	{
-		$this->target = $target;
-		$this->locale = $locale;
-		$this->options = $options;
+	public function __construct(
+		public readonly object $target,
+		public readonly Locale $locale,
+		protected readonly array $options = []
+	) {
 	}
 }

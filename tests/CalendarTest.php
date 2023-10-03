@@ -41,7 +41,7 @@ final class CalendarTest extends TestCase
 		$this->assertSame($instance, self::$calendar->$property);
 	}
 
-	public function provider_test_property_instanceof(): array
+	public static function provider_test_property_instanceof(): array
 	{
 		return [
 
@@ -67,7 +67,7 @@ final class CalendarTest extends TestCase
 		$this->assertTrue(self::$calendar->offsetExists($key));
 	}
 
-	public function provide_test_access(): array
+	public static function provide_test_access(): array
 	{
 		return [
 
@@ -99,7 +99,7 @@ final class CalendarTest extends TestCase
 		$this->assertEquals(self::$calendar->$property, $expected);
 	}
 
-	public function provide_test_date_patterns_shortcuts(): array
+	public static function provide_test_date_patterns_shortcuts(): array
 	{
 		return [
 

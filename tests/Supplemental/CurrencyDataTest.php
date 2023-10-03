@@ -53,7 +53,7 @@ final class CurrencyDataTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_fraction_for(): array
+	public static function provide_fraction_for(): array
 	{
 		return [
 

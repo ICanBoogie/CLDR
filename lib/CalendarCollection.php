@@ -11,8 +11,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Accessor\AccessorTrait;
-
 use function is_array;
 
 /**
@@ -29,16 +27,9 @@ use function is_array;
  */
 final class CalendarCollection extends AbstractCollection
 {
-	/**
-	 * @uses get_locale
-	 */
-	use AccessorTrait;
-	use LocalePropertyTrait;
-
-	public function __construct(Locale $locale)
-	{
-		$this->locale = $locale;
-
+	public function __construct(
+		public readonly Locale $locale
+	) {
 		parent::__construct(function (string $id): Calendar {
 
 			$data = $this->locale["ca-$id"];

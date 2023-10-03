@@ -58,7 +58,6 @@ final class Numbers extends ArrayObject
 	 * @uses get_misc_patterns
 	 */
 	use AccessorTrait;
-	use LocalePropertyTrait;
 
 	private function lazy_get_default_numbering_system(): string
 	{
@@ -134,10 +133,10 @@ final class Numbers extends ArrayObject
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function __construct(Locale $locale, array $data)
-	{
-		$this->locale = $locale;
-
+	public function __construct(
+		public readonly Locale $locale,
+		array $data
+	) {
 		parent::__construct($data);
 	}
 }

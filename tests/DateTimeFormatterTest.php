@@ -47,7 +47,7 @@ final class DateTimeFormatterTest extends TestCase
 		$this->assertSame($expected, $formatter($datetime, $format));
 	}
 
-	public function provide_test_format(): array
+	public static function provide_test_format(): array
 	{
 		return [
 
@@ -518,7 +518,7 @@ final class DateTimeFormatterTest extends TestCase
 		$this->assertEquals($expected_result, $result);
 	}
 
-	public function provide_test_format_with_skeleton(): array
+	public static function provide_test_format_with_skeleton(): array
 	{
 		return [
 

@@ -31,14 +31,9 @@ use LogicException;
  */
 class DateTimeAccessor
 {
-	/**
-	 * @var DateTimeInterface
-	 */
-	private $datetime;
-
-	public function __construct(DateTimeInterface $datetime)
-	{
-		$this->datetime = $datetime;
+	public function __construct(
+		private readonly DateTimeInterface $datetime
+	) {
 	}
 
 	/**

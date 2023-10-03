@@ -24,7 +24,7 @@ final class LocalizedListFormatterTest extends TestCase
 		$this->assertSame($expected, $lp($list, $type));
 	}
 
-	public function provide_test_format(): array
+	public static function provide_test_format(): array
 	{
 		$sd = LocalizedListFormatter::TYPE_STANDARD;
 		$st = LocalizedListFormatter::TYPE_UNIT_SHORT;

@@ -11,9 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Accessor\AccessorTrait;
 use function abs;
-use function array_key_exists;
 use function implode;
 use function ltrim;
 use function round;
@@ -22,6 +20,7 @@ use function str_split;
 use function strlen;
 use function strpos;
 use function substr;
+
 use const STR_PAD_LEFT;
 
 /**
@@ -32,7 +31,7 @@ final class NumberPattern
 	/**
 	 * @var NumberPattern[]
 	 */
-	static private $instances = [];
+	static private array $instances = [];
 
 	static public function from(string $pattern): NumberPattern
 	{
@@ -59,116 +58,42 @@ final class NumberPattern
 	}
 
 	/**
-	 * @var string
+	 * @param string $pattern
+	 * @param string $positive_prefix
+	 *     Prefix to positive number.
+	 * @param string $positive_suffix
+	 *     Suffix to positive number.
+	 * @param string $negative_prefix
+	 *     Prefix to negative number.
+	 * @param string $negative_suffix
+	 *     Suffix to negative number.
+	 * @param int $multiplier
+	 *     100 for percent, 1000 for per mille.
+	 * @param int $decimal_digits
+	 *     The number of required digits after decimal point. The string is padded with zeros if there is not enough digits.
+	 *     `-1` means the decimal point should be dropped.
+	 * @param int $max_decimal_digits
+	 *     The maximum number of digits after decimal point. Additional digits will be truncated.
+	 * @param int $integer_digits
+	 *     The number of required digits before decimal point. The string is padded with zeros if there is not enough digits.
+	 * @param int $group_size1
+	 *     The primary grouping size. `0` means no grouping.
+	 * @param int $group_size2
+	 *     The secondary grouping size. `0` means no secondary grouping.
 	 */
-	private $pattern;
-
-	/**
-	 * Prefix to positive number.
-	 *
-	 * @var string
-	 * @readonly
-	 */
-	public $positive_prefix;
-
-	/**
-	 * Suffix to positive number.
-	 *
-	 * @var string
-	 * @readonly
-	 */
-	public $positive_suffix;
-
-	/**
-	 * Prefix to negative number.
-	 *
-	 * @var string
-	 * @readonly
-	 */
-	public $negative_prefix;
-
-	/**
-	 * Suffix to negative number.
-	 *
-	 * @var string
-	 * @readonly
-	 */
-	public $negative_suffix;
-
-	/**
-	 * 100 for percent, 1000 for per mille.
-	 *
-	 * @var int
-	 * @readonly
-	 */
-	public $multiplier;
-
-	/**
-	 * The number of required digits after decimal point. The string is padded with zeros if there is not enough digits.
-	 * `-1` means the decimal point should be dropped.
-	 *
-	 * @var int
-	 * @readonly
-	 */
-	public $decimal_digits;
-
-	/**
-	 * The maximum number of digits after decimal point. Additional digits will be truncated.
-	 *
-	 * @var int
-	 * @readonly
-	 */
-	public $max_decimal_digits;
-
-	/**
-	 * The number of required digits before decimal point. The string is padded with zeros if there is not enough
-	 * digits.
-	 *
-	 * @var int
-	 * @readonly
-	 */
-	public $integer_digits;
-
-	/**
-	 * The primary grouping size. `0` means no grouping.
-	 *
-	 * @var int
-	 * @readonly
-	 */
-	public $group_size1;
-
-	/**
-	 * The secondary grouping size. `0` means no secondary grouping.
-	 *
-	 * @var int
-	 * @readonly
-	 */
-	public $group_size2;
-
 	private function __construct(
-		string $pattern,
-		string $positive_prefix,
-	    string $positive_suffix,
-	    string $negative_prefix,
-	    string $negative_suffix,
-	    int $multiplier,
-	    int $decimal_digits,
-	    int $max_decimal_digits,
-	    int $integer_digits,
-	    int $group_size1,
-	    int $group_size2
+		public readonly string $pattern,
+		public readonly string $positive_prefix,
+	    public readonly string $positive_suffix,
+	    public readonly string $negative_prefix,
+	    public readonly string $negative_suffix,
+	    public readonly int $multiplier,
+	    public readonly int $decimal_digits,
+	    public readonly int $max_decimal_digits,
+	    public readonly int $integer_digits,
+	    public readonly int $group_size1,
+	    public readonly int $group_size2
 	) {
-		$this->pattern = $pattern;
-		$this->positive_prefix = $positive_prefix;
-	    $this->positive_suffix = $positive_suffix;
-	    $this->negative_prefix = $negative_prefix;
-	    $this->negative_suffix = $negative_suffix;
-	    $this->multiplier = $multiplier;
-	    $this->decimal_digits = $decimal_digits;
-	    $this->max_decimal_digits = $max_decimal_digits;
-	    $this->integer_digits = $integer_digits;
-	    $this->group_size1 = $group_size1;
-	    $this->group_size2 = $group_size2;
 	}
 
 	public function __toString(): string
@@ -179,12 +104,12 @@ final class NumberPattern
 	/**
 	 * Parse a number according to the pattern and return its integer and decimal parts.
 	 *
-	 * @param int|float $number
+	 * @param float|int|numeric-string $number
 	 *
 	 * @return array{ 0: int, 1: string}
 	 *     Where `0` is the integer part and `1` the decimal part.
 	 */
-	public function parse_number($number): array
+	public function parse_number(float|int|string $number): array
 	{
 		$number = abs($number * $this->multiplier);
 
@@ -230,10 +155,10 @@ final class NumberPattern
 	/**
 	 * Formats an integer with a decimal.
 	 *
-	 * @param string|int $integer An integer, or a formatted integer as returned by
-	 * {@link format_integer_with_group}.
+	 * @param int|string $integer
+	 *     An integer, or a formatted integer as returned by {@link format_integer_with_group}.
 	 */
-	public function format_integer_with_decimal($integer, string $decimal, string $decimal_symbol): string
+	public function format_integer_with_decimal(int|string $integer, string $decimal, string $decimal_symbol): string
 	{
 		if ($decimal === '0') {
 			$decimal = '';

@@ -15,12 +15,9 @@ use ArrayObject;
 use DateTimeInterface;
 use ICanBoogie\Accessor\AccessorTrait;
 
-use function var_dump;
-
 /**
  * Representation of a locale calendar.
  *
- * @property-read Locale $locale The locale this calendar is defined in.
  * @property-read DateTimeFormatter $datetime_formatter A datetime formatter.
  * @property-read DateFormatter $date_formatter A date formatter.
  * @property-read TimeFormatter $time_formatter A time formatter.
@@ -87,12 +84,11 @@ final class Calendar extends ArrayObject
 	 * @uses lazy_get_time_formatter
 	 */
 	use AccessorTrait;
-	use LocalePropertyTrait;
 
 	/**
 	 * @var array<string, string>
 	 */
-	static private $era_widths_mapping = [
+	static private array $era_widths_mapping = [
 
 		self::WIDTH_ABBR => self::ERA_ABBR,
 		self::WIDTH_NARROW => self::ERA_NARROW,
@@ -116,17 +112,15 @@ final class Calendar extends ArrayObject
 		return new TimeFormatter($this);
 	}
 
-	/**
-	 * @var ContextTransforms
-	 */
-	private $context_transforms;
+	private readonly ContextTransforms $context_transforms;
 
 	/**
 	 * @param array<string, mixed> $data
 	 */
-	public function __construct(Locale $locale, array $data)
-	{
-		$this->locale = $locale;
+	public function __construct(
+		public readonly Locale $locale,
+		array $data
+	) {
 		$this->context_transforms = $locale->context_transforms;
 
 		$data = $this->transform_data($data);
@@ -164,32 +158,32 @@ final class Calendar extends ArrayObject
 	}
 
     /**
-     * @param DateTimeInterface|string|int $datetime
-     *
-     * @see \ICanBoogie\CLDR\DateTimeFormatter::format
+     * @see DateTimeFormatter::format
      */
-	public function format_datetime($datetime, string $pattern_or_width_or_skeleton): string
-    {
+	public function format_datetime(
+		DateTimeInterface|int|string $datetime,
+		string $pattern_or_width_or_skeleton
+	): string {
         return $this->datetime_formatter->format($datetime, $pattern_or_width_or_skeleton);
     }
 
     /**
-     * @param DateTimeInterface|string|int $datetime
-     *
-     * @see \ICanBoogie\CLDR\DateFormatter::format
+     * @see DateFormatter::format
      */
-	public function format_date($datetime, string $pattern_or_width_or_skeleton): string
-    {
+	public function format_date(
+		DateTimeInterface|int|string $datetime,
+		string $pattern_or_width_or_skeleton
+	): string {
         return $this->date_formatter->format($datetime, $pattern_or_width_or_skeleton);
     }
 
     /**
-     * @param DateTimeInterface|string|int $datetime
-     *
-     * @see \ICanBoogie\CLDR\TimeFormatter::format
+     * @see TimeFormatter::format
      */
-    public function format_time($datetime, string $pattern_or_width_or_skeleton): string
-    {
+    public function format_time(
+		DateTimeInterface|int|string $datetime,
+		string $pattern_or_width_or_skeleton
+	): string {
         return $this->time_formatter->format($datetime, $pattern_or_width_or_skeleton);
     }
 
@@ -347,7 +341,7 @@ final class Calendar extends ArrayObject
 	{
 		if ($standalone)
 		{
-			if ($width != self::WIDTH_WIDE)
+			if ($width !== self::WIDTH_WIDE)
 			{
 				return $names;
 			}
@@ -359,35 +353,25 @@ final class Calendar extends ArrayObject
 			);
 		}
 
-		switch ($width)
-		{
-			case self::WIDTH_ABBR:
-
-				return $this->apply_transform(
-					$names,
-					ContextTransforms::USAGE_QUARTER_ABBREVIATED,
-					ContextTransforms::TYPE_STAND_ALONE
-				);
-
-			case self::WIDTH_WIDE:
-
-				return $this->apply_transform(
-					$names,
-					ContextTransforms::USAGE_QUARTER_FORMAT_WIDE,
-					ContextTransforms::TYPE_STAND_ALONE
-				);
-
-			case self::WIDTH_NARROW:
-
-				return $this->apply_transform(
-					$names,
-					ContextTransforms::USAGE_QUARTER_NARROW,
-					ContextTransforms::TYPE_STAND_ALONE
-				);
-
-		}
-
-		return $names; // @codeCoverageIgnore
+		return match ($width) {
+			self::WIDTH_ABBR => $this->apply_transform(
+				$names,
+				ContextTransforms::USAGE_QUARTER_ABBREVIATED,
+				ContextTransforms::TYPE_STAND_ALONE
+			),
+			self::WIDTH_WIDE => $this->apply_transform(
+				$names,
+				ContextTransforms::USAGE_QUARTER_FORMAT_WIDE,
+				ContextTransforms::TYPE_STAND_ALONE
+			),
+			self::WIDTH_NARROW => $this->apply_transform(
+				$names,
+				ContextTransforms::USAGE_QUARTER_NARROW,
+				ContextTransforms::TYPE_STAND_ALONE
+			),
+			default => $names,
+		};
+		// @codeCoverageIgnore
 	}
 
 	/**
@@ -401,10 +385,9 @@ final class Calendar extends ArrayObject
 	{
 		$context_transforms = $this->context_transforms;
 
-		return array_map(function (string $str) use ($context_transforms, $usage, $type): string {
-
-			return $context_transforms->transform($str, $usage, $type);
-
-		}, $names);
+		return array_map(
+			static fn(string $str): string => $context_transforms->transform($str, $usage, $type),
+			$names
+		);
 	}
 }

@@ -46,7 +46,7 @@ final class PluralsTest extends TestCase
 		$this->assertContainsOnlyInstancesOf(Samples::class, $samples);
 	}
 
-	public function provide_test_samples_for(): array
+	public static function provide_test_samples_for(): array
 	{
 		return [
 
@@ -97,7 +97,7 @@ final class PluralsTest extends TestCase
 		$this->assertSame($expected_keys, $rules);
 	}
 
-	public function provide_test_rules_for(): array
+	public static function provide_test_rules_for(): array
 	{
 		return [
 
@@ -141,7 +141,7 @@ final class PluralsTest extends TestCase
 		$this->assertSame($expected, $this->plurals->rule_for($number, $locale));
 	}
 
-	public function provide_test_rule_for(): array
+	public static function provide_test_rule_for(): array
 	{
 		return [
 
@@ -181,7 +181,7 @@ final class PluralsTest extends TestCase
 		}
 	}
 
-	public function provide_test_rule_with_samples(): array
+	public static function provide_test_rule_with_samples(): array
 	{
 		return [
 

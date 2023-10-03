@@ -30,7 +30,7 @@ final class NumberPatternTest extends TestCase
 		}
 	}
 
-	public function provide_test_properties(): array
+	public static function provide_test_properties(): array
 	{
 		$default = [
 
@@ -126,7 +126,7 @@ final class NumberPatternTest extends TestCase
 		$this->assertSame($expected, $instance->format_integer_with_decimal($integer, $decimal, '/'));
 	}
 
-	public function provide_test_format_integer_with_decimal(): array
+	public static function provide_test_format_integer_with_decimal(): array
 	{
 		return [
 

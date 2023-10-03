@@ -39,17 +39,12 @@ use function unlink;
  */
 final class FileCache implements Cache
 {
-	/**
-	 * @var bool
-	 */
-	static private $release_after;
+	static private bool $release_after;
 
 	/**
 	 * Absolute path to the storage directory.
-	 *
-	 * @var string
 	 */
-	private $path;
+	private string $path;
 
 	/**
 	 * @param string $path Absolute path to the storage directory.
@@ -58,10 +53,7 @@ final class FileCache implements Cache
 	{
 		$this->path = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-		if (self::$release_after === null)
-		{
-			self::$release_after = !(strpos(PHP_OS, 'WIN') === 0);
-		}
+		self::$release_after ??= !(str_starts_with(PHP_OS, 'WIN'));
 	}
 
 	public function get(string $path): ?array

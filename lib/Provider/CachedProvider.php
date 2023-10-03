@@ -19,20 +19,10 @@ use ICanBoogie\CLDR\Provider;
  */
 final class CachedProvider implements Provider
 {
-	/**
-	 * @var Provider
-	 */
-	private $provider;
-
-	/**
-	 * @var Cache
-	 */
-	private $cache;
-
-	public function __construct(Provider $provider, Cache $cache)
-	{
-		$this->provider = $provider;
-		$this->cache = $cache;
+	public function __construct(
+		private readonly Provider $provider,
+		private readonly Cache $cache
+	) {
 	}
 
 	/**

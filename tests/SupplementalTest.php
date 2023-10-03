@@ -41,7 +41,7 @@ final class SupplementalTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_sections(): array
+	public static function provide_test_sections(): array
 	{
 		return [
 
@@ -90,7 +90,7 @@ final class SupplementalTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_properties(): array
+	public static function provide_properties(): array
 	{
 		return [
 

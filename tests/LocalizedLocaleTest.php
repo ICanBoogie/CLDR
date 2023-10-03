@@ -26,7 +26,7 @@ final class LocalizedLocaleTest extends TestCase
 		$this->assertEquals($expected, $localized->name);
 	}
 
-	public function provide_test_get_name(): array
+	public static function provide_test_get_name(): array
 	{
 		return [
 

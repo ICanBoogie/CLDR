@@ -13,6 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use ArrayAccess;
 use BadMethodCallException;
+use Closure;
 
 /**
  * An abstract collection.
@@ -27,16 +28,11 @@ abstract class AbstractCollection implements ArrayAccess
 	/**
 	 * @var array<string, T>
 	 */
-	private $collection = [];
+	private array $collection = [];
 
-	/**
-	 * @var callable(string): T
-	 */
-	private $create_instance;
-
-	public function __construct(callable $create_instance)
-	{
-		$this->create_instance = $create_instance;
+	public function __construct(
+		private readonly Closure $create_instance
+	) {
 	}
 
 	/**
@@ -55,7 +51,6 @@ abstract class AbstractCollection implements ArrayAccess
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
-		return $this->collection[$offset]
-			?? $this->collection[$offset] = ($this->create_instance)($offset);
+		return $this->collection[$offset] ??= ($this->create_instance)($offset);
 	}
 }

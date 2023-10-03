@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR\Provider;
 
+use CurlHandle;
 use ICanBoogie\CLDR\GitHub\UrlResolver;
 use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\ResourceNotFound;
@@ -33,19 +34,11 @@ use const CURLOPT_URL;
  */
 final class WebProvider implements Provider
 {
-	/**
-	 * @var mixed
-	 */
-	private $connection;
+	private CurlHandle $connection;
 
-	/**
-	 * @var UrlResolver
-	 */
-	private $url_resolver;
-
-	public function __construct(UrlResolver $url_resolver = null)
-	{
-		$this->url_resolver = $url_resolver ?? new UrlResolver();
+	public function __construct(
+		private readonly UrlResolver $url_resolver = new UrlResolver()
+	) {
 	}
 
 	/**
@@ -74,19 +67,13 @@ final class WebProvider implements Provider
 
 	/**
 	 * Returns a reusable cURL connection.
-	 *
-	 * @return mixed
 	 */
-	private function obtain_connection()
+	private function obtain_connection(): CurlHandle
 	{
-		return $this->connection
-			?? $this->connection = $this->create_connection();
+		return $this->connection ??= $this->create_connection();
 	}
 
-	/**
-	 * @return mixed
-	 */
-	private function create_connection()
+	private function create_connection(): CurlHandle
 	{
 		$connection = curl_init();
 

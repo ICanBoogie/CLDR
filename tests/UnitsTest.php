@@ -41,7 +41,7 @@ final class UnitsTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_cases(): array
+	public static function provide_test_cases(): array
 	{
 		return [
 
@@ -79,7 +79,7 @@ final class UnitsTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_format_compound(): array
+	public static function provide_test_format_compound(): array
 	{
 		return [
 
@@ -108,7 +108,7 @@ final class UnitsTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_test_format_sequence(): array
+	public static function provide_test_format_sequence(): array
 	{
 	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
 	    $s2 = Spaces::NO_BREAK_SPACE;
@@ -225,7 +225,7 @@ final class UnitsTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_name_for(): array
+	public static function provide_name_for(): array
 	{
 		return [
 

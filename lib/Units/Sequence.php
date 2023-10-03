@@ -157,18 +157,13 @@ final class Sequence
 	use AccessorTrait;
 
 	/**
-	 * @var Units
-	 */
-	private $units;
-
-	/**
 	 * @var array<string, int>
 	 */
-	private $sequence = [];
+	private array $sequence = [];
 
-	public function __construct(Units $units)
-	{
-		$this->units = $units;
+	public function __construct(
+		private readonly Units $units
+	) {
 	}
 
 	public function __call(string $name, array $arguments): self

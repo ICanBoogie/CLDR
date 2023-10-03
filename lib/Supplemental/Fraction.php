@@ -35,47 +35,20 @@ final class Fraction
 	}
 
 	/**
-	 * The minimum and maximum number of decimal digits normally formatted.
-	 *
-	 * @readonly
-	 * @var int
+	 * @param int $digits
+	 *     The minimum and maximum number of decimal digits normally formatted.
+	 * @param int $rounding
+	 *     The rounding increment, in units of 10^-digits.
+	 * @param int $cash_digits
+	 *     The number of decimal digits to be used when formatting quantities used in cash transactions.
+	 * @param int $cash_rounding
+	 *     The cash rounding increment, in units of 10^cashDigits.
 	 */
-	public $digits;
-
-	/**
-	 * The rounding increment, in units of 10^-digits.
-	 *
-	 * @readonly
-	 * @var int
-	 */
-	public $rounding;
-
-	/**
-	 * The number of decimal digits to be used when formatting quantities used in cash transactions.
-	 *
-	 * @readonly
-	 * @var int
-	 */
-	public $cash_digits;
-
-	/**
-	 * The cash rounding increment, in units of 10^cashDigits.
-	 *
-	 * @readonly
-	 * @var int
-	 */
-	public $cash_rounding;
-
 	private function __construct(
-		int $digits,
-		int $rounding,
-		int $cash_digits,
-		int $cash_rounding
-	)
-	{
-		$this->digits = $digits;
-		$this->rounding = $rounding;
-		$this->cash_digits = $cash_digits;
-		$this->cash_rounding = $cash_rounding;
+		public readonly int $digits,
+		public readonly int $rounding,
+		public readonly int $cash_digits,
+		public readonly int $cash_rounding
+	) {
 	}
 }

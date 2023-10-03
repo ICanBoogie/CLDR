@@ -28,7 +28,7 @@ final class UrlResolverTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public function provide_resolve(): array
+	public static function provide_resolve(): array
 	{
 		return [
 

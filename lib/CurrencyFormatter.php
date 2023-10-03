@@ -26,8 +26,8 @@ final class CurrencyFormatter extends NumberFormatter
 	 * @inheritDoc
 	 */
 	public function format(
-		$number,
-		$pattern,
+		float|int|string $number,
+		NumberPattern|string $pattern,
 		Symbols $symbols = null,
 		string $currencySymbol = self::DEFAULT_CURRENCY_SYMBOL
 	): string {

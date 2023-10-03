@@ -31,7 +31,7 @@ final class RuleTest extends TestCase
 	/**
 	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/plurals.json
 	 */
-	public function provide_test_cases(): array
+	public static function provide_test_cases(): array
 	{
 		$r1 = "n = 0 or n != 1 and n % 100 = 1..19";
 		$r2 = "n % 10 = 2..4 and n % 100 != 12..14";

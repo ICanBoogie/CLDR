@@ -28,7 +28,7 @@ final class TerritoryNotDefinedTest extends TestCase
 		$this->assertSame($previous, $sut->getPrevious());
 	}
 
-	public function provide_instance(): array
+	public static function provide_instance(): array
 	{
 		$territory_code = 'FR';
 		$previous = new Exception;

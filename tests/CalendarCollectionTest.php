@@ -54,7 +54,7 @@ final class CalendarCollectionTest extends TestCase
 		$this->assertInstanceOf(Calendar::class, $calendar);
 	}
 
-	public function provide_test_get(): array
+	public static function provide_test_get(): array
 	{
 		return [
 

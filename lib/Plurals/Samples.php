@@ -47,9 +47,10 @@ final class Samples implements IteratorAggregate
 
 	static public function from(string $samples): Samples
 	{
-		return SamplesCache::get($samples, static function () use ($samples): Samples {
-			return new self(self::parse_rules($samples));
-		});
+		return SamplesCache::get(
+			$samples,
+			static fn(): Samples => new self(self::parse_rules($samples))
+		);
 	}
 
 	/**
@@ -103,24 +104,19 @@ final class Samples implements IteratorAggregate
 	}
 
 	/**
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 */
-	static private function precision_from($number): int
+	static private function precision_from(float|int|string $number): int
 	{
 		return Number::precision_from($number);
 	}
 
 	/**
-	 * @var array<string|string[]>
-	 */
-	private $samples;
-
-	/**
 	 * @param array<string|string[]> $samples
 	 */
-	private function __construct(array $samples)
-	{
-		$this->samples = $samples;
+	private function __construct(
+		private readonly array $samples
+	) {
 	}
 
 	/**

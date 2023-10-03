@@ -28,7 +28,7 @@ final class CurrencyNotDefinedTest extends TestCase
 		$this->assertSame($previous, $sut->getPrevious());
 	}
 
-	public function provide_instance(): array
+	public static function provide_instance(): array
 	{
 		$currency_code = 'EUR';
 		$previous = new Exception;

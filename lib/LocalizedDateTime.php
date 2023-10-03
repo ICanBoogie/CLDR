@@ -53,7 +53,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 	/**
 	 * @var string[]
 	 */
-	static private $format_widths = [ 'full', 'long', 'medium', 'short' ];
+	static private array $format_widths = [ 'full', 'long', 'medium', 'short' ];
 
 	/**
 	 * @inheritDoc
@@ -74,7 +74,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 	{
 		$width = substr($property, 3);
 
-		if (strpos($property, 'as_') === 0 && in_array($width, self::$format_widths))
+		if (str_starts_with($property, 'as_') && in_array($width, self::$format_widths))
 		{
 			return $this->{ 'format_as_' . $width }();
 		}
@@ -83,7 +83,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 		{
 			return parent::__get($property);
 		}
-		catch (PropertyNotDefined $e)
+		catch (PropertyNotDefined)
 		{
 			return $this->target->$property;
 		}
@@ -108,7 +108,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 	 */
 	public function __call($method, $arguments)
 	{
-		if (strpos($method, 'format_as_') === 0 && in_array($width = substr($method, 10), self::$format_widths))
+		if (str_starts_with($method, 'format_as_') && in_array($width = substr($method, 10), self::$format_widths))
 		{
 			return $this->format($width);
 		}

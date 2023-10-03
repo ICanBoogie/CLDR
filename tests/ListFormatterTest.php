@@ -25,7 +25,7 @@ final class ListFormatterTest extends TestCase
 		$this->assertSame($expected, $formatter($list, $list_pattern));
 	}
 
-	public function provide_test_format(): array
+	public static function provide_test_format(): array
 	{
 		$lp1 = ListPattern::from([
 

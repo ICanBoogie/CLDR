@@ -17,30 +17,6 @@ namespace ICanBoogie\CLDR\Locale;
 final class ListPattern
 {
 	/**
-	 * @var string
-	 * @readonly
-	 */
-	public $two;
-
-	/**
-	 * @var string
-	 * @readonly
-	 */
-	public $start;
-
-	/**
-	 * @var string
-	 * @readonly
-	 */
-	public $middle;
-
-	/**
-	 * @var string
-	 * @readonly
-	 */
-	public $end;
-
-	/**
 	 * @param array{
 	 *     2: string,
 	 *     start: string,
@@ -59,14 +35,10 @@ final class ListPattern
 	}
 
 	private function __construct(
-		string $two,
-		string $start,
-		string $middle,
-		string $end
+		public readonly string $two,
+		public readonly string $start,
+		public readonly string $middle,
+		public readonly string $end
 	) {
-		$this->two = $two;
-		$this->start = $start;
-		$this->middle = $middle;
-		$this->end = $end;
 	}
 }

@@ -30,7 +30,7 @@ final class RelationTest extends TestCase
 		$this->assertSame($expected, Relation::from($relation)->evaluate($operands));
 	}
 
-	public function provide_test_cases(): array
+	public static function provide_test_cases(): array
 	{
 		return [
 

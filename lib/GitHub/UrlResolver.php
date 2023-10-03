@@ -42,30 +42,11 @@ class UrlResolver
 
 	];
 
-	/**
-	 * @var string
-	 */
-	private $origin;
-
-	/**
-	 * @var string
-	 */
-	private $version;
-
-	/**
-	 * @var string
-	 */
-	private $variation;
-
 	public function __construct(
-		string $origin = self::DEFAULT_ORIGIN,
-		string $version = self::DEFAULT_VERSION,
-		string $variation = self::DEFAULT_VARIATION
-	)
-	{
-		$this->origin = $origin;
-		$this->version = $version;
-		$this->variation = $variation;
+		private readonly string $origin = self::DEFAULT_ORIGIN,
+		private readonly string $version = self::DEFAULT_VERSION,
+		private readonly string $variation = self::DEFAULT_VARIATION
+	) {
 	}
 
 	/**
