@@ -1,6 +1,23 @@
 # General
 
-[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html)
+This part coverts [units](#units) and [list formatting](#list-formatting).
+
+[Unicode Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html)
+
+-----
+
+The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-66/tr35.html#parts):
+
+- Part 1: [Core](Core.md) (languages, locales, basic structure)
+- Part 2: [General](General.md) (display names & transforms, etc.)
+- Part 3: [Numbers](Numbers.md) (number & currency formatting)
+- Part 4: [Dates](Dates.md) (date, time, time zone formatting)
+- Part 5: Collation (sorting, searching, grouping)
+- Part 6: [Supplemental](Supplemental.md) (supplemental data)
+
+-----
+
+
 
 ## Units
 
