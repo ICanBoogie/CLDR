@@ -11,34 +11,21 @@
 
 namespace ICanBoogie\CLDR\Units;
 
+use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\TestCase;
-
-use function var_dump;
-
-use const PHP_VERSION_ID;
 
 final class UnitTest extends TestCase
 {
 	/**
 	 * @dataProvider provide_test_properties
 	 */
-	public function test_properties(string $unit, string $property, string $length, string $expected): void
+	public function test_properties(string $unit, string $property, UnitLength $length, string $expected): void
 	{
-		if (PHP_VERSION_ID < 70200)
-		{
-			$units = $this->getMockBuilder(Units::class)
-				->disableOriginalConstructor()
-				->setMethods([ 'name_for' ])
-				->getMock();
-		}
-		else
-		{
-			$units = $this->getMockBuilder(Units::class)
-				->disableOriginalConstructor()
-				->onlyMethods([ 'name_for' ])
-				->getMock();
-		}
+		$units = $this->getMockBuilder(Units::class)
+			->disableOriginalConstructor()
+			->onlyMethods([ 'name_for' ])
+			->getMock();
 
 		$units
 			->expects($this->once())
@@ -56,10 +43,10 @@ final class UnitTest extends TestCase
 	{
 		return [
 
-			[ 'acceleration-g-force', 'name', Units::LENGTH_LONG, "fois la gravitation terrestre" ],
-			[ 'acceleration-g-force', 'long_name', Units::LENGTH_LONG, "fois la gravitation terrestre" ],
-			[ 'acceleration-g-force', 'short_name', Units::LENGTH_SHORT, "G" ],
-			[ 'acceleration-g-force', 'narrow_name', Units::LENGTH_NARROW, "G" ],
+			[ 'acceleration-g-force', 'name', UnitLength::LONG, "fois la gravitation terrestre" ],
+			[ 'acceleration-g-force', 'long_name', UnitLength::LONG, "fois la gravitation terrestre" ],
+			[ 'acceleration-g-force', 'short_name', UnitLength::SHORT, "G" ],
+			[ 'acceleration-g-force', 'narrow_name', UnitLength::NARROW, "G" ],
 
 		];
 	}

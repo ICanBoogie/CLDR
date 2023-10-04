@@ -12,7 +12,6 @@
 namespace ICanBoogie\CLDR;
 
 use BadMethodCallException;
-use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Units\NumberWithUnit;
 use ICanBoogie\CLDR\Units\Sequence;
 use ICanBoogie\CLDR\Units\Unit;
@@ -271,29 +270,19 @@ use function strtr;
  */
 class Units
 {
-	public const LENGTH_LONG = 'long';
-	public const LENGTH_SHORT = 'short';
-	public const LENGTH_NARROW = 'narrow';
-
-	public const DEFAULT_LENGTH = self::LENGTH_LONG;
+	public const DEFAULT_LENGTH = UnitLength::LONG;
 	public const COUNT_PREFIX = 'unitPattern-count-';
 
 	/**
-	 * @param self::LENGTH_* $length
-	 *
-	 * @return LocalizedListFormatter::TYPE_UNIT_*
+	 * @return LocalizedListFormatter::TYPE_UNIT*
 	 */
-	static private function length_to_unit_type(string $length): string
+	static private function length_to_unit_type(UnitLength $length): string
 	{
-		static $types = [
-
-			self::LENGTH_LONG => LocalizedListFormatter::TYPE_UNIT,
-			self::LENGTH_SHORT => LocalizedListFormatter::TYPE_UNIT_SHORT,
-			self::LENGTH_NARROW => LocalizedListFormatter::TYPE_UNIT_NARROW,
-
-		];
-
-		return $types[$length];
+		return match ($length) {
+			UnitLength::LONG => LocalizedListFormatter::TYPE_UNIT,
+			UnitLength::SHORT => LocalizedListFormatter::TYPE_UNIT_SHORT,
+			UnitLength::NARROW => LocalizedListFormatter::TYPE_UNIT_NARROW,
+		};
 	}
 
 	/**
@@ -315,15 +304,13 @@ class Units
 	{
 		$unit = strtr($name, '_', '-');
 
-		if (empty($this->data[self::DEFAULT_LENGTH][$unit]))
-		{
+		if (empty($this->data[self::DEFAULT_LENGTH->value][$unit])) {
 			throw new BadMethodCallException("No such unit: $unit");
 		}
 
 		$n = count($arguments);
 
-		if ($n !== 1)
-		{
+		if ($n !== 1) {
 			throw new BadMethodCallException("$name() expects one argument, got $n");
 		}
 
@@ -345,12 +332,11 @@ class Units
 	{
 		$unit = strtr($property, '_', '-');
 
-		if (isset($this->data[self::DEFAULT_LENGTH][$unit]))
-		{
+		if (isset($this->data[self::DEFAULT_LENGTH->value][$unit])) {
 			return $this->units[$property] ??= new Unit($this, $unit);
 		}
 
-		throw new PropertyNotDefined([ $property, $this ]);
+		throw new PropertyNotDefined(property: $property, container: $this);
 	}
 
 	/**
@@ -358,28 +344,26 @@ class Units
 	 */
 	public function assert_is_unit(string $unit): void
 	{
-		if (empty($this->data[self::DEFAULT_LENGTH][$unit]))
-		{
-			throw new LogicException("No such unit: $unit");
-		}
+		$this->data[self::DEFAULT_LENGTH->value][$unit]
+			?? throw new LogicException("No such unit: $unit");
 	}
 
-	public function name_for(string $unit, string $length = self::DEFAULT_LENGTH): string
+	public function name_for(string $unit, UnitLength $length = self::DEFAULT_LENGTH): string
 	{
 		$unit = strtr($unit, '_', '-');
 
-		return $this->data[$length][$unit]['displayName'];
+		return $this->data[$length->value][$unit]['displayName'];
 	}
 
 	/**
 	 * @param float|int|numeric-string $number
 	 */
-	public function format(float|int|string $number, string $unit, string $length = self::DEFAULT_LENGTH): string
+	public function format(float|int|string $number, string $unit, UnitLength $length = self::DEFAULT_LENGTH): string
 	{
 		$pattern = $this->pattern_for_unit($unit, $number, $length);
 		$number = $this->ensure_number_if_formatted($number);
 
-		return strtr($pattern, [ '{0}' => $number ]);
+		return strtr($pattern, ['{0}' => $number]);
 	}
 
 	/**
@@ -393,13 +377,12 @@ class Units
 		float|int|string $number,
 		string $number_unit,
 		string $per_unit,
-		string $length = self::DEFAULT_LENGTH
+		UnitLength $length = self::DEFAULT_LENGTH
 	): string {
 		$formatted = $this->format($number, $number_unit, $length);
-		$data = $this->data[$length][$per_unit];
+		$data = $this->data[$length->value][$per_unit];
 
-		if (isset($data['perUnitPattern']))
-		{
+		if (isset($data['perUnitPattern'])) {
 			return strtr($data['perUnitPattern'], [
 
 				'{0}' => $formatted
@@ -424,16 +407,14 @@ class Units
 	 * to compose the units in a sequence.
 	 *
 	 * @param array<string, int|float> $units_and_numbers
-	 * @param self::LENGTH_* $length
 	 *
 	 * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#Unit_Sequences
 	 */
-	public function format_sequence(array $units_and_numbers, string $length = self::DEFAULT_LENGTH): string
+	public function format_sequence(array $units_and_numbers, UnitLength $length = self::DEFAULT_LENGTH): string
 	{
 		$list = [];
 
-		foreach ($units_and_numbers as $unit => $number)
-		{
+		foreach ($units_and_numbers as $unit => $number) {
 			$list[] = $this->format($number, $unit, $length);
 		}
 
@@ -443,28 +424,28 @@ class Units
 	/**
 	 * @param float|int|numeric-string $number
 	 */
-	private function pattern_for_unit(string $unit, float|int|string $number, string $length): string
+	private function pattern_for_unit(string $unit, float|int|string $number, UnitLength $length): string
 	{
 		$this->assert_is_unit($unit);
 
 		$count = $this->count_for($number);
 
-		return $this->data[$length][$unit][self::COUNT_PREFIX . $count];
+		return $this->data[$length->value][$unit][self::COUNT_PREFIX . $count];
 	}
 
 	/**
 	 * @param float|int|numeric-string $number
 	 */
-	private function pattern_for_denominator(string $unit, float|int|string $number, string $length): string
+	private function pattern_for_denominator(string $unit, float|int|string $number, UnitLength $length): string
 	{
 		$pattern = $this->pattern_for_unit($unit, $number, $length);
 
 		return UTF8Helpers::trim(str_replace('{0}', '', $pattern));
 	}
 
-	private function pattern_for_combination(string $length): string
+	private function pattern_for_combination(UnitLength $length): string
 	{
-		return $this->data[$length]['per']['compoundUnitPattern'];
+		return $this->data[$length->value]['per']['compoundUnitPattern'];
 	}
 
 	private Plurals $plurals;
@@ -484,8 +465,7 @@ class Units
 	 */
 	private function ensure_number_if_formatted(float|int|string $number): string
 	{
-		if (is_string($number))
-		{
+		if (is_string($number)) {
 			return $number;
 		}
 

@@ -14,7 +14,7 @@ None
 
 ### Backward Incompatible Changes
 
-None
+- `Units::LENGTH_*` constants have been replaced by the `UnitLength` enum.
 
 ### Deprecated Features
 

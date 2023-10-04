@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
 
 /**
@@ -48,23 +49,20 @@ final class NumberPerUnit
 
 	private function get_as_long(): string
 	{
-		return $this->as(Units::LENGTH_LONG);
+		return $this->as(UnitLength::LONG);
 	}
 
 	private function get_as_short(): string
 	{
-		return $this->as(Units::LENGTH_SHORT);
+		return $this->as(UnitLength::SHORT);
 	}
 
 	private function get_as_narrow(): string
 	{
-		return $this->as(Units::LENGTH_NARROW);
+		return $this->as(UnitLength::NARROW);
 	}
 
-	/**
-	 * @param Units::LENGTH_* $length
-	 */
-	private function as(string $length): string
+	private function as(UnitLength $length): string
 	{
 		return $this->units->format_compound(
 			$this->number,

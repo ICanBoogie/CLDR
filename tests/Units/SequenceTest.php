@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR\Units;
 
+use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +23,7 @@ final class SequenceTest extends TestCase
 		$method = strtr($unit, '-', '_');
 		$number = mt_rand(100, 200);
 		$expected = uniqid();
-		$length = Units::LENGTH_NARROW;
+		$length = UnitLength::NARROW;
 
 		$units = $this->getMockBuilder(Units::class)
 			->onlyMethods([ 'assert_is_unit', 'format_sequence' ])
@@ -35,11 +36,7 @@ final class SequenceTest extends TestCase
 		$units
 			->expects($this->once())
 			->method('format_sequence')
-			->with([
-
-				$unit => $number
-
-			], $length)
+			->with([ $unit => $number ], $length)
 			->willReturn($expected);
 
 		$unit = new Sequence($units);
@@ -65,14 +62,10 @@ final class SequenceTest extends TestCase
 		$units
 			->expects($this->once())
 			->method('format_sequence')
-			->with([
-
-				$unit => $number
-
-			], $length)
+			->with([ $unit => $number ], $length)
 			->willReturn($expected);
 
 		$unit = new Sequence($units);
-		$this->assertSame($expected, (string) $unit->$method($number));
+		$this->assertSame($expected, (string)$unit->$method($number));
 	}
 }

@@ -13,6 +13,7 @@ namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\CLDR\LocaleCollection;
 use ICanBoogie\CLDR\StringHelpers;
+use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\TestCase;
 
@@ -22,10 +23,7 @@ final class NumberPerUnitTest extends TestCase
 {
     use StringHelpers;
 
-	/**
-	 * @var LocaleCollection
-	 */
-	static private $locales;
+	static private LocaleCollection $locales;
 
 	static public function setUpBeforeClass(): void
 	{
@@ -42,34 +40,44 @@ final class NumberPerUnitTest extends TestCase
 	/**
 	 * @dataProvider provide_test_cases
 	 *
-	 * @param float|int $number
+	 * @param float|int|numeric-string $number
 	 */
-	public function test_cases(string $locale, $number, string $number_unit, string $per_unit, string $length, string $expected): void
+	public function test_cases(
+		string $locale,
+		float|int|string $number,
+		string $number_unit,
+		string $per_unit,
+		UnitLength $length,
+		string $expected
+	): void
 	{
 		$stu = new NumberPerUnit($number, $number_unit, $per_unit, $this->units_for($locale));
 
-		$this->assertSame($expected, $stu->{ 'as_' . $length });
+		$this->assertSame($expected, $stu->{ 'as_' . $length->value });
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_cases(): array
 	{
 		return [
 
-			[ 'en', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_LONG, "12.345 liters per hour" ],
-			[ 'en', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_SHORT, "12.345 L/h" ],
-			[ 'en', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_NARROW, "12.345L/h" ],
+			[ 'en', 12.345, 'volume-liter', 'duration-hour', UnitLength::LONG, "12.345 liters per hour" ],
+			[ 'en', 12.345, 'volume-liter', 'duration-hour', UnitLength::SHORT, "12.345 L/h" ],
+			[ 'en', 12.345, 'volume-liter', 'duration-hour', UnitLength::NARROW, "12.345L/h" ],
 
-			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_LONG, "12,345 litres par heure" ],
-			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_SHORT, "12,345 l/h" ],
-			[ 'fr', 12.345, 'volume-liter', 'duration-hour', Units::LENGTH_NARROW, "12,345l/h" ],
+			[ 'fr', 12.345, 'volume-liter', 'duration-hour', UnitLength::LONG, "12,345 litres par heure" ],
+			[ 'fr', 12.345, 'volume-liter', 'duration-hour', UnitLength::SHORT, "12,345 l/h" ],
+			[ 'fr', 12.345, 'volume-liter', 'duration-hour', UnitLength::NARROW, "12,345l/h" ],
 
-			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', Units::LENGTH_LONG, "12,345 litres par mètre carré"],
-			[ 'fr', 12.345, 'angle-revolution', 'length-light-year', Units::LENGTH_LONG, "12,345 tours par années-lumière"],
+			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', UnitLength::LONG, "12,345 litres par mètre carré"],
+			[ 'fr', 12.345, 'angle-revolution', 'length-light-year', UnitLength::LONG, "12,345 tours par années-lumière"],
 
 		];
 	}
 
-	private function units_for($locale): Units
+	private function units_for(string $locale): Units
 	{
 		return self::$locales[$locale]->units;
 	}

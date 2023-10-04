@@ -12,15 +12,20 @@
 namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
 
 /**
  * Representation of a unit.
  *
  * @property-read string $name
+ * @uses self::get_name()
  * @property-read string $long_name
+ * @uses self::get_long_name()
  * @property-read string $short_name
+ * @uses self::get_short_name()
  * @property-read string $narrow_name
+ * @uses self::get_narrow_name()
  */
 final class Unit
 {
@@ -39,17 +44,17 @@ final class Unit
 
 	private function get_long_name(): string
 	{
-		return $this->name_for(Units::LENGTH_LONG);
+		return $this->name_for(UnitLength::LONG);
 	}
 
 	private function get_short_name(): string
 	{
-		return $this->name_for(Units::LENGTH_SHORT);
+		return $this->name_for(UnitLength::SHORT);
 	}
 
 	private function get_narrow_name(): string
 	{
-		return $this->name_for(Units::LENGTH_NARROW);
+		return $this->name_for(UnitLength::NARROW);
 	}
 
 	public function __construct(
@@ -63,10 +68,7 @@ final class Unit
 		return $this->unit;
 	}
 
-	/**
-	 * @param Units::LENGTH_* $length
-	 */
-	private function name_for(string $length): string
+	private function name_for(UnitLength $length): string
 	{
 		return $this->units->name_for($this->unit, $length);
 	}

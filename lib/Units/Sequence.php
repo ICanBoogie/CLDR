@@ -12,6 +12,7 @@
 namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
 
 /**
@@ -182,25 +183,23 @@ final class Sequence
 
 	private function get_as_long(): string
 	{
-		return $this->format(Units::LENGTH_LONG);
+		return $this->format(UnitLength::LONG);
 	}
 
 	private function get_as_short(): string
 	{
-		return $this->format(Units::LENGTH_SHORT);
+		return $this->format(UnitLength::SHORT);
 	}
 
 	private function get_as_narrow(): string
 	{
-		return $this->format(Units::LENGTH_NARROW);
+		return $this->format(UnitLength::NARROW);
 	}
 
 	/**
 	 * Formats the sequence.
-	 *
-	 * @param Units::LENGTH_* $length
 	 */
-	public function format(string $length = Units::DEFAULT_LENGTH): string
+	public function format(UnitLength $length = Units::DEFAULT_LENGTH): string
 	{
 		return $this->units->format_sequence($this->sequence, $length);
 	}
