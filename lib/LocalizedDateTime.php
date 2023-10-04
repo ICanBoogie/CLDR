@@ -15,8 +15,6 @@ use DateTime;
 use DateTimeInterface;
 use ICanBoogie\PropertyNotDefined;
 
-use function substr;
-
 /**
  * A localized date time.
  *
@@ -42,19 +40,9 @@ use function substr;
  * @property-read string $as_long
  * @property-read string $as_medium
  * @property-read string $as_short
- *
- * @method string format_as_full() format_as_full() Formats the instance according to the `full` datetime pattern.
- * @method string format_as_long() format_as_long() Formats the instance according to the `long` datetime pattern.
- * @method string format_as_medium() format_as_medium() Formats the instance according to the `medium` datetime pattern.
- * @method string format_as_short() format_as_short() Formats the instance according to the `short` datetime pattern.
  */
 final class LocalizedDateTime extends LocalizedObjectWithFormatter
 {
-	/**
-	 * @var string[]
-	 */
-	static private array $format_widths = [ 'full', 'long', 'medium', 'short' ];
-
 	/**
 	 * @inheritDoc
 	 *
@@ -72,11 +60,9 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 	 */
 	public function __get($property)
 	{
-		$width = substr($property, 3);
-
-		if (str_starts_with($property, 'as_') && in_array($width, self::$format_widths))
+		if (str_starts_with($property, 'as_'))
 		{
-			return $this->{ 'format_as_' . $width }();
+			return $this->{ 'format_' . $property }();
 		}
 
 		try
@@ -108,11 +94,6 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 	 */
 	public function __call($method, $arguments)
 	{
-		if (str_starts_with($method, 'format_as_') && in_array($width = substr($method, 10), self::$format_widths))
-		{
-			return $this->format($width);
-		}
-
 		return $this->target->$method(...$arguments);
 	}
 
@@ -136,8 +117,40 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
 	 *
 	 * @throws \Exception
 	 */
-	public function format(string $pattern): string
+	public function format(string|DateTimeFormatLength $pattern): string
 	{
 		return $this->formatter->format($this->target, $pattern);
+	}
+
+	/**
+	 * Formats the instance according to the {@link DateTimeFormatLength::FULL} length.
+	 */
+	public function format_as_full(): string
+	{
+		return $this->format(DateTimeFormatLength::FULL);
+	}
+
+	/**
+	 * Formats the instance according to the {@link DateTimeFormatLength::LONG} length.
+	 */
+	public function format_as_long(): string
+	{
+		return $this->format(DateTimeFormatLength::LONG);
+	}
+
+	/**
+	 * Formats the instance according to the {@link DateTimeFormatLength::MEDIUM} length.
+	 */
+	public function format_as_medium(): string
+	{
+		return $this->format(DateTimeFormatLength::MEDIUM);
+	}
+
+	/**
+	 * Formats the instance according to the {@link DateTimeFormatLength::SHORT} length.
+	 */
+	public function format_as_short(): string
+	{
+		return $this->format(DateTimeFormatLength::SHORT);
 	}
 }

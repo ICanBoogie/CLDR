@@ -39,12 +39,10 @@ namespace ICanBoogie\CLDR;
 final class TimeFormatter extends DateTimeFormatter
 {
 	/**
-	 * Resolves widths defined in `timeFormats` (full, long, medium, short) into a pattern.
-	 *
-	 * @inheritDoc
+	 * Resolves length defined in `timeFormats` into a pattern.
 	 */
-	protected function resolve_pattern(string $pattern_or_width_or_skeleton): string
+	protected function resolve_pattern(string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
 	{
-		return parent::resolve_pattern($this->resolve_width($pattern_or_width_or_skeleton, 'timeFormats'));
+		return parent::resolve_pattern($this->resolve_width($pattern_or_length_or_skeleton, 'timeFormats'));
 	}
 }

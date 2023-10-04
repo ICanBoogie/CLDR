@@ -12,18 +12,16 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\PropertyNotDefined;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class CalendarTest extends TestCase
 {
-	/**
-	 * @var Calendar
-	 */
-	static private $calendar;
+	static private Calendar $calendar;
 
 	static public function setupBeforeClass(): void
 	{
-		self::$calendar = get_repository()->locales['fr']->calendars['gregorian'];
+		self::$calendar = get_repository()->locales['fr']->calendars['gregorian']; // @phpstan-ignore-line
 	}
 
 	public function test_instanceof(): void
@@ -31,16 +29,17 @@ final class CalendarTest extends TestCase
 		$this->assertInstanceOf(Calendar::class, self::$calendar);
 	}
 
-	/**
-	 * @dataProvider provider_test_property_instanceof
-	 */
+	#[DataProvider('provider_test_property_instanceof')]
 	public function test_property_instanceof(string $property, string $expected): void
 	{
 		$instance = self::$calendar->$property;
-		$this->assertInstanceOf($expected, $instance);
+		$this->assertInstanceOf($expected, $instance); // @phpstan-ignore-line
 		$this->assertSame($instance, self::$calendar->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provider_test_property_instanceof(): array
 	{
 		return [
@@ -56,17 +55,18 @@ final class CalendarTest extends TestCase
 	public function test_get_undefined_property(): void
 	{
 		$this->expectException(PropertyNotDefined::class);
-		self::$calendar->undefined_property;
+		self::$calendar->undefined_property; // @phpstan-ignore-line
 	}
 
-	/**
-	 * @dataProvider provide_test_access
-	 */
+	#[DataProvider('provide_test_access')]
 	public function test_access(string $key): void
 	{
 		$this->assertTrue(self::$calendar->offsetExists($key));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_access(): array
 	{
 		return [
@@ -83,9 +83,7 @@ final class CalendarTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_date_patterns_shortcuts
-	 */
+	#[DataProvider('provide_test_date_patterns_shortcuts')]
 	public function test_date_patterns_shortcuts(string $property, string $path): void
 	{
 		$path_parts = explode('/', $path);
@@ -99,6 +97,9 @@ final class CalendarTest extends TestCase
 		$this->assertEquals(self::$calendar->$property, $expected);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_date_patterns_shortcuts(): array
 	{
 		return [
@@ -142,7 +143,7 @@ final class CalendarTest extends TestCase
 	public function testFormatDateTime(): void
     {
         $this->assertSame(
-            self::$calendar->format_datetime('2018-11-24 20:12:22 UTC', 'full'),
+            self::$calendar->format_datetime('2018-11-24 20:12:22 UTC', DateTimeFormatLength::FULL),
             "samedi 24 novembre 2018 à 20:12:22 UTC"
         );
     }
@@ -150,7 +151,7 @@ final class CalendarTest extends TestCase
 	public function testFormatDate(): void
     {
         $this->assertSame(
-            self::$calendar->format_date('2018-11-24 20:12:22 UTC', 'long'),
+            self::$calendar->format_date('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG),
             "24 novembre 2018"
         );
     }
@@ -158,7 +159,7 @@ final class CalendarTest extends TestCase
 	public function testFormatTime(): void
     {
         $this->assertSame(
-            self::$calendar->format_time('2018-11-24 20:12:22 UTC', 'long'),
+            self::$calendar->format_time('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG),
             "20:12:22 UTC"
         );
     }

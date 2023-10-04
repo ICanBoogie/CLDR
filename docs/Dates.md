@@ -28,7 +28,7 @@ provide magic properties to rapidly access days, eras, months and quarters:
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Repository $repository  
+ * @var ICanBoogie\CLDR\Repository $repository
  */
 
 $calendar = $repository->locales['fr']->calendars['gregorian'];
@@ -51,7 +51,7 @@ This works with days, eras, months, quarters and the following widths: `abbrevia
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar 
+ * @var ICanBoogie\CLDR\Calendar $calendar
  */
 
 $calendar->standalone_abbreviated_eras;
@@ -77,7 +77,7 @@ used.
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Repository $repository 
+ * @var ICanBoogie\CLDR\Repository $repository
  */
 
 $datetime = '2018-11-24 20:12:22 UTC';
@@ -109,7 +109,7 @@ used for the formatting. The datetime can be specified as an Unix timestamp, a s
 use ICanBoogie\CLDR\DateTimeFormatter;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar 
+ * @var ICanBoogie\CLDR\Calendar $calendar
  */
 
 $datetime = '2013-11-02 22:23:45 UTC';
@@ -136,23 +136,24 @@ Calendars provide a formatter for dates. A width or a pattern is used for the fo
 <?php
 
 use ICanBoogie\CLDR\DateFormatter;
+use ICanBoogie\CLDR\DateTimeFormatLength;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar  
+ * @var ICanBoogie\CLDR\Calendar $calendar
  */
 
 $datetime = '2013-11-05 21:22:23';
 
-echo $calendar->format_datetime($datetime, DateFormatter::WIDTH_FULL);   
+echo $calendar->format_datetime($datetime, DateTimeFormatLength::FULL);
 // Tuesday, November 5, 2013
 
-echo $calendar->format_datetime($datetime, DateFormatter::WIDTH_LONG);   
+echo $calendar->format_datetime($datetime, DateTimeFormatLength::LONG);
 // November 5, 2013
 
-echo $calendar->format_datetime($datetime, DateFormatter::WIDTH_MEDIUM);
+echo $calendar->format_datetime($datetime, DateTimeFormatLength::MEDIUM);
 // Nov 5, 2013
 
-echo $calendar->format_datetime($datetime, DateFormatter::WIDTH_SHORT);
+echo $calendar->format_datetime($datetime, DateTimeFormatLength::SHORT);
 // 11/5/13
 ```
 
@@ -161,23 +162,25 @@ Alternatively, use can use a [DateTimeFormatter] instance:
 ```php
 <?php
 
+use ICanBoogie\CLDR\DateTimeFormatLength;
+
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar  
+ * @var ICanBoogie\CLDR\Calendar $calendar
  */
 
 $datetime = '2013-11-05 21:22:23';
 $formatter = $calendar->datetime_formatter;
 
-echo $formatter($datetime, $formatter::WIDTH_FULL);   
+echo $formatter($datetime, DateTimeFormatLength::FULL);
 // Tuesday, November 5, 2013
 
-echo $formatter($datetime, $formatter::WIDTH_LONG);   
+echo $formatter($datetime, DateTimeFormatLength::LONG);
 // November 5, 2013
 
-echo $formatter($datetime, $formatter::WIDTH_MEDIUM);
+echo $formatter($datetime, DateTimeFormatLength::MEDIUM);
 // Nov 5, 2013
 
-echo $formatter($datetime, $formatter::WIDTH_SHORT);
+echo $formatter($datetime, DateTimeFormatLength::SHORT);
 // 11/5/13
 ```
 
@@ -193,23 +196,24 @@ Calendars provide a formatter for times. A width or a pattern is used for the fo
 <?php
 
 use ICanBoogie\CLDR\TimeFormatter;
+use ICanBoogie\CLDR\DateTimeFormatLength;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar 
+ * @var ICanBoogie\CLDR\Calendar $calendar
  */
 
 $datetime = '2013-11-05 21:22:23 UTC';
- 
-echo $calendar->format_time($datetime, TimeFormatter::WIDTH_FULL);
+
+echo $calendar->format_time($datetime, DateTimeFormatLength::FULL);
 // 9:22:23 PM UTC
 
-echo $calendar->format_time($datetime, TimeFormatter::WIDTH_LONG);
+echo $calendar->format_time($datetime, DateTimeFormatLength::LONG);
 // 9:22:23 PM UTC
 
-echo $calendar->format_time($datetime, TimeFormatter::WIDTH_MEDIUM);
+echo $calendar->format_time($datetime, DateTimeFormatLength::MEDIUM);
 // 9:22:23 PM
 
-echo $calendar->format_time($datetime, TimeFormatter::WIDTH_SHORT);
+echo $calendar->format_time($datetime, DateTimeFormatLength::SHORT);
 // 9:22 PM
 ```
 
@@ -219,15 +223,16 @@ Alternatively, you can use a [TimeFormatter][] instance:
 <?php
 
 use ICanBoogie\CLDR\TimeFormatter;
+use ICanBoogie\CLDR\DateTimeFormatLength;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar 
+ * @var ICanBoogie\CLDR\Calendar $calendar
  */
 
 $datetime = '2013-11-05 21:22:23 UTC';
 $formatter = $calendar->time_formatter;
 
-echo $formatter($datetime, $formatter::WIDTH_FULL);
+echo $formatter($datetime, DateTimeFormatLength::FULL);
 // 9:22:23 PM UTC
 ```
 
@@ -244,7 +249,7 @@ the `localize` method of the desired locale:
 use ICanBoogie\CLDR\LocalizedDateTime;
 
 /**
- * @var ICanBoogie\CLDR\Repository $repository  
+ * @var ICanBoogie\CLDR\Repository $repository
  */
 
 $ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $repository->locales['fr']);
@@ -262,7 +267,7 @@ echo $ldt->as_short;         // 04/11/2013 20:21
 
 
 
-[Calendar]: ../lib/Calendar.php 
+[Calendar]: ../lib/Calendar.php
 [DateTimeFormatter]: ../lib/DateTimeFormatter.php
 [LocalizedDateTime]: ../lib/LocalizedDateTime.php
 [TimeFormatter]: ../lib/TimeFormatter.php

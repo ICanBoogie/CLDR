@@ -177,9 +177,9 @@ final class Calendar extends ArrayObject
      */
 	public function format_datetime(
 		DateTimeInterface|int|string $datetime,
-		string $pattern_or_width_or_skeleton
+		string|DateTimeFormatLength $pattern_or_length_or_skeleton
 	): string {
-        return $this->datetime_formatter->format($datetime, $pattern_or_width_or_skeleton);
+        return $this->datetime_formatter->format($datetime, $pattern_or_length_or_skeleton);
     }
 
     /**
@@ -187,9 +187,9 @@ final class Calendar extends ArrayObject
      */
 	public function format_date(
 		DateTimeInterface|int|string $datetime,
-		string $pattern_or_width_or_skeleton
+		string|DateTimeFormatLength $pattern_or_length_or_skeleton
 	): string {
-        return $this->date_formatter->format($datetime, $pattern_or_width_or_skeleton);
+        return $this->date_formatter->format($datetime, $pattern_or_length_or_skeleton);
     }
 
     /**
@@ -197,9 +197,9 @@ final class Calendar extends ArrayObject
      */
     public function format_time(
 		DateTimeInterface|int|string $datetime,
-		string $pattern_or_width_or_skeleton
+		string|DateTimeFormatLength $pattern_or_length_or_skeleton
 	): string {
-        return $this->time_formatter->format($datetime, $pattern_or_width_or_skeleton);
+        return $this->time_formatter->format($datetime, $pattern_or_length_or_skeleton);
     }
 
 	/**

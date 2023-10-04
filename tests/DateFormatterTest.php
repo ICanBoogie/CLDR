@@ -16,9 +16,9 @@ use PHPUnit\Framework\TestCase;
 final class DateFormatterTest extends TestCase
 {
 	/**
-	 * @var DateFormatter[]
+	 * @var array<string, DateFormatter>
 	 */
-	static private $formatters = [];
+	static private array $formatters = [];
 
 	static public function setupBeforeClass(): void
 	{
@@ -31,24 +31,31 @@ final class DateFormatterTest extends TestCase
 	/**
 	 * @dataProvider provide_test_format
 	 */
-	public function test_format(string $locale, string $datetime, string $pattern, string $expected): void
-	{
+	public function test_format(
+		string $locale,
+		string $datetime,
+		string|DateTimeFormatLength $pattern,
+		string $expected
+	): void {
 		$this->assertEquals($expected, self::$formatters[$locale]->format($datetime, $pattern));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		return [
 
-			[ 'en', '2013-11-05 21:22:23', 'full', 'Tuesday, November 5, 2013' ],
-			[ 'en', '2013-11-05 21:22:23', 'long', 'November 5, 2013' ],
-			[ 'en', '2013-11-05 21:22:23', 'medium', 'Nov 5, 2013' ],
-			[ 'en', '2013-11-05 21:22:23', 'short', '11/5/13' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatLength::FULL, 'Tuesday, November 5, 2013' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatLength::LONG, 'November 5, 2013' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatLength::MEDIUM, 'Nov 5, 2013' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatLength::SHORT, '11/5/13' ],
 
-			[ 'fr', '2013-11-05 21:22:23', 'full', 'mardi 5 novembre 2013' ],
-			[ 'fr', '2013-11-05 21:22:23', 'long', '5 novembre 2013' ],
-			[ 'fr', '2013-11-05 21:22:23', 'medium', '5 nov. 2013' ],
-			[ 'fr', '2013-11-05 21:22:23', 'short', '05/11/2013' ],
+			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::FULL, 'mardi 5 novembre 2013' ],
+			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::LONG, '5 novembre 2013' ],
+			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::MEDIUM, '5 nov. 2013' ],
+			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::SHORT, '05/11/2013' ],
 
 			# datetime patterns must be supported too
 			[ 'en', '2013-11-05 21:22:23', ':GyMMMEd', 'Tue, Nov 5, 2013 AD' ],

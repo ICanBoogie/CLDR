@@ -11,14 +11,15 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class TimeFormatterTest extends TestCase
 {
 	/**
-	 * @var TimeFormatter[]
+	 * @var array<string, TimeFormatter>
 	 */
-	static private $formatters = [];
+	static private array $formatters = [];
 
 	static public function setupBeforeClass(): void
 	{
@@ -28,27 +29,30 @@ final class TimeFormatterTest extends TestCase
 		self::$formatters['fr'] = new TimeFormatter($repository->locales['fr']->calendar);
 	}
 
-	/**
-	 * @dataProvider provide_test_format
-	 */
-	public function test_format(string $locale, string $datetime, string $pattern, string $expected): void
+	#[DataProvider('provide_test_format')]
+	public function test_format(string $locale, string $datetime, string|DateTimeFormatLength $pattern, string $expected): void
 	{
-		$this->assertEquals($expected, self::$formatters[$locale]->format($datetime, $pattern));
+		$actual = self::$formatters[$locale]->format($datetime, $pattern);
+
+		$this->assertEquals($expected, $actual);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		return [
 
-			[ 'en', '2013-11-05 21:22:23', 'full', '9:22:23 PM CET' ],
-			[ 'en', '2013-11-05 21:22:23', 'long', '9:22:23 PM CET' ],
-			[ 'en', '2013-11-05 21:22:23', 'medium', '9:22:23 PM' ],
-			[ 'en', '2013-11-05 21:22:23', 'short', '9:22 PM' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatLength::FULL, '9:22:23 PM CET' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatLength::LONG, '9:22:23 PM CET' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatLength::MEDIUM, '9:22:23 PM' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatLength::SHORT, '9:22 PM' ],
 
-			[ 'fr', '2013-11-05 21:22:23', 'full', '21:22:23 CET' ],
-			[ 'fr', '2013-11-05 21:22:23', 'long', '21:22:23 CET' ],
-			[ 'fr', '2013-11-05 21:22:23', 'medium', '21:22:23' ],
-			[ 'fr', '2013-11-05 21:22:23', 'short', '21:22' ],
+			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::FULL, '21:22:23 CET' ],
+			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::LONG, '21:22:23 CET' ],
+			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::MEDIUM, '21:22:23' ],
+			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::SHORT, '21:22' ],
 
 			# datetime patterns must be supported too
 			[ 'en', '2013-11-05 21:22:23', ':GyMMMEd', 'Tue, Nov 5, 2013 AD' ],

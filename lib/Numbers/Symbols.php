@@ -9,7 +9,7 @@ namespace ICanBoogie\CLDR\Numbers;
  */
 final class Symbols
 {
-	public const DEFAULTS = [
+	private const DEFAULTS = [
 
 		'decimal' => '.',
 		'group' => ',',

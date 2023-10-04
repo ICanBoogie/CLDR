@@ -11,14 +11,15 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeFormatterTest extends TestCase
 {
 	/**
-	 * @var DateTimeFormatter[]
+	 * @var array<string, DateTimeFormatter>
 	 */
-	static private $formatters = [];
+	static private array $formatters = [];
 
 	static public function setupBeforeClass(): void
 	{
@@ -37,16 +38,17 @@ final class DateTimeFormatterTest extends TestCase
 		$this->assertInstanceOf(Calendar::class, self::$formatters['en']->calendar);
 	}
 
-	/**
-	 * @dataProvider provide_test_format
-	 */
-	public function test_format(string $locale_id, string $datetime, string $format, string $expected): void
+	#[DataProvider('provide_test_format')]
+	public function test_format(string $locale_id, string $datetime, string|DateTimeFormatLength $format, string $expected): void
 	{
 		$formatter = self::$formatters[$locale_id];
 
 		$this->assertSame($expected, $formatter($datetime, $format));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		return [
@@ -471,17 +473,17 @@ final class DateTimeFormatterTest extends TestCase
 
 			# test: format width(full|long|medium|short)
 
-			[ 'en', '2013-11-02 22:23:45', 'full', 'Saturday, November 2, 2013 at 10:23:45 PM CET' ],
-			[ 'en', '2013-11-02 22:23:45', 'long', 'November 2, 2013 at 10:23:45 PM CET' ],
-			[ 'en', '2013-11-02 22:23:45', 'medium', 'Nov 2, 2013, 10:23:45 PM' ],
-			[ 'en', '2013-11-02 22:23:45', 'short', '11/2/13, 10:23 PM' ],
+			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::FULL, 'Saturday, November 2, 2013 at 10:23:45 PM CET' ],
+			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::LONG, 'November 2, 2013 at 10:23:45 PM CET' ],
+			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::MEDIUM, 'Nov 2, 2013, 10:23:45 PM' ],
+			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::SHORT, '11/2/13, 10:23 PM' ],
 
 			# test: format width(full|long|medium|short) in french
 
-			[ 'fr', '2013-11-02 22:23:45', 'full', 'samedi 2 novembre 2013 à 22:23:45 CET' ],
-			[ 'fr', '2013-11-02 22:23:45', 'long', '2 novembre 2013 à 22:23:45 CET' ],
-			[ 'fr', '2013-11-02 22:23:45', 'medium', '2 nov. 2013, 22:23:45' ],
-			[ 'fr', '2013-11-02 22:23:45', 'short', '02/11/2013 22:23' ],
+			[ 'fr', '2013-11-02 22:23:45', DateTimeFormatLength::FULL, 'samedi 2 novembre 2013 à 22:23:45 CET' ],
+			[ 'fr', '2013-11-02 22:23:45', DateTimeFormatLength::LONG, '2 novembre 2013 à 22:23:45 CET' ],
+			[ 'fr', '2013-11-02 22:23:45', DateTimeFormatLength::MEDIUM, '2 nov. 2013, 22:23:45' ],
+			[ 'fr', '2013-11-02 22:23:45', DateTimeFormatLength::SHORT, '02/11/2013 22:23' ],
 
 			[ 'fr', '2016-06-06', "''y 'Madonna' y 'Yay", "'2016 Madonna 2016 Yay" ],
 
@@ -504,9 +506,7 @@ final class DateTimeFormatterTest extends TestCase
 	}
 	*/
 
-	/**
-	 * @dataProvider provide_test_format_with_skeleton
-	 */
+	#[DataProvider('provide_test_format_with_skeleton')]
 	public function test_format_with_skeleton(string $skeleton, string $pattern, string $expected_result): void
 	{
 		$formatter = self::$formatters['fr'];
@@ -518,6 +518,9 @@ final class DateTimeFormatterTest extends TestCase
 		$this->assertEquals($expected_result, $result);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format_with_skeleton(): array
 	{
 		return [

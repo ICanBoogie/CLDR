@@ -30,29 +30,12 @@ use const STR_PAD_LEFT;
  * Provides date and time localization.
  *
  * The class allows you to format dates and times in a locale-sensitive manner using
- * {@link http://www.unicode.org/reports/tr35/#Date_Format_Patterns Unicode format patterns}.
+ * {@link https://www.unicode.org/reports/tr35/tr35-66/tr35-dates.html#Date_Format_Patterns Unicode format patterns}.
  *
  * @property-read Calendar $calendar The calendar used by the formatter.
  */
 class DateTimeFormatter implements Formatter
 {
-	public const WIDTH_FULL = 'full';
-	public const WIDTH_LONG = 'long';
-	public const WIDTH_MEDIUM = 'medium';
-	public const WIDTH_SHORT = 'short';
-
-	/**
-	 * @var string[]
-	 */
-	static private array $widths = [
-
-		self::WIDTH_FULL,
-		self::WIDTH_LONG,
-		self::WIDTH_MEDIUM,
-		self::WIDTH_SHORT,
-
-	];
-
 	/**
 	 * Pattern characters mapping to the corresponding translator methods.
 	 *
@@ -183,23 +166,27 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @throws \Exception
 	 */
-	public function __invoke($datetime, string $pattern_or_width_or_skeleton): string
+	public function __invoke($datetime, string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
 	{
-		return $this->format($datetime, $pattern_or_width_or_skeleton);
+		return $this->format($datetime, $pattern_or_length_or_skeleton);
 	}
 
 	/**
 	 * Formats a date according to a pattern.
 	 *
-	 * @param DateTimeInterface|string|int $datetime The datetime to format.
-	 * @param string $pattern_or_width_or_skeleton The datetime can be formatted using a pattern,
-	 * a width (WIDTH_*) or a skeleton. To format the datetime using a so-called "skeleton",
-	 * the skeleton identifier must be prefixed with the colon sign ":" e.g. ":Ehm". The skeleton
-	 * identifies the patterns defined under `availableFormats`.
+	 * @param DateTimeInterface|string|int $datetime
+	 *     The datetime to format.
+	 * @param string|DateTimeFormatLength $pattern_or_length_or_skeleton
+	 *     The datetime can be formatted using a pattern, a {@link DateTimeFormatLength}, or a skeleton. To format the
+	 *     datetime using a so-called "skeleton", the skeleton identifier must be prefixed with the colon sign ":" e.g.
+	 *     ":Ehm". The skeleton identifies the patterns defined under `availableFormats`.
 	 *
-	 * @return string The formatted date time.
+	 * @return string
+	 *     The formatted date time.
 	 *
-	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
+	 * @throws \Exception
+	 *
+	 * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-dates.html#26-element-datetimeformats
 	 *
 	 * @uses format_era
 	 * @uses format_year
@@ -223,13 +210,12 @@ class DateTimeFormatter implements Formatter
 	 * @uses format_timezone_basic
 	 * @uses format_timezone_non_location
 	 *
-	 * @throws \Exception
 	 */
-	public function format($datetime, string $pattern_or_width_or_skeleton): string
+	public function format($datetime, string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
 	{
 		$datetime = $this->ensure_datetime($datetime);
 		$datetime = new DateTimeAccessor($datetime);
-		$pattern = $this->resolve_pattern($pattern_or_width_or_skeleton);
+		$pattern = $this->resolve_pattern($pattern_or_length_or_skeleton);
 		$tokens = self::tokenize($pattern);
 
 		$rc = '';
@@ -250,13 +236,21 @@ class DateTimeFormatter implements Formatter
 	/**
 	 * Resolves the specified pattern, which can be a width, a skeleton or an actual pattern.
 	 */
-	protected function resolve_pattern(string $pattern_or_width_or_skeleton): string
+	protected function resolve_pattern(string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
 	{
-		$pattern = $pattern_or_width_or_skeleton;
-
-		if ($pattern_or_width_or_skeleton[0] === ':')
+		if ($pattern_or_length_or_skeleton instanceof DateTimeFormatLength)
 		{
-			$skeleton = substr($pattern, 1);
+			$calendar = $this->calendar;
+			$width = $pattern_or_length_or_skeleton;
+			$datetime_pattern = $calendar['dateTimeFormats'][$width->value];
+			$date_pattern = $calendar['dateFormats'][$width->value];
+			$time_pattern = $calendar['timeFormats'][$width->value];
+
+			return strtr($datetime_pattern, [ '{1}' => $date_pattern, '{0}' => $time_pattern ]);
+		}
+		elseif ($pattern_or_length_or_skeleton[0] === ':')
+		{
+			$skeleton = substr($pattern_or_length_or_skeleton, 1);
 			$available_formats = $this->calendar['dateTimeFormats']['availableFormats'];
 
 			if (isset($available_formats[$skeleton]))
@@ -264,17 +258,8 @@ class DateTimeFormatter implements Formatter
 				return $available_formats[$skeleton];
 			}
 		}
-		else if (in_array($pattern_or_width_or_skeleton, self::$widths))
-		{
-			$calendar = $this->calendar;
-			$width = $pattern_or_width_or_skeleton;
-			$datetime_pattern = $calendar['dateTimeFormats'][$width];
-			$date_pattern = $calendar['dateFormats'][$width];
-			$time_pattern = $calendar['timeFormats'][$width];
-			$pattern = strtr($datetime_pattern, [ '{1}' => $date_pattern, '{0}' => $time_pattern ]);
-		}
 
-		return $pattern;
+		return $pattern_or_length_or_skeleton;
 	}
 
 	/**
@@ -282,14 +267,14 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @param string $from Width Source e.g. "timeFormats".
 	 */
-	protected function resolve_width(string $pattern_or_width_or_skeleton, string $from): string
+	protected function resolve_width(string|DateTimeFormatLength $pattern_or_length_or_skeleton, string $from): string
 	{
-		if (in_array($pattern_or_width_or_skeleton, self::$widths))
+		if ($pattern_or_length_or_skeleton instanceof DateTimeFormatLength)
 		{
-			return $this->calendar[$from][$pattern_or_width_or_skeleton];
+			return $this->calendar[$from][$pattern_or_length_or_skeleton->value];
 		}
 
-		return $pattern_or_width_or_skeleton;
+		return $pattern_or_length_or_skeleton;
 	}
 
 	/*

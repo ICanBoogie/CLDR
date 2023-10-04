@@ -30,14 +30,15 @@ final class CalendarCollection extends AbstractCollection
 	public function __construct(
 		public readonly Locale $locale
 	) {
-		parent::__construct(function (string $id): Calendar {
+		parent::__construct($this->new(...));
+	}
 
-			$data = $this->locale["ca-$id"];
+	private function new(string $id): Calendar
+	{
+		$data = $this->locale["ca-$id"];
 
-			assert(is_array($data));
+		assert(is_array($data));
 
-			return new Calendar($this->locale, $data);
-
-		});
+		return new Calendar($this->locale, $data);
 	}
 }
