@@ -273,15 +273,12 @@ class Units
 	public const DEFAULT_LENGTH = UnitLength::LONG;
 	public const COUNT_PREFIX = 'unitPattern-count-';
 
-	/**
-	 * @return LocalizedListFormatter::TYPE_UNIT*
-	 */
-	static private function length_to_unit_type(UnitLength $length): string
+	static private function length_to_unit_type(UnitLength $length): ListType
 	{
 		return match ($length) {
-			UnitLength::LONG => LocalizedListFormatter::TYPE_UNIT,
-			UnitLength::SHORT => LocalizedListFormatter::TYPE_UNIT_SHORT,
-			UnitLength::NARROW => LocalizedListFormatter::TYPE_UNIT_NARROW,
+			UnitLength::LONG => ListType::UNIT,
+			UnitLength::SHORT => ListType::UNIT_SHORT,
+			UnitLength::NARROW => ListType::UNIT_NARROW,
 		};
 	}
 

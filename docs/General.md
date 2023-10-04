@@ -129,25 +129,25 @@ Use the `format_list()` method of a locale to format a variable-length list of i
 # You can format a list in English
 $en = $cldr->locales['en'];
 
-echo $en->format_list([ "Monday" ]);
+$en->format_list([ "Monday" ]);
 // Monday
-echo $en->format_list([ "Monday", "Tuesday" ]);
+$en->format_list([ "Monday", "Tuesday" ]);
 // Monday and Tuesday
-echo $en->format_list([ "Monday", "Tuesday", "Wednesday" ]);
+$en->format_list([ "Monday", "Tuesday", "Wednesday" ]);
 // Monday, Tuesday, and Wednesday
-echo $en->format_list([ "Monday", "Tuesday", "Friday", "Thursday" ]);
+$en->format_list([ "Monday", "Tuesday", "Friday", "Thursday" ]);
 // Monday, Tuesday, Wednesday, and Thursday
 
 # You can format a list in French
 $fr = $cldr->locales['fr'];
 
-echo $fr->format_list([ "lundi" ]);
+$fr->format_list([ "lundi" ]);
 // lundi
-echo $fr->format_list([ "lundi", "mardi" ]);
+$fr->format_list([ "lundi", "mardi" ]);
 // lundi et mardi
-echo $fr->format_list([ "lundi", "mardi", "mercredi" ]);
+$fr->format_list([ "lundi", "mardi", "mercredi" ]);
 // lundi, mardi et mercredi
-echo $fr->format_list([ "lundi", "mardi", "mercredi", "jeudi" ]);
+$fr->format_list([ "lundi", "mardi", "mercredi", "jeudi" ]);
 // lundi, mardi, jeudi et mercredi
 ```
 

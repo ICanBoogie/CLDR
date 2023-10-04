@@ -11,23 +11,30 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LocalizedListFormatterTest extends TestCase
 {
 	/**
-	 * @dataProvider provide_test_format
+	 * @param array<scalar> $list
 	 */
-	public function test_format(array $list, string $type, string $locale_code, string $expected): void
+	#[DataProvider('provide_test_format')]
+	public function test_format(array $list, ListType $type, string $locale_code, string $expected): void
 	{
-		$lp = new LocalizedListFormatter(new ListFormatter, get_repository()->locales[$locale_code]);
+		$locale = get_repository()->locales[$locale_code];
+		$this->assertNotNull($locale);
+		$lp = new LocalizedListFormatter(new ListFormatter(), $locale);
 		$this->assertSame($expected, $lp($list, $type));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
-		$sd = LocalizedListFormatter::TYPE_STANDARD;
-		$st = LocalizedListFormatter::TYPE_UNIT_SHORT;
+		$sd = ListType::STANDARD;
+		$st = ListType::UNIT_SHORT;
 
 		return [
 
@@ -54,6 +61,16 @@ final class LocalizedListFormatterTest extends TestCase
 			[ [ 'eins', 'zwei' ], $sd, 'de', "eins und zwei" ],
 			[ [ 'eins', 'zwei', 'drei' ], $sd, 'de', "eins, zwei und drei" ],
 			[ [ 'eins', 'zwei', 'drei', 'vier' ], $sd, 'de', "eins, zwei, drei und vier" ],
+
+			[ [ 'January', 'February', 'March' ], ListType::STANDARD, 'en', "January, February, and March" ],
+			[ [ 'Jan.', 'Feb.', 'Mar.' ], ListType::STANDARD_SHORT, 'en', "Jan., Feb., & Mar." ],
+			[ [ 'Jan.', 'Feb.', 'Mar.' ], ListType::STANDARD_NARROW, 'en', "Jan., Feb., Mar." ],
+			[ [ 'January', 'February', 'March' ], ListType::OR, 'en', "January, February, or March" ],
+			[ [ 'Jan.', 'Feb.', 'Mar.' ], ListType::OR_SHORT, 'en', "Jan., Feb., or Mar." ],
+			[ [ 'Jan.', 'Feb.', 'Mar.' ], ListType::OR_NARROW, 'en', "Jan., Feb., or Mar." ],
+			[ [ '3 feet', '7 inches' ], ListType::UNIT, 'en', "3 feet, 7 inches" ],
+			[ [ '3 ft', '7 in' ], ListType::UNIT_SHORT, 'en', "3 ft, 7 in" ],
+			[ [ '3\'', '7"' ], ListType::UNIT_NARROW, 'en', "3' 7\"" ],
 
 		];
 	}

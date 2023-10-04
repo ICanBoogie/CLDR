@@ -15,6 +15,7 @@ None
 ### Backward Incompatible Changes
 
 - `Units::LENGTH_*` constants have been replaced by the `UnitLength` enum.
+- `LocalizedListFormatter:TYPE_*` constants have been replaced by the `ListType` enum.
 
 ### Deprecated Features
 

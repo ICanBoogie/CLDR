@@ -22,18 +22,12 @@ use ICanBoogie\CLDR\Locale\ListPattern;
  */
 class LocalizedListFormatter extends LocalizedObject implements Formatter
 {
-	public const TYPE_STANDARD = 'standard';
-	public const TYPE_UNIT = 'unit';
-	public const TYPE_UNIT_NARROW = 'unit-narrow';
-	public const TYPE_UNIT_SHORT = 'unit-short';
-
 	/**
 	 * Formats a variable-length lists of scalars.
 	 *
 	 * @param scalar[] $list
-	 * @param self::TYPE_* $type
 	 */
-	public function __invoke(array $list, string $type = self::TYPE_STANDARD): string
+	public function __invoke(array $list, ListType $type = ListType::STANDARD): string
 	{
 		return $this->format($list, $type);
 	}
@@ -42,12 +36,11 @@ class LocalizedListFormatter extends LocalizedObject implements Formatter
 	 * Formats a variable-length lists of scalars.
 	 *
 	 * @param scalar[] $list
-	 * @param self::TYPE_* $type
 	 */
-	public function format(array $list, string $type = self::TYPE_STANDARD): string
+	public function format(array $list, ListType $type = ListType::STANDARD): string
 	{
 		/** @phpstan-ignore-next-line */
-		$list_pattern = ListPattern::from($this->locale['listPatterns']["listPattern-type-$type"]);
+		$list_pattern = ListPattern::from($this->locale['listPatterns']["listPattern-type-$type->value"]);
 
 		return $this->target->format($list, $list_pattern);
 	}

@@ -277,11 +277,10 @@ class Locale extends AbstractSectionCollection
 	 * Formats a variable-length lists of scalars.
 	 *
 	 * @param scalar[] $list
-	 * @param LocalizedListFormatter::TYPE_* $type
 	 *
 	 * @see LocalizedListFormatter::format()
 	 */
-	public function format_list(array $list, string $type = LocalizedListFormatter::TYPE_STANDARD): string
+	public function format_list(array $list, ListType $type = ListType::STANDARD): string
 	{
 		return $this->get_list_formatter()->format($list, $type);
 	}

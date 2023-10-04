@@ -12,16 +12,14 @@
 namespace ICanBoogie\CLDR;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LocaleTest extends TestCase
 {
     use StringHelpers;
 
-	/**
-	 * @var Locale
-	 */
-	static private $locale;
+	static private Locale $locale;
 
 	static public function setupBeforeClass(): void
 	{
@@ -33,9 +31,7 @@ final class LocaleTest extends TestCase
 		$this->assertEquals('fr', self::$locale->code);
 	}
 
-	/**
-	 * @dataProvider provide_test_get_language
-	 */
+	#[DataProvider('provide_test_get_language')]
 	public function test_get_language(string $locale_code, string $expected): void
 	{
 		$locale = new Locale(get_repository(), $locale_code);
@@ -57,9 +53,7 @@ final class LocaleTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_properties_instanceof
-	 */
+	#[DataProvider('provide_test_properties_instanceof')]
 	public function test_properties_instanceof(string $property, string $expected): void
 	{
 		$locale = new Locale(get_repository(), 'fr');
@@ -88,9 +82,7 @@ final class LocaleTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_sections
-	 */
+	#[DataProvider('provide_test_sections')]
 	public function test_sections(string $section, string $key): void
 	{
 		$section_data = self::$locale[$section];
@@ -146,7 +138,7 @@ final class LocaleTest extends TestCase
 	 */
 	public function test_localize(string $expected, $source): void
 	{
-		$localized = get_repository()->locales['fr']->localize($source);
+		$localized = self::$locale->localize($source);
 		$this->assertInstanceOf($expected, $localized);
 	}
 
@@ -178,7 +170,7 @@ final class LocaleTest extends TestCase
 
 		$this->assertStringSame(
 			"123{$s1}456,78",
-			(new Locale(get_repository(), 'fr'))->format_number(123456.78)
+			self::$locale->format_number(123456.78)
 		);
 	}
 
@@ -186,7 +178,7 @@ final class LocaleTest extends TestCase
 	{
 		$this->assertStringSame(
 			"12 %",
-			(new Locale(get_repository(), 'fr'))->format_percent(.1234)
+			self::$locale->format_percent(.1234)
 		);
 	}
 
@@ -194,7 +186,7 @@ final class LocaleTest extends TestCase
 	{
 		$this->assertStringSame(
 			"123 456,78 €",
-			(new Locale(get_repository(), 'fr'))->format_currency(123456.78, 'EUR')
+			self::$locale->format_currency(123456.78, 'EUR')
 		);
 	}
 
@@ -202,7 +194,7 @@ final class LocaleTest extends TestCase
 	{
 		$this->assertSame(
 			"lundi, mardi et mercredi",
-			(new Locale(get_repository(), 'fr'))->format_list([ "lundi", "mardi", "mercredi" ])
+			self::$locale->format_list([ "lundi", "mardi", "mercredi" ])
 		);
 	}
 
@@ -210,7 +202,7 @@ final class LocaleTest extends TestCase
 	{
 		$this->assertEquals(
 			"Juin",
-			(new Locale(get_repository(), 'fr'))->context_transform(
+			self::$locale->context_transform(
 				"juin",
 				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
 				ContextTransforms::TYPE_STAND_ALONE
