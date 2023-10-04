@@ -26,7 +26,7 @@ trait CollectionTrait
 	 */
 	public function offsetSet($offset, $value): void
 	{
-		throw new OffsetNotWritable([ $offset, $this ]);
+		throw new OffsetNotWritable(offset: $offset, container: $this);
 	}
 
 	/**
@@ -36,6 +36,6 @@ trait CollectionTrait
 	 */
 	public function offsetUnset($offset): void
 	{
-		throw new OffsetNotWritable([ $offset, $this ]);
+		throw new OffsetNotWritable(offset: $offset, container: $this);
 	}
 }

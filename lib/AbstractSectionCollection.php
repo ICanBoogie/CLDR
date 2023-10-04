@@ -47,7 +47,7 @@ abstract class AbstractSectionCollection implements ArrayAccess
 	{
 		if (!$this->offsetExists($offset))
 		{
-			throw new OffsetNotDefined([ $offset, $this ]);
+			throw new OffsetNotDefined(offset: $offset, container: $this);
 		}
 
 		return $this->sections[$offset] ??= $this->repository->fetch(
