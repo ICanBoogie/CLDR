@@ -41,8 +41,13 @@ final class DateFormatter extends DateTimeFormatter
 	/**
 	 * Resolves length defined in `dateFormats` into a pattern.
 	 */
-	protected function resolve_pattern(string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
-	{
-		return parent::resolve_pattern($this->resolve_width($pattern_or_length_or_skeleton, 'dateFormats'));
+	protected function resolve_pattern(
+		string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
+	): string {
+		if ($pattern_or_length_or_id instanceof DateTimeFormatLength) {
+			return $this->calendar['dateFormats'][$pattern_or_length_or_id->value];
+		}
+
+		return parent::resolve_pattern($pattern_or_length_or_id);
 	}
 }

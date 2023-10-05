@@ -38,14 +38,8 @@ abstract class LocalizedObjectWithFormatter extends LocalizedObject
 	 */
 	public function __get($property)
 	{
-		if ($property === 'formatter')
-		{
-			if ($this->formatter === null)
-			{
-				$this->formatter = $this->lazy_get_formatter();
-			}
-
-			return $this->formatter;
+		if ($property === 'formatter') {
+			return $this->formatter ??= $this->lazy_get_formatter();
 		}
 
 		return parent::__get($property);

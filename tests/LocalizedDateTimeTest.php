@@ -25,9 +25,11 @@ final class LocalizedDateTimeTest extends TestCase
 
 	static public function setupBeforeClass(): void
 	{
-		self::$localized_dates['en'] = new LocalizedDateTime(new DateTime('2013-11-04 20:21:22 UTC'), get_repository()->locales['en']);
-		self::$localized_dates['fr'] = new LocalizedDateTime(new DateTime('2013-11-04 20:21:22 UTC'), get_repository()->locales['fr']);
-		self::$localized_dates['zh'] = new LocalizedDateTime(new DateTime('2013-11-04 20:21:22 UTC'), get_repository()->locales['zh']);
+		$datetime = new DateTime('2013-11-04 20:21:22 UTC');
+
+		self::$localized_dates['en'] = new LocalizedDateTime($datetime, get_repository()->locales['en']);
+		self::$localized_dates['fr'] = new LocalizedDateTime($datetime, get_repository()->locales['fr']);
+		self::$localized_dates['zh'] = new LocalizedDateTime($datetime, get_repository()->locales['zh']);
 	}
 
 	public function test_get_target(): void
@@ -90,6 +92,27 @@ final class LocalizedDateTimeTest extends TestCase
 			[ 'zh', DateTimeFormatLength::LONG, "2013年11月4日 UTC 20:21:22" ],
 			[ 'zh', DateTimeFormatLength::MEDIUM, "2013年11月4日 20:21:22" ],
 			[ 'zh', DateTimeFormatLength::SHORT, "2013/11/4 20:21" ],
+
+		];
+	}
+
+	#[DataProvider('provide_format_with_id')]
+	public function test_format_with_id(string $locale, string $id, string $expected): void
+	{
+		$actual = self::$localized_dates[$locale]->format(DateTimeFormatId::from($id));
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @phpstan-ignore-next-line
+	 */
+	public static function provide_format_with_id(): array
+	{
+		return [
+
+			[ 'en', 'yMMMEd', 'Mon, Nov 4, 2013' ],
+			[ 'en', 'yMEd', 'Mon, 11/4/2013' ],
 
 		];
 	}

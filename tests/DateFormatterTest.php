@@ -34,10 +34,12 @@ final class DateFormatterTest extends TestCase
 	public function test_format(
 		string $locale,
 		string $datetime,
-		string|DateTimeFormatLength $pattern,
+		string|DateTimeFormatLength|DateTimeFormatId $pattern,
 		string $expected
 	): void {
-		$this->assertEquals($expected, self::$formatters[$locale]->format($datetime, $pattern));
+		$actual = self::$formatters[$locale]->format($datetime, $pattern);
+
+		$this->assertEquals($expected, $actual);
 	}
 
 	/**
@@ -58,7 +60,7 @@ final class DateFormatterTest extends TestCase
 			[ 'fr', '2013-11-05 21:22:23', DateTimeFormatLength::SHORT, '05/11/2013' ],
 
 			# datetime patterns must be supported too
-			[ 'en', '2013-11-05 21:22:23', ':GyMMMEd', 'Tue, Nov 5, 2013 AD' ],
+			[ 'en', '2013-11-05 21:22:23', DateTimeFormatId::from('yMMMEd'), 'Tue, Nov 5, 2013' ],
 			[ 'fr', '2013-11-05 21:22:23', 'd MMMM y', '5 novembre 2013' ]
 
 		];

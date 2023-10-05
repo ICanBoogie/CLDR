@@ -43,31 +43,19 @@ class DateTimeAccessor
 	{
 		$dt = $this->datetime;
 
-		switch ($property)
-		{
-			case 'year':
-				return (int) $dt->format('Y');
-			case 'month':
-				return (int) $dt->format('m');
-			case 'day':
-				return (int) $dt->format('d');
-			case 'hour':
-				return (int) $dt->format('H');
-			case 'minute':
-				return (int) $dt->format('i');
-			case 'second':
-				return (int) $dt->format('s');
-			case 'quarter':
-				return (int) floor(($this->month - 1) / 3) + 1;
-			case 'week':
-				return (int) $dt->format('W');
-			case 'year_day':
-				return (int) $dt->format('z') + 1;
-			case 'weekday':
-				return (int) $dt->format('w') ?: 7;
-		}
-
-		throw new LogicException("Undefined property: $property");
+		return match ($property) {
+			'year' => (int)$dt->format('Y'),
+			'month' => (int)$dt->format('m'),
+			'day' => (int)$dt->format('d'),
+			'hour' => (int)$dt->format('H'),
+			'minute' => (int)$dt->format('i'),
+			'second' => (int)$dt->format('s'),
+			'quarter' => (int)floor(($this->month - 1) / 3) + 1,
+			'week' => (int)$dt->format('W'),
+			'year_day' => (int)$dt->format('z') + 1,
+			'weekday' => (int)$dt->format('w') ?: 7,
+			default => throw new LogicException("Undefined property: $property"),
+		};
 	}
 
 	/**

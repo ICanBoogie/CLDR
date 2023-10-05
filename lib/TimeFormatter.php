@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR;
 /**
  * Time formatter.
  *
- * <pre>
+ * ```php
  * <?php
  *
  * namespace ICanBoogie\CLDR;
@@ -23,26 +23,31 @@ namespace ICanBoogie\CLDR;
  *
  * $formatter = new TimeFormatter($repository->locales['en']);
  *
- * echo $formatter($datetime, 'full');   // 9:22:23 PM CET
- * echo $formatter($datetime, 'long');   // 9:22:23 PM CET
- * echo $formatter($datetime, 'medium'); // 9:22:23 PM
- * echo $formatter($datetime, 'short');  // 9:22 PM
+ * echo $formatter($datetime, DateTimeFormatLength::FULL);   // 9:22:23 PM CET
+ * echo $formatter($datetime, DateTimeFormatLength::LONG);   // 9:22:23 PM CET
+ * echo $formatter($datetime, DateTimeFormatLength::MEDIUM); // 9:22:23 PM
+ * echo $formatter($datetime, DateTimeFormatLength::SHORT);  // 9:22 PM
  *
  * $formatter = new TimeFormatter($repository->locales['fr']);
  *
- * echo $formatter($datetime, 'full');   // 21:22:23 CET
- * echo $formatter($datetime, 'long');   // 21:22:23 CET
- * echo $formatter($datetime, 'medium'); // 21:22:23
- * echo $formatter($datetime, 'short');  // 21:22
- * </pre>
+ * echo $formatter($datetime, DateTimeFormatLength::FULL);   // 21:22:23 CET
+ * echo $formatter($datetime, DateTimeFormatLength::LONG);   // 21:22:23 CET
+ * echo $formatter($datetime, DateTimeFormatLength::MEDIUM); // 21:22:23
+ * echo $formatter($datetime, DateTimeFormatLength::SHORT);  // 21:22
+ * ```
  */
 final class TimeFormatter extends DateTimeFormatter
 {
 	/**
 	 * Resolves length defined in `timeFormats` into a pattern.
 	 */
-	protected function resolve_pattern(string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
-	{
-		return parent::resolve_pattern($this->resolve_width($pattern_or_length_or_skeleton, 'timeFormats'));
+	protected function resolve_pattern(
+		string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
+	): string {
+		if ($pattern_or_length_or_id instanceof DateTimeFormatLength) {
+			return $this->calendar['timeFormats'][$pattern_or_length_or_id->value];
+		}
+
+		return parent::resolve_pattern($pattern_or_length_or_id);
 	}
 }

@@ -137,24 +137,28 @@ Calendars provide a formatter for dates. A width or a pattern is used for the fo
 
 use ICanBoogie\CLDR\DateFormatter;
 use ICanBoogie\CLDR\DateTimeFormatLength;
+use ICanBoogie\CLDR\DateTimeFormatId;
 
 /**
  * @var ICanBoogie\CLDR\Calendar $calendar
  */
 
-$datetime = '2013-11-05 21:22:23';
+$datetime = '2013-11-04 20:21:22 UTC';
 
-echo $calendar->format_datetime($datetime, DateTimeFormatLength::FULL);
-// Tuesday, November 5, 2013
+$calendar->format_datetime($datetime, DateTimeFormatLength::FULL);
+// Monday, November 4, 2013 at 8:21:22 PM UTC
 
-echo $calendar->format_datetime($datetime, DateTimeFormatLength::LONG);
-// November 5, 2013
+$calendar->format_datetime($datetime, DateTimeFormatLength::LONG);
+// November 4, 2013 at 8:21:22 PM UTC
 
-echo $calendar->format_datetime($datetime, DateTimeFormatLength::MEDIUM);
-// Nov 5, 2013
+$calendar->format_datetime($datetime, DateTimeFormatLength::MEDIUM);
+// Nov 4, 2013, 8:21:22 PM
 
-echo $calendar->format_datetime($datetime, DateTimeFormatLength::SHORT);
-// 11/5/13
+$calendar->format_datetime($datetime, DateTimeFormatLength::SHORT);
+// 11/4/13, 8:21 PM
+
+$calendar->format_datetime($datetime, DateTimeFormatId::from('yMMMEd'));
+// Mon, Nov 4, 2013
 ```
 
 Alternatively, use can use a [DateTimeFormatter] instance:
@@ -171,16 +175,16 @@ use ICanBoogie\CLDR\DateTimeFormatLength;
 $datetime = '2013-11-05 21:22:23';
 $formatter = $calendar->datetime_formatter;
 
-echo $formatter($datetime, DateTimeFormatLength::FULL);
+$formatter($datetime, DateTimeFormatLength::FULL);
 // Tuesday, November 5, 2013
 
-echo $formatter($datetime, DateTimeFormatLength::LONG);
+$formatter($datetime, DateTimeFormatLength::LONG);
 // November 5, 2013
 
-echo $formatter($datetime, DateTimeFormatLength::MEDIUM);
+$formatter($datetime, DateTimeFormatLength::MEDIUM);
 // Nov 5, 2013
 
-echo $formatter($datetime, DateTimeFormatLength::SHORT);
+$formatter($datetime, DateTimeFormatLength::SHORT);
 // 11/5/13
 ```
 

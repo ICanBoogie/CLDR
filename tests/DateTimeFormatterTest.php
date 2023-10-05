@@ -506,13 +506,13 @@ final class DateTimeFormatterTest extends TestCase
 	}
 	*/
 
-	#[DataProvider('provide_test_format_with_skeleton')]
-	public function test_format_with_skeleton(string $skeleton, string $pattern, string $expected_result): void
+	#[DataProvider('provide_test_format_with_id')]
+	public function test_format_with_skeleton(string $id, string $pattern, string $expected_result): void
 	{
 		$formatter = self::$formatters['fr'];
 		$datetime = new \DateTime('2013-10-26 22:08:30', new \DateTimeZone('Europe/Paris'));
 
-		$result = $formatter->format($datetime, ':' . $skeleton);
+		$result = $formatter->format($datetime, DateTimeFormatId::from($id));
 
 		$this->assertEquals($formatter($datetime, $pattern), $result);
 		$this->assertEquals($expected_result, $result);
@@ -521,7 +521,7 @@ final class DateTimeFormatterTest extends TestCase
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	public static function provide_test_format_with_skeleton(): array
+	public static function provide_test_format_with_id(): array
 	{
 		return [
 

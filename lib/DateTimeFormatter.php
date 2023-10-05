@@ -13,10 +13,10 @@ namespace ICanBoogie\CLDR;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use RuntimeException;
 
 use function ceil;
 use function floor;
-use function in_array;
 use function is_array;
 use function is_numeric;
 use function str_pad;
@@ -85,8 +85,7 @@ class DateTimeFormatter implements Formatter
 	{
 		static $formats = [];
 
-		if (isset($formats[$pattern]))
-		{
+		if (isset($formats[$pattern])) {
 			return $formats[$pattern];
 		}
 
@@ -94,51 +93,44 @@ class DateTimeFormatter implements Formatter
 		$is_literal = false;
 		$literal = '';
 
-		for ($i = 0, $n = strlen($pattern) ; $i < $n ; ++$i)
-		{
+		for ($i = 0, $n = strlen($pattern); $i < $n; ++$i) {
 			$c = $pattern[$i];
 
-			if ($c === "'")
-			{
-				if ($i < $n-1 && $pattern[$i+1] === "'")
-				{
+			if ($c === "'") {
+				if ($i < $n - 1 && $pattern[$i + 1] === "'") {
 					$tokens[] = "'";
 					$i++;
+				} else {
+					if ($is_literal) {
+						$tokens[] = $literal;
+						$literal = '';
+						$is_literal = false;
+					} else {
+						$is_literal = true;
+						$literal = '';
+					}
 				}
-				else if ($is_literal)
-				{
-					$tokens[] = $literal;
-					$literal = '';
-					$is_literal = false;
-				}
-				else
-				{
-					$is_literal = true;
-					$literal = '';
-				}
-			}
-			else if ($is_literal)
-			{
-				$literal .= $c;
-			}
-			else
-			{
-				for ($j = $i + 1 ; $j < $n ; ++$j)
-				{
-					if ($pattern[$j] !== $c) break;
-				}
+			} else {
+				if ($is_literal) {
+					$literal .= $c;
+				} else {
+					for ($j = $i + 1; $j < $n; ++$j) {
+						if ($pattern[$j] !== $c) {
+							break;
+						}
+					}
 
-				$l = $j-$i;
-				$p = str_repeat($c, $l);
+					$l = $j - $i;
+					$p = str_repeat($c, $l);
 
-				$tokens[] = isset(self::$formatters[$c]) ? [ self::$formatters[$c], $l ] : $p;
+					$tokens[] = isset(self::$formatters[$c]) ? [ self::$formatters[$c], $l ] : $p;
 
-				$i = $j - 1;
+					$i = $j - 1;
+				}
 			}
 		}
 
-		if ($literal)
-		{
+		if ($literal) {
 			$tokens[] = $literal;
 		}
 
@@ -150,13 +142,12 @@ class DateTimeFormatter implements Formatter
 	 */
 	static private function numeric_pad(int $value, int $length = 2): string
 	{
-		return str_pad((string) $value, $length, '0', STR_PAD_LEFT);
+		return str_pad((string)$value, $length, '0', STR_PAD_LEFT);
 	}
 
 	public function __construct(
 		public readonly Calendar $calendar
 	) {
-
 	}
 
 	/**
@@ -166,9 +157,11 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @throws \Exception
 	 */
-	public function __invoke($datetime, string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
-	{
-		return $this->format($datetime, $pattern_or_length_or_skeleton);
+	public function __invoke(
+		$datetime,
+		string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
+	): string {
+		return $this->format($datetime, $pattern_or_length_or_id);
 	}
 
 	/**
@@ -176,10 +169,6 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @param DateTimeInterface|string|int $datetime
 	 *     The datetime to format.
-	 * @param string|DateTimeFormatLength $pattern_or_length_or_skeleton
-	 *     The datetime can be formatted using a pattern, a {@link DateTimeFormatLength}, or a skeleton. To format the
-	 *     datetime using a so-called "skeleton", the skeleton identifier must be prefixed with the colon sign ":" e.g.
-	 *     ":Ehm". The skeleton identifies the patterns defined under `availableFormats`.
 	 *
 	 * @return string
 	 *     The formatted date time.
@@ -211,20 +200,21 @@ class DateTimeFormatter implements Formatter
 	 * @uses format_timezone_non_location
 	 *
 	 */
-	public function format($datetime, string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
-	{
+	public function format(
+		$datetime,
+		string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
+	): string {
 		$datetime = $this->ensure_datetime($datetime);
 		$datetime = new DateTimeAccessor($datetime);
-		$pattern = $this->resolve_pattern($pattern_or_length_or_skeleton);
+		$pattern = $this->resolve_pattern($pattern_or_length_or_id);
 		$tokens = self::tokenize($pattern);
 
 		$rc = '';
 
-		foreach ($tokens as $token)
-		{
+		foreach ($tokens as $token) {
 			if (is_array($token)) // a callback: method name, repeating chars
 			{
-				$token = $this->{ $token[0] }($datetime, $token[1]);
+				$token = $this->{$token[0]}($datetime, $token[1]);
 			}
 
 			$rc .= $token;
@@ -236,45 +226,37 @@ class DateTimeFormatter implements Formatter
 	/**
 	 * Resolves the specified pattern, which can be a width, a skeleton or an actual pattern.
 	 */
-	protected function resolve_pattern(string|DateTimeFormatLength $pattern_or_length_or_skeleton): string
-	{
-		if ($pattern_or_length_or_skeleton instanceof DateTimeFormatLength)
-		{
+	protected function resolve_pattern(
+		string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
+	): string {
+		if (is_string($pattern_or_length_or_id) && $pattern_or_length_or_id[0] === ':') {
+			trigger_error(
+				"Prefixing date time format ids with ':' is no longer supported, use DateTimeFormatId instead",
+				E_USER_DEPRECATED
+			);
+
+			$pattern_or_length_or_id = DateTimeFormatId::from(substr($pattern_or_length_or_id, 1));
+		}
+
+		if ($pattern_or_length_or_id instanceof DateTimeFormatLength) {
+			$length = $pattern_or_length_or_id->value;
 			$calendar = $this->calendar;
-			$width = $pattern_or_length_or_skeleton;
-			$datetime_pattern = $calendar['dateTimeFormats'][$width->value];
-			$date_pattern = $calendar['dateFormats'][$width->value];
-			$time_pattern = $calendar['timeFormats'][$width->value];
+			$datetime_pattern = $calendar['dateTimeFormats'][$length];
+			$date_pattern = $calendar['dateFormats'][$length];
+			$time_pattern = $calendar['timeFormats'][$length];
 
-			return strtr($datetime_pattern, [ '{1}' => $date_pattern, '{0}' => $time_pattern ]);
-		}
-		elseif ($pattern_or_length_or_skeleton[0] === ':')
-		{
-			$skeleton = substr($pattern_or_length_or_skeleton, 1);
-			$available_formats = $this->calendar['dateTimeFormats']['availableFormats'];
+			return strtr($datetime_pattern, [
+				'{1}' => $date_pattern,
+				'{0}' => $time_pattern
+			]);
+		} elseif ($pattern_or_length_or_id instanceof DateTimeFormatId) {
+			$id = $pattern_or_length_or_id->id;
 
-			if (isset($available_formats[$skeleton]))
-			{
-				return $available_formats[$skeleton];
-			}
+			return $this->calendar['dateTimeFormats']['availableFormats'][$id]
+				?? throw new RuntimeException("Unknown DateTime format id: $id");
 		}
 
-		return $pattern_or_length_or_skeleton;
-	}
-
-	/**
-	 * Resolves widths (full, long, medium, short) into a pattern.
-	 *
-	 * @param string $from Width Source e.g. "timeFormats".
-	 */
-	protected function resolve_width(string|DateTimeFormatLength $pattern_or_length_or_skeleton, string $from): string
-	{
-		if ($pattern_or_length_or_skeleton instanceof DateTimeFormatLength)
-		{
-			return $this->calendar[$from][$pattern_or_length_or_skeleton->value];
-		}
-
-		return $pattern_or_length_or_skeleton;
+		return $pattern_or_length_or_id;
 	}
 
 	/*
@@ -288,23 +270,18 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_era(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 5)
-		{
+		if ($length > 5) {
 			return '';
 		}
 
 		$era = ($datetime->year > 0) ? 1 : 0;
 
-		switch($length)
-		{
-			case 1:
-			case 2:
-			case 3: return $this->calendar->abbreviated_eras[$era];
-			case 4: return $this->calendar->wide_eras[$era];
-			case 5: return $this->calendar->narrow_eras[$era];
-		}
-
-		return ''; // @codeCoverageIgnore
+		return match ($length) {
+			1, 2, 3 => $this->calendar->abbreviated_eras[$era],
+			4 => $this->calendar->wide_eras[$era],
+			5 => $this->calendar->narrow_eras[$era],
+			default => '',
+		};
 	}
 
 	/*
@@ -319,8 +296,7 @@ class DateTimeFormatter implements Formatter
 	{
 		$year = $datetime->year;
 
-		if ($length == 2)
-		{
+		if ($length == 2) {
 			$year = $year % 100;
 		}
 
@@ -344,22 +320,19 @@ class DateTimeFormatter implements Formatter
 		string $abbreviated = 'abbreviated_quarters',
 		string $wide = 'wide_quarters'
 	): string {
-		if ($length > 4)
-		{
+		if ($length > 4) {
 			return '';
 		}
 
 		$quarter = $datetime->quarter;
 
-		switch ($length)
-		{
-			case 1: return (string) $quarter;
-			case 2: return self::numeric_pad($quarter);
-			case 3: $names = $this->calendar->$abbreviated; return $names[$quarter];
-			case 4: $names = $this->calendar->$wide; return $names[$quarter];
-		}
-
-		return ''; // @codeCoverageIgnore
+		return match ($length) {
+			1 => (string)$quarter,
+			2 => self::numeric_pad($quarter),
+			3 => $this->calendar->$abbreviated[$quarter],
+			4 => $this->calendar->$wide[$quarter],
+			default => '',
+		};
 	}
 
 	/**
@@ -372,10 +345,10 @@ class DateTimeFormatter implements Formatter
 	private function format_standalone_quarter(DateTimeAccessor $datetime, int $length): string
 	{
 		return $this->format_quarter(
-			$datetime,
-			$length,
-			'standalone_abbreviated_quarters',
-			'standalone_wide_quarters'
+			datetime: $datetime,
+			length: $length,
+			abbreviated: 'standalone_abbreviated_quarters',
+			wide: 'standalone_wide_quarters',
 		);
 	}
 
@@ -398,20 +371,26 @@ class DateTimeFormatter implements Formatter
 		string $wide = 'wide_months',
 		string $narrow = 'narrow_months'
 	): string {
-		if ($length > 5)
-		{
+		if ($length > 5) {
 			return '';
 		}
 
 		$month = $datetime->month;
 
-		switch ($length)
-		{
-			case 1: return (string) $month;
-			case 2: return self::numeric_pad($month);
-			case 3: $names = $this->calendar->$abbreviated; return $names[$month];
-			case 4: $names = $this->calendar->$wide; return $names[$month];
-			case 5: $names = $this->calendar->$narrow; return $names[$month];
+		switch ($length) {
+			case 1:
+				return (string)$month;
+			case 2:
+				return self::numeric_pad($month);
+			case 3:
+				$names = $this->calendar->$abbreviated;
+				return $names[$month];
+			case 4:
+				$names = $this->calendar->$wide;
+				return $names[$month];
+			case 5:
+				$names = $this->calendar->$narrow;
+				return $names[$month];
 		}
 
 		return ''; // @codeCoverageIgnore
@@ -428,11 +407,11 @@ class DateTimeFormatter implements Formatter
 	private function format_standalone_month(DateTimeAccessor $datetime, int $length): string
 	{
 		return $this->format_month(
-			$datetime,
-			$length,
-			'standalone_abbreviated_months',
-			'standalone_wide_months',
-			'standalone_narrow_months'
+			datetime: $datetime,
+			length: $length,
+			abbreviated: 'standalone_abbreviated_months',
+			wide: 'standalone_wide_months',
+			narrow: 'standalone_narrow_months'
 		);
 	}
 
@@ -445,14 +424,13 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_week_of_year(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 2)
-		{
+		if ($length > 2) {
 			return '';
 		}
 
 		$week = $datetime->week;
 
-		return $length == 1 ? (string) $week : self::numeric_pad($week);
+		return $length == 1 ? (string)$week : self::numeric_pad($week);
 	}
 
 	/**
@@ -460,12 +438,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_week_of_month(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 1)
-		{
+		if ($length > 1) {
 			return '';
 		}
 
-		return (string) ceil($datetime->day / 7) ?: "0";
+		return (string)ceil($datetime->day / 7) ?: "0";
 	}
 
 	/*
@@ -477,16 +454,14 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_day_of_month(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 2)
-		{
+		if ($length > 2) {
 			return '';
 		}
 
 		$day = $datetime->day;
 
-		if ($length == 1)
-		{
-			return (string) $day;
+		if ($length == 1) {
+			return (string)$day;
 		}
 
 		return self::numeric_pad($day);
@@ -499,8 +474,7 @@ class DateTimeFormatter implements Formatter
 	{
 		$day = $datetime->year_day;
 
-		if ($length > 3)
-		{
+		if ($length > 3) {
 			return '';
 		}
 
@@ -512,12 +486,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_day_of_week_in_month(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 1)
-		{
+		if ($length > 1) {
 			return '';
 		}
 
-		return (string) floor(($datetime->day + 6) / 7);
+		return (string)floor(($datetime->day + 6) / 7);
 	}
 
 	/*
@@ -530,8 +503,7 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_day_in_week(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 6)
-		{
+		if ($length > 6) {
 			return '';
 		}
 
@@ -539,24 +511,14 @@ class DateTimeFormatter implements Formatter
 		$code = $this->resolve_day_code($day);
 		$calendar = $this->calendar;
 
-		switch ($length)
-		{
-			case 1:
-			case 2:
-			case 3:
-				return $calendar->abbreviated_days[$code];
-
-			case 4:
-				return $calendar->wide_days[$code];
-
-			case 5:
-				return $calendar->narrow_days[$code];
-
-			case 6:
-				return $calendar->short_days[$code];
-		}
-
-		return ''; // @codeCoverageIgnore
+		return match ($length) {
+			1, 2, 3 => $calendar->abbreviated_days[$code],
+			4 => $calendar->wide_days[$code],
+			5 => $calendar->narrow_days[$code],
+			6 => $calendar->short_days[$code],
+			default => '',
+		};
+		// @codeCoverageIgnore
 	}
 
 	/**
@@ -580,21 +542,19 @@ class DateTimeFormatter implements Formatter
 
 		];
 
-		if ($length == 2 || $length > 6)
-		{
+		if ($length == 2 || $length > 6) {
 			return '';
 		}
 
 		$day = $datetime->weekday;
 
-		if ($length == 1)
-		{
-			return (string) $day;
+		if ($length == 1) {
+			return (string)$day;
 		}
 
 		$code = $this->resolve_day_code($day);
 
-		return $this->calendar->{ 'standalone_' . $mapping[$length] . '_days' }[$code];
+		return $this->calendar->{'standalone_' . $mapping[$length] . '_days'}[$code];
 	}
 
 	/**
@@ -604,9 +564,8 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_day_in_week_local(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length < 3)
-		{
-			return (string) $datetime->weekday;
+		if ($length < 3) {
+			return (string)$datetime->weekday;
 		}
 
 		return $this->format_day_in_week($datetime, $length);
@@ -638,17 +597,15 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_hour12(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 2)
-		{
+		if ($length > 2) {
 			return '';
 		}
 
 		$hour = $datetime->hour;
 		$hour = ($hour == 12) ? 12 : $hour % 12;
 
-		if ($length == 1)
-		{
-			return (string) $hour;
+		if ($length == 1) {
+			return (string)$hour;
 		}
 
 		return self::numeric_pad($hour);
@@ -662,16 +619,14 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_hour24(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 2)
-		{
+		if ($length > 2) {
 			return '';
 		}
 
 		$hour = $datetime->hour;
 
-		if ($length == 1)
-		{
-			return (string) $hour;
+		if ($length == 1) {
+			return (string)$hour;
 		}
 
 		return self::numeric_pad($hour);
@@ -683,16 +638,14 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_hour_in_period(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 2)
-		{
+		if ($length > 2) {
 			return '';
 		}
 
 		$hour = $datetime->hour % 12;
 
-		if ($length == 1)
-		{
-			return (string) $hour;
+		if ($length == 1) {
+			return (string)$hour;
 		}
 
 		return self::numeric_pad($hour);
@@ -704,16 +657,14 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_hour_in_day(DateTimeAccessor $datetime, int $length): string
 	{
-		if ($length > 2)
-		{
+		if ($length > 2) {
 			return '';
 		}
 
 		$hour = $datetime->hour ?: 24;
 
-		if ($length == 1)
-		{
-			return (string) $hour;
+		if ($length == 1) {
+			return (string)$hour;
 		}
 
 		return self::numeric_pad($hour);
@@ -748,15 +699,13 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function format_minutes_or_seconds(DateTimeAccessor $datetime, int $length, string $which): string
 	{
-		if ($length > 2)
-		{
+		if ($length > 2) {
 			return '';
 		}
 
 		$value = $datetime->$which;
 
-		if ($length == 1)
-		{
+		if ($length == 1) {
 			return $value;
 		}
 
@@ -792,12 +741,11 @@ class DateTimeFormatter implements Formatter
 	 */
 	private function ensure_datetime($datetime): DateTimeInterface
 	{
-		if ($datetime instanceof DateTimeInterface)
-		{
+		if ($datetime instanceof DateTimeInterface) {
 			return $datetime;
 		}
 
-		return new DateTimeImmutable(is_numeric($datetime) ? "@$datetime" : (string) $datetime);
+		return new DateTimeImmutable(is_numeric($datetime) ? "@$datetime" : (string)$datetime);
 	}
 
 	private function resolve_day_code(int $day): string
