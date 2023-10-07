@@ -13,7 +13,7 @@ lists…
 
 > **Note**
 >
-> The package targets [CLDR version 41](https://github.com/unicode-org/cldr/tree/release-41)—[Revision 66](https://www.unicode.org/reports/tr35/tr35-66/tr35.html).
+> The package targets [CLDR version 41](https://github.com/unicode-org/cldr-json/tree/41.0.0)—[Revision 66](https://www.unicode.org/reports/tr35/tr35-66/tr35.html).
 
 
 
@@ -187,7 +187,7 @@ supplemental data:
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Repository $repository 
+ * @var ICanBoogie\CLDR\Repository $repository
  */
 
 $english_locale = $repository->locales['en'];
