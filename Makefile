@@ -47,3 +47,24 @@ test-container-82:
 .PHONY: lint
 lint:
 	@XDEBUG_MODE=off vendor/bin/phpstan
+
+#
+# Generate
+#
+
+GENERATE=./generator/generate
+
+.PHONY=generate
+generate: \
+	lib/LocaleId.php \
+	lib/Units/SequenceCompanion.php \
+	lib/Units/UnitsCompanion.php
+
+lib/LocaleId.php:
+	$(GENERATE) locale-id >$@
+
+lib/Units/SequenceCompanion.php:
+	$(GENERATE) sequence-companion >$@
+
+lib/Units/UnitsCompanion.php:
+	$(GENERATE) units-companion >$@

@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+namespace ICanBoogie\CLDR\Generator;
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
+
+chdir(__DIR__);
+
+require_once 'vendor/autoload.php';
+
+const CACHE = __DIR__ . "/cache";
+
+$container = ContainerProvider::provide_container();
+
+/** @var ContainerCommandLoader $command_loader */
+
+$command_loader = $container->get('console.command_loader');
+
+$console = new Application();
+$console->setCommandLoader($command_loader);
+$console->run();

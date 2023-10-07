@@ -28,7 +28,7 @@ units. [Many units are available](https://www.unicode.org/reports/tr35/tr35-66/t
 ```php
 <?php
 
-/* @var $cldr \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Repository $cldr */
 
 $units = $cldr->locales['en']->units;
 

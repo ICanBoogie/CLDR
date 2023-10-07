@@ -24,7 +24,7 @@ None
 
 ### Other Changes
 
-None
+- Some code is now generated from CLDR data, such as `Units` getters and methods.
 
 
 

@@ -26,13 +26,9 @@ final class SequenceTest extends TestCase
 		$length = UnitLength::NARROW;
 
 		$units = $this->getMockBuilder(Units::class)
-			->onlyMethods([ 'assert_is_unit', 'format_sequence' ])
+			->onlyMethods([ 'format_sequence' ])
 			->disableOriginalConstructor()
 			->getMock();
-		$units
-			->expects($this->once())
-			->method('assert_is_unit')
-			->with($unit);
 		$units
 			->expects($this->once())
 			->method('format_sequence')
@@ -52,13 +48,9 @@ final class SequenceTest extends TestCase
 		$length = Units::DEFAULT_LENGTH;
 
 		$units = $this->getMockBuilder(Units::class)
-			->onlyMethods([ 'assert_is_unit', 'format_sequence' ])
+			->onlyMethods([ 'format_sequence' ])
 			->disableOriginalConstructor()
 			->getMock();
-		$units
-			->expects($this->once())
-			->method('assert_is_unit')
-			->with($unit);
 		$units
 			->expects($this->once())
 			->method('format_sequence')

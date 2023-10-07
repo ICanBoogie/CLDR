@@ -49,7 +49,7 @@ final class UnitsTest extends TestCase
 
 			[
 				'fr',
-				'acceleration-g-force',
+				'acceleration_g_force',
 				123.4504,
 				UnitLength::LONG,
 				"123,45 fois l’accélération de pesanteur terrestre"
@@ -268,22 +268,6 @@ final class UnitsTest extends TestCase
 		$unit = $units->angle_degree;
 
 		$this->assertSame($unit, $units->angle_degree);
-	}
-
-	#[Test]
-	public function should_fail_with_undefined_unit(): void
-	{
-		$this->expectExceptionMessage("No such unit: undefined-unit");
-		$this->expectException(BadMethodCallException::class);
-		$this->units_for('fr')->{'undefined_unit'}();
-	}
-
-	public function test_unit_method_requires_one_argument(): void
-	{
-		$this->expectExceptionMessage("acceleration_g_force() expects one argument, got 0");
-		$this->expectException(BadMethodCallException::class);
-
-		$this->units_for('en')->acceleration_g_force(); // @phpstan-ignore-line
 	}
 
 	private function units_for(string $locale): Units

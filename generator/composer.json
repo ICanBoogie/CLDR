@@ -1,0 +1,31 @@
+{
+  "name": "icanboogie/cldr-generator",
+  "description": "Generates CLDR classes",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Olivier Laviale",
+      "email": "olivier.laviale@gmail.com",
+      "homepage": "https://olvlvl.com/",
+      "role": "Developer"
+    }
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.1",
+    "icanboogie/accessor": "^6.0",
+    "symfony/console": "^6.3",
+    "symfony/dependency-injection": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "ICanBoogie\\CLDR\\": "../lib",
+      "ICanBoogie\\CLDR\\Generator\\": "src"
+    }
+  }
+}
