@@ -16,7 +16,7 @@ use function uniqid;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-	public function testCache()
+	public function testCache(): void
 	{
 		$cache = $this->makeCache();
 		$this->assertNull($cache->get($path = $this->generatePath()));
@@ -26,15 +26,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 		$this->assertSame($data, $cache->get($path));
 	}
 
-	/**
-	 * @return Cache
-	 */
-	abstract protected function makeCache();
+	abstract protected function makeCache(): Cache;
 
-	/**
-	 * @return string
-	 */
-	private function generatePath()
+	private function generatePath(): string
 	{
 		return uniqid() . '/' . uniqid();
 	}

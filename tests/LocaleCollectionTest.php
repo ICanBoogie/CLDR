@@ -18,12 +18,9 @@ use PHPUnit\Framework\TestCase;
 
 final class LocaleCollectionTest extends TestCase
 {
-	/**
-	 * @var LocaleCollection
-	 */
-	static private $sut;
+	private static LocaleCollection $sut;
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
 		self::$sut = new LocaleCollection(get_repository());
 	}

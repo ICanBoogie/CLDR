@@ -16,10 +16,7 @@ use const ICanBoogie\CLDR\CACHE_DIR;
 
 class FileCacheTest extends TestCase
 {
-	/**
-	 * @return Cache
-	 */
-	protected function makeCache()
+	protected function makeCache(): Cache
 	{
 		return new FileCache(CACHE_DIR);
 	}

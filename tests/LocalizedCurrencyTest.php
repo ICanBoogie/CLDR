@@ -11,23 +11,17 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LocalizedCurrencyTest extends TestCase
 {
-    use StringHelpers;
+	use StringHelpers;
 
-	/**
-	 * @var Currency
-	 */
-	static private $currency;
+	private static Currency $currency;
+	private static LocalizedCurrency $localized;
 
-	/**
-	 * @var LocalizedCurrency
-	 */
-	static private $localized;
-
-	static public function setUpBeforeClass(): void
+	public static function setUpBeforeClass(): void
 	{
 		self::$currency = new Currency(get_repository(), 'IEP');
 		self::$localized = new LocalizedCurrency(self::$currency, get_repository()->locales['fr']);
@@ -83,12 +77,8 @@ final class LocalizedCurrencyTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_format_accounting
-	 *
-	 * @param float|int $number
-	 */
-	public function test_format_accounting(string $currency_code, string $locale_code, $number, string $expected)
+	#[DataProvider('provide_test_format_accounting')]
+	public function test_format_accounting(string $currency_code, string $locale_code, float $number, string $expected)
 	{
 		$currency = new Currency(get_repository(), $currency_code);
 		$localized = $currency->localize($locale_code);
@@ -98,8 +88,8 @@ final class LocalizedCurrencyTest extends TestCase
 
 	public static function provide_test_format_accounting(): array
 	{
-	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
-	    $s2 = Spaces::NO_BREAK_SPACE;
+		$s1 = Spaces::NARROW_NO_BREAK_SPACE;
+		$s2 = Spaces::NO_BREAK_SPACE;
 
 		return [
 

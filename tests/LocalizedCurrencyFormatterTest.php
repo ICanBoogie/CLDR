@@ -11,21 +11,15 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LocalizedCurrencyFormatterTest extends TestCase
 {
-    use StringHelpers;
+	use StringHelpers;
 
-	/**
-	 * @var CurrencyFormatter
-	 */
-	private $formatter;
-
-	/**
-	 * @var Repository
-	 */
-	private $repository;
+	private CurrencyFormatter $formatter;
+	private Repository $repository;
 
 	protected function setUp(): void
 	{
@@ -33,13 +27,13 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 		$this->formatter = new CurrencyFormatter();
 	}
 
-	/**
-	 * @dataProvider provide_test_format
-	 *
-	 * @param numeric $number
-	 */
-	public function test_format(string $currency_code, string $locale_code, $number, string $expected): void
-	{
+	#[DataProvider('provide_test_format')]
+	public function test_format(
+		string $currency_code,
+		string $locale_code,
+		float $number,
+		string $expected
+	): void {
 		$formatter = new LocalizedCurrencyFormatter(
 			$this->formatter,
 			$this->repository->locales[$locale_code]
@@ -51,8 +45,8 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 
 	public static function provide_test_format(): array
 	{
-        $s1 = Spaces::NARROW_NO_BREAK_SPACE;
-        $s2 = Spaces::NO_BREAK_SPACE;
+		$s1 = Spaces::NARROW_NO_BREAK_SPACE;
+		$s2 = Spaces::NO_BREAK_SPACE;
 
 		return [
 
@@ -91,8 +85,8 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 
 	public static function provide_test_format_accounting(): array
 	{
-        $s1 = Spaces::NARROW_NO_BREAK_SPACE;
-        $s2 = Spaces::NO_BREAK_SPACE;
+		$s1 = Spaces::NARROW_NO_BREAK_SPACE;
+		$s2 = Spaces::NO_BREAK_SPACE;
 
 		return [
 

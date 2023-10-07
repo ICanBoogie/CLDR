@@ -7,3 +7,4 @@ parameters:
   ignoreErrors:
     - '#get_.* is unused.#'
     - '#__call\(\) has parameter \$arguments#'
+    - '#Test::provide_.+ return type has no value#'

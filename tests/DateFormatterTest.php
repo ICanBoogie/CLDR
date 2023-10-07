@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DateFormatterTest extends TestCase
@@ -18,9 +19,9 @@ final class DateFormatterTest extends TestCase
 	/**
 	 * @var array<string, DateFormatter>
 	 */
-	static private array $formatters = [];
+	private static array $formatters = [];
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
 		$repository = get_repository();
 
@@ -28,9 +29,7 @@ final class DateFormatterTest extends TestCase
 		self::$formatters['fr'] = new DateFormatter($repository->locales['fr']->calendar);
 	}
 
-	/**
-	 * @dataProvider provide_test_format
-	 */
+	#[DataProvider('provide_test_format')]
 	public function test_format(
 		string $locale,
 		string $datetime,
@@ -42,9 +41,6 @@ final class DateFormatterTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_format(): array
 	{
 		return [

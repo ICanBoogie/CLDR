@@ -14,33 +14,26 @@ namespace ICanBoogie\CLDR;
 use ICanBoogie\CLDR\Supplemental\CurrencyData;
 use ICanBoogie\OffsetNotDefined;
 use ICanBoogie\OffsetNotWritable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class SupplementalTest extends TestCase
 {
-	/**
-	 * @var Supplemental
-	 */
-	static private $stu;
+	private static Supplemental $sut;
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
-		self::$stu = get_repository()->supplemental;
+		self::$sut = get_repository()->supplemental;
 	}
 
-	/**
-	 * @dataProvider provide_test_sections
-	 */
+	#[DataProvider('provide_test_sections')]
 	public function test_sections(string $section, string $key): void
 	{
-		$section_data = self::$stu[$section];
+		$section_data = self::$sut[$section];
 		$this->assertIsArray($section_data);
 		$this->assertArrayHasKey($key, $section_data);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_sections(): array
 	{
 		return [
@@ -77,19 +70,14 @@ final class SupplementalTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_properties
-	 */
+	#[DataProvider('provide_properties')]
 	public function test_properties(string $property, string $expected): void
 	{
-		$this->assertInstanceOf($expected, $value = self::$stu->$property);
+		$this->assertInstanceOf($expected, $value = self::$sut->$property);
 		// Make sure values are lazy created and reused
-		$this->assertSame($value, self::$stu->$property);
+		$this->assertSame($value, self::$sut->$property);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_properties(): array
 	{
 		return [
@@ -101,12 +89,12 @@ final class SupplementalTest extends TestCase
 
 	public function test_default_calendar(): void
 	{
-		$this->assertArrayHasKey('001', self::$stu['calendarPreferenceData']);
+		$this->assertArrayHasKey('001', self::$sut['calendarPreferenceData']);
 	}
 
     public function test_offset_exists(): void
     {
-        $s = self::$stu;
+        $s = self::$sut;
 
         $this->assertTrue(isset($s['calendarPreferenceData']));
         $this->assertTrue(isset($s['numberingSystems']));
@@ -115,21 +103,21 @@ final class SupplementalTest extends TestCase
 
 	public function test_should_throw_exception_when_getting_undefined_offset(): void
     {
-	    $s = self::$stu;
+	    $s = self::$sut;
 	    $this->expectException(OffsetNotDefined::class);
         $s[uniqid()]; // @phpstan-ignore-line
     }
 
 	public function test_should_throw_exception_in_attempt_to_set_offset(): void
     {
-	    $s = self::$stu;
+	    $s = self::$sut;
 	    $this->expectException(OffsetNotWritable::class);
         $s['timeData'] = null;
     }
 
 	public function test_should_throw_exception_in_attempt_to_unset_offset(): void
     {
-	    $s = self::$stu;
+	    $s = self::$sut;
 	    $this->expectException(OffsetNotWritable::class);
         unset($s['timeData']);
     }

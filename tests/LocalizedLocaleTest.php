@@ -11,13 +11,12 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LocalizedLocaleTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_get_name
-	 */
+	#[DataProvider('provide_test_get_name')]
 	public function test_get_name(string $locale_code, string $code, string $expected): void
 	{
 		$locale = new Locale(get_repository(), $code);

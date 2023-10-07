@@ -11,23 +11,24 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class TerritoryTest extends TestCase
 {
-	public function test_get_info()
+	public function test_get_info(): void
 	{
 		$territory = new Territory(get_repository(), 'FR');
 		$this->assertIsArray($territory->info);
 	}
 
-	public function test_get_containment()
+	public function test_get_containment(): void
 	{
 		$territory = new Territory(get_repository(), 'EU');
 		$this->assertIsArray($territory->containment);
 	}
 
-	public function test_is_containing()
+	public function test_is_containing(): void
 	{
 		$territory = new Territory(get_repository(), 'EU');
 
@@ -35,9 +36,7 @@ final class TerritoryTest extends TestCase
 		$this->assertFalse($territory->is_containing('TA'));
 	}
 
-	/**
-	 * @dataProvider provide_test_get_currency
-	 */
+	#[DataProvider('provide_test_get_currency')]
 	public function test_get_currency(string $expected, string $territory_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
@@ -56,10 +55,9 @@ final class TerritoryTest extends TestCase
 	}
 
 	/**
-	 * @dataProvider provide_test_currency_at
-	 *
 	 * @param mixed $date
 	 */
+	#[DataProvider('provide_test_currency_at')]
 	public function test_currency_at(string $expected, string $territory_code, $date): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
@@ -82,9 +80,7 @@ final class TerritoryTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_get_language
-	 */
+	#[DataProvider('provide_test_get_language')]
 	public function test_get_language(string $expected, string $territory_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
@@ -108,9 +104,7 @@ final class TerritoryTest extends TestCase
 		$this->assertNotEmpty($territory->population);
 	}
 
-	/**
-	 * @dataProvider provide_test_name_as
-	 */
+	#[DataProvider('provide_test_name_as')]
 	public function test_name_as(string $expected, string $territory_code, string $locale_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
@@ -129,9 +123,7 @@ final class TerritoryTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_get_name_as
-	 */
+	#[DataProvider('provide_test_get_name_as')]
 	public function test_get_name_as(string $expected, string $territory_code, string $locale_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
@@ -150,9 +142,7 @@ final class TerritoryTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_get_property
-	 */
+	#[DataProvider('provide_test_get_property')]
 	public function test_get_property(string $expected, string $territory_code, string $property): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);

@@ -16,10 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CurrencyCollectionTest extends TestCase
 {
-	/**
-	 * @var CurrencyCollection
-	 */
-	private $sut;
+	private CurrencyCollection $sut;
 
 	protected function setUp(): void
 	{

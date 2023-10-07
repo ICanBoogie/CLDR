@@ -17,9 +17,9 @@ use PHPUnit\Framework\TestCase;
 
 final class CalendarTest extends TestCase
 {
-	static private Calendar $calendar;
+	private static Calendar $calendar;
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
 		self::$calendar = get_repository()->locales['fr']->calendars['gregorian']; // @phpstan-ignore-line
 	}
@@ -37,9 +37,6 @@ final class CalendarTest extends TestCase
 		$this->assertSame($instance, self::$calendar->$property);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provider_test_property_instanceof(): array
 	{
 		return [
@@ -64,9 +61,6 @@ final class CalendarTest extends TestCase
 		$this->assertTrue(self::$calendar->offsetExists($key));
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_access(): array
 	{
 		return [
@@ -97,9 +91,6 @@ final class CalendarTest extends TestCase
 		$this->assertEquals(self::$calendar->$property, $expected);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_date_patterns_shortcuts(): array
 	{
 		return [

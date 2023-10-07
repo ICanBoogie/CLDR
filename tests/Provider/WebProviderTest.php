@@ -16,9 +16,6 @@ use PHPUnit\Framework\TestCase;
 
 final class WebProviderTest extends TestCase
 {
-	/**
-	 * @throws ResourceNotFound
-	 */
 	public function test_provide_ok(): void
 	{
 		$provider = new WebProvider();

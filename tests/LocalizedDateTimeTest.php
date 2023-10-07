@@ -21,9 +21,9 @@ final class LocalizedDateTimeTest extends TestCase
 	/**
 	 * @var array<string, LocalizedDateTime>
 	 */
-	static private array $localized_dates;
+	private static array $localized_dates;
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
 		$datetime = new DateTime('2013-11-04 20:21:22 UTC');
 
@@ -71,9 +71,6 @@ final class LocalizedDateTimeTest extends TestCase
 		$this->assertEquals($expected, self::$localized_dates[$locale]->$method());
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_as(): array
 	{
 		return [
@@ -104,9 +101,6 @@ final class LocalizedDateTimeTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_format_with_id(): array
 	{
 		return [

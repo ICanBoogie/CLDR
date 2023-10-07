@@ -17,10 +17,7 @@ use function ICanBoogie\CLDR\get_repository;
 
 final class CurrencyDataTest extends TestCase
 {
-	/**
-	 * @var CurrencyData
-	 */
-	private $sut;
+	private CurrencyData $sut;
 
 	protected function setUp(): void
 	{
@@ -50,9 +47,6 @@ final class CurrencyDataTest extends TestCase
 		);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_fraction_for(): array
 	{
 		return [

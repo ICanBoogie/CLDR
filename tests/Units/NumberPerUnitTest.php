@@ -23,9 +23,9 @@ final class NumberPerUnitTest extends TestCase
 {
     use StringHelpers;
 
-	static private LocaleCollection $locales;
+	private static LocaleCollection $locales;
 
-	static public function setUpBeforeClass(): void
+	public static function setUpBeforeClass(): void
 	{
 		self::$locales = get_repository()->locales;
 	}
@@ -56,9 +56,6 @@ final class NumberPerUnitTest extends TestCase
 		$this->assertSame($expected, $stu->{ 'as_' . $length->value });
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_cases(): array
 	{
 		return [

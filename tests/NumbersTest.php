@@ -12,13 +12,12 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Numbers\Symbols;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class NumbersTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_shortcuts
-	 */
+	#[DataProvider('provide_test_shortcuts')]
 	public function test_shortcuts(string $locale_code, string $property, string $offset): void
 	{
 		$locale = get_repository()->locales[$locale_code];
@@ -28,9 +27,6 @@ final class NumbersTest extends TestCase
 		$this->assertSame($numbers_data[$offset], $numbers->$property);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_shortcuts(): array
 	{
 		return [
@@ -44,9 +40,7 @@ final class NumbersTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_symbols
-	 */
+	#[DataProvider('provide_symbols')]
 	public function test_symbols(string $locale_code, Symbols $expected): void
 	{
 		$locale = get_repository()->locales[$locale_code];
@@ -56,9 +50,6 @@ final class NumbersTest extends TestCase
 		$this->assertEquals($expected, $numbers->symbols);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_symbols(): array
 	{
 		return [
@@ -117,9 +108,7 @@ final class NumbersTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_decimal_width_shortcuts
-	 */
+	#[DataProvider('provide_test_decimal_width_shortcuts')]
 	public function test_decimal_width_shortcuts(string $locale_code, string $property, string $offset, string $width_offset): void
 	{
 		$locale = get_repository()->locales[$locale_code];
@@ -129,9 +118,6 @@ final class NumbersTest extends TestCase
 		$this->assertSame($numbers_data[$offset][$width_offset]['decimalFormat'], $numbers->$property);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_decimal_width_shortcuts(): array
 	{
 		return [
@@ -142,9 +128,7 @@ final class NumbersTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_get_decimal_format
-	 */
+	#[DataProvider('provide_test_get_decimal_format')]
 	public function test_get_decimal_format(string $locale_code, string $expected): void
 	{
 		$locale = get_repository()->locales[$locale_code];
@@ -153,9 +137,6 @@ final class NumbersTest extends TestCase
 		$this->assertEquals($expected, $numbers->decimal_format);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_get_decimal_format(): array
 	{
 		return [

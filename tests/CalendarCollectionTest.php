@@ -13,16 +13,14 @@ namespace ICanBoogie\CLDR;
 
 use BadMethodCallException;
 use ICanBoogie\OffsetNotWritable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class CalendarCollectionTest extends TestCase
 {
-	/**
-	 * @var CalendarCollection
-	 */
-	static private $collection;
+	private static CalendarCollection $collection;
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
 		self::$collection = get_repository()->locales['fr']->calendars;
 	}
@@ -45,9 +43,7 @@ final class CalendarCollectionTest extends TestCase
 		unset(self::$collection['gregorian']);
 	}
 
-	/**
-	 * @dataProvider provide_test_get
-	 */
+	#[DataProvider('provide_test_get')]
 	public function test_get(string $calendar_id): void
 	{
 		$calendar = self::$collection[$calendar_id];

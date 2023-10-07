@@ -23,9 +23,9 @@ final class NumberWithUnitTest extends TestCase
 {
     use StringHelpers;
 
-	static private LocaleCollection $locales;
+	private static LocaleCollection $locales;
 
-	static public function setUpBeforeClass(): void
+	public static function setUpBeforeClass(): void
 	{
 		self::$locales = get_repository()->locales;
 	}

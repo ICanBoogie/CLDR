@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR\Plurals;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function array_map;
@@ -22,11 +23,9 @@ use function range;
 final class SamplesTest extends TestCase
 {
 	/**
-	 * @dataProvider provide_test_samples
-	 *
-	 * @param string $rules
-	 * @param array $expected
+	 * @param array<int|float|numeric-string> $expected
 	 */
+	#[DataProvider('provide_test_samples')]
 	public function test_samples(string $rules, array $expected): void
 	{
 		$samples = Samples::from($rules);

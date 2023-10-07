@@ -19,9 +19,9 @@ final class LocaleTest extends TestCase
 {
     use StringHelpers;
 
-	static private Locale $locale;
+	private static Locale $locale;
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
 		self::$locale = new Locale(get_repository(), 'fr');
 	}
@@ -39,9 +39,6 @@ final class LocaleTest extends TestCase
 		$this->assertEquals($expected, $locale->language);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_get_language(): array
 	{
 		return [
@@ -62,9 +59,6 @@ final class LocaleTest extends TestCase
 		$this->assertSame($instance, $locale->$property);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_properties_instanceof(): array
 	{
 		return [
@@ -90,9 +84,6 @@ final class LocaleTest extends TestCase
 		$this->assertArrayHasKey($key, $section_data);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_sections(): array
 	{
 		return [
@@ -131,20 +122,13 @@ final class LocaleTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_localize
-	 *
-	 * @param object $source
-	 */
-	public function test_localize(string $expected, $source): void
+	#[DataProvider('provide_test_localize')]
+	public function test_localize(string $expected, object $source): void
 	{
 		$localized = self::$locale->localize($source);
 		$this->assertInstanceOf($expected, $localized);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_localize(): array
 	{
 		return [

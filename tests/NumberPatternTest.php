@@ -11,13 +11,12 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class NumberPatternTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_properties
-	 */
+	#[DataProvider('provide_test_properties')]
 	public function test_properties(string $pattern, array $properties): void
 	{
 		$instance = NumberPattern::from($pattern);

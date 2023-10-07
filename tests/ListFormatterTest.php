@@ -12,16 +12,15 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Locale\ListPattern;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ListFormatterTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_format
-	 */
+	#[DataProvider('provide_test_format')]
 	public function test_format(array $list, ListPattern $list_pattern, string $expected): void
 	{
-		$formatter = new ListFormatter;
+		$formatter = new ListFormatter();
 		$this->assertSame($expected, $formatter($list, $list_pattern));
 	}
 

@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR\Plurals;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,11 +20,10 @@ use PHPUnit\Framework\TestCase;
 final class RuleTest extends TestCase
 {
 	/**
-	 * @dataProvider provide_test_cases
-	 *
-	 * @param number $number
+	 * @param float|int|numeric-string $number $number
 	 */
-	public function test_cases(string $rule, $number, bool $expected): void
+	#[DataProvider('provide_test_cases')]
+	public function test_cases(string $rule, float|int|string $number, bool $expected): void
 	{
 		$this->assertSame($expected, Rule::from($rule)->validate($number));
 	}

@@ -11,16 +11,13 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LocalizedNumberFormatterTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_format
-	 *
-	 * @param numeric $number
-	 */
-	public function test_format(string $locale_code, $number, ?string $pattern, string $expected): void
+	#[DataProvider('provide_test_format')]
+	public function test_format(string $locale_code, float|int $number, ?string $pattern, string $expected): void
 	{
 		$formatter = new NumberFormatter();
 		$localized = new LocalizedNumberFormatter($formatter, get_repository()->locales[$locale_code]);

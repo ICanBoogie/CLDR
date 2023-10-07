@@ -13,23 +13,19 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Locale\ListPattern;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class RepositoryTest extends TestCase
 {
-	/**
-	 * @var Repository
-	 */
-	private $repository;
+	private Repository $repository;
 
 	protected function setUp(): void
 	{
 		$this->repository = get_repository();
 	}
 
-	/**
-	 * @dataProvider provide_test_properties_instanceof
-	 */
+	#[DataProvider('provide_test_properties_instanceof')]
 	public function test_properties_instanceof(string $property, string $expected): void
 	{
 		$repository = $this->repository;
@@ -42,15 +38,15 @@ final class RepositoryTest extends TestCase
 	{
 		return [
 
-			[ 'currencies',         CurrencyCollection::class ],
-			[ 'locales',            LocaleCollection::class ],
-			[ 'provider',           Provider::class ],
-			[ 'supplemental',       Supplemental::class ],
-			[ 'territories',        TerritoryCollection::class ],
-			[ 'number_formatter',   NumberFormatter::class ],
+			[ 'currencies', CurrencyCollection::class ],
+			[ 'locales', LocaleCollection::class ],
+			[ 'provider', Provider::class ],
+			[ 'supplemental', Supplemental::class ],
+			[ 'territories', TerritoryCollection::class ],
+			[ 'number_formatter', NumberFormatter::class ],
 			[ 'currency_formatter', CurrencyFormatter::class ],
-			[ 'list_formatter',     ListFormatter::class ],
-			[ 'plurals',            Plurals::class ],
+			[ 'list_formatter', ListFormatter::class ],
+			[ 'plurals', Plurals::class ],
 
 		];
 	}
@@ -76,7 +72,7 @@ final class RepositoryTest extends TestCase
 		$list = [ 'one', 'two', 'three' ];
 		$list_pattern = ListPattern::from([
 
-			'2' =>  "{0} and {1}",
+			'2' => "{0} and {1}",
 			'start' => "{0}, {1}",
 			'middle' => "{0}, {1}",
 			'end' => "{0}, and {1}",
@@ -86,9 +82,7 @@ final class RepositoryTest extends TestCase
 		$this->assertSame("one, two, and three", $this->repository->format_list($list, $list_pattern));
 	}
 
-	/**
-	 * @dataProvider provide_test_properties
-	 */
+	#[DataProvider('provide_test_properties')]
 	public function test_properties(string $property, callable $assert): void
 	{
 		$assert($this->repository->$property);
@@ -98,21 +92,20 @@ final class RepositoryTest extends TestCase
 	{
 		return [
 
-			[ 'available_locales', function($value) {
-
-				Assert::assertContains('fr', $value);
-				Assert::assertContains('en', $value);
-				Assert::assertNotContains('fr-FR', $value);
-				Assert::assertNotContains('en-US', $value);
-
-			} ]
+			[
+				'available_locales',
+				function ($value) {
+					Assert::assertContains('fr', $value);
+					Assert::assertContains('en', $value);
+					Assert::assertNotContains('fr-FR', $value);
+					Assert::assertNotContains('en-US', $value);
+				}
+			]
 
 		];
 	}
 
-	/**
-	 * @dataProvider provide_test_is_locale_available
-	 */
+	#[DataProvider('provide_test_is_locale_available')]
 	public function test_is_locale_available(string $locale, bool $expected): void
 	{
 		$this->assertSame($expected, get_repository()->is_locale_available($locale));

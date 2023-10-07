@@ -15,10 +15,7 @@ use ICanBoogie\CLDR\Cache;
 
 class RunTimeCacheTest extends TestCase
 {
-	/**
-	 * @return Cache
-	 */
-	protected function makeCache()
+	protected function makeCache(): Cache
 	{
 		return new RuntimeCache();
 	}

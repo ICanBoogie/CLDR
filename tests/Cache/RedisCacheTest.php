@@ -16,10 +16,7 @@ use Redis;
 
 class RedisCacheTest extends TestCase
 {
-	/**
-	 * @return Cache
-	 */
-	protected function makeCache()
+	protected function makeCache(): Cache
 	{
 		$redis = new Redis();
 		$redis->connect(getenv('ICANBOOGIE_CLDR_REDIS_HOST'), getenv('ICANBOOGIE_CLDR_REDIS_PORT'));

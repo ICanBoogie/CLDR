@@ -12,13 +12,12 @@
 namespace ICanBoogie\CLDR;
 
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class TerritoryNotDefinedTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_instance
-	 */
+	#[DataProvider('provide_instance')]
 	public function test_instance(string $territory_code, ?string $message, string $expected_message, Exception $previous = null): void
 	{
 		$sut = new TerritoryNotDefined($territory_code, $message, $previous);
@@ -31,7 +30,7 @@ final class TerritoryNotDefinedTest extends TestCase
 	public static function provide_instance(): array
 	{
 		$territory_code = 'FR';
-		$previous = new Exception;
+		$previous = new Exception();
 
 		return [
 

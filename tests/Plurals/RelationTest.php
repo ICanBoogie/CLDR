@@ -23,7 +23,7 @@ final class RelationTest extends TestCase
 	 *
 	 * @param float|int $number
 	 */
-	public function test_cases(string $relation, $number, bool $expected): void
+	public function test_cases(string $relation, float|int $number, bool $expected): void
 	{
 		$operands = Operands::from($number);
 

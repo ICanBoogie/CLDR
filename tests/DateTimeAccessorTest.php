@@ -12,13 +12,12 @@
 namespace ICanBoogie\CLDR;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeAccessorTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_properties
-	 */
+	#[DataProvider('provide_test_properties')]
 	public function test_properties(string $property, int $expected): void
 	{
 		$datetime = new \DateTime("2016-09-17T12:22:32+02:00");

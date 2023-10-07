@@ -13,13 +13,12 @@ namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class UnitTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_properties
-	 */
+	#[DataProvider('provide_test_properties')]
 	public function test_properties(string $unit, string $property, UnitLength $length, string $expected): void
 	{
 		$units = $this->getMockBuilder(Units::class)
@@ -36,9 +35,6 @@ final class UnitTest extends TestCase
 		$this->assertSame($expected, (new Unit($units, $unit))->$property);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_properties(): array
 	{
 		return [

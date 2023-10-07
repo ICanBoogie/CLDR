@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class CurrencyTest extends TestCase
@@ -25,9 +26,7 @@ final class CurrencyTest extends TestCase
 		$this->assertSame($fraction, $currency->fraction);
 	}
 
-	/**
-	 * @dataProvider provide_fraction_properties
-	 */
+	#[DataProvider('provide_fraction_properties')]
 	public function test_fraction_properties(string $code, string $property, int $expected): void
 	{
 		$currency = new Currency(get_repository(), $code);
@@ -35,9 +34,6 @@ final class CurrencyTest extends TestCase
 		$this->assertSame($expected, $currency->fraction->$property);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_fraction_properties(): array
 	{
 		return [

@@ -13,15 +13,16 @@ namespace ICanBoogie\CLDR;
 
 use BadMethodCallException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class UnitsTest extends TestCase
 {
-    use StringHelpers;
+	use StringHelpers;
 
-	static private LocaleCollection $locales;
+	private static LocaleCollection $locales;
 
-	static public function setUpBeforeClass(): void
+	public static function setUpBeforeClass(): void
 	{
 		self::$locales = get_repository()->locales;
 	}
@@ -37,19 +38,22 @@ final class UnitsTest extends TestCase
 		UnitLength $length,
 		string $expected
 	): void {
-		$actual = $this->units_for($locale)->$unit($number)->{ 'as_' . $length->value };
+		$actual = $this->units_for($locale)->$unit($number)->{'as_' . $length->value};
 
 		$this->assertSame($expected, $actual);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_cases(): array
 	{
 		return [
 
-			[ 'fr', 'acceleration-g-force', 123.4504, UnitLength::LONG, "123,45 fois l’accélération de pesanteur terrestre" ],
+			[
+				'fr',
+				'acceleration-g-force',
+				123.4504,
+				UnitLength::LONG,
+				"123,45 fois l’accélération de pesanteur terrestre"
+			],
 			[ 'fr', 'digital_gigabyte', 123.4504, UnitLength::LONG, "123,45 gigaoctets" ],
 			[ 'fr', 'digital_gigabyte', 123.4504, UnitLength::SHORT, "123,45 Go" ],
 			[ 'fr', 'digital_gigabyte', 123.4504, UnitLength::NARROW, "123,45Go" ],
@@ -77,9 +81,6 @@ final class UnitsTest extends TestCase
 		$this->assertSame($expected, $actual);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_format_compound(): array
 	{
 		return [
@@ -92,8 +93,15 @@ final class UnitsTest extends TestCase
 			[ 'fr', 12.345, 'volume-liter', 'duration-hour', UnitLength::SHORT, "12,345 l/h" ],
 			[ 'fr', 12.345, 'volume-liter', 'duration-hour', UnitLength::NARROW, "12,345l/h" ],
 
-			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', UnitLength::LONG, "12,345 litres par mètre carré"],
-			[ 'fr', 12.345, 'angle-revolution', 'length-light-year', UnitLength::LONG, "12,345 tours par années-lumière"],
+			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', UnitLength::LONG, "12,345 litres par mètre carré" ],
+			[
+				'fr',
+				12.345,
+				'angle-revolution',
+				'length-light-year',
+				UnitLength::LONG,
+				"12,345 tours par années-lumière"
+			],
 
 		];
 	}
@@ -106,111 +114,128 @@ final class UnitsTest extends TestCase
 		$this->assertStringSame($expected, $actual);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_format_sequence(): array
 	{
-	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
-	    $s2 = Spaces::NO_BREAK_SPACE;
+		$s1 = Spaces::NARROW_NO_BREAK_SPACE;
+		$s2 = Spaces::NO_BREAK_SPACE;
 
 		return [
 
-			[ 'en', function (Units $units) {
+			[
+				'en',
+				function (Units $units) {
+					return $units->sequence
+						->angle_degree(5)
+						->duration_minute(30)
+						->as_long;
+				},
+				"5 degrees, 30 minutes"
+			],
 
-				return $units->sequence
-					->angle_degree(5)
-					->duration_minute(30)
-					->as_long;
+			[
+				'en',
+				function (Units $units) {
+					return $units->sequence
+						->angle_degree(5)
+						->duration_minute(30)
+						->as_narrow;
+				},
+				"5° 30m"
+			],
 
-			}, "5 degrees, 30 minutes" ],
+			[
+				'en',
+				function (Units $units) {
+					return $units->sequence
+						->length_foot(3)
+						->length_inch(2)
+						->as_short;
+				},
+				"3 ft, 2 in"
+			],
 
-			[ 'en', function (Units $units) {
+			[
+				'en',
+				function (Units $units) {
+					return $units->sequence
+						->length_foot(3)
+						->length_inch(2)
+						->as_narrow;
+				},
+				"3′ 2″"
+			],
 
-				return $units->sequence
-					->angle_degree(5)
-					->duration_minute(30)
-					->as_narrow;
+			[
+				'en',
+				function (Units $units) {
+					return $units->sequence
+						->duration_hour(12)
+						->duration_minute(34)
+						->duration_second(56)
+						->as_long;
+				},
+				"12 hours, 34 minutes, 56 seconds"
+			],
 
-			}, "5° 30m" ],
+			[
+				'en',
+				function (Units $units) {
+					return $units->sequence
+						->duration_hour(12)
+						->duration_minute(34)
+						->duration_second(56)
+						->as_short;
+				},
+				"12 hr, 34 min, 56 sec"
+			],
 
-			[ 'en', function (Units $units) {
+			[
+				'en',
+				function (Units $units) {
+					return $units->sequence
+						->duration_hour(12)
+						->duration_minute(34)
+						->duration_second(56)
+						->as_narrow;
+				},
+				"12h 34m 56s"
+			],
 
-				return $units->sequence
-					->length_foot(3)
-					->length_inch(2)
-					->as_short;
+			[
+				'fr',
+				function (Units $units) {
+					return $units->sequence
+						->duration_hour(12)
+						->duration_minute(34)
+						->duration_second(56)
+						->as_long;
+				},
+				"12{$s2}heures, 34 minutes et 56{$s2}secondes"
+			],
 
-			}, "3 ft, 2 in" ],
+			[
+				'fr',
+				function (Units $units) {
+					return $units->sequence
+						->duration_hour(12)
+						->duration_minute(34)
+						->duration_second(56)
+						->as_short;
+				},
+				"12{$s1}h, 34{$s2}min et 56{$s1}s"
+			],
 
-			[ 'en', function (Units $units) {
-
-				return $units->sequence
-					->length_foot(3)
-					->length_inch(2)
-					->as_narrow;
-
-			}, "3′ 2″" ],
-
-			[ 'en', function (Units $units) {
-
-				return $units->sequence
-					->duration_hour(12)
-					->duration_minute(34)
-					->duration_second(56)
-					->as_long;
-
-			}, "12 hours, 34 minutes, 56 seconds"  ],
-
-			[ 'en', function (Units $units) {
-
-				return $units->sequence
-					->duration_hour(12)
-					->duration_minute(34)
-					->duration_second(56)
-					->as_short;
-
-			}, "12 hr, 34 min, 56 sec"  ],
-
-			[ 'en', function (Units $units) {
-
-				return $units->sequence
-					->duration_hour(12)
-					->duration_minute(34)
-					->duration_second(56)
-					->as_narrow;
-
-			}, "12h 34m 56s"  ],
-
-			[ 'fr', function (Units $units) {
-
-				return $units->sequence
-					->duration_hour(12)
-					->duration_minute(34)
-					->duration_second(56)
-					->as_long;
-
-				}, "12{$s2}heures, 34 minutes et 56{$s2}secondes"  ],
-
-			[ 'fr', function (Units $units) {
-
-				return $units->sequence
-					->duration_hour(12)
-					->duration_minute(34)
-					->duration_second(56)
-					->as_short;
-
-				}, "12{$s1}h, 34{$s2}min et 56{$s1}s" ],
-
-			[ 'fr', function (Units $units) {
-
-				return $units->sequence
-					->duration_hour(12)
-					->duration_minute(34)
-					->duration_second(56)
-					->as_narrow;
-
-				}, "12h 34min 56s" ],
+			[
+				'fr',
+				function (Units $units) {
+					return $units->sequence
+						->duration_hour(12)
+						->duration_minute(34)
+						->duration_second(56)
+						->as_narrow;
+				},
+				"12h 34min 56s"
+			],
 
 		];
 	}
@@ -223,9 +248,6 @@ final class UnitsTest extends TestCase
 		$this->assertSame($expected_name, $actual);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_name_for(): array
 	{
 		return [
@@ -248,14 +270,12 @@ final class UnitsTest extends TestCase
 		$this->assertSame($unit, $units->angle_degree);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function should_fail_with_undefined_unit(): void
 	{
 		$this->expectExceptionMessage("No such unit: undefined-unit");
 		$this->expectException(BadMethodCallException::class);
-		$this->units_for('fr')->{ 'undefined_unit' }();
+		$this->units_for('fr')->{'undefined_unit'}();
 	}
 
 	public function test_unit_method_requires_one_argument(): void

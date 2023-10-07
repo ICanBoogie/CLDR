@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class NumberTest extends TestCase
@@ -27,13 +28,9 @@ final class NumberTest extends TestCase
 
 	/**
 	 * should round a number to the given precision
-	 *
-	 * @dataProvider provide_test_round_to
-	 *
-	 * @param float|int $number
-	 * @param float|int $expected
 	 */
-	public function test_round_to($number, int $precision, $expected): void
+	#[DataProvider('provide_test_round_to')]
+	public function test_round_to(float|int $number, int $precision, float|int $expected): void
 	{
 		$this->assertEquals($expected, Number::round_to($number, $precision));
 	}
@@ -54,12 +51,9 @@ final class NumberTest extends TestCase
 
 	/**
 	 * should round and split the given number by decimal
-	 *
-	 * @dataProvider provide_test_parse
-	 *
-	 * @param float|int $number
 	 */
-	public function test_parse($number, int $precision, array $expected): void
+	#[DataProvider('provide_test_parse')]
+	public function test_parse(float|int $number, int $precision, array $expected): void
 	{
 		$this->assertSame($expected, Number::parse($number, $precision));
 	}

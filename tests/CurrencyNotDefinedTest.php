@@ -12,13 +12,12 @@
 namespace ICanBoogie\CLDR;
 
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class CurrencyNotDefinedTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_instance
-	 */
+	#[DataProvider('provide_instance')]
 	public function test_instance(string $currency_code, ?string $message, string $expected_message, Exception $previous = null)
 	{
 		$sut = new CurrencyNotDefined($currency_code, $message, $previous);
@@ -31,7 +30,7 @@ final class CurrencyNotDefinedTest extends TestCase
 	public static function provide_instance(): array
 	{
 		$currency_code = 'EUR';
-		$previous = new Exception;
+		$previous = new Exception();
 
 		return [
 

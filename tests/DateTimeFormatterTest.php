@@ -19,9 +19,9 @@ final class DateTimeFormatterTest extends TestCase
 	/**
 	 * @var array<string, DateTimeFormatter>
 	 */
-	static private array $formatters = [];
+	private static array $formatters = [];
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
 		$repository = get_repository();
 
@@ -46,9 +46,6 @@ final class DateTimeFormatterTest extends TestCase
 		$this->assertSame($expected, $formatter($datetime, $format));
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_format(): array
 	{
 		return [

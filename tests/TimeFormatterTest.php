@@ -19,9 +19,9 @@ final class TimeFormatterTest extends TestCase
 	/**
 	 * @var array<string, TimeFormatter>
 	 */
-	static private array $formatters = [];
+	private static array $formatters = [];
 
-	static public function setupBeforeClass(): void
+	public static function setupBeforeClass(): void
 	{
 		$repository = get_repository();
 
@@ -41,9 +41,6 @@ final class TimeFormatterTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_test_format(): array
 	{
 		return [

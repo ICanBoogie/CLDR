@@ -11,16 +11,13 @@
 
 namespace ICanBoogie\CLDR;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class NumberFormatterTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_format
-	 *
-	 * @param int|float $number
-	 */
-	public function test_format(string $locale_code, $number, string $pattern, string $expected): void
+	#[DataProvider('provide_test_format')]
+	public function test_format(string $locale_code, float|int $number, string $pattern, string $expected): void
 	{
 		$formatter = new NumberFormatter();
 		$symbols = get_repository()->locales[$locale_code]->numbers->symbols;
@@ -31,15 +28,15 @@ final class NumberFormatterTest extends TestCase
 	{
 		return [
 
-			[ 'en',   123,      '#',           "123" ],
-			[ 'en',  -123,      '#',          "-123" ],
-			[ 'en',   123,      '#;-#',        "123" ],
-			[ 'en',  -123,      '#;-#',       "-123" ],
-			[ 'en',  4123.37,   '#,#00.#0',  "4,123.37" ],
-			[ 'fr',  4123.37,   '#,#00.#0',  "4 123,37" ],
-			[ 'fr', -4123.37,   '#,#00.#0', "-4 123,37" ],
-			[ 'en',      .3789, '#0.#0 %',      "37.89 %" ],
-			[ 'fr',      .3789, '#0.#0 %',      "37,89 %" ],
+			[ 'en', 123, '#', "123" ],
+			[ 'en', -123, '#', "-123" ],
+			[ 'en', 123, '#;-#', "123" ],
+			[ 'en', -123, '#;-#', "-123" ],
+			[ 'en', 4123.37, '#,#00.#0', "4,123.37" ],
+			[ 'fr', 4123.37, '#,#00.#0', "4 123,37" ],
+			[ 'fr', -4123.37, '#,#00.#0', "-4 123,37" ],
+			[ 'en', .3789, '#0.#0 %', "37.89 %" ],
+			[ 'fr', .3789, '#0.#0 %', "37,89 %" ],
 
 		];
 	}

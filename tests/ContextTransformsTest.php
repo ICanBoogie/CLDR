@@ -12,21 +12,19 @@
 namespace ICanBoogie\CLDR;
 
 use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ContextTransformsTest extends TestCase
 {
-	/**
-	 * @dataProvider provide_test_transform
-	 */
+	#[DataProvider('provide_test_transform')]
 	public function test_transform(
 		string $str,
 		string $expected,
 		string $usage,
 		string $type,
 		array $rules
-	): void
-	{
+	): void {
 		$this->assertSame($expected, (new ContextTransforms($rules))->transform($str, $usage, $type));
 	}
 
@@ -158,7 +156,7 @@ final class ContextTransformsTest extends TestCase
 		$this->expectException(LogicException::class);
 		(new ContextTransforms([
 
-			 $usage => [
+			$usage => [
 
 				$type => uniqid()
 

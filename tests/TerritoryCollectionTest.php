@@ -16,10 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 final class TerritoryCollectionTest extends TestCase
 {
-	/**
-	 * @var TerritoryCollection
-	 */
-	private $sut;
+	private TerritoryCollection $sut;
 
 	protected function setUp(): void
 	{
