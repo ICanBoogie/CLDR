@@ -23,24 +23,25 @@ final class TimeFormatterTest extends TestCase
 
 	public static function setupBeforeClass(): void
 	{
-		$repository = get_repository();
-
-		self::$formatters['en'] = new TimeFormatter($repository->locales['en']->calendar);
-		self::$formatters['fr'] = new TimeFormatter($repository->locales['fr']->calendar);
+		self::$formatters['en'] = new TimeFormatter(locale_for('en')->calendar);
+		self::$formatters['fr'] = new TimeFormatter(locale_for('fr')->calendar);
 	}
 
 	#[DataProvider('provide_test_format')]
 	public function test_format(
-		string $locale,
+		string $locale_id,
 		string $datetime,
 		string|DateTimeFormatLength|DateTimeFormatId $pattern,
 		string $expected
 	): void {
-		$actual = self::$formatters[$locale]->format($datetime, $pattern);
+		$actual = self::$formatters[$locale_id]->format($datetime, $pattern);
 
 		$this->assertEquals($expected, $actual);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		return [

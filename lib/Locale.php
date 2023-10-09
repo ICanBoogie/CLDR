@@ -82,16 +82,10 @@ class Locale extends AbstractSectionCollection
 
 	];
 
-	/**
-	 * @param string $code
-	 *     The ISO code of the locale.
-	 */
 	public function __construct(
 		Repository $repository,
-		public readonly string $code
+		public readonly LocaleId $id
 	) {
-		strlen($code) > 0 or throw new InvalidArgumentException("Locale identifier cannot be empty.");
-
 		parent::__construct($repository);
 	}
 
@@ -102,17 +96,17 @@ class Locale extends AbstractSectionCollection
 
 	protected function path_for(string $offset): string
 	{
-		return str_replace('{locale}', $this->code, self::OFFSET_MAPPING[$offset][0]);
+		return str_replace('{locale}', $this->id->value, self::OFFSET_MAPPING[$offset][0]);
 	}
 
 	protected function data_path_for(string $offset): string
 	{
-		return "main/$this->code/" . self::OFFSET_MAPPING[$offset][1];
+		return "main/{$this->id->value}/" . self::OFFSET_MAPPING[$offset][1];
 	}
 
 	private function get_language(): string
 	{
-		[ $language ] = explode('-', $this->code, 2);
+		[ $language ] = explode('-', $this->id->value, 2);
 
 		return $language;
 	}
@@ -187,26 +181,23 @@ class Locale extends AbstractSectionCollection
 	/**
 	 * Localize the specified source.
 	 *
-	 * @param object|string $source_or_code
+	 * @param object|LocaleId $source_or_locale_id
 	 *     The source to localize, or the locale code to localize this instance.
 	 * @param array<string, mixed> $options
 	 *     The options are passed to the localizer.
-	 *
-	 * @return mixed
 	 */
-	public function localize($source_or_code, array $options = [])
+	public function localize(object $source_or_locale_id, array $options = []): object
 	{
-		if (is_string($source_or_code))
+		if ($source_or_locale_id instanceof LocaleId)
 		{
-			/** @phpstan-ignore-next-line */
-			return $this->repository->locales[$source_or_code]->localize($this, $options);
+			return $this->repository->locale_for($source_or_locale_id)->localize($this, $options);
 		}
 
-		$constructor = $this->resolve_localize_constructor($source_or_code);
+		$constructor = $this->resolve_localize_constructor($source_or_locale_id);
 
 		if ($constructor)
 		{
-			return $constructor($source_or_code, $this, $options);
+			return $constructor($source_or_locale_id, $this, $options);
 		}
 
 		throw new LogicException("Unable to localize source");

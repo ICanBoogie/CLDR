@@ -18,10 +18,9 @@ use Throwable;
 
 use function current;
 use function extract;
+use function ICanBoogie\trim_prefix;
 use function in_array;
 use function key;
-use function strlen;
-use function substr;
 
 /**
  * A territory.
@@ -118,10 +117,8 @@ final class Territory
 		$make = function () {
 			$info = $this->get_info();
 
-			foreach ($info['languagePopulation'] as $language => $lp)
-			{
-				if (empty($lp['_officialStatus']) || ($lp['_officialStatus'] != "official" && $lp['_officialStatus'] != "de_facto_official"))
-				{
+			foreach ($info['languagePopulation'] as $language => $lp) {
+				if (empty($lp['_officialStatus']) || ($lp['_officialStatus'] != "official" && $lp['_officialStatus'] != "de_facto_official")) {
 					continue;
 				}
 
@@ -153,7 +150,7 @@ final class Territory
 	{
 		$info = $this->get_info();
 
-		return (int) $info['_population'];
+		return (int)$info['_population'];
 	}
 
 	public function __construct(
@@ -173,12 +170,11 @@ final class Territory
 	 */
 	public function __get(string $property)
 	{
-		if (str_starts_with($property, 'name_as_'))
-		{
-			$locale_code = substr($property, strlen('name_as_'));
-			$locale_code = strtr($locale_code, '_', '-');
+		if (str_starts_with($property, 'name_as_')) {
+			$locale_id = trim_prefix($property, 'name_as_');
+			$locale_id = strtr($locale_id, '_', '-');
 
-			return $this->name_as($locale_code);
+			return $this->name_as($locale_id);
 		}
 
 		return $this->accessor_get($property);
@@ -205,8 +201,7 @@ final class Territory
 		$date = $this->ensure_is_datetime($date);
 		$code = $this->find_currency_at($this->get_currencies(), $date->format('Y-m-d'));
 
-		if (!$code)
-		{
+		if (!$code) {
 			return null;
 		}
 
@@ -222,8 +217,7 @@ final class Territory
 	{
 		$rc = false;
 
-		foreach ($currencies as $currency)
-		{
+		foreach ($currencies as $currency) {
 			$name = key($currency);
 			$interval = current($currency);
 			$_from = null;
@@ -231,8 +225,7 @@ final class Territory
 			extract($interval);
 
 			// @phpstan-ignore-next-line
-			if (($_from && $_from > $normalized_date) || ($_to && $_to < $normalized_date))
-			{
+			if (($_from && $_from > $normalized_date) || ($_to && $_to < $normalized_date)) {
 				continue;
 			}
 
@@ -255,18 +248,18 @@ final class Territory
 	/**
 	 * Return the name of the territory localized according to the specified locale code.
 	 */
-	public function name_as(string $locale_code): string
+	public function name_as(string|LocaleId $locale_id): string
 	{
-		return $this->localize($locale_code)->name;
+		return $this->localize($locale_id)->name;
 	}
 
 	/**
 	 * Localize the currency.
 	 */
-	public function localize(string $locale_code): LocalizedTerritory
+	public function localize(string|LocaleId $locale_id): LocalizedTerritory
 	{
 		/** @phpstan-ignore-next-line */
-		return $this->repository->locales[$locale_code]->localize($this);
+		return $this->repository->locale_for($locale_id)->localize($this);
 	}
 
 	private function resolve_week_data(string $which): string
@@ -285,13 +278,11 @@ final class Territory
 	 */
 	private function ensure_is_datetime($datetime): DateTimeInterface
 	{
-		if ($datetime === null)
-		{
+		if ($datetime === null) {
 			return new DateTimeImmutable();
 		}
 
-		if ($datetime instanceof DateTimeInterface)
-		{
+		if ($datetime instanceof DateTimeInterface) {
 			return $datetime;
 		}
 

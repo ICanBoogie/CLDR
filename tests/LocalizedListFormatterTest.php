@@ -20,14 +20,17 @@ final class LocalizedListFormatterTest extends TestCase
 	 * @param array<scalar> $list
 	 */
 	#[DataProvider('provide_test_format')]
-	public function test_format(array $list, ListType $type, string $locale_code, string $expected): void
+	public function test_format(array $list, ListType $type, string $locale_id, string $expected): void
 	{
-		$locale = get_repository()->locales[$locale_code];
+		$locale = locale_for($locale_id);
 		$this->assertNotNull($locale);
 		$lp = new LocalizedListFormatter(new ListFormatter(), $locale);
 		$this->assertSame($expected, $lp($list, $type));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		$sd = ListType::STANDARD;
@@ -35,25 +38,25 @@ final class LocalizedListFormatterTest extends TestCase
 
 		return [
 
-			[ [ ], $sd, 'en', "" ],
+			[ [], $sd, 'en', "" ],
 			[ [ 'one' ], $sd, 'en', "one" ],
 			[ [ 'one', 'two' ], $sd, 'en', "one and two" ],
 			[ [ 'one', 'two', 'three' ], $sd, 'en', "one, two, and three" ],
 			[ [ 'one', 'two', 'three', 'four' ], $sd, 'en', "one, two, three, and four" ],
 
-			[ [ ], $st, 'en', "" ],
+			[ [], $st, 'en', "" ],
 			[ [ 'one' ], $st, 'en', "one" ],
 			[ [ 'one', 'two' ], $st, 'en', "one, two" ],
 			[ [ 'one', 'two', 'three' ], $st, 'en', "one, two, three" ],
 			[ [ 'one', 'two', 'three', 'four' ], $st, 'en', "one, two, three, four" ],
 
-			[ [ ], $sd, 'fr', "" ],
+			[ [], $sd, 'fr', "" ],
 			[ [ 'un' ], $sd, 'fr', "un" ],
 			[ [ 'un', 'deux' ], $sd, 'fr', "un et deux" ],
 			[ [ 'un', 'deux', 'trois' ], $sd, 'fr', "un, deux et trois" ],
 			[ [ 'un', 'deux', 'trois', 'quatre' ], $sd, 'fr', "un, deux, trois et quatre" ],
 
-			[ [ ], $sd, 'de', "" ],
+			[ [], $sd, 'de', "" ],
 			[ [ 'eins' ], $sd, 'de', "eins" ],
 			[ [ 'eins', 'zwei' ], $sd, 'de', "eins und zwei" ],
 			[ [ 'eins', 'zwei', 'drei' ], $sd, 'de', "eins, zwei und drei" ],

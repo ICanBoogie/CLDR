@@ -48,27 +48,25 @@ final class Plurals extends ArrayObject
 	 * @var array<string, array<self::COUNT_*, Rule>>
 	 *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
 	 */
-	private $rules = [];
+	private array $rules = [];
 
 	/**
 	 * @var array<string, array<self::COUNT_*, Samples>>
 	 *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
 	 */
-	private $samples = [];
+	private array $samples = [];
 
 	/**
 	 * @param float|int|numeric-string $number
 	 *
 	 * @return self::COUNT_*
 	 */
-	public function rule_for(float|int|string $number, string $locale): string
+	public function rule_for(float|int|string $number, string $language): string
 	{
-		$rules = $this->rule_instances_for($locale);
+		$rules = $this->rule_instances_for($language);
 
-		foreach ($rules as $count => $rule)
-		{
-			if ($rule->validate($number))
-			{
+		foreach ($rules as $count => $rule) {
+			if ($rule->validate($number)) {
 				return $count;
 			}
 		}
@@ -95,22 +93,21 @@ final class Plurals extends ArrayObject
 	/**
 	 * @return array<self::COUNT_*, Rule>
 	 */
-	private function rule_instances_for(string $locale): array
+	private function rule_instances_for(string $language): array
 	{
-		return $this->rules[$locale] ??= $this->create_rules_for($locale);
+		return $this->rules[$language] ??= $this->create_rules_for($language);
 	}
 
 	/**
 	 * @return array<self::COUNT_*, Rule>
 	 */
-	private function create_rules_for(string $locale): array
+	private function create_rules_for(string $language): array
 	{
 		$rules = [];
 		$prefix_length = strlen(self::RULE_COUNT_PREFIX);
 
 		/** @phpstan-ignore-next-line */
-		foreach ($this[$locale] as $count => $rule_string)
-		{
+		foreach ($this[$language] as $count => $rule_string) {
 			$count = substr($count, $prefix_length);
 			$rules[$count] = Rule::from($this->extract_rule($rule_string));
 		}
@@ -138,8 +135,7 @@ final class Plurals extends ArrayObject
 
 		assert(!is_null($rules));
 
-		foreach ($rules as $count => $rule_string)
-		{
+		foreach ($rules as $count => $rule_string) {
 			$count = substr($count, $prefix_length);
 			$samples[$count] = Samples::from($this->extract_samples($rule_string));
 		}

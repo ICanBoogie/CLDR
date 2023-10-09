@@ -11,67 +11,57 @@
 
 namespace ICanBoogie\CLDR;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LocaleTest extends TestCase
 {
-    use StringHelpers;
+	use StringHelpers;
 
 	private static Locale $locale;
 
 	public static function setupBeforeClass(): void
 	{
-		self::$locale = new Locale(get_repository(), 'fr');
+		self::$locale = new Locale(get_repository(), LocaleId::from('fr'));
 	}
 
 	public function test_get_code(): void
 	{
-		$this->assertEquals('fr', self::$locale->code);
+		$this->assertEquals(LocaleId::from('fr'), self::$locale->id);
 	}
 
-	#[DataProvider('provide_test_get_language')]
-	public function test_get_language(string $locale_code, string $expected): void
+	public function test_get_language(): void
 	{
-		$locale = new Locale(get_repository(), $locale_code);
+		$locale = new Locale(get_repository(), LocaleId::from('fr-BE'));
 
-		$this->assertEquals($expected, $locale->language);
-	}
-
-	public static function provide_test_get_language(): array
-	{
-		return [
-
-			[ 'fr', 'fr' ],
-			[ 'fr-FR', 'fr' ],
-			[ 'fr-FR-u-ca-gregorian', 'fr' ],
-
-		];
+		$this->assertEquals('fr', $locale->language);
 	}
 
 	#[DataProvider('provide_test_properties_instanceof')]
 	public function test_properties_instanceof(string $property, string $expected): void
 	{
-		$locale = new Locale(get_repository(), 'fr');
+		$locale = new Locale(get_repository(), LocaleId::from('fr'));
 		$instance = $locale->$property;
 		$this->assertInstanceOf($expected, $instance);
 		$this->assertSame($instance, $locale->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_properties_instanceof(): array
 	{
 		return [
 
-			[ 'repository',         Repository::class ],
-			[ 'calendars',          CalendarCollection::class ],
-			[ 'calendar',           Calendar::class ],
-			[ 'numbers',            Numbers::class ],
-			[ 'number_formatter',   LocalizedNumberFormatter::class ],
+			[ 'repository', Repository::class ],
+			[ 'calendars', CalendarCollection::class ],
+			[ 'calendar', Calendar::class ],
+			[ 'numbers', Numbers::class ],
+			[ 'number_formatter', LocalizedNumberFormatter::class ],
 			[ 'currency_formatter', LocalizedCurrencyFormatter::class ],
-			[ 'list_formatter',     LocalizedListFormatter::class ],
+			[ 'list_formatter', LocalizedListFormatter::class ],
 			[ 'context_transforms', ContextTransforms::class ],
-			[ 'units',              Units::class ],
+			[ 'units', Units::class ],
 
 		];
 	}
@@ -84,40 +74,43 @@ final class LocaleTest extends TestCase
 		$this->assertArrayHasKey($key, $section_data);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_sections(): array
 	{
 		return [
 
-			[ 'ca-buddhist'            , 'months' ],
-			[ 'ca-chinese'             , 'months' ],
-			[ 'ca-coptic'              , 'months' ],
-			[ 'ca-dangi'               , 'months' ],
-			[ 'ca-ethiopic'            , 'months' ],
-			[ 'ca-hebrew'              , 'months' ],
-			[ 'ca-indian'              , 'months' ],
-			[ 'ca-islamic'             , 'months' ],
-			[ 'ca-japanese'            , 'months' ],
-			[ 'ca-persian'             , 'months' ],
-			[ 'ca-roc'                 , 'months' ],
-			[ 'ca-generic'             , 'months' ],
-			[ 'ca-gregorian'           , 'months' ],
-			[ 'dateFields'             , 'era' ],
-			[ 'timeZoneNames'          , 'hourFormat' ],
-			[ 'languages'              , 'aa' ],
-			[ 'localeDisplayNames'     , 'localeDisplayPattern' ],
-			[ 'scripts'                , 'Arab' ],
-			[ 'territories'            , 'AC' ],
-			[ 'variants'               , 'ALUKU' ],
-			[ 'characters'             , 'exemplarCharacters' ],
-			[ 'contextTransforms'      , 'day-format-except-narrow' ],
-			[ 'delimiters'             , 'quotationStart' ],
-			[ 'layout'                 , 'orientation' ],
-			[ 'listPatterns'           , 'listPattern-type-standard' ],
-			[ 'posix'                  , 'messages' ],
-			[ 'currencies'             , 'ADP' ],
-			[ 'numbers'                , 'defaultNumberingSystem' ],
-			[ 'measurementSystemNames' , 'metric' ],
-			[ 'units'                  , 'long' ],
+			[ 'ca-buddhist', 'months' ],
+			[ 'ca-chinese', 'months' ],
+			[ 'ca-coptic', 'months' ],
+			[ 'ca-dangi', 'months' ],
+			[ 'ca-ethiopic', 'months' ],
+			[ 'ca-hebrew', 'months' ],
+			[ 'ca-indian', 'months' ],
+			[ 'ca-islamic', 'months' ],
+			[ 'ca-japanese', 'months' ],
+			[ 'ca-persian', 'months' ],
+			[ 'ca-roc', 'months' ],
+			[ 'ca-generic', 'months' ],
+			[ 'ca-gregorian', 'months' ],
+			[ 'dateFields', 'era' ],
+			[ 'timeZoneNames', 'hourFormat' ],
+			[ 'languages', 'aa' ],
+			[ 'localeDisplayNames', 'localeDisplayPattern' ],
+			[ 'scripts', 'Arab' ],
+			[ 'territories', 'AC' ],
+			[ 'variants', 'ALUKU' ],
+			[ 'characters', 'exemplarCharacters' ],
+			[ 'contextTransforms', 'day-format-except-narrow' ],
+			[ 'delimiters', 'quotationStart' ],
+			[ 'layout', 'orientation' ],
+			[ 'listPatterns', 'listPattern-type-standard' ],
+			[ 'posix', 'messages' ],
+			[ 'currencies', 'ADP' ],
+			[ 'numbers', 'defaultNumberingSystem' ],
+			[ 'measurementSystemNames', 'metric' ],
+			[ 'units', 'long' ],
 
 		];
 	}
@@ -129,12 +122,15 @@ final class LocaleTest extends TestCase
 		$this->assertInstanceOf($expected, $localized);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_localize(): array
 	{
 		return [
 
 			[ LocalizedObject::class, new \DateTime ],
-			[ LocalizedLocale::class, new Locale(get_repository(), 'fr') ],
+			[ LocalizedLocale::class, new Locale(get_repository(), LocaleId::from('fr')) ],
 			[ LocalizedListFormatter::class, new ListFormatter ],
 			[ LocalizedNumberFormatter::class, new NumberFormatter ],
 			[ LocaleTest\LocalizedLocalizableSample::class, new \ICanBoogie\CLDR\LocaleTest\LocalizableSample ]
@@ -142,15 +138,9 @@ final class LocaleTest extends TestCase
 		];
 	}
 
-	public function test_empty_identifier(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-		new Locale(get_repository(), '');
-	}
-
 	public function test_format_number(): void
 	{
-	    $s1 = Spaces::NARROW_NO_BREAK_SPACE;
+		$s1 = Spaces::NARROW_NO_BREAK_SPACE;
 
 		$this->assertStringSame(
 			"123{$s1}456,78",

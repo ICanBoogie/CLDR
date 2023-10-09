@@ -27,9 +27,9 @@ final class LocalizedDateTimeTest extends TestCase
 	{
 		$datetime = new DateTime('2013-11-04 20:21:22 UTC');
 
-		self::$localized_dates['en'] = new LocalizedDateTime($datetime, get_repository()->locales['en']);
-		self::$localized_dates['fr'] = new LocalizedDateTime($datetime, get_repository()->locales['fr']);
-		self::$localized_dates['zh'] = new LocalizedDateTime($datetime, get_repository()->locales['zh']);
+		self::$localized_dates['en'] = new LocalizedDateTime($datetime, locale_for('en'));
+		self::$localized_dates['fr'] = new LocalizedDateTime($datetime, locale_for('fr'));
+		self::$localized_dates['zh'] = new LocalizedDateTime($datetime, locale_for('zh'));
 	}
 
 	public function test_get_target(): void
@@ -71,6 +71,9 @@ final class LocalizedDateTimeTest extends TestCase
 		$this->assertEquals($expected, self::$localized_dates[$locale]->$method());
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_as(): array
 	{
 		return [
@@ -101,6 +104,9 @@ final class LocalizedDateTimeTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_format_with_id(): array
 	{
 		return [
@@ -113,6 +119,6 @@ final class LocalizedDateTimeTest extends TestCase
 
 	public function test_to_string(): void
 	{
-		$this->assertEquals('2013-11-04T20:21:22+00:00', (string) self::$localized_dates['fr']);
+		$this->assertEquals('2013-11-04T20:21:22+00:00', (string)self::$localized_dates['fr']);
 	}
 }

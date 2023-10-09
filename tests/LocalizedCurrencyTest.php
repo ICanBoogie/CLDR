@@ -24,7 +24,7 @@ final class LocalizedCurrencyTest extends TestCase
 	public static function setUpBeforeClass(): void
 	{
 		self::$currency = new Currency(get_repository(), 'IEP');
-		self::$localized = new LocalizedCurrency(self::$currency, get_repository()->locales['fr']);
+		self::$localized = new LocalizedCurrency(self::$currency, locale_for('fr'));
 	}
 
 	public function test_name(): void
@@ -51,18 +51,17 @@ final class LocalizedCurrencyTest extends TestCase
 		$this->assertEquals("Irish Pound", $localized->name);
 	}
 
-	/**
-	 * @dataProvider provide_test_format
-	 *
-	 * @param float|int $number
-	 */
-	public function test_format(string $currency_code, string $locale_code, $number, string $expected): void
+	#[DataProvider('provide_test_format')]
+	public function test_format(string $currency_code, string $locale_id, float|int $number, string $expected): void
 	{
 		$currency = new Currency(get_repository(), $currency_code);
-		$localized = $currency->localize($locale_code);
+		$localized = $currency->localize($locale_id);
 		$this->assertEquals($expected, $localized->format($number));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		return [
@@ -78,14 +77,21 @@ final class LocalizedCurrencyTest extends TestCase
 	}
 
 	#[DataProvider('provide_test_format_accounting')]
-	public function test_format_accounting(string $currency_code, string $locale_code, float $number, string $expected)
-	{
+	public function test_format_accounting(
+		string $currency_code,
+		string $locale_id,
+		float $number,
+		string $expected
+	): void {
 		$currency = new Currency(get_repository(), $currency_code);
-		$localized = $currency->localize($locale_code);
+		$localized = $currency->localize($locale_id);
 
 		$this->assertStringSame($expected, $localized->format($number, LocalizedCurrencyFormatter::PATTERN_ACCOUNTING));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format_accounting(): array
 	{
 		$s1 = Spaces::NARROW_NO_BREAK_SPACE;

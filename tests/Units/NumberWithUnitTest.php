@@ -11,30 +11,23 @@
 
 namespace ICanBoogie\CLDR\Units;
 
-use ICanBoogie\CLDR\LocaleCollection;
+use ICanBoogie\CLDR\LocaleId;
 use ICanBoogie\CLDR\StringHelpers;
 use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\TestCase;
 
-use function ICanBoogie\CLDR\get_repository;
+use function ICanBoogie\CLDR\locale_for;
 
 final class NumberWithUnitTest extends TestCase
 {
-    use StringHelpers;
-
-	private static LocaleCollection $locales;
-
-	public static function setUpBeforeClass(): void
-	{
-		self::$locales = get_repository()->locales;
-	}
+	use StringHelpers;
 
 	public function test_to_string(): void
 	{
 		$stu = new NumberWithUnit(123.4504, 'digital-gigabyte', $this->units_for('fr'));
 
-		$this->assertSame("123,45 gigaoctets", (string) $stu);
+		$this->assertSame("123,45 gigaoctets", (string)$stu);
 	}
 
 	/**
@@ -51,7 +44,7 @@ final class NumberWithUnitTest extends TestCase
 	): void {
 		$stu = new NumberWithUnit($number, $unit, $this->units_for($locale));
 
-		$this->assertSame($expected, $stu->{ 'as_' . $length->value });
+		$this->assertSame($expected, $stu->{'as_' . $length->value});
 	}
 
 	/**
@@ -84,13 +77,12 @@ final class NumberWithUnitTest extends TestCase
 		string $per_unit,
 		UnitLength $length,
 		string $expected
-	): void
-	{
+	): void {
 		$stu = new NumberWithUnit($number, $number_unit, $this->units_for($locale));
 
 		$this->assertSame(
 			$expected,
-			$stu->per($per_unit)->{ 'as_' . $length->value }
+			$stu->per($per_unit)->{'as_' . $length->value}
 		);
 	}
 
@@ -109,14 +101,14 @@ final class NumberWithUnitTest extends TestCase
 			[ 'fr', 12.345, 'volume-liter', 'duration-hour', UnitLength::SHORT, "12,345 l/h" ],
 			[ 'fr', 12.345, 'volume-liter', 'duration-hour', UnitLength::NARROW, "12,345l/h" ],
 
-			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', UnitLength::LONG, "12,345 litres par mètre carré"],
-			[ 'fr', 12.345, 'angle-revolution', 'length-light-year', UnitLength::LONG, "12,345 tours par années-lumière"],
+			[ 'fr', 12.345, 'volume-liter', 'area-square-meter', UnitLength::LONG, "12,345 litres par mètre carré" ],
+			[ 'fr', 12.345, 'angle-revolution', 'length-light-year', UnitLength::LONG, "12,345 tours par années-lumière" ],
 
 		];
 	}
 
-	private function units_for(string $locale): Units
+	private function units_for(string $locale_id): Units
 	{
-		return self::$locales[$locale]->units;
+		return locale_for($locale_id)->units;
 	}
 }

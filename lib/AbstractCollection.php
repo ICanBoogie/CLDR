@@ -30,6 +30,9 @@ abstract class AbstractCollection implements ArrayAccess
 	 */
 	private array $collection = [];
 
+	/**
+	 * @param Closure(string):T $create_instance
+	 */
 	public function __construct(
 		private readonly Closure $create_instance
 	) {
@@ -47,6 +50,8 @@ abstract class AbstractCollection implements ArrayAccess
 
 	/**
 	 * @param string $offset
+	 *
+	 * @return T
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)

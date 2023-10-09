@@ -52,16 +52,6 @@ final class LocaleCollectionTest extends TestCase
 	/**
 	 * @test
 	 */
-	public function should_fail_with_empty_locale(): void
-	{
-		$this->expectExceptionMessage("Locale code should not be empty.");
-		$this->expectException(InvalidArgumentException::class);
-		self::$sut['']; // @phpstan-ignore-line
-	}
-
-	/**
-	 * @test
-	 */
 	public function should_fail_with_undefined_locale(): void
 	{
 		$this->expectExceptionMessage("Locale is not available: madonna.");

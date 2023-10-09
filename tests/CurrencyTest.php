@@ -34,6 +34,9 @@ final class CurrencyTest extends TestCase
 		$this->assertSame($expected, $currency->fraction->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_fraction_properties(): array
 	{
 		return [

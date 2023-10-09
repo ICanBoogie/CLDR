@@ -18,15 +18,18 @@ use PHPUnit\Framework\TestCase;
 final class NumbersTest extends TestCase
 {
 	#[DataProvider('provide_test_shortcuts')]
-	public function test_shortcuts(string $locale_code, string $property, string $offset): void
+	public function test_shortcuts(string $locale_id, string $property, string $offset): void
 	{
-		$locale = get_repository()->locales[$locale_code];
+		$locale = locale_for($locale_id);
 		$numbers_data = $locale['numbers'];
 		$numbers = new Numbers($locale, $numbers_data);
 
 		$this->assertSame($numbers_data[$offset], $numbers->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_shortcuts(): array
 	{
 		return [
@@ -41,83 +44,102 @@ final class NumbersTest extends TestCase
 	}
 
 	#[DataProvider('provide_symbols')]
-	public function test_symbols(string $locale_code, Symbols $expected): void
+	public function test_symbols(string $locale_id, Symbols $expected): void
 	{
-		$locale = get_repository()->locales[$locale_code];
+		$locale = locale_for($locale_id);
 		$numbers_data = $locale['numbers'];
 		$numbers = new Numbers($locale, $numbers_data);
 
 		$this->assertEquals($expected, $numbers->symbols);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_symbols(): array
 	{
 		return [
 
-			[ 'fr', new Symbols(
-				',',
-				' ',
-				';',
-				'%',
-				'-',
-				'+',
-				'≃',
-				'E',
-				'×',
-				'‰',
-				'∞',
-				'NaN',
-				'.',
-				',',
-				':'
-			) ],
-			[ 'en', new Symbols(
-				'.',
-				',',
-				';',
-				'%',
-				'-',
-				'+',
-				'~',
-				'E',
-				'×',
-				'‰',
-				'∞',
-				'NaN',
-				'.',
-				',',
-				':'
-			) ],
-			[ 'ru', new Symbols(
-				',',
-				' ',
-				';',
-				'%',
-				'-',
-				'+',
-				'≈',
-				'E',
-				'×',
-				'‰',
-				'∞',
-				'не число',
-				'.',
-				',',
-				':'
-			) ],
+			[
+				'fr',
+				new Symbols(
+					',',
+					' ',
+					';',
+					'%',
+					'-',
+					'+',
+					'≃',
+					'E',
+					'×',
+					'‰',
+					'∞',
+					'NaN',
+					'.',
+					',',
+					':'
+				)
+			],
+			[
+				'en',
+				new Symbols(
+					'.',
+					',',
+					';',
+					'%',
+					'-',
+					'+',
+					'~',
+					'E',
+					'×',
+					'‰',
+					'∞',
+					'NaN',
+					'.',
+					',',
+					':'
+				)
+			],
+			[
+				'ru',
+				new Symbols(
+					',',
+					' ',
+					';',
+					'%',
+					'-',
+					'+',
+					'≈',
+					'E',
+					'×',
+					'‰',
+					'∞',
+					'не число',
+					'.',
+					',',
+					':'
+				)
+			],
 		];
 	}
 
 	#[DataProvider('provide_test_decimal_width_shortcuts')]
-	public function test_decimal_width_shortcuts(string $locale_code, string $property, string $offset, string $width_offset): void
-	{
-		$locale = get_repository()->locales[$locale_code];
+	public function test_decimal_width_shortcuts(
+		string $locale_id,
+		string $property,
+		string $offset,
+		string $width_offset
+	): void {
+		$locale = locale_for($locale_id);
 		$numbers_data = $locale['numbers'];
 		$numbers = new Numbers($locale, $numbers_data);
 
 		$this->assertSame($numbers_data[$offset][$width_offset]['decimalFormat'], $numbers->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_decimal_width_shortcuts(): array
 	{
 		return [
@@ -129,14 +151,17 @@ final class NumbersTest extends TestCase
 	}
 
 	#[DataProvider('provide_test_get_decimal_format')]
-	public function test_get_decimal_format(string $locale_code, string $expected): void
+	public function test_get_decimal_format(string $locale_id, string $expected): void
 	{
-		$locale = get_repository()->locales[$locale_code];
+		$locale = locale_for($locale_id);
 		$numbers = new Numbers($locale, $locale['numbers']);
 
 		$this->assertEquals($expected, $numbers->decimal_format);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_get_decimal_format(): array
 	{
 		return [

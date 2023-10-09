@@ -10,13 +10,15 @@
 
 ### New features
 
-None
+- `LocaleId` is an enum of available locales.
 
 ### Backward Incompatible Changes
 
 - `Units::LENGTH_*` constants have been replaced by the `UnitLength` enum.
 - `LocalizedListFormatter:TYPE_*` constants have been replaced by the `ListType` enum.
 - `DateTimeFormatter::WIDTH_*` constants have been replaced by the `DateTimeFormatLength` enum.
+- Most functions require a `LocaleId` instead of a locale id string.
+- `$clrd->locales['fr']` as been replaced with `$clrd->locale_for(LocaleId::from('fr'))`.
 
 ### Deprecated Features
 
@@ -24,7 +26,7 @@ None
 
 ### Other Changes
 
-- Some code is now generated from CLDR data, such as `Units` getters and methods.
+- Some code is now generated from CLDR data, such as `Units` getters and methods, or `LocaleId`.
 
 
 

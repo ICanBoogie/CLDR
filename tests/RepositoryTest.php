@@ -34,12 +34,14 @@ final class RepositoryTest extends TestCase
 		$this->assertSame($instance, $repository->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_properties_instanceof(): array
 	{
 		return [
 
 			[ 'currencies', CurrencyCollection::class ],
-			[ 'locales', LocaleCollection::class ],
 			[ 'provider', Provider::class ],
 			[ 'supplemental', Supplemental::class ],
 			[ 'territories', TerritoryCollection::class ],
@@ -80,46 +82,5 @@ final class RepositoryTest extends TestCase
 		]);
 
 		$this->assertSame("one, two, and three", $this->repository->format_list($list, $list_pattern));
-	}
-
-	#[DataProvider('provide_test_properties')]
-	public function test_properties(string $property, callable $assert): void
-	{
-		$assert($this->repository->$property);
-	}
-
-	public static function provide_test_properties(): array
-	{
-		return [
-
-			[
-				'available_locales',
-				function ($value) {
-					Assert::assertContains('fr', $value);
-					Assert::assertContains('en', $value);
-					Assert::assertNotContains('fr-FR', $value);
-					Assert::assertNotContains('en-US', $value);
-				}
-			]
-
-		];
-	}
-
-	#[DataProvider('provide_test_is_locale_available')]
-	public function test_is_locale_available(string $locale, bool $expected): void
-	{
-		$this->assertSame($expected, get_repository()->is_locale_available($locale));
-	}
-
-	public static function provide_test_is_locale_available(): array
-	{
-		return [
-
-			[ 'fr', true ],
-			[ 'en', true ],
-			[ 'fr-FR', false ],
-			[ 'en-US', false ],
-
-		];
 	}
 }

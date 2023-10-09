@@ -28,12 +28,12 @@ provide magic properties to rapidly access days, eras, months and quarters:
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Repository $repository
+ * @var ICanBoogie\CLDR\Locale $locale
  */
 
-$calendar = $repository->locales['fr']->calendars['gregorian'];
+$calendar = $locale->calendars['gregorian'];
 # or
-$calendar = $repository->locales['fr']->calendar; // because "gregorian" is the default calendar for this locale
+$calendar = $locale->calendar; // because "gregorian" is the default calendar for this locale
 
 $calender['days']['stand-alone']['abbreviated']
 # or
@@ -76,12 +76,14 @@ used.
 ```php
 <?php
 
+use ICanBoogie\CLDR\LocaleId;
+
 /**
  * @var ICanBoogie\CLDR\Repository $repository
  */
 
 $datetime = '2018-11-24 20:12:22 UTC';
-$calendar = $repository->locales['fr']->calendar;
+$calendar = $repository->locale_for('fr')->calendar;
 
 echo $calendar['days']['format']['wide']['sun'];    // dimanche
 echo $calendar->wide_days['sun'];                   // dimanche
@@ -106,6 +108,7 @@ used for the formatting. The datetime can be specified as an Unix timestamp, a s
 ```php
 <?php
 
+use ICanBoogie\CLDR\DateTimeFormatId;
 use ICanBoogie\CLDR\DateTimeFormatter;
 
 /**
@@ -115,13 +118,13 @@ use ICanBoogie\CLDR\DateTimeFormatter;
 $datetime = '2013-11-02 22:23:45 UTC';
 $formatter = $calendar->datetime_formatter;
 
-echo $formatter($datetime, "MMM d, y");                 // November 2, 2013
-echo $formatter($datetime, "MMM d, y 'at' hh:mm:ss a"); // November 2, 2013 at 10:23:45 PM
-echo $formatter($datetime, $formatter::WIDHT_FULL);     // Saturday, November 2, 2013 at 10:23:45 PM UTC
-echo $formatter($datetime, $formatter::WIDHT_LONG);     // November 2, 2013 at 10:23:45 PM UTC
-echo $formatter($datetime, $formatter::WIDHT_MEDIUM);   // Nov 2, 2013, 10:23:45 PM
-echo $formatter($datetime, $formatter::WIDHT_SHORT);    // 11/2/13, 10:23 PM
-echo $formatter($datetime, ':Ehm');                     // Sat 10:23 PM
+echo $formatter($datetime, "MMM d, y");                    // November 2, 2013
+echo $formatter($datetime, "MMM d, y 'at' hh:mm:ss a");    // November 2, 2013 at 10:23:45 PM
+echo $formatter($datetime, $formatter::WIDHT_FULL);        // Saturday, November 2, 2013 at 10:23:45 PM UTC
+echo $formatter($datetime, $formatter::WIDHT_LONG);        // November 2, 2013 at 10:23:45 PM UTC
+echo $formatter($datetime, $formatter::WIDHT_MEDIUM);      // Nov 2, 2013, 10:23:45 PM
+echo $formatter($datetime, $formatter::WIDHT_SHORT);       // 11/2/13, 10:23 PM
+echo $formatter($datetime, DateTimeFormatId::from('Ehm')); // Sat 10:23 PM
 ```
 
 
@@ -250,15 +253,18 @@ the `localize` method of the desired locale:
 ```php
 <?php
 
+use ICanBoogie\CLDR\LocaleId;
 use ICanBoogie\CLDR\LocalizedDateTime;
 
 /**
  * @var ICanBoogie\CLDR\Repository $repository
  */
 
-$ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $repository->locales['fr']);
+$locale = $repository->locale_for('fr');
+
+$ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $locale);
 # or
-$ldt = $repository->locales['fr']->localize(new \DateTime('2013-11-04 20:21:22 UTC'));
+$ldt = $locale->localize(new \DateTime('2013-11-04 20:21:22 UTC'));
 
 echo $ldt->as_full;          // lundi 4 novembre 2013 à 20:21:22 UTC
 # or

@@ -28,9 +28,11 @@ units. [Many units are available](https://www.unicode.org/reports/tr35/tr35-66/t
 ```php
 <?php
 
+use ICanBoogie\CLDR\LocaleId;
+
 /* @var ICanBoogie\CLDR\Repository $cldr */
 
-$units = $cldr->locales['en']->units;
+$units = $cldr->locale_for('en')->units;
 
 echo $units->duration_hour->name;                   // hours
 echo $units->duration_hour->short_name;             // h
@@ -52,9 +54,9 @@ be used in preference.
 ```php
 <?php
 
-/* @var $cldr \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Repository $cldr */
 
-$units = $cldr->locales['en']->units;
+$units = $cldr->locale_for('en')->units;
 
 echo $units->volume_liter(12.345)->per($units->duration_hour);              // 12.345 liters per hour
 echo $units->volume_liter(12.345)->per($units->duration_hour)->as_short;    // 12.345 Lph
@@ -73,9 +75,9 @@ For that purpose, the appropriate width can be used to compose the units in a se
 ```php
 <?php
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Repository $repository */
 
-$units = $repository->locales['en']->units;
+$units = $repository->locale_for('en')->units;
 
 $units->sequence
     ->angle_degree(5)
@@ -89,7 +91,7 @@ $units->sequence
     ->as_narrow;
     // 3′ 2″
 
-$units = $repository->locales['fr']->units;
+$units = $repository->locale_for('fr')->units;
 
 $units->sequence
     ->duration_hour(12)
@@ -124,10 +126,10 @@ Use the `format_list()` method of a locale to format a variable-length list of i
 ```php
 <?php
 
-/* @var \ICanBoogie\CLDR\Repository $cldr */
+/* @var ICanBoogie\CLDR\Repository $cldr */
 
 # You can format a list in English
-$en = $cldr->locales['en'];
+$en = $cldr->locale_for('en');
 
 $en->format_list([ "Monday" ]);
 // Monday
@@ -139,7 +141,7 @@ $en->format_list([ "Monday", "Tuesday", "Friday", "Thursday" ]);
 // Monday, Tuesday, Wednesday, and Thursday
 
 # You can format a list in French
-$fr = $cldr->locales['fr'];
+$fr = $cldr->for_locale('fr');
 
 $fr->format_list([ "lundi" ]);
 // lundi
@@ -156,10 +158,9 @@ Alternatively, you can get a list formatter using the `list_formatter` property:
 ```php
 <?php
 
-/* @var \ICanBoogie\CLDR\Repository $cldr */
+/* @var ICanBoogie\CLDR\Locale $locate */
 
-$list_formatter = $cldr->locales['en']->list_formatter;
-
+$list_formatter = $locale->list_formatter;
 $list_formatter->format([ "Monday", "Tuesday", "Wednesday" ]);
 // Monday, Tuesday, and Wednesday
 ```

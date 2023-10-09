@@ -28,33 +28,30 @@ use function explode;
  *
  * $repository = new Repository($provider);
  *
- * var_dump($repository->locales['fr']);
+ * var_dump($repository->locale_fr('fr'));
  * var_dump($repository->territories['FR']);
  * </pre>
  *
- * @property-read LocaleCollection $locales
- * @uses self::lazy_get_locales()
  * @property-read Supplemental $supplemental
- * @uses self::lazy_get_supplemental()
+ * @uses self::get_supplemental()
  * @property-read TerritoryCollection $territories
- * @uses self::lazy_get_territories()
+ * @uses self::get_territories()
  * @property-read CurrencyCollection $currencies
- * @uses self::lazy_get_currencies()
+ * @uses self::get_currencies()
  * @property-read NumberFormatter $number_formatter
- * @uses self::lazy_get_number_formatter()
+ * @uses self::get_number_formatter()
  * @property-read CurrencyFormatter $currency_formatter
- * @uses self::lazy_get_currency_formatter()
+ * @uses self::get_currency_formatter()
  * @property-read ListFormatter $list_formatter
- * @uses self::lazy_get_list_formatter()
+ * @uses self::get_list_formatter()
  * @property-read Plurals $plurals
- * @uses self::lazy_get_plurals()
+ * @uses self::get_plurals()
  * @property-read string[] $available_locales
- * @uses self::lazy_get_available_locales()
+ * @uses self::get_available_locales()
  */
 final class Repository
 {
 	/**
-	 * @uses get_locales
 	 * @uses get_supplemental
 	 * @uses get_territories
 	 * @uses get_currencies
@@ -66,13 +63,6 @@ final class Repository
 	 * @uses get_available_locales
 	 */
 	use AccessorTrait;
-
-	private LocaleCollection $locales;
-
-	private function get_locales(): LocaleCollection
-	{
-		return $this->locales ??= new LocaleCollection($this);
-	}
 
 	private Supplemental $supplemental;
 
@@ -160,8 +150,7 @@ final class Repository
 		if ($data_path) {
 			$data_path = explode('/', $data_path);
 
-			while ($data_path)
-			{
+			while ($data_path) {
 				$p = array_shift($data_path);
 				$data = $data[$p];
 			}
@@ -218,11 +207,12 @@ final class Repository
 		return $this->list_formatter->format($list, $list_pattern);
 	}
 
-	/**
-	 * Whether a locale is available.
-	 */
-	public function is_locale_available(string $locale): bool
+	private LocaleCollection $locales;
+
+	public function locale_for(string|LocaleId $locale_id): Locale
 	{
-		return in_array($locale, $this->get_available_locales());
+		$this->locales ??= new LocaleCollection($this);
+
+		return $this->locales->locale_for($locale_id);
 	}
 }

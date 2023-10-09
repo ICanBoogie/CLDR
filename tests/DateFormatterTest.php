@@ -23,10 +23,8 @@ final class DateFormatterTest extends TestCase
 
 	public static function setupBeforeClass(): void
 	{
-		$repository = get_repository();
-
-		self::$formatters['en'] = new DateFormatter($repository->locales['en']->calendar);
-		self::$formatters['fr'] = new DateFormatter($repository->locales['fr']->calendar);
+		self::$formatters['en'] = new DateFormatter(locale_for('en')->calendar);
+		self::$formatters['fr'] = new DateFormatter(locale_for('fr')->calendar);
 	}
 
 	#[DataProvider('provide_test_format')]
@@ -41,6 +39,9 @@ final class DateFormatterTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		return [

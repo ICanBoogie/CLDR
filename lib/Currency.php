@@ -71,9 +71,8 @@ final class Currency
 	/**
 	 * Localizes the currency.
 	 */
-	public function localize(string $locale_id): LocalizedCurrency
+	public function localize(string|LocaleId $locale_id): LocalizedCurrency
 	{
-		/** @phpstan-ignore-next-line */
-		return $this->repository->locales[$locale_id]->localize($this);
+		return $this->repository->locale_for($locale_id)->localize($this);
 	}
 }

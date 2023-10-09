@@ -21,12 +21,7 @@ final class CalendarTest extends TestCase
 
 	public static function setupBeforeClass(): void
 	{
-		self::$calendar = get_repository()->locales['fr']->calendars['gregorian']; // @phpstan-ignore-line
-	}
-
-	public function test_instanceof(): void
-	{
-		$this->assertInstanceOf(Calendar::class, self::$calendar);
+		self::$calendar = locale_for('fr')->calendars['gregorian']; // @phpstan-ignore-line
 	}
 
 	#[DataProvider('provider_test_property_instanceof')]
@@ -37,14 +32,17 @@ final class CalendarTest extends TestCase
 		$this->assertSame($instance, self::$calendar->$property);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provider_test_property_instanceof(): array
 	{
 		return [
 
-			[ 'locale',             Locale::class ],
+			[ 'locale', Locale::class ],
 			[ 'datetime_formatter', DateTimeFormatter::class ],
-			[ 'date_formatter',     DateFormatter::class ],
-			[ 'time_formatter',     TimeFormatter::class ]
+			[ 'date_formatter', DateFormatter::class ],
+			[ 'time_formatter', TimeFormatter::class ]
 
 		];
 	}
@@ -61,6 +59,9 @@ final class CalendarTest extends TestCase
 		$this->assertTrue(self::$calendar->offsetExists($key));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_access(): array
 	{
 		return [
@@ -83,75 +84,77 @@ final class CalendarTest extends TestCase
 		$path_parts = explode('/', $path);
 		$expected = self::$calendar;
 
-		foreach ($path_parts as $part)
-		{
+		foreach ($path_parts as $part) {
 			$expected = $expected[$part];
 		}
 
 		$this->assertEquals(self::$calendar->$property, $expected);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_date_patterns_shortcuts(): array
 	{
 		return [
 
-			[ 'standalone_abbreviated_days',     'days/stand-alone/abbreviated' ],
-			[ 'standalone_abbreviated_eras',     'eras/eraAbbr' ],
-			[ 'standalone_abbreviated_months',   'months/stand-alone/abbreviated' ],
+			[ 'standalone_abbreviated_days', 'days/stand-alone/abbreviated' ],
+			[ 'standalone_abbreviated_eras', 'eras/eraAbbr' ],
+			[ 'standalone_abbreviated_months', 'months/stand-alone/abbreviated' ],
 			[ 'standalone_abbreviated_quarters', 'quarters/stand-alone/abbreviated' ],
-			[ 'standalone_narrow_days',          'days/stand-alone/narrow' ],
-			[ 'standalone_narrow_eras',          'eras/eraNarrow' ],
-			[ 'standalone_narrow_months',        'months/stand-alone/narrow' ],
-			[ 'standalone_narrow_quarters',      'quarters/stand-alone/narrow' ],
-			[ 'standalone_short_days',           'days/stand-alone/short' ],
-			[ 'standalone_short_eras',           'eras/eraAbbr' ],
-			[ 'standalone_short_months',         'months/stand-alone/abbreviated' ],
-			[ 'standalone_short_quarters',       'quarters/stand-alone/abbreviated' ],
-			[ 'standalone_wide_days',            'days/stand-alone/wide' ],
-			[ 'standalone_wide_eras',            'eras/eraNames' ],
-			[ 'standalone_wide_months',          'months/stand-alone/wide' ],
-			[ 'standalone_wide_quarters',        'quarters/stand-alone/wide' ],
-			[ 'abbreviated_days',                'days/format/abbreviated' ],
-			[ 'abbreviated_eras',                'eras/eraAbbr' ],
-			[ 'abbreviated_months',              'months/format/abbreviated' ],
-			[ 'abbreviated_quarters',            'quarters/format/abbreviated' ],
-			[ 'narrow_days',                     'days/format/narrow' ],
-			[ 'narrow_eras',                     'eras/eraNarrow' ],
-			[ 'narrow_months',                   'months/format/narrow' ],
-			[ 'narrow_quarters',                 'quarters/format/narrow' ],
-			[ 'short_days',                      'days/format/short' ],
-			[ 'short_eras',                      'eras/eraAbbr' ],
-			[ 'short_months',                    'months/format/abbreviated' ],
-			[ 'short_quarters',                  'quarters/format/abbreviated' ],
-			[ 'wide_days',                       'days/format/wide' ],
-			[ 'wide_eras',                       'eras/eraNames' ],
-			[ 'wide_months',                     'months/format/wide' ],
-			[ 'wide_quarters',                   'quarters/format/wide' ]
+			[ 'standalone_narrow_days', 'days/stand-alone/narrow' ],
+			[ 'standalone_narrow_eras', 'eras/eraNarrow' ],
+			[ 'standalone_narrow_months', 'months/stand-alone/narrow' ],
+			[ 'standalone_narrow_quarters', 'quarters/stand-alone/narrow' ],
+			[ 'standalone_short_days', 'days/stand-alone/short' ],
+			[ 'standalone_short_eras', 'eras/eraAbbr' ],
+			[ 'standalone_short_months', 'months/stand-alone/abbreviated' ],
+			[ 'standalone_short_quarters', 'quarters/stand-alone/abbreviated' ],
+			[ 'standalone_wide_days', 'days/stand-alone/wide' ],
+			[ 'standalone_wide_eras', 'eras/eraNames' ],
+			[ 'standalone_wide_months', 'months/stand-alone/wide' ],
+			[ 'standalone_wide_quarters', 'quarters/stand-alone/wide' ],
+			[ 'abbreviated_days', 'days/format/abbreviated' ],
+			[ 'abbreviated_eras', 'eras/eraAbbr' ],
+			[ 'abbreviated_months', 'months/format/abbreviated' ],
+			[ 'abbreviated_quarters', 'quarters/format/abbreviated' ],
+			[ 'narrow_days', 'days/format/narrow' ],
+			[ 'narrow_eras', 'eras/eraNarrow' ],
+			[ 'narrow_months', 'months/format/narrow' ],
+			[ 'narrow_quarters', 'quarters/format/narrow' ],
+			[ 'short_days', 'days/format/short' ],
+			[ 'short_eras', 'eras/eraAbbr' ],
+			[ 'short_months', 'months/format/abbreviated' ],
+			[ 'short_quarters', 'quarters/format/abbreviated' ],
+			[ 'wide_days', 'days/format/wide' ],
+			[ 'wide_eras', 'eras/eraNames' ],
+			[ 'wide_months', 'months/format/wide' ],
+			[ 'wide_quarters', 'quarters/format/wide' ]
 
 		];
 	}
 
 	public function testFormatDateTime(): void
-    {
-        $this->assertSame(
-            self::$calendar->format_datetime('2018-11-24 20:12:22 UTC', DateTimeFormatLength::FULL),
-            "samedi 24 novembre 2018 à 20:12:22 UTC"
-        );
-    }
+	{
+		$this->assertSame(
+			self::$calendar->format_datetime('2018-11-24 20:12:22 UTC', DateTimeFormatLength::FULL),
+			"samedi 24 novembre 2018 à 20:12:22 UTC"
+		);
+	}
 
 	public function testFormatDate(): void
-    {
-        $this->assertSame(
-            self::$calendar->format_date('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG),
-            "24 novembre 2018"
-        );
-    }
+	{
+		$this->assertSame(
+			self::$calendar->format_date('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG),
+			"24 novembre 2018"
+		);
+	}
 
 	public function testFormatTime(): void
-    {
-        $this->assertSame(
-            self::$calendar->format_time('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG),
-            "20:12:22 UTC"
-        );
-    }
+	{
+		$this->assertSame(
+			self::$calendar->format_time('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG),
+			"20:12:22 UTC"
+		);
+	}
 }

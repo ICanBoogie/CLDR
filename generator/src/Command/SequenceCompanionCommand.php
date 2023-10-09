@@ -3,8 +3,6 @@
 namespace ICanBoogie\CLDR\Generator\Command;
 
 use ICanBoogie\CLDR\Repository;
-use ICanBoogie\CLDR\Units\NumberWithUnit;
-use ICanBoogie\CLDR\Units\Unit;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,7 +36,7 @@ final class SequenceCompanionCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $units = $this->repository->locales['en-001']['units']['long'];
+        $units = $this->repository->locale_for('en_001')['units']['long'];
         $methods = [];
 
         foreach ($units as $name => $unit) {

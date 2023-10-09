@@ -23,10 +23,9 @@ use function getenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-define('ICanBoogie\CLDR\CACHE_DIR', __DIR__ . '/../cache');
+const CACHE_DIR = __DIR__ . '/../cache';
 
-if (!file_exists(CACHE_DIR))
-{
+if (!file_exists(CACHE_DIR)) {
 	mkdir(CACHE_DIR);
 }
 
@@ -34,14 +33,18 @@ function create_provider(): Provider
 {
 	static $provider;
 
-	if ($provider)
-	{
+	if ($provider) {
 		return $provider;
 	}
 
 	$redis = new Redis();
+	$host = getenv('ICANBOOGIE_CLDR_REDIS_HOST');
+	$port = getenv('ICANBOOGIE_CLDR_REDIS_PORT');
 
-	if (!$redis->connect(getenv('ICANBOOGIE_CLDR_REDIS_HOST'), getenv('ICANBOOGIE_CLDR_REDIS_PORT'))) {
+	assert($host !== false && strlen($host) > 0);
+	assert($port !== false && strlen($port) > 0);
+
+	if (!$redis->connect($host, (int)$port)) {
 		echo "Unable to connect to Redis";
 
 		exit(1);
@@ -63,6 +66,11 @@ function get_repository(): Repository
 
 	return $repository
 		?? $repository = new Repository(create_provider());
+}
+
+function locale_for(string|LocaleId $id): Locale
+{
+	return get_repository()->locale_for($id);
 }
 
 date_default_timezone_set('Europe/Madrid');

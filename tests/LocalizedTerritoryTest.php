@@ -17,14 +17,17 @@ use PHPUnit\Framework\TestCase;
 final class LocalizedTerritoryTest extends TestCase
 {
 	#[DataProvider('provide_test_get_name')]
-	public function test_get_name(string $locale_code, string $territory_code, string $expected): void
+	public function test_get_name(string $locale_id, string $territory_code, string $expected): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
-		$localized = new LocalizedTerritory($territory, get_repository()->locales[$locale_code]);
+		$localized = new LocalizedTerritory($territory, locale_for($locale_id));
 
 		$this->assertEquals($expected, $localized->name);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_get_name(): array
 	{
 		return [

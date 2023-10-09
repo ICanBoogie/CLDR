@@ -22,10 +22,12 @@ lists…
 ```php
 <?php
 
+use ICanBoogie\CLDR\LocaleId;
+
 /* @var ICanBoogie\CLDR\Repository $repository */
 
 # You get a locale from the repository, here the locale for French.
-$fr = $repository->locales['fr'];
+$fr = $repository->locale_for('fr');
 
 # You can use a locale instance as an array to get data
 echo $fr['characters']['auxiliary'];                // [á å ä ã ā ē í ì ī ñ ó ò ö ø ú ǔ]
@@ -61,7 +63,7 @@ echo $fr_datetime->as_medium;                       // 4 nov. 2013 20:21:22
 echo $fr_datetime->as_short;                        // 04/11/2013 20:21
 
 # You can format units
-$units = $repository->locales['en']->units;
+$units = $repository->locale_for('en')->units;
 echo $units->duration_hour->name;                   // hours
 echo $units->duration_hour->short_name;             // h
 echo $units->duration_hour(1);                      // 1 hour
@@ -92,27 +94,27 @@ $repository->plurals->rule_for(2, 'ar');   // two
 $euro = $repository->currencies['EUR'];
 $fr_euro = $euro->localize('fr');
 echo $fr_euro->name;
-echo $fr_euro->name_for(1);                         // euro
-echo $fr_euro->name_for(10);                        // euros
-echo $fr_euro->format(12345.67);                    // 12 345,67 €
+echo $fr_euro->name_for(1);      // euro
+echo $fr_euro->name_for(10);     // euros
+echo $fr_euro->format(12345.67); // 12 345,67 €
 
 # You can access territories and their localized data
 $territory = $repository->territories['FR'];
-echo $territory;                                    // FR
-echo $territory->currency;                          // EUR
-echo $territory->currency_at('1977-06-06');         // FRF
-echo $territory->currency_at('now');                // EUR
-echo $territory->name_as('fr-FR');                  // France
-echo $territory->name_as('it');                     // Francia
-echo $territory->name_as('ja');                     // フランス
-echo $repository->territories['FR']->first_day;     // mon
-echo $repository->territories['EG']->first_day;     // sat
-echo $repository->territories['BS']->first_day;     // sun
-echo $repository->territories['AE']->weekend_start; // fri
-echo $repository->territories['AE']->weekend_end;   // sat
-echo $territory->localize('fr')->name;              // France
-echo $territory->localize('it')->name;              // Francia
-echo $territory->localize('ja')->name;              // フランス
+echo $territory;                                       // FR
+echo $territory->currency;                             // EUR
+echo $territory->currency_at('1977-06-06');            // FRF
+echo $territory->currency_at('now');                   // EUR
+echo $territory->name_as('fr');        // France
+echo $territory->name_as('it');        // Francia
+echo $territory->name_as('ja');        // フランス
+echo $repository->territories['FR']->first_day;        // mon
+echo $repository->territories['EG']->first_day;        // sat
+echo $repository->territories['BS']->first_day;        // sun
+echo $repository->territories['AE']->weekend_start;    // fri
+echo $repository->territories['AE']->weekend_end;      // sat
+echo $territory->localize('fr')->name; // France
+echo $territory->localize('it')->name; // Francia
+echo $territory->localize('ja')->name; // フランス
 ```
 
 
@@ -186,16 +188,14 @@ supplemental data:
 ```php
 <?php
 
+use ICanBoogie\CLDR\LocaleId;
+
 /**
  * @var ICanBoogie\CLDR\Repository $repository
  */
 
-$english_locale = $repository->locales['en'];
-$french_locale = $repository->locales['fr'];
-
-$repository->available_locales;            // [ … 'en', …, 'fr', … ];
-$repository->is_locale_available('fr');    // true
-$repository->is_locale_available('fr-FR'); // false
+$english_locale = $repository->locale_for('en');
+$french_locale = $repository->locale_for('fr');
 
 $supplemental = $repository->supplemental;
 # reading the default calendar

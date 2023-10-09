@@ -17,13 +17,16 @@ use PHPUnit\Framework\TestCase;
 final class NumberFormatterTest extends TestCase
 {
 	#[DataProvider('provide_test_format')]
-	public function test_format(string $locale_code, float|int $number, string $pattern, string $expected): void
+	public function test_format(string $locale_id, float|int $number, string $pattern, string $expected): void
 	{
 		$formatter = new NumberFormatter();
-		$symbols = get_repository()->locales[$locale_code]->numbers->symbols;
+		$symbols = locale_for($locale_id)->numbers->symbols;
 		$this->assertSame($expected, $formatter->format($number, $pattern, $symbols));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		return [

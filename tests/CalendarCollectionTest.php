@@ -22,7 +22,7 @@ final class CalendarCollectionTest extends TestCase
 
 	public static function setupBeforeClass(): void
 	{
-		self::$collection = get_repository()->locales['fr']->calendars;
+		self::$collection = locale_for('fr')->calendars;
 	}
 
 	public function test_offsetExists(): void
@@ -50,6 +50,9 @@ final class CalendarCollectionTest extends TestCase
 		$this->assertInstanceOf(Calendar::class, $calendar);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_get(): array
 	{
 		return [

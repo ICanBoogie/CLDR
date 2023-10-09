@@ -19,30 +19,31 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 	use StringHelpers;
 
 	private CurrencyFormatter $formatter;
-	private Repository $repository;
 
 	protected function setUp(): void
 	{
-		$this->repository = get_repository();
 		$this->formatter = new CurrencyFormatter();
 	}
 
 	#[DataProvider('provide_test_format')]
 	public function test_format(
 		string $currency_code,
-		string $locale_code,
+		string $locale_id,
 		float $number,
 		string $expected
 	): void {
 		$formatter = new LocalizedCurrencyFormatter(
 			$this->formatter,
-			$this->repository->locales[$locale_code]
+			locale_for($locale_id),
 		);
 
 		$this->assertStringSame($expected, $formatter->format($number, $currency_code));
 		$this->assertStringSame($expected, $formatter($number, $currency_code));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		$s1 = Spaces::NARROW_NO_BREAK_SPACE;
@@ -61,15 +62,18 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 	}
 
 	/**
-	 * @dataProvider provide_test_format_accounting
-	 *
-	 * @param numeric $number
+	 * @param float|int|numeric-string $number
 	 */
-	public function test_format_accounting(string $currency_code, string $locale_code, $number, string $expected): void
-	{
+	#[DataProvider('provide_test_format_accounting')]
+	public function test_format_accounting(
+		string $currency_code,
+		string $locale_id,
+		float|int|string $number,
+		string $expected
+	): void {
 		$formatter = new LocalizedCurrencyFormatter(
 			$this->formatter,
-			$this->repository->locales[$locale_code]
+			locale_for($locale_id),
 		);
 
 		$this->assertStringSame(
@@ -83,6 +87,9 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 		);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format_accounting(): array
 	{
 		$s1 = Spaces::NARROW_NO_BREAK_SPACE;
@@ -104,7 +111,7 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 	{
 		$formatter = new LocalizedCurrencyFormatter(
 			$this->formatter,
-			$this->repository->locales['fr']
+			locale_for('fr'),
 		);
 
 		$this->assertStringSame("€123,5", $formatter(123.45, 'EUR', '¤0.0'));

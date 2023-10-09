@@ -27,6 +27,6 @@ class LocalizedLocale extends LocalizedObject
 	protected function get_name(): string
 	{
 		/** @phpstan-ignore-next-line */
-		return $this->locale['languages'][$this->target->code];
+		return $this->locale['languages'][$this->target->id->value];
 	}
 }

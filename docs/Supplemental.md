@@ -30,7 +30,7 @@ information that is actually scattered across the CLDR.
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Repository $repository 
+ * @var ICanBoogie\CLDR\Repository $repository
  */
 
 $territory = $repository->territories['FR'];
@@ -71,15 +71,17 @@ the desired locale.
 ```php
 <?php
 
+use ICanBoogie\CLDR\LocaleId;
+
 /**
- * @var ICanBoogie\CLDR\Repository $repository 
+ * @var ICanBoogie\CLDR\Repository $repository
  */
 
 $territory = $repository->territories['FR'];
 
 $localized_territory = $territory->localize('fr');
 # or
-$localized_territory = $repository->locales['fr']->localize($territory);
+$localized_territory = $repository->locale_for('fr')->localize($territory);
 
 echo $territory->localize('fr')->name;   // France
 echo $territory->localize('it')->name;   // Francia

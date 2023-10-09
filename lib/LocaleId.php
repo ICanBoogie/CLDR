@@ -4,383 +4,621 @@
 
 namespace ICanBoogie\CLDR;
 
-enum LocaleId: string
+use InvalidArgumentException;
+
+final class LocaleId
 {
-    case af = "af";
-    case af_NA = "af-NA";
-    case am = "am";
-    case ar = "ar";
-    case ar_AE = "ar-AE";
-    case ar_BH = "ar-BH";
-    case ar_DJ = "ar-DJ";
-    case ar_DZ = "ar-DZ";
-    case ar_EG = "ar-EG";
-    case ar_EH = "ar-EH";
-    case ar_ER = "ar-ER";
-    case ar_IL = "ar-IL";
-    case ar_IQ = "ar-IQ";
-    case ar_JO = "ar-JO";
-    case ar_KM = "ar-KM";
-    case ar_KW = "ar-KW";
-    case ar_LB = "ar-LB";
-    case ar_LY = "ar-LY";
-    case ar_MA = "ar-MA";
-    case ar_MR = "ar-MR";
-    case ar_OM = "ar-OM";
-    case ar_PS = "ar-PS";
-    case ar_QA = "ar-QA";
-    case ar_SA = "ar-SA";
-    case ar_SD = "ar-SD";
-    case ar_SO = "ar-SO";
-    case ar_SS = "ar-SS";
-    case ar_SY = "ar-SY";
-    case ar_TD = "ar-TD";
-    case ar_TN = "ar-TN";
-    case ar_YE = "ar-YE";
-    case as = "as";
-    case az = "az";
-    case az_Latn = "az-Latn";
-    case be = "be";
-    case be_tarask = "be-tarask";
-    case bg = "bg";
-    case bn = "bn";
-    case bn_IN = "bn-IN";
-    case bs = "bs";
-    case bs_Latn = "bs-Latn";
-    case ca = "ca";
-    case ca_AD = "ca-AD";
-    case ca_ES_valencia = "ca-ES-valencia";
-    case ca_FR = "ca-FR";
-    case ca_IT = "ca-IT";
-    case cs = "cs";
-    case cy = "cy";
-    case da = "da";
-    case da_GL = "da-GL";
-    case de = "de";
-    case de_AT = "de-AT";
-    case de_BE = "de-BE";
-    case de_CH = "de-CH";
-    case de_IT = "de-IT";
-    case de_LI = "de-LI";
-    case de_LU = "de-LU";
-    case el = "el";
-    case el_CY = "el-CY";
-    case en = "en";
-    case en_001 = "en-001";
-    case en_150 = "en-150";
-    case en_AE = "en-AE";
-    case en_AG = "en-AG";
-    case en_AI = "en-AI";
-    case en_AS = "en-AS";
-    case en_AT = "en-AT";
-    case en_AU = "en-AU";
-    case en_BB = "en-BB";
-    case en_BE = "en-BE";
-    case en_BI = "en-BI";
-    case en_BM = "en-BM";
-    case en_BS = "en-BS";
-    case en_BW = "en-BW";
-    case en_BZ = "en-BZ";
-    case en_CA = "en-CA";
-    case en_CC = "en-CC";
-    case en_CH = "en-CH";
-    case en_CK = "en-CK";
-    case en_CM = "en-CM";
-    case en_CX = "en-CX";
-    case en_CY = "en-CY";
-    case en_DE = "en-DE";
-    case en_DG = "en-DG";
-    case en_DK = "en-DK";
-    case en_DM = "en-DM";
-    case en_ER = "en-ER";
-    case en_FI = "en-FI";
-    case en_FJ = "en-FJ";
-    case en_FK = "en-FK";
-    case en_FM = "en-FM";
-    case en_GB = "en-GB";
-    case en_GD = "en-GD";
-    case en_GG = "en-GG";
-    case en_GH = "en-GH";
-    case en_GI = "en-GI";
-    case en_GM = "en-GM";
-    case en_GU = "en-GU";
-    case en_GY = "en-GY";
-    case en_HK = "en-HK";
-    case en_IE = "en-IE";
-    case en_IL = "en-IL";
-    case en_IM = "en-IM";
-    case en_IN = "en-IN";
-    case en_IO = "en-IO";
-    case en_JE = "en-JE";
-    case en_JM = "en-JM";
-    case en_KE = "en-KE";
-    case en_KI = "en-KI";
-    case en_KN = "en-KN";
-    case en_KY = "en-KY";
-    case en_LC = "en-LC";
-    case en_LR = "en-LR";
-    case en_LS = "en-LS";
-    case en_MG = "en-MG";
-    case en_MH = "en-MH";
-    case en_MO = "en-MO";
-    case en_MP = "en-MP";
-    case en_MS = "en-MS";
-    case en_MT = "en-MT";
-    case en_MU = "en-MU";
-    case en_MV = "en-MV";
-    case en_MW = "en-MW";
-    case en_MY = "en-MY";
-    case en_NA = "en-NA";
-    case en_NF = "en-NF";
-    case en_NG = "en-NG";
-    case en_NL = "en-NL";
-    case en_NR = "en-NR";
-    case en_NU = "en-NU";
-    case en_NZ = "en-NZ";
-    case en_PG = "en-PG";
-    case en_PH = "en-PH";
-    case en_PK = "en-PK";
-    case en_PN = "en-PN";
-    case en_PR = "en-PR";
-    case en_PW = "en-PW";
-    case en_RW = "en-RW";
-    case en_SB = "en-SB";
-    case en_SC = "en-SC";
-    case en_SD = "en-SD";
-    case en_SE = "en-SE";
-    case en_SG = "en-SG";
-    case en_SH = "en-SH";
-    case en_SI = "en-SI";
-    case en_SL = "en-SL";
-    case en_SS = "en-SS";
-    case en_SX = "en-SX";
-    case en_SZ = "en-SZ";
-    case en_TC = "en-TC";
-    case en_TK = "en-TK";
-    case en_TO = "en-TO";
-    case en_TT = "en-TT";
-    case en_TV = "en-TV";
-    case en_TZ = "en-TZ";
-    case en_UG = "en-UG";
-    case en_UM = "en-UM";
-    case en_VC = "en-VC";
-    case en_VG = "en-VG";
-    case en_VI = "en-VI";
-    case en_VU = "en-VU";
-    case en_WS = "en-WS";
-    case en_ZA = "en-ZA";
-    case en_ZM = "en-ZM";
-    case en_ZW = "en-ZW";
-    case es = "es";
-    case es_419 = "es-419";
-    case es_AR = "es-AR";
-    case es_BO = "es-BO";
-    case es_BR = "es-BR";
-    case es_BZ = "es-BZ";
-    case es_CL = "es-CL";
-    case es_CO = "es-CO";
-    case es_CR = "es-CR";
-    case es_CU = "es-CU";
-    case es_DO = "es-DO";
-    case es_EA = "es-EA";
-    case es_EC = "es-EC";
-    case es_GQ = "es-GQ";
-    case es_GT = "es-GT";
-    case es_HN = "es-HN";
-    case es_IC = "es-IC";
-    case es_MX = "es-MX";
-    case es_NI = "es-NI";
-    case es_PA = "es-PA";
-    case es_PE = "es-PE";
-    case es_PH = "es-PH";
-    case es_PR = "es-PR";
-    case es_PY = "es-PY";
-    case es_SV = "es-SV";
-    case es_US = "es-US";
-    case es_UY = "es-UY";
-    case es_VE = "es-VE";
-    case et = "et";
-    case eu = "eu";
-    case fa = "fa";
-    case fa_AF = "fa-AF";
-    case fi = "fi";
-    case fil = "fil";
-    case fr = "fr";
-    case fr_BE = "fr-BE";
-    case fr_BF = "fr-BF";
-    case fr_BI = "fr-BI";
-    case fr_BJ = "fr-BJ";
-    case fr_BL = "fr-BL";
-    case fr_CA = "fr-CA";
-    case fr_CD = "fr-CD";
-    case fr_CF = "fr-CF";
-    case fr_CG = "fr-CG";
-    case fr_CH = "fr-CH";
-    case fr_CI = "fr-CI";
-    case fr_CM = "fr-CM";
-    case fr_DJ = "fr-DJ";
-    case fr_DZ = "fr-DZ";
-    case fr_GA = "fr-GA";
-    case fr_GF = "fr-GF";
-    case fr_GN = "fr-GN";
-    case fr_GP = "fr-GP";
-    case fr_GQ = "fr-GQ";
-    case fr_HT = "fr-HT";
-    case fr_KM = "fr-KM";
-    case fr_LU = "fr-LU";
-    case fr_MA = "fr-MA";
-    case fr_MC = "fr-MC";
-    case fr_MF = "fr-MF";
-    case fr_MG = "fr-MG";
-    case fr_ML = "fr-ML";
-    case fr_MQ = "fr-MQ";
-    case fr_MR = "fr-MR";
-    case fr_MU = "fr-MU";
-    case fr_NC = "fr-NC";
-    case fr_NE = "fr-NE";
-    case fr_PF = "fr-PF";
-    case fr_PM = "fr-PM";
-    case fr_RE = "fr-RE";
-    case fr_RW = "fr-RW";
-    case fr_SC = "fr-SC";
-    case fr_SN = "fr-SN";
-    case fr_SY = "fr-SY";
-    case fr_TD = "fr-TD";
-    case fr_TG = "fr-TG";
-    case fr_TN = "fr-TN";
-    case fr_VU = "fr-VU";
-    case fr_WF = "fr-WF";
-    case fr_YT = "fr-YT";
-    case ga = "ga";
-    case ga_GB = "ga-GB";
-    case gl = "gl";
-    case gu = "gu";
-    case he = "he";
-    case hi = "hi";
-    case hi_Latn = "hi-Latn";
-    case hr = "hr";
-    case hr_BA = "hr-BA";
-    case hu = "hu";
-    case hy = "hy";
-    case id = "id";
-    case is = "is";
-    case it = "it";
-    case it_CH = "it-CH";
-    case it_SM = "it-SM";
-    case it_VA = "it-VA";
-    case ja = "ja";
-    case jv = "jv";
-    case ka = "ka";
-    case kk = "kk";
-    case km = "km";
-    case kn = "kn";
-    case ko = "ko";
-    case ko_KP = "ko-KP";
-    case ky = "ky";
-    case lo = "lo";
-    case lt = "lt";
-    case lv = "lv";
-    case mk = "mk";
-    case ml = "ml";
-    case mn = "mn";
-    case mr = "mr";
-    case ms = "ms";
-    case ms_BN = "ms-BN";
-    case ms_ID = "ms-ID";
-    case ms_SG = "ms-SG";
-    case my = "my";
-    case nb = "nb";
-    case nb_SJ = "nb-SJ";
-    case ne = "ne";
-    case ne_IN = "ne-IN";
-    case nl = "nl";
-    case nl_AW = "nl-AW";
-    case nl_BE = "nl-BE";
-    case nl_BQ = "nl-BQ";
-    case nl_CW = "nl-CW";
-    case nl_SR = "nl-SR";
-    case nl_SX = "nl-SX";
-    case nn = "nn";
-    case no = "no";
-    case or = "or";
-    case pa = "pa";
-    case pa_Guru = "pa-Guru";
-    case pl = "pl";
-    case ps = "ps";
-    case ps_PK = "ps-PK";
-    case pt = "pt";
-    case pt_AO = "pt-AO";
-    case pt_CH = "pt-CH";
-    case pt_CV = "pt-CV";
-    case pt_GQ = "pt-GQ";
-    case pt_GW = "pt-GW";
-    case pt_LU = "pt-LU";
-    case pt_MO = "pt-MO";
-    case pt_MZ = "pt-MZ";
-    case pt_PT = "pt-PT";
-    case pt_ST = "pt-ST";
-    case pt_TL = "pt-TL";
-    case ro = "ro";
-    case ro_MD = "ro-MD";
-    case ru = "ru";
-    case ru_BY = "ru-BY";
-    case ru_KG = "ru-KG";
-    case ru_KZ = "ru-KZ";
-    case ru_MD = "ru-MD";
-    case ru_UA = "ru-UA";
-    case sd = "sd";
-    case sd_Arab = "sd-Arab";
-    case si = "si";
-    case sk = "sk";
-    case sl = "sl";
-    case so = "so";
-    case so_DJ = "so-DJ";
-    case so_ET = "so-ET";
-    case so_KE = "so-KE";
-    case sq = "sq";
-    case sq_MK = "sq-MK";
-    case sq_XK = "sq-XK";
-    case sr = "sr";
-    case sr_Cyrl = "sr-Cyrl";
-    case sr_Cyrl_BA = "sr-Cyrl-BA";
-    case sr_Cyrl_ME = "sr-Cyrl-ME";
-    case sr_Cyrl_XK = "sr-Cyrl-XK";
-    case sr_Latn = "sr-Latn";
-    case sr_Latn_BA = "sr-Latn-BA";
-    case sr_Latn_ME = "sr-Latn-ME";
-    case sr_Latn_XK = "sr-Latn-XK";
-    case sv = "sv";
-    case sv_AX = "sv-AX";
-    case sv_FI = "sv-FI";
-    case sw = "sw";
-    case sw_CD = "sw-CD";
-    case sw_KE = "sw-KE";
-    case sw_UG = "sw-UG";
-    case ta = "ta";
-    case ta_LK = "ta-LK";
-    case ta_MY = "ta-MY";
-    case ta_SG = "ta-SG";
-    case te = "te";
-    case th = "th";
-    case tk = "tk";
-    case tr = "tr";
-    case tr_CY = "tr-CY";
-    case uk = "uk";
-    case und = "und";
-    case ur = "ur";
-    case ur_IN = "ur-IN";
-    case uz = "uz";
-    case uz_Latn = "uz-Latn";
-    case vi = "vi";
-    case yue = "yue";
-    case yue_Hant = "yue-Hant";
-    case zh = "zh";
-    case zh_Hans = "zh-Hans";
-    case zh_Hans_HK = "zh-Hans-HK";
-    case zh_Hans_MO = "zh-Hans-MO";
-    case zh_Hans_SG = "zh-Hans-SG";
-    case zh_Hant = "zh-Hant";
-    case zh_Hant_HK = "zh-Hant-HK";
-    case zh_Hant_MO = "zh-Hant-MO";
-    case zu = "zu";
+    public static function is_available(string $value): bool
+    {
+        if (isset(self::PARENT_MAP[$value])) {
+            return true;
+        }
+
+        return in_array($value, self::AVAILABLE_LOCALES);
+    }
+
+	/**
+	 * @throws InvalidArgumentException if the value is not one of the available locales.
+	 */
+	public static function assert_id_available(string $value): void
+	{
+		self::is_available($value)
+		or throw new InvalidArgumentException("Locale is not available: $value.");
+	}
+
+    /**
+     * @var array<string, self>
+     *     Where _key_ is a locale identifier.
+     */
+    private static array $instances = [];
+
+    /**
+     * Returns a {@link LocaleId} of a value.
+     *
+     * @param string $value
+     *     A locale identifier.
+     *
+     * @return self
+     *
+     * @throws InvalidArgumentException if the locale is not available.
+     */
+    public static function from(string $value): self
+    {
+        if (!self::is_available($value)) {
+            throw new InvalidArgumentException("The locale '$value' is not available");
+        }
+
+        if (isset(self::PARENT_MAP[$value])) {
+            $value = self::PARENT_MAP[$value];
+        }
+
+        return self::$instances[$value] ??= new self($value);
+    }
+
+    private function __construct(
+        public readonly string $value,
+    ) {
+    }
+
+    /**
+     * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/parentLocales.json
+     */
+    public const PARENT_MAP = [
+        "en-150" => "en-001",
+        "en-AG" => "en-001",
+        "en-AI" => "en-001",
+        "en-AU" => "en-001",
+        "en-BB" => "en-001",
+        "en-BM" => "en-001",
+        "en-BS" => "en-001",
+        "en-BW" => "en-001",
+        "en-BZ" => "en-001",
+        "en-CC" => "en-001",
+        "en-CK" => "en-001",
+        "en-CM" => "en-001",
+        "en-CX" => "en-001",
+        "en-CY" => "en-001",
+        "en-DG" => "en-001",
+        "en-DM" => "en-001",
+        "en-ER" => "en-001",
+        "en-FJ" => "en-001",
+        "en-FK" => "en-001",
+        "en-FM" => "en-001",
+        "en-GB" => "en-001",
+        "en-GD" => "en-001",
+        "en-GG" => "en-001",
+        "en-GH" => "en-001",
+        "en-GI" => "en-001",
+        "en-GM" => "en-001",
+        "en-GY" => "en-001",
+        "en-HK" => "en-001",
+        "en-IE" => "en-001",
+        "en-IL" => "en-001",
+        "en-IM" => "en-001",
+        "en-IN" => "en-001",
+        "en-IO" => "en-001",
+        "en-JE" => "en-001",
+        "en-JM" => "en-001",
+        "en-KE" => "en-001",
+        "en-KI" => "en-001",
+        "en-KN" => "en-001",
+        "en-KY" => "en-001",
+        "en-LC" => "en-001",
+        "en-LR" => "en-001",
+        "en-LS" => "en-001",
+        "en-MG" => "en-001",
+        "en-MO" => "en-001",
+        "en-MS" => "en-001",
+        "en-MT" => "en-001",
+        "en-MU" => "en-001",
+        "en-MV" => "en-001",
+        "en-MW" => "en-001",
+        "en-MY" => "en-001",
+        "en-NA" => "en-001",
+        "en-NF" => "en-001",
+        "en-NG" => "en-001",
+        "en-NR" => "en-001",
+        "en-NU" => "en-001",
+        "en-NZ" => "en-001",
+        "en-PG" => "en-001",
+        "en-PK" => "en-001",
+        "en-PN" => "en-001",
+        "en-PW" => "en-001",
+        "en-RW" => "en-001",
+        "en-SB" => "en-001",
+        "en-SC" => "en-001",
+        "en-SD" => "en-001",
+        "en-SG" => "en-001",
+        "en-SH" => "en-001",
+        "en-SL" => "en-001",
+        "en-SS" => "en-001",
+        "en-SX" => "en-001",
+        "en-SZ" => "en-001",
+        "en-TC" => "en-001",
+        "en-TK" => "en-001",
+        "en-TO" => "en-001",
+        "en-TT" => "en-001",
+        "en-TV" => "en-001",
+        "en-TZ" => "en-001",
+        "en-UG" => "en-001",
+        "en-VC" => "en-001",
+        "en-VG" => "en-001",
+        "en-VU" => "en-001",
+        "en-WS" => "en-001",
+        "en-ZA" => "en-001",
+        "en-ZM" => "en-001",
+        "en-ZW" => "en-001",
+        "en-AT" => "en-150",
+        "en-BE" => "en-150",
+        "en-CH" => "en-150",
+        "en-DE" => "en-150",
+        "en-DK" => "en-150",
+        "en-FI" => "en-150",
+        "en-NL" => "en-150",
+        "en-SE" => "en-150",
+        "en-SI" => "en-150",
+        "hi-Latn" => "en-IN",
+        "es-AR" => "es-419",
+        "es-BO" => "es-419",
+        "es-BR" => "es-419",
+        "es-BZ" => "es-419",
+        "es-CL" => "es-419",
+        "es-CO" => "es-419",
+        "es-CR" => "es-419",
+        "es-CU" => "es-419",
+        "es-DO" => "es-419",
+        "es-EC" => "es-419",
+        "es-GT" => "es-419",
+        "es-HN" => "es-419",
+        "es-MX" => "es-419",
+        "es-NI" => "es-419",
+        "es-PA" => "es-419",
+        "es-PE" => "es-419",
+        "es-PR" => "es-419",
+        "es-PY" => "es-419",
+        "es-SV" => "es-419",
+        "es-US" => "es-419",
+        "es-UY" => "es-419",
+        "es-VE" => "es-419",
+        "nb" => "no",
+        "nn" => "no",
+        "pt-AO" => "pt-PT",
+        "pt-CH" => "pt-PT",
+        "pt-CV" => "pt-PT",
+        "pt-FR" => "pt-PT",
+        "pt-GQ" => "pt-PT",
+        "pt-GW" => "pt-PT",
+        "pt-LU" => "pt-PT",
+        "pt-MO" => "pt-PT",
+        "pt-MZ" => "pt-PT",
+        "pt-ST" => "pt-PT",
+        "pt-TL" => "pt-PT",
+        "az-Arab" => "und",
+        "az-Cyrl" => "und",
+        "bal-Latn" => "und",
+        "blt-Latn" => "und",
+        "bm-Nkoo" => "und",
+        "bs-Cyrl" => "und",
+        "byn-Latn" => "und",
+        "cu-Glag" => "und",
+        "dje-Arab" => "und",
+        "dyo-Arab" => "und",
+        "en-Dsrt" => "und",
+        "en-Shaw" => "und",
+        "ff-Adlm" => "und",
+        "ff-Arab" => "und",
+        "ha-Arab" => "und",
+        "iu-Latn" => "und",
+        "kk-Arab" => "und",
+        "ks-Deva" => "und",
+        "ku-Arab" => "und",
+        "ky-Arab" => "und",
+        "ky-Latn" => "und",
+        "ml-Arab" => "und",
+        "mn-Mong" => "und",
+        "mni-Mtei" => "und",
+        "ms-Arab" => "und",
+        "pa-Arab" => "und",
+        "sat-Deva" => "und",
+        "sd-Deva" => "und",
+        "sd-Khoj" => "und",
+        "sd-Sind" => "und",
+        "shi-Latn" => "und",
+        "so-Arab" => "und",
+        "sr-Latn" => "und",
+        "sw-Arab" => "und",
+        "tg-Arab" => "und",
+        "ug-Cyrl" => "und",
+        "uz-Arab" => "und",
+        "uz-Cyrl" => "und",
+        "vai-Latn" => "und",
+        "wo-Arab" => "und",
+        "yo-Arab" => "und",
+        "yue-Hans" => "und",
+        "zh-Hant" => "und",
+        "zh-Hant-MO" => "zh-Hant-HK",
+    ];
+
+    /**
+     * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/availableLocales.json
+     */
+    public const AVAILABLE_LOCALES = [
+        "af",
+        "af-NA",
+        "am",
+        "ar",
+        "ar-AE",
+        "ar-BH",
+        "ar-DJ",
+        "ar-DZ",
+        "ar-EG",
+        "ar-EH",
+        "ar-ER",
+        "ar-IL",
+        "ar-IQ",
+        "ar-JO",
+        "ar-KM",
+        "ar-KW",
+        "ar-LB",
+        "ar-LY",
+        "ar-MA",
+        "ar-MR",
+        "ar-OM",
+        "ar-PS",
+        "ar-QA",
+        "ar-SA",
+        "ar-SD",
+        "ar-SO",
+        "ar-SS",
+        "ar-SY",
+        "ar-TD",
+        "ar-TN",
+        "ar-YE",
+        "as",
+        "az",
+        "az-Latn",
+        "be",
+        "be-tarask",
+        "bg",
+        "bn",
+        "bn-IN",
+        "bs",
+        "bs-Latn",
+        "ca",
+        "ca-AD",
+        "ca-ES-valencia",
+        "ca-FR",
+        "ca-IT",
+        "cs",
+        "cy",
+        "da",
+        "da-GL",
+        "de",
+        "de-AT",
+        "de-BE",
+        "de-CH",
+        "de-IT",
+        "de-LI",
+        "de-LU",
+        "el",
+        "el-CY",
+        "en",
+        "en-001",
+        "en-150",
+        "en-AE",
+        "en-AG",
+        "en-AI",
+        "en-AS",
+        "en-AT",
+        "en-AU",
+        "en-BB",
+        "en-BE",
+        "en-BI",
+        "en-BM",
+        "en-BS",
+        "en-BW",
+        "en-BZ",
+        "en-CA",
+        "en-CC",
+        "en-CH",
+        "en-CK",
+        "en-CM",
+        "en-CX",
+        "en-CY",
+        "en-DE",
+        "en-DG",
+        "en-DK",
+        "en-DM",
+        "en-ER",
+        "en-FI",
+        "en-FJ",
+        "en-FK",
+        "en-FM",
+        "en-GB",
+        "en-GD",
+        "en-GG",
+        "en-GH",
+        "en-GI",
+        "en-GM",
+        "en-GU",
+        "en-GY",
+        "en-HK",
+        "en-IE",
+        "en-IL",
+        "en-IM",
+        "en-IN",
+        "en-IO",
+        "en-JE",
+        "en-JM",
+        "en-KE",
+        "en-KI",
+        "en-KN",
+        "en-KY",
+        "en-LC",
+        "en-LR",
+        "en-LS",
+        "en-MG",
+        "en-MH",
+        "en-MO",
+        "en-MP",
+        "en-MS",
+        "en-MT",
+        "en-MU",
+        "en-MV",
+        "en-MW",
+        "en-MY",
+        "en-NA",
+        "en-NF",
+        "en-NG",
+        "en-NL",
+        "en-NR",
+        "en-NU",
+        "en-NZ",
+        "en-PG",
+        "en-PH",
+        "en-PK",
+        "en-PN",
+        "en-PR",
+        "en-PW",
+        "en-RW",
+        "en-SB",
+        "en-SC",
+        "en-SD",
+        "en-SE",
+        "en-SG",
+        "en-SH",
+        "en-SI",
+        "en-SL",
+        "en-SS",
+        "en-SX",
+        "en-SZ",
+        "en-TC",
+        "en-TK",
+        "en-TO",
+        "en-TT",
+        "en-TV",
+        "en-TZ",
+        "en-UG",
+        "en-UM",
+        "en-VC",
+        "en-VG",
+        "en-VI",
+        "en-VU",
+        "en-WS",
+        "en-ZA",
+        "en-ZM",
+        "en-ZW",
+        "es",
+        "es-419",
+        "es-AR",
+        "es-BO",
+        "es-BR",
+        "es-BZ",
+        "es-CL",
+        "es-CO",
+        "es-CR",
+        "es-CU",
+        "es-DO",
+        "es-EA",
+        "es-EC",
+        "es-GQ",
+        "es-GT",
+        "es-HN",
+        "es-IC",
+        "es-MX",
+        "es-NI",
+        "es-PA",
+        "es-PE",
+        "es-PH",
+        "es-PR",
+        "es-PY",
+        "es-SV",
+        "es-US",
+        "es-UY",
+        "es-VE",
+        "et",
+        "eu",
+        "fa",
+        "fa-AF",
+        "fi",
+        "fil",
+        "fr",
+        "fr-BE",
+        "fr-BF",
+        "fr-BI",
+        "fr-BJ",
+        "fr-BL",
+        "fr-CA",
+        "fr-CD",
+        "fr-CF",
+        "fr-CG",
+        "fr-CH",
+        "fr-CI",
+        "fr-CM",
+        "fr-DJ",
+        "fr-DZ",
+        "fr-GA",
+        "fr-GF",
+        "fr-GN",
+        "fr-GP",
+        "fr-GQ",
+        "fr-HT",
+        "fr-KM",
+        "fr-LU",
+        "fr-MA",
+        "fr-MC",
+        "fr-MF",
+        "fr-MG",
+        "fr-ML",
+        "fr-MQ",
+        "fr-MR",
+        "fr-MU",
+        "fr-NC",
+        "fr-NE",
+        "fr-PF",
+        "fr-PM",
+        "fr-RE",
+        "fr-RW",
+        "fr-SC",
+        "fr-SN",
+        "fr-SY",
+        "fr-TD",
+        "fr-TG",
+        "fr-TN",
+        "fr-VU",
+        "fr-WF",
+        "fr-YT",
+        "ga",
+        "ga-GB",
+        "gl",
+        "gu",
+        "he",
+        "hi",
+        "hi-Latn",
+        "hr",
+        "hr-BA",
+        "hu",
+        "hy",
+        "id",
+        "is",
+        "it",
+        "it-CH",
+        "it-SM",
+        "it-VA",
+        "ja",
+        "jv",
+        "ka",
+        "kk",
+        "km",
+        "kn",
+        "ko",
+        "ko-KP",
+        "ky",
+        "lo",
+        "lt",
+        "lv",
+        "mk",
+        "ml",
+        "mn",
+        "mr",
+        "ms",
+        "ms-BN",
+        "ms-ID",
+        "ms-SG",
+        "my",
+        "nb",
+        "nb-SJ",
+        "ne",
+        "ne-IN",
+        "nl",
+        "nl-AW",
+        "nl-BE",
+        "nl-BQ",
+        "nl-CW",
+        "nl-SR",
+        "nl-SX",
+        "nn",
+        "no",
+        "or",
+        "pa",
+        "pa-Guru",
+        "pl",
+        "ps",
+        "ps-PK",
+        "pt",
+        "pt-AO",
+        "pt-CH",
+        "pt-CV",
+        "pt-GQ",
+        "pt-GW",
+        "pt-LU",
+        "pt-MO",
+        "pt-MZ",
+        "pt-PT",
+        "pt-ST",
+        "pt-TL",
+        "ro",
+        "ro-MD",
+        "ru",
+        "ru-BY",
+        "ru-KG",
+        "ru-KZ",
+        "ru-MD",
+        "ru-UA",
+        "sd",
+        "sd-Arab",
+        "si",
+        "sk",
+        "sl",
+        "so",
+        "so-DJ",
+        "so-ET",
+        "so-KE",
+        "sq",
+        "sq-MK",
+        "sq-XK",
+        "sr",
+        "sr-Cyrl",
+        "sr-Cyrl-BA",
+        "sr-Cyrl-ME",
+        "sr-Cyrl-XK",
+        "sr-Latn",
+        "sr-Latn-BA",
+        "sr-Latn-ME",
+        "sr-Latn-XK",
+        "sv",
+        "sv-AX",
+        "sv-FI",
+        "sw",
+        "sw-CD",
+        "sw-KE",
+        "sw-UG",
+        "ta",
+        "ta-LK",
+        "ta-MY",
+        "ta-SG",
+        "te",
+        "th",
+        "tk",
+        "tr",
+        "tr-CY",
+        "uk",
+        "und",
+        "ur",
+        "ur-IN",
+        "uz",
+        "uz-Latn",
+        "vi",
+        "yue",
+        "yue-Hant",
+        "zh",
+        "zh-Hans",
+        "zh-Hans-HK",
+        "zh-Hans-MO",
+        "zh-Hans-SG",
+        "zh-Hant",
+        "zh-Hant-HK",
+        "zh-Hant-MO",
+        "zu",
+    ];
 }

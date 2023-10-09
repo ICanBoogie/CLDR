@@ -23,12 +23,10 @@ final class DateTimeFormatterTest extends TestCase
 
 	public static function setupBeforeClass(): void
 	{
-		$repository = get_repository();
-
 		self::$formatters = [
 
-			'en' => new DateTimeFormatter($repository->locales['en']->calendar),
-			'fr' => new DateTimeFormatter($repository->locales['fr']->calendar)
+			'en' => new DateTimeFormatter(locale_for('en')->calendar),
+			'fr' => new DateTimeFormatter(locale_for('fr')->calendar),
 
 		];
 	}
@@ -39,13 +37,20 @@ final class DateTimeFormatterTest extends TestCase
 	}
 
 	#[DataProvider('provide_test_format')]
-	public function test_format(string $locale_id, string $datetime, string|DateTimeFormatLength $format, string $expected): void
-	{
+	public function test_format(
+		string $locale_id,
+		string $datetime,
+		string|DateTimeFormatLength $format,
+		string $expected
+	): void {
 		$formatter = self::$formatters[$locale_id];
 
 		$this->assertSame($expected, $formatter($datetime, $format));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_format(): array
 	{
 		return [

@@ -12,7 +12,6 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
-use InvalidArgumentException;
 
 /**
  * Representation of a locale collection.
@@ -27,36 +26,19 @@ class LocaleCollection extends AbstractCollection
 		public readonly Repository $repository
 	) {
 		parent::__construct(function (string $code): Locale {
+			LocaleId::assert_id_available($code);
 
-			$this->assert_locale_is_valid($code);
-			$this->assert_locale_is_available($code);
-
-			return new Locale($this->repository, $code);
-
+			return new Locale($this->repository, LocaleId::from($code));
 		});
 	}
 
-	/**
-	 * @throws InvalidArgumentException if the specified locale is not valid.
-	 */
-	private function assert_locale_is_valid(string $code): void
+	public function locale_for(string|LocaleId $locale_id): Locale
 	{
-		if (!$code)
-		{
-			throw new InvalidArgumentException("Locale code should not be empty.");
-		}
-	}
-
-	/**
-	 * @throws InvalidArgumentException if the specified locale is not available.
-	 */
-	private function assert_locale_is_available(string $code): void
-	{
-		if ($this->repository->is_locale_available($code))
-		{
-			return;
+		if ($locale_id instanceof LocaleId) {
+			$locale_id = $locale_id->value;
 		}
 
-		throw new InvalidArgumentException("Locale is not available: $code.");
+		/** @var Locale */
+		return $this->offsetGet($locale_id);
 	}
 }

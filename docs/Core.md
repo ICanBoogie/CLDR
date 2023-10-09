@@ -28,9 +28,9 @@ languages, territories and more.
 ```php
 <?php
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Repository $repository */
 
-$locale = $repository->locales['fr'];
+$locale = $repository->locale_for('fr');
 
 echo $locale['characters']['auxiliary'];      // [á å ä ã ā ē í ì ī ñ ó ò ö ø ú ǔ]
 echo $locale['delimiters']['quotationStart']; // «
@@ -43,9 +43,9 @@ default calendar of a locale.
 ```php
 <?php
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Repository $repository */
 
-$locale = $repository->locales['fr'];
+$locale = $repository->locale_for('fr');
 
 echo $locale['ca-gregorian']['days']['format']['wide']['sun'];         // dimanche
 # or using the calendar collection
@@ -66,10 +66,10 @@ suitable _localizer_, and it helps if the instance to localize implements [Local
 ```php
 <?php
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Locale $locale */
 
 $datetime = new \DateTime;
-$localized_datetime = $repository->locales['fr']->localize($datetime);
+$localized_datetime = $locale->localize($datetime);
 echo get_class($localized_datetime); // ICanBoogie\CLDR\LocalizedDateTime
 ```
 
@@ -78,7 +78,7 @@ Instances that can be localized usually implement the `localize()` method.
 ```php
 <?php
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Repository $repository */
 
 echo $repository->territories['FR']->localize('fr')->name; // France
 ```
@@ -93,13 +93,13 @@ desired locale.
 ```php
 <?php
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Repository $repository */
 
-$locale = $repository->locales['fr'];
+$locale = $repository->locale_for('fr');
 
-echo $locale->localize('fr')->name;                         // Français
+echo $locale->localize($id)->name;                            // Français
 # or
-echo $repository->locales['fr']->localize($locale)->name;   // Français
+echo $repository->locale_for($id)->localize($locale)->name;   // Français
 ```
 
 
@@ -115,9 +115,9 @@ capitalization behavior for dates, date elements, names of languages/regions/cur
 
 use ICanBoogie\CLDR\ContextTransforms;
 
-/* @var $repository \ICanBoogie\CLDR\Repository */
+/* @var ICanBoogie\CLDR\Repository $repository */
 
-echo $repository->locales['fr']->context_transform(
+echo $repository->locale_fr('fr')->context_transform(
     "juin",
     ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
     ContextTransforms::TYPE_STAND_ALONE

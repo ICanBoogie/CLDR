@@ -43,6 +43,9 @@ final class TerritoryTest extends TestCase
 		$this->assertEquals($expected, $territory->currency);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_get_currency(): array
 	{
 		return [
@@ -54,16 +57,16 @@ final class TerritoryTest extends TestCase
 		];
 	}
 
-	/**
-	 * @param mixed $date
-	 */
 	#[DataProvider('provide_test_currency_at')]
-	public function test_currency_at(string $expected, string $territory_code, $date): void
+	public function test_currency_at(string $expected, string $territory_code, mixed $date): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
 		$this->assertEquals($expected, $territory->currency_at($date));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_currency_at(): array
 	{
 		return [
@@ -87,6 +90,9 @@ final class TerritoryTest extends TestCase
 		$this->assertSame($expected, $territory->language);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_get_language(): array
 	{
 		return [
@@ -105,18 +111,22 @@ final class TerritoryTest extends TestCase
 	}
 
 	#[DataProvider('provide_test_name_as')]
-	public function test_name_as(string $expected, string $territory_code, string $locale_code): void
+	public function test_name_as(string $expected, string $territory_code, string $locale_id): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
-		$this->assertEquals($expected, $territory->name_as($locale_code));
+		$this->assertEquals($expected, $territory->name_as(LocaleId::from($locale_id)));
+		$this->assertEquals($expected, $territory->name_as($locale_id));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_name_as(): array
 	{
 		return [
 
-			[ "France",  "FR", "fr" ],
-			[ "France",  "FR", "fr-BE" ],
+			[ "France", "FR", "fr" ],
+			[ "France", "FR", "fr-BE" ],
 			[ "Francia", "FR", "it" ],
 			[ "フランス", "FR", "ja" ]
 
@@ -124,18 +134,21 @@ final class TerritoryTest extends TestCase
 	}
 
 	#[DataProvider('provide_test_get_name_as')]
-	public function test_get_name_as(string $expected, string $territory_code, string $locale_code): void
+	public function test_get_name_as(string $expected, string $territory_code, string $locale_id): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
-		$this->assertEquals($expected, $territory->{ 'name_as_' . $locale_code });
+		$this->assertEquals($expected, $territory->{'name_as_' . $locale_id});
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function provide_test_get_name_as(): array
 	{
 		return [
 
-			[ "France",  "FR", "fr" ],
-			[ "France",  "FR", "fr_BE" ],
+			[ "France", "FR", "fr" ],
+			[ "France", "FR", "fr_BE" ],
 			[ "Francia", "FR", "it" ],
 			[ "フランス", "FR", "ja" ]
 
@@ -151,6 +164,8 @@ final class TerritoryTest extends TestCase
 
 	/**
 	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/weekData.json
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function provide_test_get_property(): array
 	{
@@ -158,23 +173,23 @@ final class TerritoryTest extends TestCase
 
 			# first_day
 
-			[ "mon",  "FR", 'first_day' ],
-			[ "sat",  "EG", 'first_day' ],
-			[ "sun",  "BS", 'first_day' ],
-			[ "fri",  "MV", 'first_day' ],
+			[ "mon", "FR", 'first_day' ],
+			[ "sat", "EG", 'first_day' ],
+			[ "sun", "BS", 'first_day' ],
+			[ "fri", "MV", 'first_day' ],
 
 			# weekend_start
 
-			[ "sat",  "FR", 'weekend_start' ],
-			[ "sat",  "AE", 'weekend_start' ],
-			[ "thu",  "AF", 'weekend_start' ],
-			[ "sun",  "IN", 'weekend_start' ],
+			[ "sat", "FR", 'weekend_start' ],
+			[ "sat", "AE", 'weekend_start' ],
+			[ "thu", "AF", 'weekend_start' ],
+			[ "sun", "IN", 'weekend_start' ],
 
 			# weekend_end
 
-			[ "sun",  "FR", 'weekend_end' ],
-			[ "sun",  "AE", 'weekend_end' ],
-			[ "fri",  "AF", 'weekend_end' ]
+			[ "sun", "FR", 'weekend_end' ],
+			[ "sun", "AE", 'weekend_end' ],
+			[ "fri", "AF", 'weekend_end' ]
 
 		];
 	}
@@ -183,13 +198,14 @@ final class TerritoryTest extends TestCase
 	{
 		$territory_code = 'US';
 		$territory = new Territory(get_repository(), $territory_code);
-		$this->assertEquals($territory_code, (string) $territory);
+		$this->assertEquals($territory_code, (string)$territory);
 	}
 
 	public function test_localize(): void
 	{
 		$territory = new Territory(get_repository(), 'FR');
+		$actual = $territory->localize(LocaleId::from('fr'));
 
-		$this->assertInstanceOf(LocalizedTerritory::class, $territory->localize('fr'));
+		$this->assertInstanceOf(LocalizedTerritory::class, $actual);
 	}
 }
