@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\Cache;
+namespace Test\ICanBoogie\CLDR\Cache;
 
 use ICanBoogie\CLDR\Cache;
-use const ICanBoogie\CLDR\CACHE_DIR;
+use ICanBoogie\CLDR\Cache\FileCache;
+
+use const Test\ICanBoogie\CLDR\CACHE_DIR;
 
 class FileCacheTest extends TestCase
 {

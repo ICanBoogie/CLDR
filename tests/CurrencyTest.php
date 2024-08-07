@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Currency;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

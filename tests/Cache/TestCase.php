@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\Cache;
+namespace Test\ICanBoogie\CLDR\Cache;
 
 use ICanBoogie\CLDR\Cache;
 use function uniqid;

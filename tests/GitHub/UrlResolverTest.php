@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\GitHub;
+namespace Test\ICanBoogie\CLDR\GitHub;
 
+use ICanBoogie\CLDR\GitHub\UrlResolver;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

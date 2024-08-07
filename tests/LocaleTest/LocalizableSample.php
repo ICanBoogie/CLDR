@@ -1,6 +1,6 @@
 <?php
 
-namespace ICanBoogie\CLDR\LocaleTest;
+namespace Test\ICanBoogie\CLDR\LocaleTest;
 
 use ICanBoogie\CLDR\Locale;
 use ICanBoogie\CLDR\Localizable;

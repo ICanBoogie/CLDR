@@ -1,6 +1,6 @@
 <?php
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
 use function bin2hex;
 use const PHP_EOL;
@@ -8,7 +8,7 @@ use function str_split;
 
 trait StringHelpers
 {
-    protected function assertStringSame($expected, $actual)
+    protected function assertStringSame($expected, $actual): void
     {
         $this->assertSame(
             $expected,

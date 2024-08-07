@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Supplemental;
 use ICanBoogie\CLDR\Supplemental\CurrencyData;
 use ICanBoogie\OffsetNotDefined;
 use ICanBoogie\OffsetNotWritable;
@@ -128,6 +129,6 @@ final class SupplementalTest extends TestCase
 
 		self::$sut->warm_up(function() use (&$n) { $n++; });
 
-		$this->assertEquals(28, $n);
+		$this->assertEquals(29, $n);
 	}
 }

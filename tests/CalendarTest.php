@@ -9,27 +9,33 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Calendar;
+use ICanBoogie\CLDR\DateFormatter;
+use ICanBoogie\CLDR\DateTimeFormatLength;
+use ICanBoogie\CLDR\DateTimeFormatter;
+use ICanBoogie\CLDR\Locale;
+use ICanBoogie\CLDR\TimeFormatter;
 use ICanBoogie\PropertyNotDefined;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class CalendarTest extends TestCase
 {
-	private static Calendar $calendar;
+	private static Calendar $sut;
 
 	public static function setupBeforeClass(): void
 	{
-		self::$calendar = locale_for('fr')->calendars['gregorian']; // @phpstan-ignore-line
+		self::$sut = locale_for('fr')->calendars['gregorian']; // @phpstan-ignore-line
 	}
 
 	#[DataProvider('provider_test_property_instanceof')]
 	public function test_property_instanceof(string $property, string $expected): void
 	{
-		$instance = self::$calendar->$property;
+		$instance = self::$sut->$property;
 		$this->assertInstanceOf($expected, $instance); // @phpstan-ignore-line
-		$this->assertSame($instance, self::$calendar->$property);
+		$this->assertSame($instance, self::$sut->$property);
 	}
 
 	/**
@@ -50,13 +56,13 @@ final class CalendarTest extends TestCase
 	public function test_get_undefined_property(): void
 	{
 		$this->expectException(PropertyNotDefined::class);
-		self::$calendar->undefined_property; // @phpstan-ignore-line
+		self::$sut->undefined_property; // @phpstan-ignore-line
 	}
 
 	#[DataProvider('provide_test_access')]
 	public function test_access(string $key): void
 	{
-		$this->assertTrue(self::$calendar->offsetExists($key));
+		$this->assertTrue(self::$sut->offsetExists($key));
 	}
 
 	/**
@@ -82,13 +88,13 @@ final class CalendarTest extends TestCase
 	public function test_date_patterns_shortcuts(string $property, string $path): void
 	{
 		$path_parts = explode('/', $path);
-		$expected = self::$calendar;
+		$expected = self::$sut;
 
 		foreach ($path_parts as $part) {
 			$expected = $expected[$part];
 		}
 
-		$this->assertEquals(self::$calendar->$property, $expected);
+		$this->assertEquals(self::$sut->$property, $expected);
 	}
 
 	/**
@@ -136,25 +142,22 @@ final class CalendarTest extends TestCase
 
 	public function testFormatDateTime(): void
 	{
-		$this->assertSame(
-			self::$calendar->format_datetime('2018-11-24 20:12:22 UTC', DateTimeFormatLength::FULL),
-			"samedi 24 novembre 2018 à 20:12:22 UTC"
-		);
+		$actual = self::$sut->format_datetime('2018-11-24 20:12:22 UTC', DateTimeFormatLength::FULL);
+
+		$this->assertSame("samedi 24 novembre 2018 à 20:12:22 UTC", $actual);
 	}
 
 	public function testFormatDate(): void
 	{
-		$this->assertSame(
-			self::$calendar->format_date('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG),
-			"24 novembre 2018"
-		);
+		$actual = self::$sut->format_date('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG);
+
+		$this->assertSame("24 novembre 2018", $actual);
 	}
 
 	public function testFormatTime(): void
 	{
-		$this->assertSame(
-			self::$calendar->format_time('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG),
-			"20:12:22 UTC"
-		);
+		$actual = self::$sut->format_time('2018-11-24 20:12:22 UTC', DateTimeFormatLength::LONG);
+
+		$this->assertSame("20:12:22 UTC", $actual);
 	}
 }

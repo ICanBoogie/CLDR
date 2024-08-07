@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\Provider;
+namespace Test\ICanBoogie\CLDR\Provider;
 
+use ICanBoogie\CLDR\Provider\WebProvider;
 use ICanBoogie\CLDR\ResourceNotFound;
 use PHPUnit\Framework\TestCase;
 

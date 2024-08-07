@@ -9,8 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Territory;
+use ICanBoogie\CLDR\TerritoryCollection;
+use ICanBoogie\CLDR\TerritoryNotDefined;
 use ICanBoogie\OffsetNotWritable;
 use PHPUnit\Framework\TestCase;
 

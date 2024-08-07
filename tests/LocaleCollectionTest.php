@@ -9,9 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
 use BadMethodCallException;
+use ICanBoogie\CLDR\Locale;
+use ICanBoogie\CLDR\LocaleCollection;
 use ICanBoogie\OffsetNotWritable;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;

@@ -9,9 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
 use BadMethodCallException;
+use ICanBoogie\CLDR\Calendar;
+use ICanBoogie\CLDR\CalendarCollection;
 use ICanBoogie\OffsetNotWritable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

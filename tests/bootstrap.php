@@ -9,14 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Cache\CacheCollection;
 use ICanBoogie\CLDR\Cache\FileCache;
 use ICanBoogie\CLDR\Cache\RedisCache;
 use ICanBoogie\CLDR\Cache\RuntimeCache;
+use ICanBoogie\CLDR\Locale;
+use ICanBoogie\CLDR\LocaleId;
+use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\Provider\CachedProvider;
 use ICanBoogie\CLDR\Provider\WebProvider;
+use ICanBoogie\CLDR\Repository;
 use Redis;
 
 use function getenv;
@@ -64,8 +68,7 @@ function get_repository(): Repository
 {
 	static $repository;
 
-	return $repository
-		?? $repository = new Repository(create_provider());
+	return $repository ??= new Repository(create_provider());
 }
 
 function locale_for(string|LocaleId $id): Locale

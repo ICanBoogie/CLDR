@@ -9,9 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
 use DateTime;
+use ICanBoogie\CLDR\DateTimeFormatId;
+use ICanBoogie\CLDR\DateTimeFormatLength;
+use ICanBoogie\CLDR\DateTimeFormatter;
+use ICanBoogie\CLDR\Locale;
+use ICanBoogie\CLDR\LocalizedDateTime;
 use ICanBoogie\PropertyNotReadable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

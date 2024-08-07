@@ -9,11 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\Supplemental;
+namespace Test\ICanBoogie\CLDR\Supplemental;
 
+use ICanBoogie\CLDR\Supplemental\CurrencyData;
+use ICanBoogie\CLDR\Supplemental\Fraction;
 use PHPUnit\Framework\TestCase;
 
-use function ICanBoogie\CLDR\get_repository;
+use function Test\ICanBoogie\CLDR\get_repository;
 
 final class CurrencyDataTest extends TestCase
 {

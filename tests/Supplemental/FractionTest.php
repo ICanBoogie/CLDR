@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\Supplemental;
+namespace Test\ICanBoogie\CLDR\Supplemental;
 
+use ICanBoogie\CLDR\Supplemental\Fraction;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

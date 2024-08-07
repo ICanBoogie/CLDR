@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\Units;
+namespace Test\ICanBoogie\CLDR\Units;
 
-use ICanBoogie\CLDR\LocaleId;
-use ICanBoogie\CLDR\StringHelpers;
 use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
+use ICanBoogie\CLDR\Units\NumberPerUnit;
 use PHPUnit\Framework\TestCase;
+use Test\ICanBoogie\CLDR\StringHelpers;
 
-use function ICanBoogie\CLDR\locale_for;
+use function Test\ICanBoogie\CLDR\locale_for;
 
 final class NumberPerUnitTest extends TestCase
 {

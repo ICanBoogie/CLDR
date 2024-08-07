@@ -9,8 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\ListFormatter;
+use ICanBoogie\CLDR\ListType;
+use ICanBoogie\CLDR\LocalizedListFormatter;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

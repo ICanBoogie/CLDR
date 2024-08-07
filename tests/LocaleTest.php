@@ -9,10 +9,27 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Calendar;
+use ICanBoogie\CLDR\CalendarCollection;
+use ICanBoogie\CLDR\ContextTransforms;
+use ICanBoogie\CLDR\ListFormatter;
+use ICanBoogie\CLDR\Locale;
+use ICanBoogie\CLDR\LocaleId;
+use ICanBoogie\CLDR\LocalizedCurrencyFormatter;
+use ICanBoogie\CLDR\LocalizedListFormatter;
+use ICanBoogie\CLDR\LocalizedLocale;
+use ICanBoogie\CLDR\LocalizedNumberFormatter;
+use ICanBoogie\CLDR\LocalizedObject;
+use ICanBoogie\CLDR\NumberFormatter;
+use ICanBoogie\CLDR\Numbers;
+use ICanBoogie\CLDR\Repository;
+use ICanBoogie\CLDR\Spaces;
+use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Test\ICanBoogie\CLDR\LocaleTest\LocalizableSample;
 
 final class LocaleTest extends TestCase
 {
@@ -131,9 +148,9 @@ final class LocaleTest extends TestCase
 
 			[ LocalizedObject::class, new \DateTime ],
 			[ LocalizedLocale::class, new Locale(get_repository(), LocaleId::from('fr')) ],
-			[ LocalizedListFormatter::class, new ListFormatter ],
-			[ LocalizedNumberFormatter::class, new NumberFormatter ],
-			[ LocaleTest\LocalizedLocalizableSample::class, new \ICanBoogie\CLDR\LocaleTest\LocalizableSample ]
+			[ LocalizedListFormatter::class, new ListFormatter() ],
+			[ LocalizedNumberFormatter::class, new NumberFormatter() ],
+			[ LocaleTest\LocalizedLocalizableSample::class, new LocalizableSample() ]
 
 		];
 	}
@@ -190,6 +207,6 @@ final class LocaleTest extends TestCase
 
 		self::$locale->warm_up(function() use (&$n) { $n++; });
 
-		$this->assertEquals(30, $n);
+		$this->assertEquals(31, $n);
 	}
 }

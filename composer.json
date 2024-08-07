@@ -50,7 +50,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"ICanBoogie\\CLDR\\": "tests"
+			"Test\\ICanBoogie\\CLDR\\": "tests"
 		}
 	}
 }

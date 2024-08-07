@@ -9,8 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Currency;
+use ICanBoogie\CLDR\CurrencyCollection;
+use ICanBoogie\CLDR\CurrencyNotDefined;
 use ICanBoogie\OffsetNotWritable;
 use PHPUnit\Framework\TestCase;
 

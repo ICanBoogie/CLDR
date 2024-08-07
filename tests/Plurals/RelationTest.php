@@ -9,8 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\Plurals;
+namespace Test\ICanBoogie\CLDR\Plurals;
 
+use ICanBoogie\CLDR\Plurals\Operands;
+use ICanBoogie\CLDR\Plurals\Relation;
 use PHPUnit\Framework\TestCase;
 
 /**

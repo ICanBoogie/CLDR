@@ -9,29 +9,37 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\CurrencyCollection;
+use ICanBoogie\CLDR\CurrencyFormatter;
+use ICanBoogie\CLDR\ListFormatter;
 use ICanBoogie\CLDR\Locale\ListPattern;
-use PHPUnit\Framework\Assert;
+use ICanBoogie\CLDR\NumberFormatter;
+use ICanBoogie\CLDR\Plurals;
+use ICanBoogie\CLDR\Provider;
+use ICanBoogie\CLDR\Repository;
+use ICanBoogie\CLDR\Supplemental;
+use ICanBoogie\CLDR\TerritoryCollection;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class RepositoryTest extends TestCase
 {
-	private Repository $repository;
+	private Repository $sut;
 
 	protected function setUp(): void
 	{
-		$this->repository = get_repository();
+		$this->sut = get_repository();
 	}
 
 	#[DataProvider('provide_test_properties_instanceof')]
 	public function test_properties_instanceof(string $property, string $expected): void
 	{
-		$repository = $this->repository;
-		$instance = $repository->$property;
+		$sut = $this->sut;
+		$instance = $sut->$property;
 		$this->assertInstanceOf($expected, $instance);
-		$this->assertSame($instance, $repository->$property);
+		$this->assertSame($instance, $sut->$property);
 	}
 
 	/**
@@ -57,7 +65,7 @@ final class RepositoryTest extends TestCase
 	{
 		$this->assertSame(
 			"4,123.37",
-			$this->repository->format_number(4123.37, "#,#00.#0")
+			$this->sut->format_number(4123.37, "#,#00.#0")
 		);
 	}
 
@@ -65,7 +73,7 @@ final class RepositoryTest extends TestCase
 	{
 		$this->assertSame(
 			"$4,123.37",
-			$this->repository->format_currency(4123.37, "¤#,#00.#0", null, '$')
+			$this->sut->format_currency(4123.37, "¤#,#00.#0", null, '$')
 		);
 	}
 
@@ -81,6 +89,6 @@ final class RepositoryTest extends TestCase
 
 		]);
 
-		$this->assertSame("one, two, and three", $this->repository->format_list($list, $list_pattern));
+		$this->assertSame("one, two, and three", $this->sut->format_list($list, $list_pattern));
 	}
 }

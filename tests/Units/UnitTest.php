@@ -9,10 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR\Units;
+namespace Test\ICanBoogie\CLDR\Units;
 
 use ICanBoogie\CLDR\UnitLength;
 use ICanBoogie\CLDR\Units;
+use ICanBoogie\CLDR\Units\Unit;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

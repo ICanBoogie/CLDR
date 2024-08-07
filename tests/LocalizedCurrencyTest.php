@@ -9,8 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace ICanBoogie\CLDR;
+namespace Test\ICanBoogie\CLDR;
 
+use ICanBoogie\CLDR\Currency;
+use ICanBoogie\CLDR\LocalizedCurrency;
+use ICanBoogie\CLDR\LocalizedCurrencyFormatter;
+use ICanBoogie\CLDR\Spaces;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -85,8 +89,9 @@ final class LocalizedCurrencyTest extends TestCase
 	): void {
 		$currency = new Currency(get_repository(), $currency_code);
 		$localized = $currency->localize($locale_id);
+		$actual = $localized->format($number, LocalizedCurrencyFormatter::PATTERN_ACCOUNTING);
 
-		$this->assertStringSame($expected, $localized->format($number, LocalizedCurrencyFormatter::PATTERN_ACCOUNTING));
+		$this->assertStringSame($expected, $actual);
 	}
 
 	/**
