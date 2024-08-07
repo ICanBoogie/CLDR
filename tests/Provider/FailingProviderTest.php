@@ -3,7 +3,7 @@
 namespace Test\ICanBoogie\CLDR\Provider;
 
 use ICanBoogie\CLDR\Provider\FailingProvider;
-use LogicException;
+use ICanBoogie\CLDR\ResourceNotFound;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,7 +15,7 @@ class FailingProviderTest extends TestCase
 	{
 		$sut = new FailingProvider();
 
-		$this->expectException(LogicException::class);
+		$this->expectException(ResourceNotFound::class);
 		$this->expectExceptionMessageMatches("/Only warmed-up data is available/");
 
 		$sut->provide("foo");

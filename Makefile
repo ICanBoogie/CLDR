@@ -58,11 +58,15 @@ GENERATE=./generator/generate
 .PHONY=generate
 generate: \
 	lib/LocaleId.php \
+	lib/Locale/HasContextTransforms.php \
 	lib/Units/SequenceCompanion.php \
 	lib/Units/UnitsCompanion.php
 
 lib/LocaleId.php:
 	$(GENERATE) locale-id >$@
+
+lib/Locale/HasContextTransforms.php:
+	$(GENERATE) has-context-transforms >$@
 
 lib/Units/SequenceCompanion.php:
 	$(GENERATE) sequence-companion >$@

@@ -13,6 +13,7 @@ namespace ICanBoogie\CLDR;
 
 use Closure;
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\Locale\HasContextTransforms;
 use LogicException;
 
 use function str_replace;
@@ -82,11 +83,29 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 	];
 
+	private const NO_CONTEXT_TRANSFORMS = [
+
+		'ja',
+		'zh',
+
+	];
+
 	public function __construct(
 		Repository $repository,
 		public readonly LocaleId $id
 	) {
 		parent::__construct($repository);
+	}
+
+	// @phpstan-ignore-next-line
+	public function offsetGet($offset)
+	{
+		// Not all locales have context transforms
+		if ($offset === 'contextTransforms' && !HasContextTransforms::for_locale($this->id)) {
+			return [];
+		}
+
+		return parent::offsetGet($offset);
 	}
 
 	public function offsetExists($offset): bool

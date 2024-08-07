@@ -3,7 +3,7 @@
 namespace ICanBoogie\CLDR\Provider;
 
 use ICanBoogie\CLDR\Provider;
-use LogicException;
+use ICanBoogie\CLDR\ResourceNotFound;
 
 /**
  * A {@see Provider} that fails to provide any path.
@@ -14,6 +14,6 @@ final class FailingProvider implements Provider
 {
 	public function provide(string $path): array
 	{
-		throw new LogicException("Only warmed-up data is available, tried to read from: $path");
+		throw new ResourceNotFound("Only warmed-up data is available, tried to read from: $path");
 	}
 }

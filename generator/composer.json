@@ -26,6 +26,9 @@
     "psr-4": {
       "ICanBoogie\\CLDR\\": "../lib",
       "ICanBoogie\\CLDR\\Generator\\": "src"
-    }
+    },
+    "files": [
+      "src/helpers.php"
+    ]
   }
 }
