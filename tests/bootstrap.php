@@ -23,7 +23,7 @@ use function getenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-const CACHE_DIR = __DIR__ . '/../cache';
+const CACHE_DIR = __DIR__ . '/../' . FileCache::RECOMMENDED_DIR;
 
 if (!file_exists(CACHE_DIR)) {
 	mkdir(CACHE_DIR);

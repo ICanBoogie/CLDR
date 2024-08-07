@@ -27,6 +27,7 @@
 	"config": {
 		"sort-packages": true
 	},
+	"version": "6.0",
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
@@ -39,8 +40,8 @@
 	},
 	"require-dev": {
 		"ext-redis": "*",
-		"phpstan/phpstan": "^1.10",
-		"phpunit/phpunit": "^10.3"
+		"phpstan/phpstan": "^1.11",
+		"phpunit/phpunit": "^10.5"
 	},
 	"autoload": {
 		"psr-4": {

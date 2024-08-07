@@ -2,6 +2,7 @@
 
 PACKAGE_NAME = icanboogie/cldr
 PHPUNIT = vendor/bin/phpunit
+CACHE_DIR = .cldr-cache
 
 # do not edit the following lines
 
@@ -29,7 +30,7 @@ test-coveralls: test-dependencies
 
 .PHONY: test-cleanup
 test-cleanup:
-	@rm -f cache/*
+	@rm -f $(CACHE_DIR)/*
 
 .PHONY: test-container
 test-container: test-container-81

@@ -13,24 +13,22 @@ namespace ICanBoogie\CLDR\Cache;
 
 use Exception;
 use ICanBoogie\CLDR\Cache;
+use Symfony\Component\VarExporter\VarExporter;
 use Throwable;
+
 use function dirname;
 use function fclose;
 use function file_exists;
-use function file_get_contents;
 use function file_put_contents;
 use function flock;
 use function fopen;
 use function is_writable;
-use function json_decode;
-use function json_encode;
 use function mt_rand;
 use function rename;
 use function restore_error_handler;
 use function rtrim;
 use function set_error_handler;
 use function str_replace;
-use function strpos;
 use function uniqid;
 use function unlink;
 
@@ -39,6 +37,11 @@ use function unlink;
  */
 final class FileCache implements Cache
 {
+	/**
+	 * Recommended name for the cache directory.
+	 */
+	public const RECOMMENDED_DIR = '.cldr-cache';
+
 	static private bool $release_after;
 
 	/**
@@ -77,7 +80,8 @@ final class FileCache implements Cache
 
 		$pathname = $this->format_absolute_pathname($path);
 
-		set_error_handler(function() {}); // @phpstan-ignore-line
+		// @phpstan-ignore-next-line
+		set_error_handler(fn() => null);
 
 		try
 		{
@@ -91,36 +95,41 @@ final class FileCache implements Cache
 
 	private function format_absolute_pathname(string $path): string
 	{
-		return $this->path . str_replace('/', '--', $path);
+		return $this->path . str_replace('/', '--', $path) . '.php';
 	}
 
 	/**
-	 * @return mixed[]
+	 * @phpstan-ignore-next-line
 	 */
 	private function read(string $pathname): array
 	{
-		return json_decode(file_get_contents($pathname), true); // @phpstan-ignore-line
+		return require $pathname;
 	}
 
 	/**
-	 * @param mixed[] $data
+	 * @phpstan-ignore-next-line
 	 */
 	private function write(string $pathname, array $data): void
 	{
-		file_put_contents($pathname, json_encode($data));
+		$var = var_export($data, true);
+		$content = <<<PHP
+		<?php return $var;
+		PHP;
+
+		file_put_contents($pathname, $content);
 	}
 
 	/**
 	 * Safely set the value.
 	 *
-	 * @param mixed[] $data
-	 *
 	 * @throws Exception
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private function safe_set(string $pathname, array $data): void
 	{
 		$dir = dirname($pathname);
-		$uniqid = uniqid((string) mt_rand(), true);
+		$uniqid = uniqid((string)mt_rand(), true);
 		$tmp_pathname = $dir . '/var-' . $uniqid;
 		$garbage_pathname = $dir . '/garbage-var-' . $uniqid;
 
