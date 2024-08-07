@@ -121,4 +121,13 @@ final class SupplementalTest extends TestCase
 	    $this->expectException(OffsetNotWritable::class);
         unset($s['timeData']);
     }
+
+	public function test_warm_up(): void
+	{
+		$n = 0;
+
+		self::$sut->warm_up(function() use (&$n) { $n++; });
+
+		$this->assertEquals(28, $n);
+	}
 }

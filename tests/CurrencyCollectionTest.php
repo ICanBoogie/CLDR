@@ -75,4 +75,13 @@ final class CurrencyCollectionTest extends TestCase
         $this->sut->assert_defined('EUR');
 		$this->assertTrue(true);
     }
+
+	public function test_warm_up(): void
+	{
+		$n = 0;
+
+		$this->sut->warm_up(function() use (&$n) { $n++; });
+
+		$this->assertEquals(1, $n);
+	}
 }

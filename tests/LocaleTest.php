@@ -183,4 +183,13 @@ final class LocaleTest extends TestCase
 			)
 		);
 	}
+
+	public function test_warm_up(): void
+	{
+		$n = 0;
+
+		self::$locale->warm_up(function() use (&$n) { $n++; });
+
+		$this->assertEquals(30, $n);
+	}
 }

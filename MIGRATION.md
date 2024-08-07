@@ -11,6 +11,7 @@
 ### New features
 
 - `LocaleId` is an enum of available locales.
+- Added the `Warmable` interface to features that can warm the CLDR cache.
 
 ### Backward Incompatible Changes
 

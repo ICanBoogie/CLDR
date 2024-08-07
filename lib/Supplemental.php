@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use Closure;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Supplemental\CurrencyData;
 
@@ -30,7 +31,7 @@ use ICanBoogie\CLDR\Supplemental\CurrencyData;
  * @property-read CurrencyData $currency_data
  * @uses self::get_currency_data()
  */
-final class Supplemental extends AbstractSectionCollection
+final class Supplemental extends AbstractSectionCollection implements Warmable
 {
 	/**
 	 * @uses get_currency_data
@@ -84,6 +85,16 @@ final class Supplemental extends AbstractSectionCollection
 	public function offsetExists($offset): bool
 	{
 		return isset(self::OFFSET_MAPPING[$offset]);
+	}
+
+	public function warm_up(Closure $progress): void
+	{
+        $progress("Warming up supplemental:");
+
+		foreach (array_keys(self::OFFSET_MAPPING) as $offset) {
+			$progress("- $offset");
+			$this[$offset];
+		}
 	}
 
 	protected function path_for(string $offset): string

@@ -11,6 +11,7 @@
 
 namespace ICanBoogie\CLDR;
 
+use Closure;
 use ICanBoogie\Accessor\AccessorTrait;
 
 use function array_combine;
@@ -36,7 +37,7 @@ use function array_keys;
  *
  * @property-read string[] $codes Alphabetic list of currency codes.
  */
-final class CurrencyCollection extends AbstractCollection
+final class CurrencyCollection extends AbstractCollection implements Warmable
 {
 	/**
 	 * @uses get_codes
@@ -70,10 +71,7 @@ final class CurrencyCollection extends AbstractCollection
 	private function get_codes(): array
 	{
 		$make = function () {
-			$codes = array_keys($this->repository->fetch(
-				'numbers/en-001/currencies',
-				'main/en-001/numbers/currencies'
-			));
+			$codes = array_keys($this->fetch_currencies());
 
 			return array_combine($codes, $codes);
 		};
@@ -104,5 +102,19 @@ final class CurrencyCollection extends AbstractCollection
 		{
 			throw new CurrencyNotDefined($currency_code);
 		}
+	}
+
+	private function fetch_currencies(): array
+	{
+		return $this->repository->fetch(
+			'numbers/en-001/currencies',
+			'main/en-001/numbers/currencies'
+		);
+	}
+
+	public function warm_up(Closure $progress): void
+	{
+		$progress("Warming up currencies");
+		$this->fetch_currencies();
 	}
 }

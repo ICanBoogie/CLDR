@@ -11,8 +11,8 @@
 
 namespace ICanBoogie\CLDR;
 
+use Closure;
 use ICanBoogie\Accessor\AccessorTrait;
-use InvalidArgumentException;
 use LogicException;
 
 use function str_replace;
@@ -40,7 +40,7 @@ use function strtr;
  * @property-read Units $units
  * @uses self::get_units()
  */
-class Locale extends AbstractSectionCollection
+class Locale extends AbstractSectionCollection implements Warmable
 {
 	use AccessorTrait;
 
@@ -92,6 +92,19 @@ class Locale extends AbstractSectionCollection
 	public function offsetExists($offset): bool
 	{
 		return isset(self::OFFSET_MAPPING[$offset]);
+	}
+
+	/**
+	 * Warm up with locale relevant data.
+	 */
+	public function warm_up(Closure $progress): void
+	{
+        $progress("Warming up locale '{$this->id->value}':");
+
+		foreach (array_keys(self::OFFSET_MAPPING) as $offset) {
+            $progress("- $offset");
+			$this[$offset];
+		}
 	}
 
 	protected function path_for(string $offset): string
