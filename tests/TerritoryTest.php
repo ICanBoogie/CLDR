@@ -43,7 +43,9 @@ final class TerritoryTest extends TestCase
 	public function test_get_currency(string $expected, string $territory_code): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
-		$this->assertEquals($expected, $territory->currency);
+		$actual = $territory->currency;
+
+		$this->assertEquals($expected, $actual?->code);
 	}
 
 	/**
@@ -64,7 +66,7 @@ final class TerritoryTest extends TestCase
 	public function test_currency_at(string $expected, string $territory_code, mixed $date): void
 	{
 		$territory = new Territory(get_repository(), $territory_code);
-		$this->assertEquals($expected, $territory->currency_at($date));
+		$this->assertEquals($expected, $territory->currency_at($date)?->code);
 	}
 
 	/**
@@ -80,7 +82,6 @@ final class TerritoryTest extends TestCase
 			[ 'FRF', 'FR', '1960-01-01' ],
 			[ 'FRF', 'FR', '1977-06-06' ],
 			[ 'FRF', 'FR', new \DateTime('1977-06-06') ],
-			[ 'USS', 'US', new \DateTime('1234-06-06') ],
 			[ 'USD', 'US', '1792-01-01' ]
 
 		];
@@ -166,7 +167,7 @@ final class TerritoryTest extends TestCase
 	}
 
 	/**
-	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/weekData.json
+	 * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/weekData.json
 	 *
 	 * @phpstan-ignore-next-line
 	 */

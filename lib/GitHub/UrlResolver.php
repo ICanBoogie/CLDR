@@ -20,7 +20,7 @@ use function in_array;
 class UrlResolver
 {
 	public const DEFAULT_ORIGIN = "https://raw.githubusercontent.com/unicode-org/cldr-json/";
-	public const DEFAULT_VERSION = "41.0.0";
+	public const DEFAULT_VERSION = "45.0.0";
 	public const DEFAULT_VARIATION = self::VARIATION_MODERN;
 
 	public const VARIATION_MODERN = 'modern';

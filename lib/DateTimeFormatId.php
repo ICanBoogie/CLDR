@@ -4,7 +4,7 @@ namespace ICanBoogie\CLDR;
 
 /**
  *
- * @see: https://www.unicode.org/reports/tr35/tr35-66/tr35-dates.html#26-element-datetimeformats
+ * @see: https://www.unicode.org/reports/tr35/tr35-72/tr35-dates.html#26-element-datetimeformats
  */
 final class DateTimeFormatId
 {

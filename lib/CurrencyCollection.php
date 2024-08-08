@@ -66,7 +66,7 @@ final class CurrencyCollection extends AbstractCollection implements Warmable
 	 *
 	 * @throws ResourceNotFound
 	 *
-	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
+	 * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
 	 */
 	private function get_codes(): array
 	{
@@ -83,6 +83,8 @@ final class CurrencyCollection extends AbstractCollection implements Warmable
 	 * Checks if a currency exists.
 	 *
 	 * @param string $offset Currency code.
+	 *
+	 * @throws ResourceNotFound
 	 */
 	public function offsetExists($offset): bool
 	{
@@ -94,7 +96,7 @@ final class CurrencyCollection extends AbstractCollection implements Warmable
 	/**
 	 * Asserts a currency is defined.
 	 *
-	 * @throws CurrencyNotDefined
+	 * @throws CurrencyNotDefined|ResourceNotFound
 	 */
 	public function assert_defined(string $currency_code): void
 	{
@@ -104,7 +106,11 @@ final class CurrencyCollection extends AbstractCollection implements Warmable
 		}
 	}
 
-	// @phpstan-ignore-next-line
+	/**
+	 * @throws ResourceNotFound
+	 *
+	 * @phpstan-ignore-next-line
+	 */
 	private function fetch_currencies(): array
 	{
 		return $this->repository->fetch(

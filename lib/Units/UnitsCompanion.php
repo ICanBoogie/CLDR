@@ -52,6 +52,7 @@ namespace ICanBoogie\CLDR\Units;
  * @property-read Unit $duration_century
  * @property-read Unit $duration_decade
  * @property-read Unit $duration_year
+ * @property-read Unit $duration_quarter
  * @property-read Unit $duration_month
  * @property-read Unit $duration_week
  * @property-read Unit $duration_day
@@ -115,7 +116,7 @@ namespace ICanBoogie\CLDR\Units;
  * @property-read Unit $light_candela
  * @property-read Unit $light_lumen
  * @property-read Unit $light_solar_luminosity
- * @property-read Unit $mass_metric_ton
+ * @property-read Unit $mass_tonne
  * @property-read Unit $mass_kilogram
  * @property-read Unit $mass_gram
  * @property-read Unit $mass_milligram
@@ -150,6 +151,8 @@ namespace ICanBoogie\CLDR\Units;
  * @property-read Unit $speed_meter_per_second
  * @property-read Unit $speed_mile_per_hour
  * @property-read Unit $speed_knot
+ * @property-read Unit $speed_beaufort
+ * @property-read Unit $temperature_generic
  * @property-read Unit $temperature_celsius
  * @property-read Unit $temperature_fahrenheit
  * @property-read Unit $temperature_kelvin
@@ -189,6 +192,7 @@ namespace ICanBoogie\CLDR\Units;
  * @property-read Unit $volume_jigger
  * @property-read Unit $volume_pinch
  * @property-read Unit $volume_quart_imperial
+ * @property-read Unit $pressure_gasoline_energy_density
  */
 trait UnitsCompanion
 {
@@ -542,6 +546,14 @@ trait UnitsCompanion
     public function duration_year(float|int|string $number): NumberWithUnit
     {
         return new NumberWithUnit($number, "duration-year", $this);
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     */
+    public function duration_quarter(float|int|string $number): NumberWithUnit
+    {
+        return new NumberWithUnit($number, "duration-quarter", $this);
     }
 
     /**
@@ -1051,9 +1063,9 @@ trait UnitsCompanion
     /**
      * @param float|int|numeric-string $number
      */
-    public function mass_metric_ton(float|int|string $number): NumberWithUnit
+    public function mass_tonne(float|int|string $number): NumberWithUnit
     {
-        return new NumberWithUnit($number, "mass-metric-ton", $this);
+        return new NumberWithUnit($number, "mass-tonne", $this);
     }
 
     /**
@@ -1326,6 +1338,22 @@ trait UnitsCompanion
     public function speed_knot(float|int|string $number): NumberWithUnit
     {
         return new NumberWithUnit($number, "speed-knot", $this);
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     */
+    public function speed_beaufort(float|int|string $number): NumberWithUnit
+    {
+        return new NumberWithUnit($number, "speed-beaufort", $this);
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     */
+    public function temperature_generic(float|int|string $number): NumberWithUnit
+    {
+        return new NumberWithUnit($number, "temperature-generic", $this);
     }
 
     /**
@@ -1638,5 +1666,13 @@ trait UnitsCompanion
     public function volume_quart_imperial(float|int|string $number): NumberWithUnit
     {
         return new NumberWithUnit($number, "volume-quart-imperial", $this);
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     */
+    public function pressure_gasoline_energy_density(float|int|string $number): NumberWithUnit
+    {
+        return new NumberWithUnit($number, "pressure-gasoline-energy-density", $this);
     }
 }

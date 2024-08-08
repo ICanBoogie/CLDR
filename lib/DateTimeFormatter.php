@@ -30,7 +30,7 @@ use const STR_PAD_LEFT;
  * Provides date and time localization.
  *
  * The class allows you to format dates and times in a locale-sensitive manner using
- * {@link https://www.unicode.org/reports/tr35/tr35-66/tr35-dates.html#Date_Format_Patterns Unicode format patterns}.
+ * {@link https://www.unicode.org/reports/tr35/tr35-72/tr35-dates.html#Date_Format_Patterns Unicode format patterns}.
  *
  * @property-read Calendar $calendar The calendar used by the formatter.
  */
@@ -175,7 +175,7 @@ class DateTimeFormatter implements Formatter
 	 *
 	 * @throws \Exception
 	 *
-	 * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-dates.html#26-element-datetimeformats
+	 * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-dates.html#26-element-datetimeformats
 	 *
 	 * @uses format_era
 	 * @uses format_year
@@ -241,7 +241,8 @@ class DateTimeFormatter implements Formatter
 		if ($pattern_or_length_or_id instanceof DateTimeFormatLength) {
 			$length = $pattern_or_length_or_id->value;
 			$calendar = $this->calendar;
-			$datetime_pattern = $calendar['dateTimeFormats'][$length];
+			$datetime_pattern = $calendar['dateTimeFormats-atTime']['standard'][$length]
+				?? $calendar['dateTimeFormats'][$length];
 			$date_pattern = $calendar['dateFormats'][$length];
 			$time_pattern = $calendar['timeFormats'][$length];
 

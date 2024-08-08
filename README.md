@@ -5,15 +5,14 @@
 [![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/CLDR/master.svg)](https://coveralls.io/r/ICanBoogie/CLDR)
 [![Downloads](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
 
-The __CLDR__ package provides means to internationalize your application by leveraging the data and
-conventions defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR).
-It offers many helpful locale information and data (such as locale names for territories,
-languages, days…) as well as formatters for numbers, currencies, dates and times, units, sequences,
-lists…
+The __CLDR__ package helps internationalize your application by leveraging the data and conventions
+defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR). It offers
+helpful locale information and data (such as locale names for territories, languages, days…) as well
+as formatters for numbers, currencies, dates and times, units, sequences, lists…
 
 > **Note**
 >
-> The package targets [CLDR version 41](https://github.com/unicode-org/cldr-json/tree/41.0.0)—[Revision 66](https://www.unicode.org/reports/tr35/tr35-66/tr35.html).
+> The package targets [CLDR version 45](https://github.com/unicode-org/cldr-json/tree/45.0.0); [Revision 72](https://www.unicode.org/reports/tr35/tr35-72/tr35.html).
 
 
 
@@ -21,8 +20,6 @@ lists…
 
 ```php
 <?php
-
-use ICanBoogie\CLDR\LocaleId;
 
 /* @var ICanBoogie\CLDR\Repository $repository */
 
@@ -43,7 +40,7 @@ echo $fr->format_percent(.1234567);                 // 12 %
 echo $fr->format_currency(12345.67, 'EUR');         // 12 345,67 €
 echo $fr->format_list([ "Un", "deux", "trois" ]);   // Un, deux et trois
 
-# You can get the default calendar for that locale, and access its data
+# You can get the default calendar for that locale and access its data
 $calendar = $fr->calendar;
 echo $calendar['days']['format']['wide']['sun'];    // dimanche
 echo $calendar->wide_days['sun'];                   // dimanche
@@ -54,7 +51,7 @@ echo $calendar->format_date($datetime, 'long');     // 24 novembre 2018
 echo $calendar->format_time($datetime, 'long');     // 20:12:22 UTC
 echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 à 20:12:22 UTC
 
-# Alternatively, you can localize a DateTimeInterface instance and get formatted dates of various length
+# Alternatively, you can localize a DateTimeInterface and get formatted dates of various lengths
 $datetime = new \DateTime('2013-11-04 20:21:22 UTC');
 $fr_datetime = $fr->localize($datetime);
 echo $fr_datetime->as_full;                         // lundi 4 novembre 2013 à 20:21:22 UTC
@@ -129,7 +126,7 @@ composer require icanboogie/cldr
 
 ## Documentation
 
-The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-66/tr35.html#parts):
+The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-72/tr35.html#parts):
 
 - Part 1: [Core](docs/Core.md) (languages, locales, basic structure)
 - Part 2: [General](docs/General.md) (display names & transforms, etc.)
@@ -142,9 +139,9 @@ The documentation is divided into the following parts, mimicking [Unicode's docu
 
 ## Getting started
 
-CLDR is represented by a [Repository][] instance, from which data is accessed. When required, data
-is retrieved through a provider. The _web_ provider fetches data from the JSON distribution [hosted
-on GitHub][2]. In order to avoid hitting the web with every request, a collection of caches is used,
+The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
+data is retrieved through a provider. The _web_ provider fetches data from the JSON distribution
+[hosted on GitHub][2]. To avoid hitting the web with every request, a collection of caches is used,
 each with its own strategy.
 
 The following example demonstrates how a repository can be instantiated:
@@ -220,7 +217,7 @@ The project is continuously tested by [GitHub actions](https://github.com/ICanBo
 ## Code of Conduct
 
 This project adheres to a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in
-this project and its community, you are expected to uphold this code.
+this project and its community, you're expected to uphold this code.
 
 
 
@@ -237,15 +234,6 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 
 [ICanBoogie]:                 https://icanboogie.org/
-[Calendar]:                   lib/Calendar.php
-[Currency]:                   lib/Currency.php
-[FileCache]:                  lib/Cache/FileCache.php
-[ListFormatter]:              lib/ListFormatter.php
-[Locale]:                     lib/Locale.php
-[Localizable]:                lib/Localizable.php
-[LocalizedDateTime]:          lib/LocalizedDateTime.php
-[NumberFormatter]:            lib/NumberFormatter.php
 [Repository]:                 lib/Repository.php
-[Territory]:                  lib/Territory.php
 
 [2]:                          https://github.com/unicode-cldr

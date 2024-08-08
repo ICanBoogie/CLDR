@@ -2,11 +2,11 @@
 
 This part coverts [units](#units) and [list formatting](#list-formatting).
 
-[Unicode Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html)
+[Unicode Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html)
 
 -----
 
-The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-66/tr35.html#parts):
+The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-72/tr35.html#parts):
 
 - Part 1: [Core](Core.md) (languages, locales, basic structure)
 - Part 2: [General](General.md) (display names & transforms, etc.)
@@ -23,7 +23,7 @@ The documentation is divided into the following parts, mimicking [Unicode's docu
 
 Quantities of units such as years, months, days, hours, minutes and seconds can be formatted— for
 example, in English, "1 day" or "3 days". It's easy to make use of this functionality via a locale's
-units. [Many units are available](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#63-example-units).
+units. [Many units are available](https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#63-example-units).
 
 ```php
 <?php
@@ -42,7 +42,7 @@ echo $units->duration_hour(23)->as_short;           // 23 hr
 echo $units->duration_hour(23)->as_narrow;          // 23h
 ```
 
-[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#Unit_Elements)
+[Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#Unit_Elements)
 
 
 ### Compound units
@@ -63,7 +63,7 @@ echo $units->volume_liter(12.345)->per($units->duration_hour)->as_short;    // 1
 echo $units->volume_liter(12.345)->per($units->duration_hour)->as_narrow;   // 12.345l/h
 ```
 
-[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#compound-units)
+[Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#compound-units)
 
 
 
@@ -115,7 +115,7 @@ $units->sequence
     // 12h 34m 56s
 ```
 
-[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#Unit_Sequences)
+[Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#Unit_Sequences)
 
 
 

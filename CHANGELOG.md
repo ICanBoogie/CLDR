@@ -1,4 +1,4 @@
-# Migration
+# Changelog
 
 
 
@@ -19,7 +19,7 @@
 - `LocalizedListFormatter:TYPE_*` constants have been replaced by the `ListType` enum.
 - `DateTimeFormatter::WIDTH_*` constants have been replaced by the `DateTimeFormatLength` enum.
 - Most functions require a `LocaleId` instead of a locale id string.
-- `$clrd->locales['fr']` as been replaced with `$clrd->locale_for(LocaleId::from('fr'))`.
+- `$cldr->locales['fr']` as been replaced with `$cldr->locale_for('fr')`.
 
 ### Deprecated Features
 
@@ -27,6 +27,7 @@ None
 
 ### Other Changes
 
+- Use CLDR 45.0.0.
 - Some code is now generated from CLDR data, such as `Units` getters and methods, or `LocaleId`.
 
 
@@ -39,7 +40,7 @@ None
 
 ### New features
 
-- Support for the new [plural operand](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#table-plural-operand-meanings) `e` and compact decimal exponent e.g. `123c6`.
+- Support for the new [plural operand](https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#table-plural-operand-meanings) `e` and compact decimal exponent e.g. `123c6`.
 
 - The optional parameter `data_path` to `Repository::fetch()` can be used by the function to burrow in the data to fetch a target.
 
@@ -90,7 +91,7 @@ None
 
 ### Other Changes
 
-- Targets [CLDR v41](https://www.unicode.org/reports/tr35/tr35-66/tr35.html)
+- Targets [CLDR v41](https://www.unicode.org/reports/tr35/tr35-72/tr35.html)
 
 - As of CLDR v38, all JSON data is contained in this single repository. References and the way they are resolved internal has been updated, without breaking the public interfaces.
 

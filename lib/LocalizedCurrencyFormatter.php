@@ -55,8 +55,7 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 
 	private function resolve_currency_symbol(string $currency): string
 	{
-		/** @phpstan-ignore-next-line */
-		return $this->locale['currencies'][$currency]['symbol'];
+		return $this->locale['currencies'][$currency]['symbol'] ?? $currency;
 	}
 
 	/**

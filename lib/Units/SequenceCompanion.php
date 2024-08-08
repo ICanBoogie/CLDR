@@ -543,6 +543,18 @@ trait SequenceCompanion
      *
      * @return $this
      */
+    public function duration_quarter(float|int|string $number): self
+    {
+        $this->sequence["duration-quarter"] = $number;
+
+        return $this;
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     *
+     * @return $this
+     */
     public function duration_month(float|int|string $number): self
     {
         $this->sequence["duration-month"] = $number;
@@ -1299,9 +1311,9 @@ trait SequenceCompanion
      *
      * @return $this
      */
-    public function mass_metric_ton(float|int|string $number): self
+    public function mass_tonne(float|int|string $number): self
     {
-        $this->sequence["mass-metric-ton"] = $number;
+        $this->sequence["mass-tonne"] = $number;
 
         return $this;
     }
@@ -1710,6 +1722,30 @@ trait SequenceCompanion
     public function speed_knot(float|int|string $number): self
     {
         $this->sequence["speed-knot"] = $number;
+
+        return $this;
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     *
+     * @return $this
+     */
+    public function speed_beaufort(float|int|string $number): self
+    {
+        $this->sequence["speed-beaufort"] = $number;
+
+        return $this;
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     *
+     * @return $this
+     */
+    public function temperature_generic(float|int|string $number): self
+    {
+        $this->sequence["temperature-generic"] = $number;
 
         return $this;
     }
@@ -2178,6 +2214,18 @@ trait SequenceCompanion
     public function volume_quart_imperial(float|int|string $number): self
     {
         $this->sequence["volume-quart-imperial"] = $number;
+
+        return $this;
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     *
+     * @return $this
+     */
+    public function pressure_gasoline_energy_density(float|int|string $number): self
+    {
+        $this->sequence["pressure-gasoline-energy-density"] = $number;
 
         return $this;
     }

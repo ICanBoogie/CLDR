@@ -19,7 +19,7 @@ use ICanBoogie\CLDR\Numbers\Symbols;
  *
  * @extends ArrayObject<string, mixed>
  *
- * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#1-numbering-systems
+ * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#1-numbering-systems
  */
 final class Numbers extends ArrayObject
 {

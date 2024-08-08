@@ -3,11 +3,11 @@
 This part covers [number elements](#number-elements), [number formatting](#number-formatting), and
 [currencies](#currencies).
 
-[Unicode Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html)
+[Unicode Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html)
 
 -----
 
-The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-66/tr35.html#parts):
+The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-72/tr35.html#parts):
 
 - Part 1: [Core](Core.md) (languages, locales, basic structure)
 - Part 2: [General](General.md) (display names & transforms, etc.)
@@ -31,14 +31,14 @@ in the given locale.
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Locale $de 
+ * @var ICanBoogie\CLDR\Locale $de
  */
 
 echo $de->numbers->default_numbering_system;
 // latn
 ```
 
-[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#21-default-numbering-system)
+[Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#21-default-numbering-system)
 
 <!-- ### Other Numbering Systems -->
 
@@ -60,7 +60,7 @@ namespace ICanBoogie\CLDR;
 $en->numbers->symbols;
 ```
 
-[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Numbering_Systems)
+[Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Numbering_Systems)
 
 <!--
 
@@ -86,7 +86,7 @@ You can format a number with a given pattern using the `format_number()` functio
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Repository $repository 
+ * @var ICanBoogie\CLDR\Repository $repository
  */
 
 echo $repository->format_number(4123.37, "#,#00.#0");
@@ -196,7 +196,7 @@ echo $locale->format_currency(12345.67, $currency_code);
 // 12 345,67 €
 ```
 
-[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Currencies)
+[Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Currencies)
 
 
 
@@ -209,7 +209,7 @@ other. ICanBoogie's CLDR makes it easy to find the plural rules for any numeric 
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Repository $cldr 
+ * @var ICanBoogie\CLDR\Repository $cldr
  */
 
 $cldr->plurals->rules_for('fr'); // [ 'one', 'other' ]
@@ -220,7 +220,7 @@ $cldr->plurals->rule_for(2, 'fr');   // other
 $cldr->plurals->rule_for(2, 'ar');   // two
 ```
 
-[Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Language_Plural_Rules)
+[Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Language_Plural_Rules)
 
 <!--
 

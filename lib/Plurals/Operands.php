@@ -21,7 +21,7 @@ use function abs;
  *
  * @internal
  *
- * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Operands
+ * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Operands
  */
 final class Operands
 {

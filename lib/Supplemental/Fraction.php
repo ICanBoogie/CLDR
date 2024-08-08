@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR\Supplemental;
 /**
  * @internal
  *
- * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Supplemental_Currency_Data
+ * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Supplemental_Currency_Data
  */
 final class Fraction
 {

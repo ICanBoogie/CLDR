@@ -83,10 +83,10 @@ final class LocalizedDateTimeTest extends TestCase
 	{
 		return [
 
-			[ 'en', DateTimeFormatLength::FULL, "Monday, November 4, 2013 at 8:21:22 PM UTC" ],
-			[ 'en', DateTimeFormatLength::LONG, "November 4, 2013 at 8:21:22 PM UTC" ],
-			[ 'en', DateTimeFormatLength::MEDIUM, "Nov 4, 2013, 8:21:22 PM" ],
-			[ 'en', DateTimeFormatLength::SHORT, "11/4/13, 8:21 PM" ],
+			[ 'en', DateTimeFormatLength::FULL, "Monday, November 4, 2013 at 8:21:22 PM UTC" ],
+			[ 'en', DateTimeFormatLength::LONG, "November 4, 2013 at 8:21:22 PM UTC" ],
+			[ 'en', DateTimeFormatLength::MEDIUM, "Nov 4, 2013, 8:21:22 PM" ],
+			[ 'en', DateTimeFormatLength::SHORT, "11/4/13, 8:21 PM" ],
 
 			[ 'fr', DateTimeFormatLength::FULL, "lundi 4 novembre 2013 à 20:21:22 UTC" ],
 			[ 'fr', DateTimeFormatLength::LONG, "4 novembre 2013 à 20:21:22 UTC" ],

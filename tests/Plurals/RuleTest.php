@@ -30,7 +30,9 @@ final class RuleTest extends TestCase
 	}
 
 	/**
-	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/plurals.json
+	 * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/plurals.json
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function provide_test_cases(): array
 	{

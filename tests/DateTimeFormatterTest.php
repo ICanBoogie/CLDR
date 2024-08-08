@@ -479,10 +479,10 @@ final class DateTimeFormatterTest extends TestCase
 
 			# test: format width(full|long|medium|short)
 
-			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::FULL, 'Saturday, November 2, 2013 at 10:23:45 PM CET' ],
-			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::LONG, 'November 2, 2013 at 10:23:45 PM CET' ],
-			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::MEDIUM, 'Nov 2, 2013, 10:23:45 PM' ],
-			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::SHORT, '11/2/13, 10:23 PM' ],
+			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::FULL, 'Saturday, November 2, 2013 at 10:23:45 PM CET' ],
+			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::LONG, 'November 2, 2013 at 10:23:45 PM CET' ],
+			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::MEDIUM, 'Nov 2, 2013, 10:23:45 PM' ],
+			[ 'en', '2013-11-02 22:23:45', DateTimeFormatLength::SHORT, '11/2/13, 10:23 PM' ],
 
 			# test: format width(full|long|medium|short) in french
 
@@ -520,8 +520,8 @@ final class DateTimeFormatterTest extends TestCase
 
 		$result = $formatter->format($datetime, DateTimeFormatId::from($id));
 
-		$this->assertEquals($formatter($datetime, $pattern), $result);
 		$this->assertEquals($expected_result, $result);
+		$this->assertEquals($expected_result, $formatter($datetime, $pattern));
 	}
 
 	/**
@@ -533,19 +533,19 @@ final class DateTimeFormatterTest extends TestCase
 
 			[ "d", "d", "26" ],
 			[ "Ed", "E d", "sam. 26" ],
-			[ "Ehm", "E h:mm a", "sam. 10:08 PM" ],
+			[ "Ehm", "E h:mm a", "sam. 10:08 PM" ],
 			[ "EHm", "E HH:mm", "sam. 22:08" ],
-			[ "Ehms", "E h:mm:ss a", "sam. 10:08:30 PM" ],
+			[ "Ehms", "E h:mm:ss a", "sam. 10:08:30 PM" ],
 			[ "EHms", "E HH:mm:ss", "sam. 22:08:30" ],
 			[ "Gy", "y G", "2013 ap. J.-C." ],
 			[ "GyMMM", "MMM y G", "oct. 2013 ap. J.-C." ],
 			[ "GyMMMd", "d MMM y G", "26 oct. 2013 ap. J.-C." ],
 			[ "GyMMMEd", "E d MMM y G", "sam. 26 oct. 2013 ap. J.-C." ],
-			[ "h", "h a", "10 PM" ],
+			[ "h", "h a", "10 PM" ],
 			[ "H", "HH 'h'", "22 h" ],
-			[ "hm", "h:mm a", "10:08 PM" ],
+			[ "hm", "h:mm a", "10:08 PM" ],
 			[ "Hm", "HH:mm", "22:08" ],
-			[ "hms", "h:mm:ss a", "10:08:30 PM" ],
+			[ "hms", "h:mm:ss a", "10:08:30 PM" ],
 			[ "Hms", "HH:mm:ss", "22:08:30" ],
 			[ "M", "L", "10" ],
 			[ "Md", "d/M", "26/10" ],

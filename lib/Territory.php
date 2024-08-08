@@ -14,6 +14,7 @@ namespace ICanBoogie\CLDR;
 use DateTimeImmutable;
 use DateTimeInterface;
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\Territory\RegionCurrencies;
 use Throwable;
 
 use function current;
@@ -27,7 +28,7 @@ use function key;
  *
  * @property-read array<string, mixed> $containment The `territoryContainment` data.
  * @property-read array<string, mixed> $info The `territoryInfo` data.
- * @property-read array<string, mixed> $currencies The currencies available in the country.
+ * @property-read RegionCurrencies $currencies The currencies available in the territory.
  * @property-read Currency|null $currency The current currency.
  * @property-read string $first_day The code of the first day of the week for the territory.
  * @property-read string $weekend_start The code of the first day of the weekend.
@@ -67,18 +68,14 @@ final class Territory
 		return $this->containment ??= $this->retrieve_from_supplemental('territoryContainment');
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
-	private array $currencies;
+	private RegionCurrencies $currencies;
 
-	/**
-	 * @return array<string, mixed>
-	 */
-	private function get_currencies(): array
+	private function get_currencies(): RegionCurrencies
 	{
-		/** @phpstan-ignore-next-line */
-		return $this->currencies ??= $this->repository->supplemental['currencyData']['region'][$this->code];
+		return $this->currencies ??= RegionCurrencies::from(
+			/** @phpstan-ignore-next-line */
+			$this->repository->supplemental['currencyData']['region'][$this->code]
+		);
 	}
 
 	private ?Currency $currency;
@@ -192,47 +189,21 @@ final class Territory
 	/**
 	 * Return the currency used in the territory at a point in time.
 	 *
-	 * @param DateTimeInterface|mixed $date
+	 * @param DateTimeInterface|string|null $date
 	 *
 	 * @throws Throwable
 	 */
-	public function currency_at($date = null): ?Currency
+	public function currency_at(DateTimeInterface|string $date = null): ?Currency
 	{
-		$date = $this->ensure_is_datetime($date);
-		$code = $this->find_currency_at($this->get_currencies(), $date->format('Y-m-d'));
+		$date = $this->ensure_is_datetime($date)->format('Y-m-d');
+
+		$code = $this->get_currencies()->at($date)?->code;
 
 		if (!$code) {
 			return null;
 		}
 
 		return new Currency($this->repository, $code);
-	}
-
-	/**
-	 * Return the currency in a list used at a point in time.
-	 *
-	 * @param array<string, mixed> $currencies
-	 */
-	private function find_currency_at(array $currencies, string $normalized_date): string
-	{
-		$rc = false;
-
-		foreach ($currencies as $currency) {
-			$name = key($currency);
-			$interval = current($currency);
-			$_from = null;
-			$_to = null;
-			extract($interval);
-
-			// @phpstan-ignore-next-line
-			if (($_from && $_from > $normalized_date) || ($_to && $_to < $normalized_date)) {
-				continue;
-			}
-
-			$rc = $name;
-		}
-
-		return $rc;
 	}
 
 	/**
@@ -271,12 +242,7 @@ final class Territory
 		return $data[$code] ?? $data['001'];
 	}
 
-	/**
-	 * @param DateTimeInterface|string|null $datetime
-	 *
-	 * @throws Throwable
-	 */
-	private function ensure_is_datetime($datetime): DateTimeInterface
+	private function ensure_is_datetime(DateTimeInterface|string|null $datetime): DateTimeInterface
 	{
 		if ($datetime === null) {
 			return new DateTimeImmutable();

@@ -4,11 +4,11 @@ This part covers information that is important for internationalization and prop
 is not contained in the locale hierarchy. It is not localizable, nor is it overridden by locale
 data.
 
-[Unicode Reference](https://www.unicode.org/reports/tr35/tr35-66/tr35-info.html#Contents)
+[Unicode Reference](https://www.unicode.org/reports/tr35/tr35-72/tr35-info.html#Contents)
 
 -----
 
-The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-66/tr35.html#parts):
+The documentation is divided into the following parts, mimicking [Unicode's documentation](https://www.unicode.org/reports/tr35/tr35-72/tr35.html#parts):
 
 - Part 1: [Core](Core.md) (languages, locales, basic structure)
 - Part 2: [General](General.md) (display names & transforms, etc.)

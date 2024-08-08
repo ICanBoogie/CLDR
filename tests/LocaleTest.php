@@ -117,7 +117,7 @@ final class LocaleTest extends TestCase
 			[ 'localeDisplayNames', 'localeDisplayPattern' ],
 			[ 'scripts', 'Arab' ],
 			[ 'territories', 'AC' ],
-			[ 'variants', 'ALUKU' ],
+			[ 'variants', 'AREVELA' ],
 			[ 'characters', 'exemplarCharacters' ],
 			[ 'contextTransforms', 'day-format-except-narrow' ],
 			[ 'delimiters', 'quotationStart' ],

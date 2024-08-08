@@ -14,7 +14,7 @@ namespace ICanBoogie\CLDR\Supplemental;
 /**
  * @internal
  *
- * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-numbers.html#Supplemental_Currency_Data
+ * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Supplemental_Currency_Data
  */
 final class CurrencyData
 {
@@ -23,7 +23,7 @@ final class CurrencyData
 	/**
 	 * @param array{ fractions: array, region: array } $data
 	 *
-	 * @see https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/currencyData.json
+	 * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/currencyData.json
 	 *
 	 * @phpstan-ignore-next-line
 	 */

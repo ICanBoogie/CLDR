@@ -61,7 +61,7 @@ final class LocaleId
     }
 
     /**
-     * @link https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/parentLocales.json
+     * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/parentLocales.json
      */
     public const PARENT_LOCALES =
     [
@@ -93,6 +93,7 @@ final class LocaleId
         'en-GM' => 'en-001',
         'en-GY' => 'en-001',
         'en-HK' => 'en-001',
+        'en-ID' => 'en-001',
         'en-IE' => 'en-001',
         'en-IL' => 'en-001',
         'en-IM' => 'en-001',
@@ -171,6 +172,7 @@ final class LocaleId
         'es-EC' => 'es-419',
         'es-GT' => 'es-419',
         'es-HN' => 'es-419',
+        'es-JP' => 'es-419',
         'es-MX' => 'es-419',
         'es-NI' => 'es-419',
         'es-PA' => 'es-419',
@@ -181,8 +183,10 @@ final class LocaleId
         'es-US' => 'es-419',
         'es-UY' => 'es-419',
         'es-VE' => 'es-419',
+        'ht' => 'fr-HT',
         'nb' => 'no',
         'nn' => 'no',
+        'no-NO' => 'no',
         'pt-AO' => 'pt-PT',
         'pt-CH' => 'pt-PT',
         'pt-CV' => 'pt-PT',
@@ -213,6 +217,9 @@ final class LocaleId
         'kk-Arab' => 'und',
         'ks-Deva' => 'und',
         'ku-Arab' => 'und',
+        'kxv-Deva' => 'und',
+        'kxv-Orya' => 'und',
+        'kxv-Telu' => 'und',
         'ky-Arab' => 'und',
         'ky-Latn' => 'und',
         'ml-Arab' => 'und',
@@ -241,7 +248,7 @@ final class LocaleId
     ];
 
     /**
-     * @link https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/availableLocales.json
+     * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/availableLocales.json
      */
     public const AVAILABLE_LOCALES =
     [
@@ -291,6 +298,7 @@ final class LocaleId
         'ca-ES-valencia',
         'ca-FR',
         'ca-IT',
+        'chr',
         'cs',
         'cy',
         'da',
@@ -302,8 +310,10 @@ final class LocaleId
         'de-IT',
         'de-LI',
         'de-LU',
+        'dsb',
         'el',
         'el-CY',
+        'el-polyton',
         'en',
         'en-001',
         'en-150',
@@ -345,6 +355,7 @@ final class LocaleId
         'en-GU',
         'en-GY',
         'en-HK',
+        'en-ID',
         'en-IE',
         'en-IL',
         'en-IM',
@@ -492,16 +503,22 @@ final class LocaleId
         'fr-YT',
         'ga',
         'ga-GB',
+        'gd',
         'gl',
         'gu',
+        'ha',
+        'ha-GH',
+        'ha-NE',
         'he',
         'hi',
         'hi-Latn',
         'hr',
         'hr-BA',
+        'hsb',
         'hu',
         'hy',
         'id',
+        'ig',
         'is',
         'it',
         'it-CH',
@@ -514,7 +531,9 @@ final class LocaleId
         'km',
         'kn',
         'ko',
+        'ko-CN',
         'ko-KP',
+        'kok',
         'ky',
         'lo',
         'lt',
@@ -611,7 +630,10 @@ final class LocaleId
         'uz',
         'uz-Latn',
         'vi',
+        'yo',
+        'yo-BJ',
         'yue',
+        'yue-Hans',
         'yue-Hant',
         'zh',
         'zh-Hans',

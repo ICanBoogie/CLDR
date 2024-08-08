@@ -104,7 +104,7 @@ class Units
 	 *
 	 * @param float|int|numeric-string $number
 	 *
-	 * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#compound-units
+	 * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#compound-units
 	 */
 	public function format_compound(
 		float|int|string $number,
@@ -141,7 +141,7 @@ class Units
 	 *
 	 * @param array<string, int|float> $units_and_numbers
 	 *
-	 * @see https://www.unicode.org/reports/tr35/tr35-66/tr35-general.html#Unit_Sequences
+	 * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#Unit_Sequences
 	 */
 	public function format_sequence(array $units_and_numbers, UnitLength $length = self::DEFAULT_LENGTH): string
 	{
