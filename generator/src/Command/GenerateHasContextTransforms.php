@@ -77,6 +77,9 @@ final class GenerateHasContextTransforms extends Command
                 return self::HAS_CONTEXT_TRANSFORMS[\$locale_id->value];
             }
 
+            /**
+             * @codeCoverageIgnore
+             */
             private function __construct() {}
         }
 
