@@ -209,8 +209,8 @@ echo $supplemental['calendarPreferenceData']['001']; // gregorian
 
 The project is continuously tested by [GitHub actions](https://github.com/ICanBoogie/CLDR/actions).
 
-[![Tests](https://github.com/ICanBoogie/CLDR/workflows/test/badge.svg?branch=master)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Atest)
-[![Static Analysis](https://github.com/ICanBoogie/CLDR/workflows/static-analysis/badge.svg?branch=master)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Astatic-analysis)
+[![Tests](https://github.com/ICanBoogie/CLDR/actions/workflows/test.yml/badge.svg?branch=6.0)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Atest)
+[![Static Analysis](https://github.com/ICanBoogie/CLDR/actions/workflows/static-analysis.yml/badge.svg?branch=6.0)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Astatic-analysis)
 
 
 
