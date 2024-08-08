@@ -39,7 +39,7 @@ final class RedisCache implements Cache
 			return null;
 		}
 
-		return unserialize($data); // @phpstan-ignore-line
+		return unserialize($data);
 	}
 
 	public function set(string $path, array $data): void

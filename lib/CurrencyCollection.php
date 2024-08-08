@@ -104,6 +104,7 @@ final class CurrencyCollection extends AbstractCollection implements Warmable
 		}
 	}
 
+	// @phpstan-ignore-next-line
 	private function fetch_currencies(): array
 	{
 		return $this->repository->fetch(

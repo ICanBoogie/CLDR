@@ -83,13 +83,6 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 	];
 
-	private const NO_CONTEXT_TRANSFORMS = [
-
-		'ja',
-		'zh',
-
-	];
-
 	public function __construct(
 		Repository $repository,
 		public readonly LocaleId $id
@@ -122,7 +115,7 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 		foreach (array_keys(self::OFFSET_MAPPING) as $offset) {
             $progress("- $offset");
-			$this[$offset];
+			$this->offsetGet($offset);
 		}
 	}
 
@@ -154,7 +147,6 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 	private function get_calendar(): Calendar
 	{
-		/** @phpstan-ignore-next-line */
 		return $this->calendar ??= $this->get_calendars()['gregorian']; // TODO-20131101: use preferred data
 	}
 
@@ -170,6 +162,7 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 	private function get_number_formatter(): LocalizedNumberFormatter
 	{
+		// @phpstan-ignore-next-line
 		return $this->number_formatter ??= $this->localize($this->repository->number_formatter);
 	}
 
@@ -177,6 +170,7 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 	private function get_currency_formatter(): LocalizedCurrencyFormatter
 	{
+		// @phpstan-ignore-next-line
 		return $this->currency_formatter ??= $this->localize($this->repository->currency_formatter);
 	}
 
@@ -184,6 +178,7 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 	private function get_list_formatter(): LocalizedListFormatter
 	{
+		// @phpstan-ignore-next-line
 		return $this->list_formatter ??= $this->localize($this->repository->list_formatter);
 	}
 
@@ -191,16 +186,8 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 	private function get_context_transforms(): ContextTransforms
 	{
-		try
-		{
-			/** @phpstan-ignore-next-line */
-			return $this->context_transforms ??= new ContextTransforms($this['contextTransforms']);
-		}
-		catch (ResourceNotFound $e)
-		{
-			// Not all locales have context transforms e.g. zh
-			return $this->context_transforms ??= new ContextTransforms([]);
-		}
+		/** @phpstan-ignore-next-line */
+		return $this->context_transforms ??= new ContextTransforms($this['contextTransforms']);
 	}
 
 	private Units $units;

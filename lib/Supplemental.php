@@ -93,7 +93,7 @@ final class Supplemental extends AbstractSectionCollection implements Warmable
 
 		foreach (array_keys(self::OFFSET_MAPPING) as $offset) {
 			$progress("- $offset");
-			$this[$offset];
+			$this->offsetGet($offset);
 		}
 	}
 

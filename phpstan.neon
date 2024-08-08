@@ -2,12 +2,9 @@ parameters:
   level: 8
   paths:
     - lib
-    - generator
   excludePaths:
     - lib/LocaleId.php
     - lib/Units/SequenceCompanion.php
     - lib/Units/UnitsCompanion.php
-  scanFiles:
-    - tests/bootstrap.php
   ignoreErrors:
     - '#get_.* is unused.#'

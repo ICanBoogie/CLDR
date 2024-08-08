@@ -47,7 +47,7 @@ test-container-82:
 
 .PHONY: lint
 lint:
-	@XDEBUG_MODE=off vendor/bin/phpstan
+	@XDEBUG_MODE=off vendor/bin/phpstan --memory-limit=-1
 
 #
 # Generate
