@@ -6,9 +6,9 @@ use ICanBoogie\CLDR\Cache\CacheCollection;
 use ICanBoogie\CLDR\Cache\FileCache;
 use ICanBoogie\CLDR\Cache\RuntimeCache;
 use ICanBoogie\CLDR\Generator\Command\GenerateHasContextTransforms;
-use ICanBoogie\CLDR\Generator\Command\LocaleIdCommand;
-use ICanBoogie\CLDR\Generator\Command\SequenceCompanionCommand;
-use ICanBoogie\CLDR\Generator\Command\UnitsCompanionCommand;
+use ICanBoogie\CLDR\Generator\Command\GenerateLocaleId;
+use ICanBoogie\CLDR\Generator\Command\GenerateSequenceCompanion;
+use ICanBoogie\CLDR\Generator\Command\GenerateUnitsCompanion;
 use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\Repository;
 use Psr\Container\ContainerInterface;
@@ -18,10 +18,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class ContainerProvider
 {
 	private const COMMANDS = [
-		LocaleIdCommand::class,
+		GenerateLocaleId::class,
         GenerateHasContextTransforms::class,
-        SequenceCompanionCommand::class,
-        UnitsCompanionCommand::class,
+        GenerateSequenceCompanion::class,
+        GenerateUnitsCompanion::class,
 	];
 
 	public static function provide_container(): ContainerInterface

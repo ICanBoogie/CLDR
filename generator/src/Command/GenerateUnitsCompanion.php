@@ -8,28 +8,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('units-companion', "Generates Units/UnitsCompanion.php")]
-final class UnitsCompanionCommand extends Command
+#[AsCommand('lib/Units/UnitsCompanion.php')]
+final class GenerateUnitsCompanion extends Command
 {
-    private const TEMPLATE = <<<PHP
-    <?php
-
-    /** DO NOT EDIT - THE FILE HAS BEEN GENERATED WITH units-companion */
-
-    namespace ICanBoogie\CLDR\Units;
-
-    /**
-     * @internal
-     *
-    #PROPERTIES#
-     *
-     */
-    trait UnitsCompanion
-    {
-    #METHODS#
-    }
-
-    PHP;
+    private const GENERATED_FILE = 'lib/Units/UnitsCompanion.php';
 
     public function __construct(
         private readonly Repository $repository
@@ -39,7 +21,8 @@ final class UnitsCompanionCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $units = $this->repository->locale_for('en_001')['units']['long'];
+        // @phpstan-ignore-next-line
+        $units = $this->repository->locale_for('en-001')['units']['long'];
         $properties = [];
         $methods = [];
 
@@ -62,15 +45,41 @@ final class UnitsCompanionCommand extends Command
                 {
                     return new NumberWithUnit(\$number, "$name", \$this);
                 }
-
             PHP;
         }
 
-        echo strtr(self::TEMPLATE, [
-            '#PROPERTIES#' => implode("\n", $properties),
-            '#METHODS#' => implode("\n", $methods),
-        ]);
+        $contents = $this->render(
+            properties: implode("\n", $properties),
+            methods: implode("\n\n", $methods),
+        );
+
+        file_put_contents(self::GENERATED_FILE, $contents);
 
         return self::SUCCESS;
+    }
+
+    private function render(
+        string $properties,
+        string $methods,
+    ): string {
+        return <<<PHP
+        <?php
+
+        /** CODE GENERATED; DO NOT EDIT. */
+
+        namespace ICanBoogie\CLDR\Units;
+
+        /**
+         * @internal
+         * @codeCoverageIgnore
+         *
+        $properties
+         */
+        trait UnitsCompanion
+        {
+        $methods
+        }
+
+        PHP;
     }
 }

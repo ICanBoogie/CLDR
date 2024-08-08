@@ -8,25 +8,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('sequence-companion', "Generates Units/SequenceCompanion.php")]
-final class SequenceCompanionCommand extends Command
+#[AsCommand('lib/Units/SequenceCompanion.php')]
+final class GenerateSequenceCompanion extends Command
 {
-    private const TEMPLATE = <<<PHP
-    <?php
-
-    /** DO NOT EDIT - THE FILE HAS BEEN GENERATED WITH sequence-companion */
-
-    namespace ICanBoogie\CLDR\Units;
-
-    /**
-     * @internal
-     */
-    trait SequenceCompanion
-    {
-    #METHODS#
-    }
-
-    PHP;
+    private const GENERATED_FILE = 'lib/Units/SequenceCompanion.php';
 
     public function __construct(
         private readonly Repository $repository
@@ -36,7 +21,8 @@ final class SequenceCompanionCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $units = $this->repository->locale_for('en_001')['units']['long'];
+        // @phpstan-ignore-next-line
+        $units = $this->repository->locale_for('en-001')['units']['long'];
         $methods = [];
 
         foreach ($units as $name => $unit) {
@@ -58,14 +44,37 @@ final class SequenceCompanionCommand extends Command
 
                     return \$this;
                 }
-
             PHP;
         }
 
-        echo strtr(self::TEMPLATE, [
-            '#METHODS#' => implode("\n", $methods),
-        ]);
+        $contents = $this->render(
+            methods: implode("\n\n", $methods),
+        );
+
+        file_put_contents(self::GENERATED_FILE, $contents);
 
         return self::SUCCESS;
+    }
+
+    private function render(
+        string $methods,
+    ): string {
+        return <<<PHP
+        <?php
+
+        /** CODE GENERATED; DO NOT EDIT. */
+
+        namespace ICanBoogie\CLDR\Units;
+
+        /**
+         * @internal
+         * @codeCoverageIgnore
+         */
+        trait SequenceCompanion
+        {
+        $methods
+        }
+
+        PHP;
     }
 }

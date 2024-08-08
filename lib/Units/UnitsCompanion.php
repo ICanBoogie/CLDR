@@ -1,11 +1,12 @@
 <?php
 
-/** DO NOT EDIT - THE FILE HAS BEEN GENERATED WITH units-companion */
+/** CODE GENERATED; DO NOT EDIT. */
 
 namespace ICanBoogie\CLDR\Units;
 
 /**
  * @internal
+ * @codeCoverageIgnore
  *
  * @property-read Unit $acceleration_g_force
  * @property-read Unit $acceleration_meter_per_square_second
@@ -188,7 +189,6 @@ namespace ICanBoogie\CLDR\Units;
  * @property-read Unit $volume_jigger
  * @property-read Unit $volume_pinch
  * @property-read Unit $volume_quart_imperial
- *
  */
 trait UnitsCompanion
 {
@@ -1639,5 +1639,4 @@ trait UnitsCompanion
     {
         return new NumberWithUnit($number, "volume-quart-imperial", $this);
     }
-
 }

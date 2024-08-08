@@ -1,11 +1,12 @@
 <?php
 
-/** DO NOT EDIT - THE FILE HAS BEEN GENERATED WITH sequence-companion */
+/** CODE GENERATED; DO NOT EDIT. */
 
 namespace ICanBoogie\CLDR\Units;
 
 /**
  * @internal
+ * @codeCoverageIgnore
  */
 trait SequenceCompanion
 {
@@ -2180,5 +2181,4 @@ trait SequenceCompanion
 
         return $this;
     }
-
 }

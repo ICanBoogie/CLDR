@@ -63,13 +63,13 @@ generate: \
 	lib/Units/UnitsCompanion.php
 
 lib/LocaleId.php:
-	$(GENERATE) locale-id >$@
+	$(GENERATE) $@
 
 lib/Locale/HasContextTransforms.php:
-	$(GENERATE) has-context-transforms >$@
+	$(GENERATE) $@
 
 lib/Units/SequenceCompanion.php:
-	$(GENERATE) sequence-companion >$@
+	$(GENERATE) $@
 
 lib/Units/UnitsCompanion.php:
-	$(GENERATE) units-companion >$@
+	$(GENERATE) $@

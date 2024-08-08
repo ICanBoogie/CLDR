@@ -1,0 +1,123 @@
+<?php
+
+namespace ICanBoogie\CLDR\Generator\Command;
+
+use ICanBoogie\CLDR\Repository;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+use Symfony\Component\VarExporter\VarExporter;
+
+use function ICanBoogie\CLDR\Generator\indent;
+
+#[AsCommand('lib/LocaleId.php')]
+final class GenerateLocaleId extends Command
+{
+    private const GENERATED_FILE = 'lib/LocaleId.php';
+
+    public function __construct(
+        private readonly Repository $repository
+    ) {
+        parent::__construct();
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $parent_locales = $this->repository->supplemental['parentLocales'];
+        $available_locales = $this->repository->available_locales;
+
+        $contents = $this->render(
+            parent_locales: indent(VarExporter::export($parent_locales), 1),
+            available_locales: indent(VarExporter::export($available_locales), 1),
+        );
+
+        file_put_contents(self::GENERATED_FILE, $contents);
+
+        return self::SUCCESS;
+    }
+
+    public function render(
+        string $parent_locales,
+        string $available_locales,
+    ): string {
+        return <<<PHP
+        <?php
+
+        /** CODE GENERATED; DO NOT EDIT. */
+
+        namespace ICanBoogie\CLDR;
+
+        use InvalidArgumentException;
+
+        final class LocaleId
+        {
+            /**
+             * Whether a locale ID is available.
+             */
+            public static function is_available(string \$value): bool
+            {
+                if (isset(self::PARENT_LOCALES[\$value])) {
+                    return true;
+                }
+
+                return in_array(\$value, self::AVAILABLE_LOCALES);
+            }
+
+            /**
+             * @throws InvalidArgumentException if the value is not one of the available locales.
+             */
+            public static function assert_id_available(string \$value): void
+            {
+                self::is_available(\$value)
+                    or throw new InvalidArgumentException("Locale is not available: \$value.");
+            }
+            /**
+             * @var array<string, self>
+             *     Where _key_ is a locale identifier.
+             */
+            private static array \$instances = [];
+
+            /**
+             * Returns a {@see LocaleId} of a value.
+             *
+             * Note: If the locale has a parent locale, that locale is used instead.
+             *
+             * @param string \$value
+             *     A locale identifier.
+             *
+             * @throws InvalidArgumentException if the locale is not available.
+             */
+            public static function from(string \$value): self
+            {
+                self::assert_id_available(\$value);
+
+                if (isset(self::PARENT_LOCALES[\$value])) {
+                    \$value = self::PARENT_LOCALES[\$value];
+                }
+
+                return self::\$instances[\$value] ??= new self(\$value);
+            }
+
+            private function __construct(
+                public readonly string \$value,
+            ) {
+            }
+
+            /**
+             * @link https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/supplemental/parentLocales.json
+             */
+            public const PARENT_LOCALES =
+        $parent_locales;
+
+            /**
+             * @link https://github.com/unicode-org/cldr-json/blob/41.0.0/cldr-json/cldr-core/availableLocales.json
+             */
+            public const AVAILABLE_LOCALES =
+        $available_locales;
+        }
+
+        PHP;
+    }
+}
