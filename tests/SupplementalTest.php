@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ICanBoogie package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Supplemental;
@@ -71,11 +62,14 @@ final class SupplementalTest extends TestCase
 		];
 	}
 
+	/**
+	 * @param class-string $expected
+	 */
 	#[DataProvider('provide_properties')]
 	public function test_properties(string $property, string $expected): void
 	{
 		$this->assertInstanceOf($expected, $value = self::$sut->$property);
-		// Make sure values are lazy created and reused
+		// Make sure values are lazily created and reused
 		$this->assertSame($value, self::$sut->$property);
 	}
 
@@ -90,6 +84,7 @@ final class SupplementalTest extends TestCase
 
 	public function test_default_calendar(): void
 	{
+		// @phpstan-ignore-next-line
 		$this->assertArrayHasKey('001', self::$sut['calendarPreferenceData']);
 	}
 

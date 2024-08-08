@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ICanBoogie package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Plurals;
@@ -26,6 +17,7 @@ final class PluralsTest extends TestCase
 
 	protected function setUp(): void
 	{
+		// @phpstan-ignore-next-line
 		$this->plurals = new Plurals(get_repository()->supplemental['plurals']);
 	}
 
@@ -173,11 +165,12 @@ final class PluralsTest extends TestCase
 
 		foreach ($samples_per_count as $expected => $samples) {
 			foreach ($samples as $number) {
+				/** @var numeric-string $number */
 				$count = $plurals->rule_for($number, $locale);
 
 				try {
 					$this->assertSame($expected, $count);
-				} catch (Throwable $e) {
+				} catch (Throwable) {
 					$this->fail("Expected `$expected` but got `$count` for number `$number` ($locale)");
 				}
 			}

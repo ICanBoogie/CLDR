@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ICanBoogie package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\CurrencyCollection;
@@ -33,6 +24,9 @@ final class RepositoryTest extends TestCase
 		$this->sut = get_repository();
 	}
 
+	/**
+	 * @param class-string $expected
+	 */
 	#[DataProvider('provide_test_properties_instanceof')]
 	public function test_properties_instanceof(string $property, string $expected): void
 	{

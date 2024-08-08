@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ICanBoogie package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Test\ICanBoogie\CLDR;
 
 use Exception;
@@ -19,8 +10,12 @@ use PHPUnit\Framework\TestCase;
 final class CurrencyNotDefinedTest extends TestCase
 {
 	#[DataProvider('provide_instance')]
-	public function test_instance(string $currency_code, ?string $message, string $expected_message, Exception $previous = null)
-	{
+	public function test_instance(
+		string $currency_code,
+		?string $message,
+		string $expected_message,
+		Exception $previous = null
+	): void {
 		$sut = new CurrencyNotDefined($currency_code, $message, $previous);
 
 		$this->assertSame($currency_code, $sut->currency_code);

@@ -2,9 +2,11 @@ parameters:
   level: 8
   paths:
     - lib
+    - tests
   excludePaths:
     - lib/LocaleId.php
     - lib/Units/SequenceCompanion.php
     - lib/Units/UnitsCompanion.php
   ignoreErrors:
     - '#get_.* is unused.#'
+    - '#Method Test\\.*iterable type array#'

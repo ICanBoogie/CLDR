@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ICanBoogie package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\NumberPattern;
@@ -120,20 +111,21 @@ final class NumberPatternTest extends TestCase
 	/**
 	 * @dataProvider provide_test_format_integer_with_decimal
 	 */
-	public function test_format_integer_with_decimal(string $pattern, int $integer, int $decimal, string $expected): void
+	public function test_format_integer_with_decimal(string $pattern, int $integer, string $decimal, string $expected): void
 	{
-		$instance = NumberPattern::from($pattern);
-		$this->assertSame($expected, $instance->format_integer_with_decimal($integer, $decimal, '/'));
+		$sut = NumberPattern::from($pattern);
+		$actual = $sut->format_integer_with_decimal($integer, $decimal, '/');
+		$this->assertSame($expected, $actual);
 	}
 
 	public static function provide_test_format_integer_with_decimal(): array
 	{
 		return [
 
-			[ "#,##0.###", 1, 0, '1'],
-			[ "#,##0.##0", 1, 3, '1/300'],
-			[ "#,##0.##0", 1, 345, '1/345'],
-			[ "#,##0.##0", 1, 34567, '1/34567'],
+			[ "#,##0.###", 1, "0", '1'],
+			[ "#,##0.##0", 1, "3", '1/300'],
+			[ "#,##0.##0", 1, "345", '1/345'],
+			[ "#,##0.##0", 1, "34567", '1/34567'],
 
 		];
 	}

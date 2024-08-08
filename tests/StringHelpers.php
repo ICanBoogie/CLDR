@@ -8,7 +8,7 @@ use function str_split;
 
 trait StringHelpers
 {
-    protected function assertStringSame($expected, $actual): void
+    protected function assertStringSame(string $expected, string $actual): void
     {
         $this->assertSame(
             $expected,

@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ICanBoogie package.
- *
- * (c) Olivier Laviale <olivier.laviale@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Numbers;
@@ -22,6 +13,7 @@ final class NumbersTest extends TestCase
 	public function test_shortcuts(string $locale_id, string $property, string $offset): void
 	{
 		$locale = locale_for($locale_id);
+		/** @var array<string, mixed> $numbers_data */
 		$numbers_data = $locale['numbers'];
 		$numbers = new Numbers($locale, $numbers_data);
 
@@ -48,6 +40,7 @@ final class NumbersTest extends TestCase
 	public function test_symbols(string $locale_id, Symbols $expected): void
 	{
 		$locale = locale_for($locale_id);
+		/** @var array<string, mixed> $numbers_data */
 		$numbers_data = $locale['numbers'];
 		$numbers = new Numbers($locale, $numbers_data);
 
@@ -132,6 +125,7 @@ final class NumbersTest extends TestCase
 		string $width_offset
 	): void {
 		$locale = locale_for($locale_id);
+		/** @var array<string, mixed> $numbers_data */
 		$numbers_data = $locale['numbers'];
 		$numbers = new Numbers($locale, $numbers_data);
 
@@ -155,7 +149,9 @@ final class NumbersTest extends TestCase
 	public function test_get_decimal_format(string $locale_id, string $expected): void
 	{
 		$locale = locale_for($locale_id);
-		$numbers = new Numbers($locale, $locale['numbers']);
+		/** @var array<string, mixed> $numbers_data */
+		$numbers_data = $locale['numbers'];
+		$numbers = new Numbers($locale, $numbers_data);
 
 		$this->assertEquals($expected, $numbers->decimal_format);
 	}
