@@ -2,7 +2,10 @@ parameters:
   level: 8
   paths:
     - lib
+    - generator
     - tests
+  scanFiles:
+  	- generator/generate
   excludePaths:
     - lib/LocaleId.php
     - lib/Units/SequenceCompanion.php

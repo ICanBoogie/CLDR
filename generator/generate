@@ -7,9 +7,9 @@ use ICanBoogie\CLDR\Cache\FileCache;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-const CACHE = __DIR__ . DIRECTORY_SEPARATOR . FileCache::RECOMMENDED_DIR;
+const CACHE = __DIR__ . '/../' . FileCache::RECOMMENDED_DIR;
 
 $container = ContainerProvider::provide_container();
 

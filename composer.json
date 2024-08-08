@@ -41,7 +41,9 @@
 	"require-dev": {
 		"ext-redis": "*",
 		"phpstan/phpstan": "^1.11",
-		"phpunit/phpunit": "^10.5"
+		"phpunit/phpunit": "^10.5",
+		"symfony/console": "^6.3",
+		"symfony/dependency-injection": "^6.3"
 	},
 	"autoload": {
 		"psr-4": {
@@ -50,7 +52,11 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
+			"ICanBoogie\\CLDR\\Generator\\": "generator/src",
 			"Test\\ICanBoogie\\CLDR\\": "tests"
-		}
+		},
+		"files": [
+			"generator/src/helpers.php"
+		]
 	}
 }
