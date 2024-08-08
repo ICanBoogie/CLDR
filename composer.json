@@ -1,7 +1,8 @@
 {
 	"name": "icanboogie/cldr",
 	"type": "library",
-	"description": "An API to localize applications using Unicode's CLDR",
+	"description": "Localize applications using Unicode's CLDR",
+  "version": "6.0",
 	"keywords": [
 		"i18n",
 		"cldr",
@@ -11,7 +12,7 @@
 		"format"
 	],
 	"homepage": "https://icanboogie.org/",
-	"license": "BSD-3-Clause",
+	"license": "MIT",
 	"authors": [
 		{
 			"name": "Olivier Laviale",
@@ -27,7 +28,6 @@
 	"config": {
 		"sort-packages": true
 	},
-	"version": "6.0",
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {

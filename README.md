@@ -229,7 +229,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
 
-**icanboogie/cldr** is released under the [BSD-3-Clause](LICENSE).
+**icanboogie/cldr** is released under the [MIT License](LICENSE).
 
 
 

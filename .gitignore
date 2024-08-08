@@ -1,6 +1,5 @@
+.cldr-cache
 .phpunit.result.cache
 build
-.cldr-cache
 composer.lock
-tests/repository
 vendor

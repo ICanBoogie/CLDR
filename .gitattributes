@@ -7,5 +7,7 @@
 docker-compose.yml export-ignore
 Dockerfile export-ignore
 Makefile export-ignore
+phpcs.xml
+phpstan.neon export-ignore
 phpunit.xml export-ignore
 tests/ export-ignore
