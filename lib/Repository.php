@@ -12,21 +12,8 @@ use function explode;
 /**
  * Representation of the CLDR.
  *
- * <pre>
- * <?php
- *
- * namespace ICanBoogie\CLDR;
- *
- * $repository = new Repository($provider);
- *
- * var_dump($repository->locale_fr('fr'));
- * var_dump($repository->territories['FR']);
- * </pre>
- *
  * @property-read Supplemental $supplemental
  * @uses self::get_supplemental()
- * @property-read TerritoryCollection $territories
- * @uses self::get_territories()
  * @property-read NumberFormatter $number_formatter
  * @uses self::get_number_formatter()
  * @property-read CurrencyFormatter $currency_formatter
@@ -44,7 +31,6 @@ final class Repository
 {
 	/**
 	 * @uses get_supplemental
-	 * @uses get_territories
 	 * @uses get_number_formatter
 	 * @uses get_currency_formatter
 	 * @uses get_list_formatter
@@ -64,13 +50,6 @@ final class Repository
 	private function get_supplemental(): Supplemental
 	{
 		return $this->supplemental ??= new Supplemental($this);
-	}
-
-	private TerritoryCollection $territories;
-
-	private function get_territories(): TerritoryCollection
-	{
-		return $this->territories ??= new TerritoryCollection($this);
 	}
 
 	private NumberFormatter $number_formatter;
@@ -192,10 +171,29 @@ final class Repository
 
 	private LocaleCollection $locales;
 
+	/**
+	 * @param string|LocaleId $locale_id
+	 *     A locale ID; for example, fr-BE.
+	 */
 	public function locale_for(string|LocaleId $locale_id): Locale
 	{
 		$this->locales ??= new LocaleCollection($this);
 
 		return $this->locales->locale_for($locale_id);
+	}
+
+	/**
+	 * @param string|TerritoryCode $code
+	 *     A territory code; for example, CA.
+	 */
+	public function territory_for(string|TerritoryCode $code): Territory
+	{
+		if ($code instanceof TerritoryCode) {
+			$code = $code->value;
+		} else {
+			TerritoryCode::assert_is_defined($code);
+		}
+
+		return new Territory($this, $code);
 	}
 }

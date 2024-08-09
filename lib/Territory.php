@@ -143,7 +143,6 @@ final class Territory implements Localizable
 		public readonly Repository $repository,
 		public readonly string $code
 	) {
-		$repository->territories->assert_defined($code);
 	}
 
 	public function __toString(): string

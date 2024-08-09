@@ -60,6 +60,7 @@ generate: \
 	lib/Currency.php \
 	lib/LocaleId.php \
 	lib/Locale/HasContextTransforms.php \
+	lib/TerritoryCode.php \
 	lib/Units/SequenceCompanion.php \
 	lib/Units/UnitsCompanion.php
 
@@ -73,6 +74,9 @@ lib/Locale/HasContextTransforms.php: generator/src/Command/GenerateHasContextTra
 	$(GENERATE) $@
 
 lib/Units/SequenceCompanion.php: generator/src/Command/GenerateSequenceCompanion.php
+	$(GENERATE) $@
+
+lib/TerritoryCode.php: generator/src/Command/GenerateTerritoryCode.php
 	$(GENERATE) $@
 
 lib/Units/UnitsCompanion.php: generator/src/Command/GenerateUnitsCompanion.php

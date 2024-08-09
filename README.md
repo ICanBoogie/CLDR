@@ -98,7 +98,7 @@ echo $fr_euro->name_for(10);     // euros
 echo $fr_euro->format(12345.67); // 12 345,67 €
 
 # You can access territories and their localized data
-$territory = $repository->territories['FR'];
+$territory = $repository->territory_for('FR');
 echo $territory;                                       // FR
 echo $territory->currency;                             // EUR
 echo $territory->currency_at('1977-06-06');            // FRF
@@ -106,11 +106,11 @@ echo $territory->currency_at('now');                   // EUR
 echo $territory->name_as('fr');        // France
 echo $territory->name_as('it');        // Francia
 echo $territory->name_as('ja');        // フランス
-echo $repository->territories['FR']->first_day;        // mon
-echo $repository->territories['EG']->first_day;        // sat
-echo $repository->territories['BS']->first_day;        // sun
-echo $repository->territories['AE']->weekend_start;    // fri
-echo $repository->territories['AE']->weekend_end;      // sat
+echo $repository->territory_for('FR')->first_day;        // mon
+echo $repository->territory_for('EG')->first_day;        // sat
+echo $repository->territory_for('BS')->first_day;        // sun
+echo $repository->territory_for('AE')->weekend_start;    // fri
+echo $repository->territory_for('AE')->weekend_end;      // sat
 echo $territory->localized('fr')->name; // France
 echo $territory->localized('it')->name; // Francia
 echo $territory->localized('ja')->name; // フランス

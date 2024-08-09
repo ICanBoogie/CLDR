@@ -9,6 +9,7 @@ use ICanBoogie\CLDR\Generator\Command\GenerateCurrency;
 use ICanBoogie\CLDR\Generator\Command\GenerateHasContextTransforms;
 use ICanBoogie\CLDR\Generator\Command\GenerateLocaleId;
 use ICanBoogie\CLDR\Generator\Command\GenerateSequenceCompanion;
+use ICanBoogie\CLDR\Generator\Command\GenerateTerritoryCode;
 use ICanBoogie\CLDR\Generator\Command\GenerateUnitsCompanion;
 use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\Repository;
@@ -23,6 +24,7 @@ final class ContainerProvider
         GenerateHasContextTransforms::class,
 		GenerateCurrency::class,
         GenerateSequenceCompanion::class,
+		GenerateTerritoryCode::class,
         GenerateUnitsCompanion::class,
 	];
 

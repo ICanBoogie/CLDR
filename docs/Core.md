@@ -79,7 +79,7 @@ Instances that can be localized usually implement the `localize()` method.
 
 /* @var ICanBoogie\CLDR\Repository $repository */
 
-echo $repository->territories['FR']->localized('fr')->name; // France
+echo $repository->territory_for('FR')->localized('fr')->name; // France
 ```
 
 

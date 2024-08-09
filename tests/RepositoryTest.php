@@ -10,7 +10,8 @@ use ICanBoogie\CLDR\Plurals;
 use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\Repository;
 use ICanBoogie\CLDR\Supplemental;
-use ICanBoogie\CLDR\TerritoryCollection;
+use ICanBoogie\CLDR\TerritoryCode;
+use ICanBoogie\CLDR\TerritoryNotDefined;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -44,7 +45,6 @@ final class RepositoryTest extends TestCase
 
 			[ 'provider', Provider::class ],
 			[ 'supplemental', Supplemental::class ],
-			[ 'territories', TerritoryCollection::class ],
 			[ 'number_formatter', NumberFormatter::class ],
 			[ 'currency_formatter', CurrencyFormatter::class ],
 			[ 'list_formatter', ListFormatter::class ],
@@ -82,5 +82,26 @@ final class RepositoryTest extends TestCase
 		]);
 
 		$this->assertSame("one, two, and three", $this->sut->format_list($list, $list_pattern));
+	}
+
+	public function test_territory_for_using_string(): void
+	{
+		$actual = $this->sut->territory_for('CA');
+
+		$this->assertEquals('CA', $actual->code);
+	}
+
+	public function test_territory_for_using_code(): void
+	{
+		$actual = $this->sut->territory_for(TerritoryCode::of('CA'));
+
+		$this->assertEquals('CA', $actual->code);
+	}
+
+	public function test_territory_for_fails_on_undefined_code(): void
+	{
+		$this->expectException(TerritoryNotDefined::class);
+
+		$this->sut->territory_for('ZZZ');
 	}
 }

@@ -33,30 +33,30 @@ information that is actually scattered across the CLDR.
  * @var ICanBoogie\CLDR\Repository $repository
  */
 
-$territory = $repository->territories['FR'];
+$territory = $repository->territory_for('FR');
 
-echo $territory;                                    // FR
-echo $territory->currency;                          // EUR
-echo $territory->currency_at('1977-06-06');         // FRF
-echo $territory->currency_at('now');                // EUR
+echo $territory;                                      // FR
+echo $territory->currency;                            // EUR
+echo $territory->currency_at('1977-06-06');           // FRF
+echo $territory->currency_at('now');                  // EUR
 
-echo $territory->language;                          // fr
-echo $territory->population;                        // 66259000
+echo $territory->language;                            // fr
+echo $territory->population;                          // 66259000
 
-echo $territory->name_as('fr-FR');                  // France
-echo $territory->name_as('it');                     // Francia
-echo $territory->name_as('ja');                     // フランス
+echo $territory->name_as('fr-FR');                    // France
+echo $territory->name_as('it');                       // Francia
+echo $territory->name_as('ja');                       // フランス
 
-echo $territory->name_as_fr_FR;                     // France
-echo $territory->name_as_it;                        // Francia
-echo $territory->name_as_ja;                        // フランス
+echo $territory->name_as_fr_FR;                       // France
+echo $territory->name_as_it;                          // Francia
+echo $territory->name_as_ja;                          // フランス
 
-echo $repository->territories['FR']->first_day;     // mon
-echo $repository->territories['EG']->first_day;     // sat
-echo $repository->territories['BS']->first_day;     // sun
+echo $repository->territory_for('FR')->first_day;     // mon
+echo $repository->territory_for('EG')->first_day;     // sat
+echo $repository->territory_for('BS')->first_day;     // sun
 
-echo $repository->territories['AE']->weekend_start; // fri
-echo $repository->territories['AE']->weekend_end;   // sat
+echo $repository->territory_for('AE')->weekend_start; // fri
+echo $repository->territory_for('AE')->weekend_end;   // sat
 ```
 
 
@@ -77,8 +77,7 @@ use ICanBoogie\CLDR\LocaleId;
  * @var ICanBoogie\CLDR\Repository $repository
  */
 
-$territory = $repository->territories['FR'];
-
+$territory = $repository->territory_for('FR');
 $localized_territory = $territory->localized('fr');
 
 echo $territory->localized('fr')->name;   // France

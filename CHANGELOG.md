@@ -21,8 +21,10 @@
 - `LocalizedListFormatter:TYPE_*` constants are replaced by the `ListType` enum.
 - `DateTimeFormatter::WIDTH_*` constants are replaced by the `DateTimeFormatLength` enum.
 - `$cldr->locales['fr']` is replaced by `$cldr->locale_for('fr')`.
+- `$cldr->territories['FR']` is replaced by `$cldr->territory_for('FR')`.
 - `$cldr->currencies['USD']` is replaced by `Currency::of('USD')`.
 - Removed `Repository::$currencies`, use `Currency::CODES` instead.
+- Removed `Repository::$territories`, use `TerritoryCode::CODES` instead.
 - Removed `Supplemental::$currency_data`, use `Currency` instead.
 - Removed `CurrencyData`, use `Currency` instead.
 - Removed `Locale::localize()` and repurposed the `Localizable` interface.
