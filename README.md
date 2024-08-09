@@ -1,9 +1,8 @@
 # CLDR
 
 [![Packagist](https://img.shields.io/packagist/v/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
-[![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/CLDR.svg)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR)
-[![Code Coverage](https://coveralls.io/repos/github/ICanBoogie/CLDR/badge.svg?branch=6.0)](https://coveralls.io/r/ICanBoogie/CLDR)
-[![Downloads](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
+[![Downloads](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr/stats)
+[![Code Quality](https://img.shields.io/scrutinizer/quality/g/ICanBoogie/CLDR/6.0)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR/?branch=6.0)
 
 The __CLDR__ package helps internationalize your application by leveraging the data and conventions
 defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR). It offers
@@ -227,9 +226,10 @@ $cldr = new Repository($provider);
 
 The project is continuously tested by [GitHub actions](https://github.com/ICanBoogie/CLDR/actions).
 
-[![Tests](https://github.com/ICanBoogie/CLDR/actions/workflows/test.yml/badge.svg?branch=6.0)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Atest)
-[![Static Analysis](https://github.com/ICanBoogie/CLDR/actions/workflows/static-analysis.yml/badge.svg?branch=6.0)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Astatic-analysis)
-[![Code Style](https://github.com/ICanBoogie/CLDR/actions/workflows/code-style.yml/badge.svg?branch=6.0)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Acode-style)
+[![Tests](https://img.shields.io/github/actions/workflow/status/ICanBoogie/CLDR/test.yml?branch=6.0&label=tests)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Atest)
+[![Code Coverage](https://coveralls.io/repos/github/ICanBoogie/CLDR/badge.svg?branch=6.0)](https://coveralls.io/r/ICanBoogie/CLDR)
+[![Static Analysis](https://img.shields.io/github/actions/workflow/status/ICanBoogie/CLDR/static-analysis.yml?branch=6.0&label=static-analysis)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Astatic-analysis)
+[![Code Style](https://img.shields.io/github/actions/workflow/status/ICanBoogie/CLDR/code-style.yml?branch=6.0&label=code-style)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Acode-style)
 
 
 
