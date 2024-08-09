@@ -1,6 +1,10 @@
 <?php
 
-/** CODE GENERATED; DO NOT EDIT. */
+/**
+ * CODE GENERATED; DO NOT EDIT.
+ *
+ * {@see \ICanBoogie\CLDR\Generator\Command\GenerateUnitsCompanion}
+ */
 
 namespace ICanBoogie\CLDR\Units;
 

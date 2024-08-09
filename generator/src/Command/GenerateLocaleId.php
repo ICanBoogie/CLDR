@@ -2,6 +2,7 @@
 
 namespace ICanBoogie\CLDR\Generator\Command;
 
+use ICanBoogie\CLDR\LocaleNotAvailable;
 use ICanBoogie\CLDR\Repository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -42,10 +43,16 @@ final class GenerateLocaleId extends Command
         string $parent_locales,
         string $available_locales,
     ): string {
+		$class = __CLASS__;
+
         return <<<PHP
         <?php
 
-        /** CODE GENERATED; DO NOT EDIT. */
+        /**
+         * CODE GENERATED; DO NOT EDIT.
+         *
+         * {@see \\$class}
+         */
 
         namespace ICanBoogie\CLDR;
 
@@ -66,12 +73,12 @@ final class GenerateLocaleId extends Command
             }
 
             /**
-             * @throws InvalidArgumentException if the value is not one of the available locales.
+             * @throws LocaleNotAvailable
              */
             public static function assert_is_available(string \$value): void
             {
                 self::is_available(\$value)
-                    or throw new InvalidArgumentException("Locale is not available: \$value");
+                    or throw new LocaleNotAvailable(\$value);
             }
 
             /**

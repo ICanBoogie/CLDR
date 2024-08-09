@@ -5,8 +5,8 @@ namespace Test\ICanBoogie\CLDR;
 use BadMethodCallException;
 use ICanBoogie\CLDR\Locale;
 use ICanBoogie\CLDR\LocaleCollection;
+use ICanBoogie\CLDR\LocaleNotAvailable;
 use ICanBoogie\OffsetNotWritable;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class LocaleCollectionTest extends TestCase
@@ -47,8 +47,7 @@ final class LocaleCollectionTest extends TestCase
 	 */
 	public function should_fail_with_undefined_locale(): void
 	{
-		$this->expectExceptionMessage("Locale is not available: madonna");
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(LocaleNotAvailable::class);
 		self::$sut['madonna']; // @phpstan-ignore-line
 	}
 }

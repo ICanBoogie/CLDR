@@ -62,10 +62,16 @@ final class GenerateUnitsCompanion extends Command
         string $properties,
         string $methods,
     ): string {
+		$class = __CLASS__;
+
         return <<<PHP
         <?php
 
-        /** CODE GENERATED; DO NOT EDIT. */
+        /**
+         * CODE GENERATED; DO NOT EDIT.
+         *
+         * {@see \\$class}
+         */
 
         namespace ICanBoogie\CLDR\Units;
 

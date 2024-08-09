@@ -1,6 +1,10 @@
 <?php
 
-/** CODE GENERATED; DO NOT EDIT. */
+/**
+ * CODE GENERATED; DO NOT EDIT.
+ *
+ * {@see \ICanBoogie\CLDR\Generator\Command\GenerateLocaleId}
+ */
 
 namespace ICanBoogie\CLDR;
 
@@ -21,12 +25,12 @@ final class LocaleId
     }
 
     /**
-     * @throws InvalidArgumentException if the value is not one of the available locales.
+     * @throws LocaleNotAvailable
      */
     public static function assert_is_available(string $value): void
     {
         self::is_available($value)
-            or throw new InvalidArgumentException("Locale is not available: $value");
+            or throw new LocaleNotAvailable($value);
     }
 
     /**

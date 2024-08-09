@@ -55,10 +55,16 @@ final class GenerateHasContextTransforms extends Command
 
     private function render(string $has_by_locale): string
     {
+		$class = __CLASS__;
+
         return <<<PHP
         <?php
 
-        /** CODE GENERATED; DO NOT EDIT. */
+        /**
+         * CODE GENERATED; DO NOT EDIT.
+         *
+         * {@see \\$class}
+         */
 
         namespace ICanBoogie\CLDR\Locale;
 

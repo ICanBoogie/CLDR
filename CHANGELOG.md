@@ -10,16 +10,16 @@
 
 ### New features
 
-- `LocaleId` is an enum of available locales.
+- `LocaleId` is a representation of an available locale.
+- `LocaleNotAvailable` is thrown when a requested locale ID is not available.
 - Added the `Warmable` interface to features that can warm the CLDR cache.
 
 ### Backward Incompatible Changes
 
-- `Units::LENGTH_*` constants have been replaced by the `UnitLength` enum.
-- `LocalizedListFormatter:TYPE_*` constants have been replaced by the `ListType` enum.
-- `DateTimeFormatter::WIDTH_*` constants have been replaced by the `DateTimeFormatLength` enum.
-- Most functions require a `LocaleId` instead of a locale id string.
-- `$cldr->locales['fr']` as been replaced with `$cldr->locale_for('fr')`.
+- `Units::LENGTH_*` constants are replaced by the `UnitLength` enum.
+- `LocalizedListFormatter:TYPE_*` constants are replaced by the `ListType` enum.
+- `DateTimeFormatter::WIDTH_*` constants are replaced by the `DateTimeFormatLength` enum.
+- `$cldr->locales['fr']` is replaced by `$cldr->locale_for('fr')`.
 
 ### Deprecated Features
 
@@ -29,6 +29,7 @@ None
 
 - Use CLDR 45.0.0.
 - Some code is now generated from CLDR data, such as `Units` getters and methods, or `LocaleId`.
+- JSON data is stored as PHP instead of JSON to leverage opcache.
 
 
 

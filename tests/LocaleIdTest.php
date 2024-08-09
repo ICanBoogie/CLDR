@@ -3,7 +3,7 @@
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\LocaleId;
-use InvalidArgumentException;
+use ICanBoogie\CLDR\LocaleNotAvailable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +31,7 @@ final class LocaleIdTest extends TestCase
 
 	public function test_of_fails_on_unavailable_id(): void
 	{
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(LocaleNotAvailable::class);
 
 		LocaleId::of('fr-FR');
 	}

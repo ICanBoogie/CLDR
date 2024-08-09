@@ -59,10 +59,16 @@ final class GenerateSequenceCompanion extends Command
     private function render(
         string $methods,
     ): string {
+		$class = __CLASS__;
+
         return <<<PHP
         <?php
 
-        /** CODE GENERATED; DO NOT EDIT. */
+        /**
+         * CODE GENERATED; DO NOT EDIT.
+         *
+         * {@see \\$class}
+         */
 
         namespace ICanBoogie\CLDR\Units;
 
