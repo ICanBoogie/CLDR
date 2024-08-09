@@ -63,7 +63,7 @@ final class Repository
 
 	private function get_currency_formatter(): CurrencyFormatter
 	{
-		return $this->currency_formatter ??= new CurrencyFormatter();
+		return $this->currency_formatter ??= new CurrencyFormatter($this->get_number_formatter());
 	}
 
 	private ListFormatter $list_formatter;

@@ -71,10 +71,7 @@ class ListFormatter implements Formatter, Localizable
 		]);
 	}
 
-	/**
-	 * @return LocalizedListFormatter
-	 */
-	public function localized(Locale $locale): LocalizedObject
+	public function localized(Locale $locale): LocalizedListFormatter
 	{
 		return new LocalizedListFormatter($this, $locale);
 	}

@@ -3,7 +3,6 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Numbers\Symbols;
-
 use function str_replace;
 
 /**
@@ -11,12 +10,22 @@ use function str_replace;
  *
  * @implements Localizable<CurrencyFormatter, LocalizedCurrencyFormatter>
  */
-final class CurrencyFormatter extends NumberFormatter implements Localizable
+final class CurrencyFormatter implements Formatter, Localizable
 {
 	public const DEFAULT_CURRENCY_SYMBOL = '¤';
 
+	public function __construct(
+		private readonly NumberFormatter $number_formatter,
+	) {
+	}
+
 	/**
-	 * @inheritDoc
+	 * Formats a number with the specified pattern.
+	 *
+	 * @param float|int|numeric-string $number
+	 *     The number to format.
+	 * @param string|NumberPattern $pattern
+	 *     The pattern used to format the number.
 	 */
 	public function format(
 		float|int|string $number,
@@ -27,14 +36,11 @@ final class CurrencyFormatter extends NumberFormatter implements Localizable
 		return str_replace(
 			self::DEFAULT_CURRENCY_SYMBOL,
 			$currencySymbol,
-			parent::format($number, $pattern, $symbols)
+			$this->number_formatter->format($number, $pattern, $symbols)
 		);
 	}
 
-	/**
-	 * @return LocalizedCurrencyFormatter
-	 */
-	public function localized(Locale $locale): LocalizedObject
+	public function localized(Locale $locale): LocalizedCurrencyFormatter
 	{
 		return new LocalizedCurrencyFormatter($this, $locale);
 	}

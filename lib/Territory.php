@@ -212,10 +212,7 @@ final class Territory implements Localizable
 		return $this->localized($locale_id)->name;
 	}
 
-	/**
-	 * @return LocalizedTerritory
-	 */
-	public function localized(Locale|LocaleId|string $locale): LocalizedObject
+	public function localized(Locale|LocaleId|string $locale): LocalizedTerritory
 	{
 		if (!$locale instanceof Locale) {
 			$locale = $this->repository->locale_for($locale);

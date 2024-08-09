@@ -187,10 +187,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
 		return $this->units ??= new Units($this);
 	}
 
-	/**
-	 * @return LocalizedLocale
-	 */
-	public function localized(Locale|LocaleId|string $locale): LocalizedObject
+	public function localized(Locale|LocaleId|string $locale): LocalizedLocale
 	{
 		if (!$locale instanceof self) {
 			$locale = $this->repository->locale_for($locale);
@@ -238,7 +235,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
 	}
 
 	/**
-	 * Formats a variable-length lists of scalars.
+	 * Formats variable-length lists of scalars.
 	 *
 	 * @param scalar[] $list
 	 *

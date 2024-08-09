@@ -4,6 +4,7 @@ namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\CurrencyFormatter;
 use ICanBoogie\CLDR\LocalizedCurrencyFormatter;
+use ICanBoogie\CLDR\NumberFormatter;
 use ICanBoogie\CLDR\Spaces;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -12,11 +13,11 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 {
 	use StringHelpers;
 
-	private CurrencyFormatter $formatter;
+	private CurrencyFormatter $sut;
 
 	protected function setUp(): void
 	{
-		$this->formatter = new CurrencyFormatter();
+		$this->sut = new CurrencyFormatter(new NumberFormatter());
 	}
 
 	#[DataProvider('provide_test_format')]
@@ -27,7 +28,7 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 		string $expected
 	): void {
 		$formatter = new LocalizedCurrencyFormatter(
-			$this->formatter,
+			$this->sut,
 			locale_for($locale_id),
 		);
 
@@ -65,7 +66,7 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 		string $expected
 	): void {
 		$formatter = new LocalizedCurrencyFormatter(
-			$this->formatter,
+			$this->sut,
 			locale_for($locale_id),
 		);
 
@@ -98,7 +99,7 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 	public function test_should_format_with_custom_pattern(): void
 	{
 		$sut = new LocalizedCurrencyFormatter(
-			$this->formatter,
+			$this->sut,
 			locale_for('fr'),
 		);
 

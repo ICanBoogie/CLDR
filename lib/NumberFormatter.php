@@ -9,7 +9,7 @@ use ICanBoogie\CLDR\Numbers\Symbols;
  *
  * @implements Localizable<NumberFormatter, LocalizedNumberFormatter>
  */
-class NumberFormatter implements Formatter, Localizable
+final class NumberFormatter implements Formatter, Localizable
 {
 	/**
 	 * Formats a number with the specified pattern.
@@ -56,12 +56,7 @@ class NumberFormatter implements Formatter, Localizable
 		]);
 	}
 
-	/**
-	 * Localizes the instance.
-	 *
-	 * @return LocalizedNumberFormatter
-	 */
-	public function localized(Locale $locale): LocalizedObject
+	public function localized(Locale $locale): LocalizedNumberFormatter
 	{
 		return new LocalizedNumberFormatter($this, $locale);
 	}
