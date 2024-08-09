@@ -164,23 +164,24 @@ echo $localized_formatter->format(123456.78);
 ```php
 <?php
 
+use ICanBoogie\CLDR\Currency;
+
 /**
  * @var ICanBoogie\CLDR\Repository $cldr
  * @var ICanBoogie\CLDR\Territory $territory
  * @var ICanBoogie\CLDR\Locale $locale
- * @var string $locale_id
  */
 
 $currency_code = 'EUR';
 
-# You can obtain a currency from CLDR using its code
-$currency = $cldr->currencies[$currency_code];
+# You can get a currency with its code
+$currency = Currency::of($currency_code);
 
-# You can obtain the main currency from a territory
+# You can get the main currency from a territory
 $currency = $territory->currency;
 
-# You can localize a currency, to get its local name, symbol, or format a number
-$localized_currency = $currency->localize($locale_id);
+# You can localize a currency to get its local name, symbol, or format a number
+$localized_currency = $currency->localize($locale);
 
 echo $localized_currency->name;
 // euro

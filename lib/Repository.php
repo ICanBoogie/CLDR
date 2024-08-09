@@ -10,7 +10,7 @@ use function array_shift;
 use function explode;
 
 /**
- * Representation of a CLDR.
+ * Representation of the CLDR.
  *
  * <pre>
  * <?php
@@ -27,8 +27,6 @@ use function explode;
  * @uses self::get_supplemental()
  * @property-read TerritoryCollection $territories
  * @uses self::get_territories()
- * @property-read CurrencyCollection $currencies
- * @uses self::get_currencies()
  * @property-read NumberFormatter $number_formatter
  * @uses self::get_number_formatter()
  * @property-read CurrencyFormatter $currency_formatter
@@ -39,13 +37,14 @@ use function explode;
  * @uses self::get_plurals()
  * @property-read string[] $available_locales
  * @uses self::get_available_locales()
+ *
+ * @link https://github.com/unicode-org/cldr-json/tree/45.0.0
  */
 final class Repository
 {
 	/**
 	 * @uses get_supplemental
 	 * @uses get_territories
-	 * @uses get_currencies
 	 * @uses get_number_formatter
 	 * @uses get_currency_formatter
 	 * @uses get_list_formatter
@@ -54,6 +53,11 @@ final class Repository
 	 * @uses get_available_locales
 	 */
 	use AccessorTrait;
+
+	public function __construct(
+		public readonly Provider $provider
+	) {
+	}
 
 	private Supplemental $supplemental;
 
@@ -67,13 +71,6 @@ final class Repository
 	private function get_territories(): TerritoryCollection
 	{
 		return $this->territories ??= new TerritoryCollection($this);
-	}
-
-	private CurrencyCollection $currencies;
-
-	private function get_currencies(): CurrencyCollection
-	{
-		return $this->currencies ??= new CurrencyCollection($this);
 	}
 
 	private NumberFormatter $number_formatter;
@@ -118,11 +115,6 @@ final class Repository
 	private function get_available_locales(): array
 	{
 		return $this->available_locales ??= $this->fetch('core/availableLocales', 'availableLocales/modern');
-	}
-
-	public function __construct(
-		public readonly Provider $provider
-	) {
 	}
 
 	/**

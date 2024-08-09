@@ -57,10 +57,14 @@ GENERATE=./generator/generate
 
 .PHONY=generate
 generate: \
+	lib/Currency.php \
 	lib/LocaleId.php \
 	lib/Locale/HasContextTransforms.php \
 	lib/Units/SequenceCompanion.php \
 	lib/Units/UnitsCompanion.php
+
+lib/Currency.php: generator/src/Command/GenerateCurrency.php
+	$(GENERATE) $@
 
 lib/LocaleId.php: generator/src/Command/GenerateLocaleId.php
 	$(GENERATE) $@

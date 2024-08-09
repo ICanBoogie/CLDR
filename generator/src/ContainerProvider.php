@@ -5,6 +5,7 @@ namespace ICanBoogie\CLDR\Generator;
 use ICanBoogie\CLDR\Cache\CacheCollection;
 use ICanBoogie\CLDR\Cache\FileCache;
 use ICanBoogie\CLDR\Cache\RuntimeCache;
+use ICanBoogie\CLDR\Generator\Command\GenerateCurrency;
 use ICanBoogie\CLDR\Generator\Command\GenerateHasContextTransforms;
 use ICanBoogie\CLDR\Generator\Command\GenerateLocaleId;
 use ICanBoogie\CLDR\Generator\Command\GenerateSequenceCompanion;
@@ -20,6 +21,7 @@ final class ContainerProvider
 	private const COMMANDS = [
 		GenerateLocaleId::class,
         GenerateHasContextTransforms::class,
+		GenerateCurrency::class,
         GenerateSequenceCompanion::class,
         GenerateUnitsCompanion::class,
 	];

@@ -62,6 +62,9 @@ final class GenerateLocaleId extends Command
         {
             /**
              * Whether a locale ID is available.
+             *
+             * @param string \$value
+             *     A locale identifier; for example, fr-BE
              */
             public static function is_available(string \$value): bool
             {
@@ -73,6 +76,9 @@ final class GenerateLocaleId extends Command
             }
 
             /**
+             * @param string \$value
+             *     A locale identifier; for example, fr-BE
+             *
              * @throws LocaleNotAvailable
              */
             public static function assert_is_available(string \$value): void
@@ -82,30 +88,26 @@ final class GenerateLocaleId extends Command
             }
 
             /**
-             * @var array<string, self>
-             *     Where _key_ is a locale identifier.
-             */
-            private static array \$instances = [];
-
-            /**
              * Returns a {@see LocaleId} of a value.
              *
              * Note: If the locale has a parent locale, that locale is used instead.
              *
              * @param string \$value
-             *     A locale identifier.
+             *     A locale identifier; for example, fr-BE
              *
-             * @throws InvalidArgumentException if the locale is not available.
+             * @throws LocaleNotAvailable
              */
             public static function of(string \$value): self
             {
+            	static \$instances;
+
                 self::assert_is_available(\$value);
 
                 if (isset(self::PARENT_LOCALES[\$value])) {
                     \$value = self::PARENT_LOCALES[\$value];
                 }
 
-                return self::\$instances[\$value] ??= new self(\$value);
+                return \$instances[\$value] ??= new self(\$value);
             }
 
             private function __construct(

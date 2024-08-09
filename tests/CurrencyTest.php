@@ -3,32 +3,63 @@
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Currency;
+use ICanBoogie\CLDR\CurrencyNotDefined;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class CurrencyTest extends TestCase
 {
-	public function test_fraction(): void
+	#[DataProvider("provide_is_defined")]
+	public function test_is_defined(string $code, bool $expected): void
 	{
-		$currency = new Currency(get_repository(), 'EUR');
-		$fraction = $currency->fraction;
+		$actual = Currency::is_defined($code);
 
-		$this->assertSame(2, $fraction->digits);
-		$this->assertSame(0, $fraction->rounding);
-		$this->assertSame($fraction, $currency->fraction);
+		$this->assertSame($expected, $actual);
+	}
+
+	public static function provide_is_defined(): array
+	{
+		return [
+
+			[ 'PES', true ],
+			[ 'UAH', true ],
+			[ 'ZZZ', false ],
+
+		];
+	}
+
+	#[DataProvider("provide_is_defined")]
+	public function test_assert_is_defined(string $code, bool $defined): void
+	{
+		if (!$defined) {
+			$this->expectException(CurrencyNotDefined::class);
+		} else {
+			$this->assertTrue(true);
+		}
+
+		Currency::assert_is_defined($code);
+	}
+
+	#[DataProvider("provide_is_defined")]
+	public function test_of(string $code, bool $defined): void
+	{
+		if (!$defined) {
+			$this->expectException(CurrencyNotDefined::class);
+		}
+
+		$actual = Currency::of($code);
+
+		$this->assertEquals($code, $actual->code);
 	}
 
 	#[DataProvider('provide_fraction_properties')]
 	public function test_fraction_properties(string $code, string $property, int $expected): void
 	{
-		$currency = new Currency(get_repository(), $code);
+		$currency = Currency::of($code);
 
 		$this->assertSame($expected, $currency->fraction->$property);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public static function provide_fraction_properties(): array
 	{
 		return [
@@ -56,12 +87,21 @@ final class CurrencyTest extends TestCase
 		];
 	}
 
+	public function test_serialization(): void
+	{
+		$sut = Currency::of('EUR');
+		$actual = unserialize(serialize($sut));
+
+		$this->assertEquals($sut, $actual);
+	}
+
 	public function test_localize(): void
 	{
-		$currency = new Currency(get_repository(), 'CAD');
-		$localized = $currency->localize('fr');
+		$sut = Currency::of('EUR');
+		$localized = $sut->localize(locale_for('fr'));
 
-		$this->assertSame('dollar canadien', $localized->name);
-		$this->assertSame('$CA', $localized->symbol);
+		$actual = $localized->format(12345.67);
+
+		$this->assertEquals('12 345,67 €', $actual);
 	}
 }

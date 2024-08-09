@@ -12,14 +12,14 @@ class CurrencyNotDefined extends InvalidArgumentException implements Exception
 {
 	/**
 	 * @param string $currency_code
-	 *     The ISO code of the currency.
+	 *     A currency code; for example, EUR.
 	 */
 	public function __construct(
 		public readonly string $currency_code,
 		string $message = null,
 		Throwable $previous = null
 	) {
-		$message ??= "Currency not defined for code: $currency_code.";
+		$message ??= "Currency code is not defined: $currency_code";
 
 		parent::__construct($message, previous: $previous);
 	}

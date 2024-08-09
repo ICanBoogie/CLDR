@@ -2,7 +2,6 @@
 
 namespace Test\ICanBoogie\CLDR;
 
-use ICanBoogie\CLDR\CurrencyCollection;
 use ICanBoogie\CLDR\CurrencyFormatter;
 use ICanBoogie\CLDR\ListFormatter;
 use ICanBoogie\CLDR\Locale\ListPattern;
@@ -43,7 +42,6 @@ final class RepositoryTest extends TestCase
 	{
 		return [
 
-			[ 'currencies', CurrencyCollection::class ],
 			[ 'provider', Provider::class ],
 			[ 'supplemental', Supplemental::class ],
 			[ 'territories', TerritoryCollection::class ],

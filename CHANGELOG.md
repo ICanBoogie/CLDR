@@ -10,8 +10,9 @@
 
 ### New features
 
-- `LocaleId` is a representation of an available locale.
+- `LocaleId` is generated from the CLDR. It represents an available locale ID.
 - `LocaleNotAvailable` is thrown when a requested locale ID is not available.
+- `Currency` is generated from the CLDR. It represents a currency, including fraction information.
 - Added the `Warmable` interface to features that can warm the CLDR cache.
 
 ### Backward Incompatible Changes
@@ -20,6 +21,10 @@
 - `LocalizedListFormatter:TYPE_*` constants are replaced by the `ListType` enum.
 - `DateTimeFormatter::WIDTH_*` constants are replaced by the `DateTimeFormatLength` enum.
 - `$cldr->locales['fr']` is replaced by `$cldr->locale_for('fr')`.
+- `$cldr->currencies['USD']` is replaced by `Currency::of('USD')`.
+- Removed `Repository::$currencies`, use `Currency::CODES` instead.
+- Removed `Supplemental::$currency_data`, use `Currency` instead.
+- Removed `CurrencyData`, use `Currency` instead.
 
 ### Deprecated Features
 

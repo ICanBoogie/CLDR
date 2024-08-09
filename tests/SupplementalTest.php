@@ -3,7 +3,6 @@
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Supplemental;
-use ICanBoogie\CLDR\Supplemental\CurrencyData;
 use ICanBoogie\OffsetNotDefined;
 use ICanBoogie\OffsetNotWritable;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -58,26 +57,6 @@ final class SupplementalTest extends TestCase
 			[ 'unitPreferenceData'     , 'area' ],
 			[ 'weekData'               , 'minDays' ],
 			[ 'windowsZones'           , 'mapTimezones' ],
-
-		];
-	}
-
-	/**
-	 * @param class-string $expected
-	 */
-	#[DataProvider('provide_properties')]
-	public function test_properties(string $property, string $expected): void
-	{
-		$this->assertInstanceOf($expected, $value = self::$sut->$property);
-		// Make sure values are lazily created and reused
-		$this->assertSame($value, self::$sut->$property);
-	}
-
-	public static function provide_properties(): array
-	{
-		return [
-
-			[ 'currency_data', CurrencyData::class ],
 
 		];
 	}

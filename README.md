@@ -21,6 +21,8 @@ as formatters for numbers, currencies, dates and times, units, sequences, listsâ
 ```php
 <?php
 
+use ICanBoogie\CLDR\Currency;
+
 /* @var ICanBoogie\CLDR\Repository $repository */
 
 # You get a locale from the repository, here the locale for French.
@@ -88,8 +90,8 @@ $repository->plurals->rule_for(2, 'fr');   // other
 $repository->plurals->rule_for(2, 'ar');   // two
 
 # You can access currencies and their localized data
-$euro = $repository->currencies['EUR'];
-$fr_euro = $euro->localize('fr');
+$euro = Currency::of('EUR');
+$fr_euro = $euro->localize($fr);
 echo $fr_euro->name;
 echo $fr_euro->name_for(1);      // euro
 echo $fr_euro->name_for(10);     // euros

@@ -33,7 +33,7 @@ final class CurrencyNotDefinedTest extends TestCase
 			"should format a message" => [
 				$currency_code,
 				null,
-				"Currency not defined for code: $currency_code.",
+				"Currency code is not defined: $currency_code",
 				null,
 			],
 

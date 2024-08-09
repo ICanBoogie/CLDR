@@ -7,12 +7,8 @@ use DateTimeInterface;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Territory\RegionCurrencies;
 use Throwable;
-
-use function current;
-use function extract;
 use function ICanBoogie\trim_prefix;
 use function in_array;
-use function key;
 
 /**
  * A territory.
@@ -194,7 +190,7 @@ final class Territory
 			return null;
 		}
 
-		return new Currency($this->repository, $code);
+		return Currency::of($code);
 	}
 
 	/**
