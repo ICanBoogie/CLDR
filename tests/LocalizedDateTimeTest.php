@@ -42,14 +42,6 @@ final class LocalizedDateTimeTest extends TestCase
 		$this->assertInstanceOf(Locale::class, $ld->locale);
 	}
 
-	public function test_get_options(): void
-	{
-		$ld = self::$localized_dates['en'];
-
-		$this->expectException(PropertyNotReadable::class);
-		$this->assertIsArray($ld->options); // @phpstan-ignore-line
-	}
-
 	public function test_get_formatter(): void
 	{
 		$ld = self::$localized_dates['en'];

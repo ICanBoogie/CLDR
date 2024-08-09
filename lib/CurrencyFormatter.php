@@ -8,8 +8,10 @@ use function str_replace;
 
 /**
  * A currency formatter.
+ *
+ * @implements Localizable<CurrencyFormatter, LocalizedCurrencyFormatter>
  */
-final class CurrencyFormatter extends NumberFormatter
+final class CurrencyFormatter extends NumberFormatter implements Localizable
 {
 	public const DEFAULT_CURRENCY_SYMBOL = '¤';
 
@@ -27,5 +29,13 @@ final class CurrencyFormatter extends NumberFormatter
 			$currencySymbol,
 			parent::format($number, $pattern, $symbols)
 		);
+	}
+
+	/**
+	 * @return LocalizedCurrencyFormatter
+	 */
+	public function localized(Locale $locale): LocalizedObject
+	{
+		return new LocalizedCurrencyFormatter($this, $locale);
 	}
 }

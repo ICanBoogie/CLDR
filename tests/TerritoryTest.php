@@ -199,7 +199,7 @@ final class TerritoryTest extends TestCase
 	public function test_localize(): void
 	{
 		$territory = new Territory(get_repository(), 'FR');
-		$actual = $territory->localize(LocaleId::of('fr'));
+		$actual = $territory->localized(LocaleId::of('fr'));
 
 		$this->assertInstanceOf(LocalizedTerritory::class, $actual);
 	}

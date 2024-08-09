@@ -34,7 +34,7 @@ echo $fr['delimiters']['quotationStart'];           // «
 echo $fr['territories']['TF'];                      // Terres australes françaises
 
 # You can localize it and get its local name
-echo $fr->localize($fr)->name;                      // Français
+echo $fr->localized($fr)->name;                      // Français
 
 # You can use it to format numbers, percents, currencies, lists…
 echo $fr->format_number(12345.67);                  // 12 345,67
@@ -55,7 +55,7 @@ echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 �
 
 # Alternatively, you can localize a DateTimeInterface and get formatted dates of various lengths
 $datetime = new \DateTime('2013-11-04 20:21:22 UTC');
-$fr_datetime = $fr->localize($datetime);
+$fr_datetime = new \ICanBoogie\CLDR\LocalizedDateTime($datetime, $fr);
 echo $fr_datetime->as_full;                         // lundi 4 novembre 2013 à 20:21:22 UTC
 echo $fr_datetime->as_long;                         // 4 novembre 2013 à 20:21:22 UTC
 echo $fr_datetime->as_medium;                       // 4 nov. 2013 20:21:22
@@ -91,7 +91,7 @@ $repository->plurals->rule_for(2, 'ar');   // two
 
 # You can access currencies and their localized data
 $euro = Currency::of('EUR');
-$fr_euro = $euro->localize($fr);
+$fr_euro = $euro->localized($fr);
 echo $fr_euro->name;
 echo $fr_euro->name_for(1);      // euro
 echo $fr_euro->name_for(10);     // euros
@@ -111,9 +111,9 @@ echo $repository->territories['EG']->first_day;        // sat
 echo $repository->territories['BS']->first_day;        // sun
 echo $repository->territories['AE']->weekend_start;    // fri
 echo $repository->territories['AE']->weekend_end;      // sat
-echo $territory->localize('fr')->name; // France
-echo $territory->localize('it')->name; // Francia
-echo $territory->localize('ja')->name; // フランス
+echo $territory->localized('fr')->name; // France
+echo $territory->localized('it')->name; // Francia
+echo $territory->localized('ja')->name; // フランス
 ```
 
 

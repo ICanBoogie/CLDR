@@ -129,35 +129,32 @@ final class LocaleTest extends TestCase
 	/**
 	 * @param class-string $expected
 	 */
-	#[DataProvider('provide_test_localize')]
-	public function test_localize(string $expected, object $source): void
+	#[DataProvider('provide_localize')]
+	public function test_localize(mixed $locale, string $expected): void
 	{
-		$localized = self::$locale->localize($source);
-		$this->assertInstanceOf($expected, $localized);
+		$actual = self::$locale->localized($locale);
+
+		$this->assertEquals($expected, $actual->name);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
-	public static function provide_test_localize(): array
+	public static function provide_localize(): array
 	{
 		return [
 
-			[ LocalizedObject::class, new \DateTime ],
-			[ LocalizedLocale::class, new Locale(get_repository(), LocaleId::of('fr')) ],
-			[ LocalizedListFormatter::class, new ListFormatter() ],
-			[ LocalizedNumberFormatter::class, new NumberFormatter() ],
-			[ LocaleTest\LocalizedLocalizableSample::class, new LocalizableSample() ]
+			[ 'fr', "français" ],
+			[ LocaleId::of('fr'), "français" ],
+			[ locale_for('fr'), "français" ],
+			[ 'en', "French" ],
+			[ LocaleId::of('en'), "French" ],
+			[ locale_for('en'), "French" ],
 
 		];
 	}
 
 	public function test_format_number(): void
 	{
-		$s1 = Spaces::NARROW_NO_BREAK_SPACE;
-
 		$this->assertStringSame(
-			"123{$s1}456,78",
+			"123 456,78",
 			self::$locale->format_number(123456.78)
 		);
 	}

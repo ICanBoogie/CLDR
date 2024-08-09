@@ -8,8 +8,10 @@ use ICanBoogie\CLDR\Locale\ListPattern;
  * Formats variable-length lists of things such as "Monday, Tuesday, Friday, and Saturday".
  *
  * @see http://www.unicode.org/reports/tr35/tr35-general.html#ListPatterns
+ *
+ * @implements Localizable<ListFormatter, LocalizedListFormatter>
  */
-class ListFormatter implements Formatter
+class ListFormatter implements Formatter, Localizable
 {
 	/**
 	 * Formats a variable-length lists of scalars.
@@ -77,5 +79,13 @@ class ListFormatter implements Formatter
 			'{1}' => $v1
 
 		]);
+	}
+
+	/**
+	 * @return LocalizedListFormatter
+	 */
+	public function localized(Locale $locale): LocalizedObject
+	{
+		return new LocalizedListFormatter($this, $locale);
 	}
 }

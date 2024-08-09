@@ -31,8 +31,10 @@ use function strtr;
  * @uses self::get_context_transforms()
  * @property-read Units $units
  * @uses self::get_units()
+ *
+ * @implements Localizable<Locale, LocalizedLocale>
  */
-class Locale extends AbstractSectionCollection implements Warmable
+class Locale extends AbstractSectionCollection implements Localizable, Warmable
 {
 	use AccessorTrait;
 
@@ -153,24 +155,21 @@ class Locale extends AbstractSectionCollection implements Warmable
 
 	private function get_number_formatter(): LocalizedNumberFormatter
 	{
-		// @phpstan-ignore-next-line
-		return $this->number_formatter ??= $this->localize($this->repository->number_formatter);
+		return $this->number_formatter ??= $this->repository->number_formatter->localized($this);
 	}
 
 	private LocalizedCurrencyFormatter $currency_formatter;
 
 	private function get_currency_formatter(): LocalizedCurrencyFormatter
 	{
-		// @phpstan-ignore-next-line
-		return $this->currency_formatter ??= $this->localize($this->repository->currency_formatter);
+		return $this->currency_formatter ??= $this->repository->currency_formatter->localized($this);
 	}
 
 	private LocalizedListFormatter $list_formatter;
 
 	private function get_list_formatter(): LocalizedListFormatter
 	{
-		// @phpstan-ignore-next-line
-		return $this->list_formatter ??= $this->localize($this->repository->list_formatter);
+		return $this->list_formatter ??= $this->repository->list_formatter->localized($this);
 	}
 
 	private ContextTransforms $context_transforms;
@@ -189,51 +188,15 @@ class Locale extends AbstractSectionCollection implements Warmable
 	}
 
 	/**
-	 * Localize the specified source.
-	 *
-	 * @param object|LocaleId $source_or_locale_id
-	 *     The source to localize, or the locale code to localize this instance.
-	 * @param array<string, mixed> $options
-	 *     The options are passed to the localizer.
+	 * @return LocalizedLocale
 	 */
-	public function localize(object $source_or_locale_id, array $options = []): object
+	public function localized(Locale|LocaleId|string $locale): LocalizedObject
 	{
-		if ($source_or_locale_id instanceof LocaleId)
-		{
-			return $this->repository->locale_for($source_or_locale_id)->localize($this, $options);
+		if (!$locale instanceof self) {
+			$locale = $this->repository->locale_for($locale);
 		}
 
-		$constructor = $this->resolve_localize_constructor($source_or_locale_id);
-
-		if ($constructor)
-		{
-			return $constructor($source_or_locale_id, $this, $options);
-		}
-
-		throw new LogicException("Unable to localize source");
-	}
-
-	/**
-	 * @param object $source
-	 */
-	private function resolve_localize_constructor($source): ?callable
-	{
-		$class = get_class($source);
-
-		if ($source instanceof Localizable)
-		{
-			return [ $class, 'localize' ]; // @phpstan-ignore-line
-		}
-
-		$base = basename(strtr($class, '\\', '/'));
-		$constructor = __NAMESPACE__ . "\\Localized$base";
-
-		if (!class_exists($constructor))
-		{
-			return null;
-		}
-
-		return [ $constructor, 'from' ]; // @phpstan-ignore-line
+		return new LocalizedLocale($this, $locale);
 	}
 
 	/**

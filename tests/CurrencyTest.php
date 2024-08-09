@@ -98,7 +98,7 @@ final class CurrencyTest extends TestCase
 	public function test_localize(): void
 	{
 		$sut = Currency::of('EUR');
-		$localized = $sut->localize(locale_for('fr'));
+		$localized = $sut->localized(locale_for('fr'));
 
 		$actual = $localized->format(12345.67);
 

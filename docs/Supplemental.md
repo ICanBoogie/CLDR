@@ -79,30 +79,11 @@ use ICanBoogie\CLDR\LocaleId;
 
 $territory = $repository->territories['FR'];
 
-$localized_territory = $territory->localize('fr');
-# or
-$localized_territory = $repository->locale_for('fr')->localize($territory);
+$localized_territory = $territory->localized('fr');
 
-echo $territory->localize('fr')->name;   // France
-echo $territory->localize('it')->name;   // Francia
-echo $territory->localize('ja')->name;   // フランス
-```
-
-## Supplemental Currency Data
-
-Use `fraction_for()` to get the fraction information for a currency:
-
-```php
-<?php
-
-/* @var $cldr \ICanBoogie\CLDR\Repository */
-
-$euro_fraction = $cldr->supplemental->currency_data->fraction_for('EUR');
-
-echo $euro_fraction->digits;        // 2
-echo $euro_fraction->rounding;      // 0
-echo $euro_fraction->cash_digits;   // 2
-echo $euro_fraction->cash_rounding; // 0
+echo $territory->localized('fr')->name;   // France
+echo $territory->localized('it')->name;   // Francia
+echo $territory->localized('ja')->name;   // フランス
 ```
 
 

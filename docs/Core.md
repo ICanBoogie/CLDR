@@ -23,7 +23,7 @@ The documentation is divided into the following parts, mimicking [Unicode's docu
 
 The data and conventions of a locale are represented by a [Locale][] instance, which can be used as
 an array to access various raw data such as calendars, characters, currencies, delimiters,
-languages, territories and more.
+languages, territories, and more.
 
 ```php
 <?php
@@ -69,8 +69,7 @@ suitable _localizer_, and it helps if the instance to localize implements [Local
 /* @var ICanBoogie\CLDR\Locale $locale */
 
 $datetime = new \DateTime;
-$localized_datetime = $locale->localize($datetime);
-echo get_class($localized_datetime); // ICanBoogie\CLDR\LocalizedDateTime
+$localized_datetime = new \ICanBoogie\CLDR\LocalizedDateTime($datetime, $locale);
 ```
 
 Instances that can be localized usually implement the `localize()` method.
@@ -80,7 +79,7 @@ Instances that can be localized usually implement the `localize()` method.
 
 /* @var ICanBoogie\CLDR\Repository $repository */
 
-echo $repository->territories['FR']->localize('fr')->name; // France
+echo $repository->territories['FR']->localized('fr')->name; // France
 ```
 
 
@@ -97,9 +96,9 @@ desired locale.
 
 $locale = $repository->locale_for('fr');
 
-echo $locale->localize($id)->name;                            // Français
+echo $locale->localized($id)->name;                            // Français
 # or
-echo $repository->locale_for($id)->localize($locale)->name;   // Français
+echo $repository->locale_for($id)->localized($locale)->name;   // Français
 ```
 
 

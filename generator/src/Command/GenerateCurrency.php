@@ -2,8 +2,6 @@
 
 namespace ICanBoogie\CLDR\Generator\Command;
 
-use ICanBoogie\CLDR\Currency;
-use ICanBoogie\CLDR\LocalizedCurrency;
 use ICanBoogie\CLDR\Repository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -79,8 +77,10 @@ final class GenerateCurrency extends Command
 		 * Representation of a currency.
 		 *
 		 * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Currencies
+		 *
+		 * @implements Localizable<Currency, LocalizedCurrency>
 		 */
-		final class Currency
+		final class Currency implements Localizable
 		{
 			/**
 			 * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
@@ -191,7 +191,7 @@ final class GenerateCurrency extends Command
 			/**
 			 * Returns a localized currency.
 			 */
-			public function localize(Locale \$locale): LocalizedCurrency
+			public function localized(Locale \$locale): LocalizedCurrency
 			{
 				return new LocalizedCurrency(\$this, \$locale);
 			}

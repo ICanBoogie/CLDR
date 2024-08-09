@@ -25,6 +25,7 @@
 - Removed `Repository::$currencies`, use `Currency::CODES` instead.
 - Removed `Supplemental::$currency_data`, use `Currency` instead.
 - Removed `CurrencyData`, use `Currency` instead.
+- Removed `Locale::localize()` and repurposed the `Localizable` interface.
 
 ### Deprecated Features
 

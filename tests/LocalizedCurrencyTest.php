@@ -41,7 +41,7 @@ final class LocalizedCurrencyTest extends TestCase
 
 	public function test_localize(): void
 	{
-		$localized = locale_for('en')->localize(self::$currency);
+		$localized = self::$currency->localized(locale_for('en'));
 		$this->assertInstanceOf(LocalizedCurrency::class, $localized);
 		$this->assertEquals("Irish Pound", $localized->name);
 	}

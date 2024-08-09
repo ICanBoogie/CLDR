@@ -6,8 +6,10 @@ use ICanBoogie\CLDR\Numbers\Symbols;
 
 /**
  * A number formatter.
+ *
+ * @implements Localizable<NumberFormatter, LocalizedNumberFormatter>
  */
-class NumberFormatter implements Formatter
+class NumberFormatter implements Formatter, Localizable
 {
 	/**
 	 * Format a number with the specified pattern.
@@ -71,5 +73,15 @@ class NumberFormatter implements Formatter
 			'‰' => $symbols->perMille,
 
 		]);
+	}
+
+	/**
+	 * Localizes the instance.
+	 *
+	 * @return LocalizedNumberFormatter
+	 */
+	public function localized(Locale $locale): LocalizedObject
+	{
+		return new LocalizedNumberFormatter($this, $locale);
 	}
 }

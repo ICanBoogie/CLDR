@@ -263,8 +263,6 @@ use ICanBoogie\CLDR\LocalizedDateTime;
 $locale = $repository->locale_for('fr');
 
 $ldt = new LocalizedDateTime(new \DateTime('2013-11-04 20:21:22 UTC'), $locale);
-# or
-$ldt = $locale->localize(new \DateTime('2013-11-04 20:21:22 UTC'));
 
 echo $ldt->as_full;          // lundi 4 novembre 2013 à 20:21:22 UTC
 # or

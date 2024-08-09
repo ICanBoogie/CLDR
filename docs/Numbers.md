@@ -181,7 +181,7 @@ $currency = Currency::of($currency_code);
 $currency = $territory->currency;
 
 # You can localize a currency to get its local name, symbol, or format a number
-$localized_currency = $currency->localize($locale);
+$localized_currency = $currency->localized($locale);
 
 echo $localized_currency->name;
 // euro

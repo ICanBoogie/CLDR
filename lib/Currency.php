@@ -14,8 +14,10 @@ use ICanBoogie\CLDR\Supplemental\Fraction;
  * Representation of a currency.
  *
  * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Currencies
+ *
+ * @implements Localizable<Currency, LocalizedCurrency>
  */
-final class Currency
+final class Currency implements Localizable
 {
 	/**
 	 * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
@@ -761,7 +763,7 @@ final class Currency
 	/**
 	 * Returns a localized currency.
 	 */
-	public function localize(Locale $locale): LocalizedCurrency
+	public function localized(Locale $locale): LocalizedCurrency
 	{
 		return new LocalizedCurrency($this, $locale);
 	}

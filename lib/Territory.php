@@ -26,8 +26,10 @@ use function in_array;
  * @property-read int $population The population of the territory.
  *
  * @see http://www.unicode.org/reports/tr35/tr35-numbers.html#Supplemental_Currency_Data
+ *
+ * @implements Localizable<Territory, LocalizedTerritory>
  */
-final class Territory
+final class Territory implements Localizable
 {
 	/**
 	 * @uses get_containment
@@ -208,16 +210,19 @@ final class Territory
 	 */
 	public function name_as(string|LocaleId $locale_id): string
 	{
-		return $this->localize($locale_id)->name;
+		return $this->localized($locale_id)->name;
 	}
 
 	/**
-	 * Localize the currency.
+	 * @return LocalizedTerritory
 	 */
-	public function localize(string|LocaleId $locale_id): LocalizedTerritory
+	public function localized(Locale|LocaleId|string $locale): LocalizedObject
 	{
-		/** @phpstan-ignore-next-line */
-		return $this->repository->locale_for($locale_id)->localize($this);
+		if (!$locale instanceof Locale) {
+			$locale = $this->repository->locale_for($locale);
+		}
+
+		return new LocalizedTerritory($this, $locale);
 	}
 
 	private function resolve_week_data(string $which): string
