@@ -1,8 +1,8 @@
 # CLDR
 
 [![Packagist](https://img.shields.io/packagist/v/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
-[![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/CLDR/master.svg)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR)
-[![Code Coverage](https://img.shields.io/coveralls/ICanBoogie/CLDR/master.svg)](https://coveralls.io/r/ICanBoogie/CLDR)
+[![Code Quality](https://img.shields.io/scrutinizer/g/ICanBoogie/CLDR.svg)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR)
+[![Code Coverage](https://coveralls.io/repos/github/ICanBoogie/CLDR/badge.svg?branch=6.0)](https://coveralls.io/r/ICanBoogie/CLDR)
 [![Downloads](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr)
 
 The __CLDR__ package helps internationalize your application by leveraging the data and conventions
@@ -215,31 +215,6 @@ $provider = new CachedProvider(
 );
 
 $cldr = new Repository($provider);
-```
-
-
-
-### Accessing the repository
-
-The repository can be accessed like a big array, but it also provides interfaces to the most
-important data such as locales, territories, numbers, currencies…
-
-The following example demonstrates how the repository can be used to access locales and
-supplemental data:
-
-```php
-<?php
-
-/**
- * @var ICanBoogie\CLDR\Repository $repository
- */
-
-$english_locale = $repository->locale_for('en');
-$french_locale = $repository->locale_for('fr');
-
-$supplemental = $repository->supplemental;
-# reading the default calendar
-echo $supplemental['calendarPreferenceData']['001']; // gregorian
 ```
 
 
