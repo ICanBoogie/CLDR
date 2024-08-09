@@ -26,26 +26,26 @@ as formatters for numbers, currencies, dates and times, units, sequences, lists�
 # You get a locale from the repository, here the locale for French.
 $fr = $repository->locale_for('fr');
 
-# You can use a locale instance as an array to get data
+# You can use a locale instance as an array
 echo $fr['characters']['auxiliary'];                // [á å ä ã ā ē í ì ī ñ ó ò ö ø ú ǔ]
 echo $fr['delimiters']['quotationStart'];           // «
 echo $fr['territories']['TF'];                      // Terres australes françaises
 
-# You can localize it, to get its local name for example
+# You can localize it and get its local name
 echo $fr->localize($fr)->name;                      // Français
 
-# You can format numbers, percents, currencies, and lists directly from there
+# You can use it to format numbers, percents, currencies, lists…
 echo $fr->format_number(12345.67);                  // 12 345,67
 echo $fr->format_percent(.1234567);                 // 12 %
 echo $fr->format_currency(12345.67, 'EUR');         // 12 345,67 €
 echo $fr->format_list([ "Un", "deux", "trois" ]);   // Un, deux et trois
 
-# You can get the default calendar for that locale and access its data
+# You can get the default calendar for a locale and access its data
 $calendar = $fr->calendar;
 echo $calendar['days']['format']['wide']['sun'];    // dimanche
 echo $calendar->wide_days['sun'];                   // dimanche
 
-# You can use the calendar to format dates and times, or both
+# You can use the calendar to format dates, times, or both
 $datetime = '2018-11-24 20:12:22 UTC';
 echo $calendar->format_date($datetime, 'long');     // 24 novembre 2018
 echo $calendar->format_time($datetime, 'long');     // 20:12:22 UTC
@@ -139,17 +139,24 @@ The documentation is divided into the following parts, mimicking [Unicode's docu
 
 ## Getting started
 
-The CLDR is represented by a [Repository][] instance, from which data is accessed. When required,
-data is retrieved through a provider. The _web_ provider fetches data from the JSON distribution
-[hosted on GitHub][2]. To avoid hitting the web with every request, a collection of caches is used,
-each with its own strategy.
+The CLDR is represented by a [Repository][] instance. The repository accesses data through a
+[Provider][] instance. There are a few providers available in the package, as well as caching
+mechanisms. Picking the right provider depends on your needs: you might want to favor flexibility
+(during development) or predictability (in production).
+
+
+
+### Favor flexibility
+
+[WebProvider][] offers the maximum flexibility: when required, data is retrieved from the JSON
+distribution [hosted on GitHub][2]. To avoid hitting the web with every request, it is recommended
+to use a collection of caches, each with its own strategy. For example, [FileCache][] stores the
+retrieved data as PHP files that can benefit from opcache.
 
 The following example demonstrates how a repository can be instantiated:
 
 ```php
 <?php
-
-namespace ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Cache\CacheCollection;
 use ICanBoogie\CLDR\Cache\FileCache;
@@ -157,6 +164,7 @@ use ICanBoogie\CLDR\Cache\RedisCache;
 use ICanBoogie\CLDR\Cache\RuntimeCache;
 use ICanBoogie\CLDR\Provider\CachedProvider;
 use ICanBoogie\CLDR\Provider\WebProvider;
+use ICanBoogie\CLDR\Repository;
 
 /* @var \Redis $redis_client */
 
@@ -164,9 +172,44 @@ $provider = new CachedProvider(
     new WebProvider,
     new CacheCollection([
         new RunTimeCache,
+        // You don't have to use Redis, this is only an example
         new RedisCache($redis_client),
-        new FileCache("/path/to/storage")
+        new FileCache(FileCache::RECOMMENDED_DIR)
     ])
+);
+
+$cldr = new Repository($provider);
+```
+
+
+
+### Favor predictability
+
+You might want to favor predictability and restrict the usage of the repository to a few locales and
+distribute them as part of your application on a read-only filesystem. You can warm up the CLDR
+cache during development and commit the files, or as a building step of your CI/CD pipeline.
+
+Use [the cldr command][] to warm up the CLDR cache:
+
+```shell
+./vendor/bin/cldr warm-up de en fr
+```
+
+The following example demonstrates how a repository can be instantiated with a restrictive provider
+that uses warmed-up data only. With this configuration, the [FailingProvider][] throws an exception
+if the data is not available in the cache.
+
+```php
+<?php
+
+use ICanBoogie\CLDR\Cache\FileCache;
+use ICanBoogie\CLDR\Provider\CachedProvider;
+use ICanBoogie\CLDR\Provider\FailingProvider;
+use ICanBoogie\CLDR\Repository;
+
+$provider = new CachedProvider(
+    new FailingProvider(),
+    new FileCache(FileCache::RECOMMENDED_DIR),
 );
 
 $cldr = new Repository($provider);
@@ -184,8 +227,6 @@ supplemental data:
 
 ```php
 <?php
-
-use ICanBoogie\CLDR\LocaleId;
 
 /**
  * @var ICanBoogie\CLDR\Repository $repository
@@ -223,7 +264,7 @@ this project and its community, you're expected to uphold this code.
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 
 
@@ -233,7 +274,12 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 
 
-[ICanBoogie]:                 https://icanboogie.org/
-[Repository]:                 lib/Repository.php
+[ICanBoogie]:                   https://icanboogie.org/
+[FileCache]:                    lib/Cache/FileCache.php
+[Provider]:                     lib/Provider.php
+[WebProvider]:                  lib/Provider/WebProvider.php
+[FailingProvider]:              lib/Provider/FailingProvider.php
+[Repository]:                   lib/Repository.php
 
-[2]:                          https://github.com/unicode-cldr
+[2]:                            https://github.com/unicode-cldr
+[the cldr command]:             https://github.com/ICanBoogie/CLDR-CLI
