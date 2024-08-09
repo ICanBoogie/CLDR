@@ -29,171 +29,169 @@ use function explode;
  */
 final class Repository
 {
-	/**
-	 * @uses get_supplemental
-	 * @uses get_number_formatter
-	 * @uses get_currency_formatter
-	 * @uses get_list_formatter
-	 * @uses get_list_formatter
-	 * @uses get_plurals
-	 * @uses get_available_locales
-	 */
-	use AccessorTrait;
+    /**
+     * @uses get_supplemental
+     * @uses get_number_formatter
+     * @uses get_currency_formatter
+     * @uses get_list_formatter
+     * @uses get_list_formatter
+     * @uses get_plurals
+     * @uses get_available_locales
+     */
+    use AccessorTrait;
 
-	public function __construct(
-		public readonly Provider $provider
-	) {
-	}
+    public function __construct(
+        public readonly Provider $provider
+    ) {
+    }
 
-	private Supplemental $supplemental;
+    private Supplemental $supplemental;
 
-	private function get_supplemental(): Supplemental
-	{
-		return $this->supplemental ??= new Supplemental($this);
-	}
+    private function get_supplemental(): Supplemental
+    {
+        return $this->supplemental ??= new Supplemental($this);
+    }
 
-	private NumberFormatter $number_formatter;
+    private NumberFormatter $number_formatter;
 
-	private function get_number_formatter(): NumberFormatter
-	{
-		return $this->number_formatter ??= new NumberFormatter();
-	}
+    private function get_number_formatter(): NumberFormatter
+    {
+        return $this->number_formatter ??= new NumberFormatter();
+    }
 
-	private CurrencyFormatter $currency_formatter;
+    private CurrencyFormatter $currency_formatter;
 
-	private function get_currency_formatter(): CurrencyFormatter
-	{
-		return $this->currency_formatter ??= new CurrencyFormatter($this->get_number_formatter());
-	}
+    private function get_currency_formatter(): CurrencyFormatter
+    {
+        return $this->currency_formatter ??= new CurrencyFormatter($this->get_number_formatter());
+    }
 
-	private ListFormatter $list_formatter;
+    private ListFormatter $list_formatter;
 
-	private function get_list_formatter(): ListFormatter
-	{
-		return $this->list_formatter ??= new ListFormatter();
-	}
+    private function get_list_formatter(): ListFormatter
+    {
+        return $this->list_formatter ??= new ListFormatter();
+    }
 
-	private Plurals $plurals;
+    private Plurals $plurals;
 
-	private function get_plurals(): Plurals
-	{
-		/** @phpstan-ignore-next-line */
-		return $this->plurals ??= new Plurals($this->get_supplemental()['plurals']);
-	}
+    private function get_plurals(): Plurals
+    {
+        /** @phpstan-ignore-next-line */
+        return $this->plurals ??= new Plurals($this->get_supplemental()['plurals']);
+    }
 
-	/**
-	 * @var array<string>
-	 */
-	private array $available_locales;
+    /**
+     * @var array<string>
+     */
+    private array $available_locales;
 
-	/**
-	 * @return array<string>
-	 *
-	 * @throws ResourceNotFound
-	 */
-	private function get_available_locales(): array
-	{
-		return $this->available_locales ??= $this->fetch('core/availableLocales', 'availableLocales/modern');
-	}
+    /**
+     * @return array<string>
+     *
+     * @throws ResourceNotFound
+     */
+    private function get_available_locales(): array
+    {
+        return $this->available_locales ??= $this->fetch('core/availableLocales', 'availableLocales/modern');
+    }
 
-	/**
-	 * Fetches the data available at the specified path.
-	 *
-	 * @param string|null $data_path Path to the data to extract.
-	 *
-	 * @throws ResourceNotFound
-	 *
-	 * @phpstan-ignore-next-line
-	 */
-	public function fetch(string $path, string $data_path = null): array
-	{
-		$data = $this->provider->provide($path);
+    /**
+     * Fetches the data available at the specified path.
+     *
+     * @param string|null $data_path Path to the data to extract.
+     *
+     * @throws ResourceNotFound
+     *
+     * @phpstan-ignore-next-line
+     */
+    public function fetch(string $path, string $data_path = null): array
+    {
+        $data = $this->provider->provide($path);
 
-		if ($data_path) {
-			$data_path = explode('/', $data_path);
+        if ($data_path) {
+            $data_path = explode('/', $data_path);
 
-			while ($data_path) {
-				$p = array_shift($data_path);
-				$data = $data[$p];
-			}
-		}
+            while ($data_path) {
+                $p = array_shift($data_path);
+                $data = $data[$p];
+            }
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Format a number with the specified pattern.
-	 *
-	 * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
-	 * pattern contains '‰', the number will be multiplied by 1000.
-	 *
-	 * @param float|int|numeric-string $number
-	 *     The number to format.
-	 * @param string|NumberPattern $pattern
-	 *     The pattern used to format the number.
-	 */
-	public function format_number(
-		float|int|string $number,
-		NumberPattern|string $pattern,
-		Symbols $symbols = null,
-	): string {
-		return $this->number_formatter->format($number, $pattern, $symbols);
-	}
+    /**
+     * Format a number with the specified pattern.
+     *
+     * Note, if the pattern contains '%', the number will be multiplied by 100 first. If the
+     * pattern contains '‰', the number will be multiplied by 1000.
+     *
+     * @param float|int|numeric-string $number
+     *     The number to format.
+     * @param string|NumberPattern $pattern
+     *     The pattern used to format the number.
+     */
+    public function format_number(
+        float|int|string $number,
+        NumberPattern|string $pattern,
+        Symbols $symbols = null,
+    ): string {
+        return $this->number_formatter->format($number, $pattern, $symbols);
+    }
 
-	/**
-	 * Format a number with the specified pattern.
-	 *
-	 * @param float|int|numeric-string $number
-	 *      The number to format.
-	 *
-	 * @see CurrencyFormatter::format()
-	 */
-	public function format_currency(
-		float|int|string $number,
-		NumberPattern|string $pattern,
-		Symbols $symbols = null,
-		string $currencySymbol = CurrencyFormatter::DEFAULT_CURRENCY_SYMBOL
-	): string {
-		return $this->currency_formatter->format($number, $pattern, $symbols, $currencySymbol);
-	}
+    /**
+     * Format a number with the specified pattern.
+     *
+     * @param float|int|numeric-string $number
+     *      The number to format.
+     *
+     * @see CurrencyFormatter::format()
+     */
+    public function format_currency(
+        float|int|string $number,
+        NumberPattern|string $pattern,
+        Symbols $symbols = null,
+        string $currencySymbol = CurrencyFormatter::DEFAULT_CURRENCY_SYMBOL
+    ): string {
+        return $this->currency_formatter->format($number, $pattern, $symbols, $currencySymbol);
+    }
 
-	/**
-	 * Formats variable-length lists of scalars.
-	 *
-	 * @param scalar[] $list
-	 *
-	 * @see ListFormatter::format()
-	 */
-	public function format_list(array $list, ListPattern $list_pattern): string
-	{
-		return $this->list_formatter->format($list, $list_pattern);
-	}
+    /**
+     * Formats variable-length lists of scalars.
+     *
+     * @param scalar[] $list
+     *
+     * @see ListFormatter::format()
+     */
+    public function format_list(array $list, ListPattern $list_pattern): string
+    {
+        return $this->list_formatter->format($list, $list_pattern);
+    }
 
-	/**
-	 * @param string|LocaleId $id
-	 *     A locale ID; for example, fr-BE.
-	 */
-	public function locale_for(string|LocaleId $id): Locale
-	{
-		if (!$id instanceof LocaleId)
-		{
-			$id = LocaleId::of($id);
-		}
+    /**
+     * @param string|LocaleId $id
+     *     A locale ID; for example, fr-BE.
+     */
+    public function locale_for(string|LocaleId $id): Locale
+    {
+        if (!$id instanceof LocaleId) {
+            $id = LocaleId::of($id);
+        }
 
-		return new Locale($this, $id);
-	}
+        return new Locale($this, $id);
+    }
 
-	/**
-	 * @param string|TerritoryCode $code
-	 *     A territory code; for example, CA.
-	 */
-	public function territory_for(string|TerritoryCode $code): Territory
-	{
-		if (!$code instanceof TerritoryCode)
-		{
-			$code = TerritoryCode::of($code);
-		}
+    /**
+     * @param string|TerritoryCode $code
+     *     A territory code; for example, CA.
+     */
+    public function territory_for(string|TerritoryCode $code): Territory
+    {
+        if (!$code instanceof TerritoryCode) {
+            $code = TerritoryCode::of($code);
+        }
 
-		return new Territory($this, $code);
-	}
+        return new Territory($this, $code);
+    }
 }

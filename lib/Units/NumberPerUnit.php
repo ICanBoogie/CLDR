@@ -15,51 +15,51 @@ use ICanBoogie\CLDR\Units;
  */
 final class NumberPerUnit
 {
-	/**
-	 * @uses get_as_long
-	 * @uses get_as_short
-	 * @uses get_as_narrow
-	 */
-	use AccessorTrait;
+    /**
+     * @uses get_as_long
+     * @uses get_as_short
+     * @uses get_as_narrow
+     */
+    use AccessorTrait;
 
-	/**
-	 * @param float|int|numeric-string $number
-	 */
-	public function __construct(
-		private readonly float|int|string $number,
-		private readonly string $number_unit,
-		private readonly string $per_unit,
-		private readonly Units $units
-	) {
-	}
+    /**
+     * @param float|int|numeric-string $number
+     */
+    public function __construct(
+        private readonly float|int|string $number,
+        private readonly string $number_unit,
+        private readonly string $per_unit,
+        private readonly Units $units
+    ) {
+    }
 
-	public function __toString(): string
-	{
-		return $this->as(Units::DEFAULT_LENGTH);
-	}
+    public function __toString(): string
+    {
+        return $this->as(Units::DEFAULT_LENGTH);
+    }
 
-	private function get_as_long(): string
-	{
-		return $this->as(UnitLength::LONG);
-	}
+    private function get_as_long(): string
+    {
+        return $this->as(UnitLength::LONG);
+    }
 
-	private function get_as_short(): string
-	{
-		return $this->as(UnitLength::SHORT);
-	}
+    private function get_as_short(): string
+    {
+        return $this->as(UnitLength::SHORT);
+    }
 
-	private function get_as_narrow(): string
-	{
-		return $this->as(UnitLength::NARROW);
-	}
+    private function get_as_narrow(): string
+    {
+        return $this->as(UnitLength::NARROW);
+    }
 
-	private function as(UnitLength $length): string
-	{
-		return $this->units->format_compound(
-			$this->number,
-			$this->number_unit,
-			$this->per_unit,
-			$length
-		);
-	}
+    private function as(UnitLength $length): string
+    {
+        return $this->units->format_compound(
+            $this->number,
+            $this->number_unit,
+            $this->per_unit,
+            $length
+        );
+    }
 }

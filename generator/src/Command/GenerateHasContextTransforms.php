@@ -31,13 +31,10 @@ final class GenerateHasContextTransforms extends Command
         foreach ($this->repository->available_locales as $locale_id) {
             $has = true;
 
-            try
-            {
+            try {
                 $w("Checking $locale_id");
                 $this->repository->fetch("misc/$locale_id/contextTransforms");
-            }
-            catch (ResourceNotFound)
-            {
+            } catch (ResourceNotFound) {
                 $has = false;
             }
 
@@ -45,7 +42,7 @@ final class GenerateHasContextTransforms extends Command
         }
 
         $contents = $this->render(
-            has_by_locale: indent(VarExporter::export($has_by_locale), 1),
+            has_by_locale: indent(VarExporter::export($has_by_locale), 2),
         );
 
         file_put_contents(self::GENERATED_FILE, $contents);
@@ -55,7 +52,7 @@ final class GenerateHasContextTransforms extends Command
 
     private function render(string $has_by_locale): string
     {
-		$class = __CLASS__;
+        $class = __CLASS__;
 
         return <<<PHP
         <?php
@@ -78,7 +75,7 @@ final class GenerateHasContextTransforms extends Command
             /**
              * Whether a locale has context transforms.
              */
-            static public function for_locale(LocaleId \$locale_id): bool
+            public static function for_locale(LocaleId \$locale_id): bool
             {
                 return self::HAS_CONTEXT_TRANSFORMS[\$locale_id->value];
             }
@@ -86,7 +83,9 @@ final class GenerateHasContextTransforms extends Command
             /**
              * @codeCoverageIgnore
              */
-            private function __construct() {}
+            private function __construct()
+            {
+            }
         }
 
         PHP;

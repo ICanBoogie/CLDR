@@ -9,151 +9,151 @@ use PHPUnit\Framework\TestCase;
 
 final class ContextTransformsTest extends TestCase
 {
-	#[DataProvider('provide_test_transform')]
-	public function test_transform(
-		string $str,
-		string $expected,
-		string $usage,
-		string $type,
-		array $rules
-	): void {
-		$this->assertSame($expected, (new ContextTransforms($rules))->transform($str, $usage, $type));
-	}
+    #[DataProvider('provide_test_transform')]
+    public function test_transform(
+        string $str,
+        string $expected,
+        string $usage,
+        string $type,
+        array $rules
+    ): void {
+        $this->assertSame($expected, (new ContextTransforms($rules))->transform($str, $usage, $type));
+    }
 
-	public static function provide_test_transform(): array
-	{
-		return [
+    public static function provide_test_transform(): array
+    {
+        return [
 
-			[
-				"juin",
-				"juin",
-				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-				ContextTransforms::TYPE_STAND_ALONE,
-				[
+            [
+                "juin",
+                "juin",
+                ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE,
+                [
 
-				]
+                ]
 
-			],
+            ],
 
-			[
-				"juin",
-				"Juin",
-				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-				ContextTransforms::TYPE_STAND_ALONE,
-				[
-					ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW => [
+            [
+                "juin",
+                "Juin",
+                ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE,
+                [
+                    ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW => [
 
-						ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_TITLECASE_FIRSTWORD
+                        ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_TITLECASE_FIRSTWORD
 
-					]
-				]
+                    ]
+                ]
 
-			],
+            ],
 
-			[
-				"juin",
-				"juin",
-				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-				ContextTransforms::TYPE_STAND_ALONE,
-				[
-					ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW => [
+            [
+                "juin",
+                "juin",
+                ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE,
+                [
+                    ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW => [
 
-						ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_NO_CHANGE
+                        ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_NO_CHANGE
 
-					]
-				]
+                    ]
+                ]
 
-			],
+            ],
 
-			[
-				"juin",
-				"Juin",
-				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-				ContextTransforms::TYPE_STAND_ALONE,
-				[
-					ContextTransforms::USAGE_ALL => [
+            [
+                "juin",
+                "Juin",
+                ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE,
+                [
+                    ContextTransforms::USAGE_ALL => [
 
-						ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_TITLECASE_FIRSTWORD
+                        ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_TITLECASE_FIRSTWORD
 
-					]
-				]
+                    ]
+                ]
 
-			],
+            ],
 
-			[
-				"juin",
-				"juin",
-				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-				ContextTransforms::TYPE_STAND_ALONE,
-				[
-					ContextTransforms::USAGE_ALL => [
+            [
+                "juin",
+                "juin",
+                ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE,
+                [
+                    ContextTransforms::USAGE_ALL => [
 
-						ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_NO_CHANGE
+                        ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_NO_CHANGE
 
-					]
-				]
+                    ]
+                ]
 
-			],
+            ],
 
-			[
-				"juin",
-				"Juin",
-				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-				ContextTransforms::TYPE_STAND_ALONE,
-				[
-					ContextTransforms::USAGE_ALL => [
+            [
+                "juin",
+                "Juin",
+                ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE,
+                [
+                    ContextTransforms::USAGE_ALL => [
 
-						ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_NO_CHANGE
+                        ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_NO_CHANGE
 
-					],
+                    ],
 
-					ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW => [
+                    ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW => [
 
-						ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_TITLECASE_FIRSTWORD
+                        ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_TITLECASE_FIRSTWORD
 
-					]
-				]
+                    ]
+                ]
 
-			],
+            ],
 
-			[
-				"juin",
-				"juin",
-				ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-				ContextTransforms::TYPE_STAND_ALONE,
-				[
-					ContextTransforms::USAGE_ALL => [
+            [
+                "juin",
+                "juin",
+                ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE,
+                [
+                    ContextTransforms::USAGE_ALL => [
 
-						ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_TITLECASE_FIRSTWORD
+                        ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_TITLECASE_FIRSTWORD
 
-					],
+                    ],
 
-					ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW => [
+                    ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW => [
 
-						ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_NO_CHANGE
+                        ContextTransforms::TYPE_STAND_ALONE => ContextTransforms::TRANSFORM_NO_CHANGE
 
-					]
-				]
+                    ]
+                ]
 
-			],
+            ],
 
-		];
-	}
+        ];
+    }
 
-	public function test_should_throw_exception_on_unknown_transform(): void
-	{
-		$usage = ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW;
-		$type = ContextTransforms::TYPE_STAND_ALONE;
+    public function test_should_throw_exception_on_unknown_transform(): void
+    {
+        $usage = ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW;
+        $type = ContextTransforms::TYPE_STAND_ALONE;
 
-		$this->expectException(LogicException::class);
-		(new ContextTransforms([
+        $this->expectException(LogicException::class);
+        (new ContextTransforms([
 
-			$usage => [
+            $usage => [
 
-				$type => uniqid()
+                $type => uniqid()
 
-			]
+            ]
 
-		]))->transform("juin", $usage, $type);
-	}
+        ]))->transform("juin", $usage, $type);
+    }
 }

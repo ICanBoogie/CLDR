@@ -9,33 +9,31 @@ use ICanBoogie\CLDR\Cache;
  */
 final class CacheCollection implements Cache
 {
-	/**
-	 * @param Cache[] $collection
-	 */
-	public function __construct(
-		private readonly array $collection
-	) {
-	}
+    /**
+     * @param Cache[] $collection
+     */
+    public function __construct(
+        private readonly array $collection
+    ) {
+    }
 
-	public function get(string $path): ?array
-	{
-		foreach ($this->collection as $cache)
-		{
-			$data = $cache->get($path);
+    public function get(string $path): ?array
+    {
+        foreach ($this->collection as $cache) {
+            $data = $cache->get($path);
 
-			if ($data !== null) {
-				return $data;
-			}
-		}
+            if ($data !== null) {
+                return $data;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public function set(string $path, array $data): void
-	{
-		foreach ($this->collection as $cache)
-		{
-			$cache->set($path, $data);
-		}
-	}
+    public function set(string $path, array $data): void
+    {
+        foreach ($this->collection as $cache) {
+            $cache->set($path, $data);
+        }
+    }
 }

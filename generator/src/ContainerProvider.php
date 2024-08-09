@@ -19,45 +19,45 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class ContainerProvider
 {
-	private const COMMANDS = [
-		GenerateLocaleId::class,
+    private const COMMANDS = [
+        GenerateLocaleId::class,
         GenerateHasContextTransforms::class,
-		GenerateCurrency::class,
+        GenerateCurrency::class,
         GenerateSequenceCompanion::class,
-		GenerateTerritoryCode::class,
+        GenerateTerritoryCode::class,
         GenerateUnitsCompanion::class,
-	];
+    ];
 
-	public static function provide_container(): ContainerInterface
-	{
-		$container = new ContainerBuilder();
-		$container->addCompilerPass(new AddConsoleCommandPass());
+    public static function provide_container(): ContainerInterface
+    {
+        $container = new ContainerBuilder();
+        $container->addCompilerPass(new AddConsoleCommandPass());
 
-		$container->register(Repository::class)
-			->setFactory([ self::class, 'repository_factory' ]);
+        $container->register(Repository::class)
+            ->setFactory([ self::class, 'repository_factory' ]);
 
-		foreach (self::COMMANDS as $command) {
-			$container
-				->register( $command)
-				->addTag('console.command')
-				->setAutowired(true);
-		}
+        foreach (self::COMMANDS as $command) {
+            $container
+                ->register($command)
+                ->addTag('console.command')
+                ->setAutowired(true);
+        }
 
-		$container->compile();
+        $container->compile();
 
-		return $container;
-	}
+        return $container;
+    }
 
-	public static function repository_factory(): Repository
-	{
-		$provider = new Provider\CachedProvider(
-			new Provider\WebProvider(),
-			new CacheCollection([
-				new RuntimeCache(),
-				new FileCache(CACHE)
-			])
-		);
+    public static function repository_factory(): Repository
+    {
+        $provider = new Provider\CachedProvider(
+            new Provider\WebProvider(),
+            new CacheCollection([
+                new RuntimeCache(),
+                new FileCache(CACHE)
+            ])
+        );
 
-		return new Repository($provider);
-	}
+        return new Repository($provider);
+    }
 }

@@ -21,48 +21,48 @@ final class Sequence
 {
     use SequenceCompanion;
 
-	/**
-	 * @uses get_as_long
-	 * @uses get_as_short
-	 * @uses get_as_narrow
-	 */
-	use AccessorTrait;
+    /**
+     * @uses get_as_long
+     * @uses get_as_short
+     * @uses get_as_narrow
+     */
+    use AccessorTrait;
 
-	/**
-	 * @var array<string, int>
-	 */
-	private array $sequence = [];
+    /**
+     * @var array<string, int>
+     */
+    private array $sequence = [];
 
-	public function __construct(
-		private readonly Units $units
-	) {
-	}
+    public function __construct(
+        private readonly Units $units
+    ) {
+    }
 
-	public function __toString(): string
-	{
-		return $this->format();
-	}
+    public function __toString(): string
+    {
+        return $this->format();
+    }
 
-	private function get_as_long(): string
-	{
-		return $this->format(UnitLength::LONG);
-	}
+    private function get_as_long(): string
+    {
+        return $this->format(UnitLength::LONG);
+    }
 
-	private function get_as_short(): string
-	{
-		return $this->format(UnitLength::SHORT);
-	}
+    private function get_as_short(): string
+    {
+        return $this->format(UnitLength::SHORT);
+    }
 
-	private function get_as_narrow(): string
-	{
-		return $this->format(UnitLength::NARROW);
-	}
+    private function get_as_narrow(): string
+    {
+        return $this->format(UnitLength::NARROW);
+    }
 
-	/**
-	 * Formats the sequence.
-	 */
-	public function format(UnitLength $length = Units::DEFAULT_LENGTH): string
-	{
-		return $this->units->format_sequence($this->sequence, $length);
-	}
+    /**
+     * Formats the sequence.
+     */
+    public function format(UnitLength $length = Units::DEFAULT_LENGTH): string
+    {
+        return $this->units->format_sequence($this->sequence, $length);
+    }
 }

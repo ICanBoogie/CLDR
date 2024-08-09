@@ -11,13 +11,13 @@ use const Test\ICanBoogie\CLDR\CACHE_DIR;
 
 class CacheCollectionTest extends TestCase
 {
-	protected function makeCache(): Cache
-	{
-		return new CacheCollection([
+    protected function makeCache(): Cache
+    {
+        return new CacheCollection([
 
-			new RuntimeCache(),
-			new FileCache(CACHE_DIR),
+            new RuntimeCache(),
+            new FileCache(CACHE_DIR),
 
-		]);
-	}
+        ]);
+    }
 }

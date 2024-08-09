@@ -62,7 +62,7 @@ final class GenerateUnitsCompanion extends Command
         string $properties,
         string $methods,
     ): string {
-		$class = __CLASS__;
+        $class = __CLASS__;
 
         return <<<PHP
         <?php

@@ -8,5 +8,4 @@ namespace ICanBoogie\CLDR;
  */
 interface Formatter
 {
-
 }

@@ -11,13 +11,13 @@ use PHPUnit\Framework\TestCase;
  */
 class FailingProviderTest extends TestCase
 {
-	public function test_provide(): void
-	{
-		$sut = new FailingProvider();
+    public function test_provide(): void
+    {
+        $sut = new FailingProvider();
 
-		$this->expectException(ResourceNotFound::class);
-		$this->expectExceptionMessageMatches("/Only warmed-up data is available/");
+        $this->expectException(ResourceNotFound::class);
+        $this->expectExceptionMessageMatches("/Only warmed-up data is available/");
 
-		$sut->provide("foo");
-	}
+        $sut->provide("foo");
+    }
 }

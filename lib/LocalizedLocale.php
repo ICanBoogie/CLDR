@@ -12,12 +12,12 @@ namespace ICanBoogie\CLDR;
  */
 class LocalizedLocale extends LocalizedObject
 {
-	/**
-	 * @uses get_name
-	 */
-	protected function get_name(): string
-	{
-		/** @phpstan-ignore-next-line */
-		return $this->locale['languages'][$this->target->id->value];
-	}
+    /**
+     * @uses get_name
+     */
+    protected function get_name(): string
+    {
+        /** @phpstan-ignore-next-line */
+        return $this->locale['languages'][$this->target->id->value];
+    }
 }

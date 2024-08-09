@@ -22,40 +22,40 @@ use LogicException;
  */
 class DateTimeAccessor
 {
-	public function __construct(
-		private readonly DateTimeInterface $datetime
-	) {
-	}
+    public function __construct(
+        private readonly DateTimeInterface $datetime
+    ) {
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function __get(string $property)
-	{
-		$dt = $this->datetime;
+    /**
+     * @return mixed
+     */
+    public function __get(string $property)
+    {
+        $dt = $this->datetime;
 
-		return match ($property) {
-			'year' => (int)$dt->format('Y'),
-			'month' => (int)$dt->format('m'),
-			'day' => (int)$dt->format('d'),
-			'hour' => (int)$dt->format('H'),
-			'minute' => (int)$dt->format('i'),
-			'second' => (int)$dt->format('s'),
-			'quarter' => (int)floor(($this->month - 1) / 3) + 1,
-			'week' => (int)$dt->format('W'),
-			'year_day' => (int)$dt->format('z') + 1,
-			'weekday' => (int)$dt->format('w') ?: 7,
-			default => throw new LogicException("Undefined property: $property"),
-		};
-	}
+        return match ($property) {
+            'year' => (int)$dt->format('Y'),
+            'month' => (int)$dt->format('m'),
+            'day' => (int)$dt->format('d'),
+            'hour' => (int)$dt->format('H'),
+            'minute' => (int)$dt->format('i'),
+            'second' => (int)$dt->format('s'),
+            'quarter' => (int)floor(($this->month - 1) / 3) + 1,
+            'week' => (int)$dt->format('W'),
+            'year_day' => (int)$dt->format('z') + 1,
+            'weekday' => (int)$dt->format('w') ?: 7,
+            default => throw new LogicException("Undefined property: $property"),
+        };
+    }
 
-	/**
-	 * @param mixed[] $params
-	 *
-	 * @return mixed
-	 */
-	public function __call(string $name, array $params)
-	{
-		return $this->datetime->$name(...$params);
-	}
+    /**
+     * @param mixed[] $params
+     *
+     * @return mixed
+     */
+    public function __call(string $name, array $params)
+    {
+        return $this->datetime->$name(...$params);
+    }
 }

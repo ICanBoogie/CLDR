@@ -10,10 +10,10 @@ namespace ICanBoogie\CLDR;
  */
 interface Localizable
 {
-	/**
-	 * Localize the instance.
-	 *
-	 * @return TLocalized&LocalizedObject<TSource>
-	 */
-	public function localized(Locale $locale): LocalizedObject;
+    /**
+     * Localize the instance.
+     *
+     * @return TLocalized&LocalizedObject<TSource>
+     */
+    public function localized(Locale $locale): LocalizedObject;
 }

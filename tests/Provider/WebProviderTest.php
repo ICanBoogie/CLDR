@@ -8,22 +8,22 @@ use PHPUnit\Framework\TestCase;
 
 final class WebProviderTest extends TestCase
 {
-	public function test_provide_ok(): void
-	{
-		$provider = new WebProvider();
-		$data = $provider->provide('misc/fr/characters');
+    public function test_provide_ok(): void
+    {
+        $provider = new WebProvider();
+        $data = $provider->provide('misc/fr/characters');
 
-		$this->assertIsArray($data);
-		$this->assertArrayHasKey('main', $data);
-	}
+        $this->assertIsArray($data);
+        $this->assertArrayHasKey('main', $data);
+    }
 
-	public function test_provide_failure(): void
-	{
-		$this->expectException(ResourceNotFound::class);
-		$provider = new WebProvider();
-		$path = 'undefined_locale/characters';
+    public function test_provide_failure(): void
+    {
+        $this->expectException(ResourceNotFound::class);
+        $provider = new WebProvider();
+        $path = 'undefined_locale/characters';
 
-		$this->expectException(ResourceNotFound::class);
-		$provider->provide($path);
-	}
+        $this->expectException(ResourceNotFound::class);
+        $provider->provide($path);
+    }
 }

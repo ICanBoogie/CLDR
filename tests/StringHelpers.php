@@ -3,8 +3,9 @@
 namespace Test\ICanBoogie\CLDR;
 
 use function bin2hex;
-use const PHP_EOL;
 use function str_split;
+
+use const PHP_EOL;
 
 trait StringHelpers
 {

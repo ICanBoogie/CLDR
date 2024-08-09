@@ -9,8 +9,8 @@ use Closure;
  */
 interface Warmable
 {
-	/**
-	 * @param Closure(string $progress):void $progress
-	 */
-	public function warm_up(Closure $progress): void;
+    /**
+     * @param Closure(string $progress):void $progress
+     */
+    public function warm_up(Closure $progress): void;
 }

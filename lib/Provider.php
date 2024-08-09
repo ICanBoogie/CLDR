@@ -7,12 +7,12 @@ namespace ICanBoogie\CLDR;
  */
 interface Provider
 {
-	/**
-	 * The section path, following the pattern "<identity>/<section>".
-	 *
-	 * @throws ResourceNotFound when the specified path does not exist on the CLDR source.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function provide(string $path): array;
+    /**
+     * The section path, following the pattern "<identity>/<section>".
+     *
+     * @return array<string, mixed>
+     * @throws ResourceNotFound when the specified path does not exist on the CLDR source.
+     *
+     */
+    public function provide(string $path): array;
 }

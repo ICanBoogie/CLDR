@@ -11,7 +11,7 @@ function indent(string $str, int $level = 0): string
     $indent = str_repeat(' ', $level * 4);
 
     $parts = array_map(
-        fn($part) =>  $indent . $part,
+        fn($part) => $indent . $part,
         $parts
     );
 

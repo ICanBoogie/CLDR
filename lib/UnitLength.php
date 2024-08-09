@@ -4,7 +4,7 @@ namespace ICanBoogie\CLDR;
 
 enum UnitLength: string
 {
-	case LONG = 'long';
-	case SHORT = 'short';
-	case NARROW = 'narrow';
+    case LONG = 'long';
+    case SHORT = 'short';
+    case NARROW = 'narrow';
 }

@@ -7,17 +7,17 @@ namespace ICanBoogie\CLDR\Plurals;
  */
 final class SamplesCache
 {
-	/**
-	 * @var array<string, Samples>
-	 *     Where _key_ is a rule statement and _value_ a {@link Samples}.
-	 */
-	static private array $instances = [];
+    /**
+     * @var array<string, Samples>
+     *     Where _key_ is a rule statement and _value_ a {@link Samples}.
+     */
+    private static array $instances = [];
 
-	/**
-	 * @param callable():Samples $new
-	 */
-	static public function get(string $samples, callable $new): Samples
-	{
-		return self::$instances[$samples] ??= $new();
-	}
+    /**
+     * @param callable():Samples $new
+     */
+    public static function get(string $samples, callable $new): Samples
+    {
+        return self::$instances[$samples] ??= $new();
+    }
 }

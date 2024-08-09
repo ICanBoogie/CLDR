@@ -13,16 +13,16 @@ use ICanBoogie\CLDR\Locale\ListPattern;
  */
 class LocalizedListFormatter extends LocalizedObject implements Formatter
 {
-	/**
-	 * Formats variable-length lists of scalars.
-	 *
-	 * @param scalar[] $list
-	 */
-	public function format(array $list, ListType $type = ListType::STANDARD): string
-	{
-		/** @phpstan-ignore-next-line */
-		$list_pattern = ListPattern::from($this->locale['listPatterns']["listPattern-type-$type->value"]);
+    /**
+     * Formats variable-length lists of scalars.
+     *
+     * @param scalar[] $list
+     */
+    public function format(array $list, ListType $type = ListType::STANDARD): string
+    {
+        /** @phpstan-ignore-next-line */
+        $list_pattern = ListPattern::from($this->locale['listPatterns']["listPattern-type-$type->value"]);
 
-		return $this->target->format($list, $list_pattern);
-	}
+        return $this->target->format($list, $list_pattern);
+    }
 }

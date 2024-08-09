@@ -7,8 +7,8 @@ use ICanBoogie\CLDR\Cache\RuntimeCache;
 
 class RunTimeCacheTest extends TestCase
 {
-	protected function makeCache(): Cache
-	{
-		return new RuntimeCache();
-	}
+    protected function makeCache(): Cache
+    {
+        return new RuntimeCache();
+    }
 }

@@ -11,59 +11,59 @@ use PHPUnit\Framework\TestCase;
 
 final class CalendarCollectionTest extends TestCase
 {
-	private static CalendarCollection $collection;
+    private static CalendarCollection $collection;
 
-	public static function setupBeforeClass(): void
-	{
-		self::$collection = locale_for('fr')->calendars;
-	}
+    public static function setupBeforeClass(): void
+    {
+        self::$collection = locale_for('fr')->calendars;
+    }
 
-	public function test_offsetExists(): void
-	{
-		$this->expectException(BadMethodCallException::class);
-		self::$collection->offsetExists('gregorian');
-	}
+    public function test_offsetExists(): void
+    {
+        $this->expectException(BadMethodCallException::class);
+        self::$collection->offsetExists('gregorian');
+    }
 
-	public function test_offsetSet(): void
-	{
-		$this->expectException(OffsetNotWritable::class);
-		self::$collection['gregorian'] = null;
-	}
+    public function test_offsetSet(): void
+    {
+        $this->expectException(OffsetNotWritable::class);
+        self::$collection['gregorian'] = null;
+    }
 
-	public function test_offsetUnset(): void
-	{
-		$this->expectException(OffsetNotWritable::class);
-		unset(self::$collection['gregorian']);
-	}
+    public function test_offsetUnset(): void
+    {
+        $this->expectException(OffsetNotWritable::class);
+        unset(self::$collection['gregorian']);
+    }
 
-	#[DataProvider('provide_test_get')]
-	public function test_get(string $calendar_id): void
-	{
-		$calendar = self::$collection[$calendar_id];
-		$this->assertInstanceOf(Calendar::class, $calendar);
-	}
+    #[DataProvider('provide_test_get')]
+    public function test_get(string $calendar_id): void
+    {
+        $calendar = self::$collection[$calendar_id];
+        $this->assertInstanceOf(Calendar::class, $calendar);
+    }
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
-	public static function provide_test_get(): array
-	{
-		return [
+    /**
+     * @phpstan-ignore-next-line
+     */
+    public static function provide_test_get(): array
+    {
+        return [
 
-			[ 'buddhist' ],
-			[ 'chinese' ],
-			[ 'coptic' ],
-			[ 'dangi' ],
-			[ 'ethiopic' ],
-			[ 'generic' ],
-			[ 'gregorian' ],
-			[ 'hebrew' ],
-			[ 'indian' ],
-			[ 'islamic' ],
-			[ 'japanese' ],
-			[ 'persian' ],
-			[ 'roc' ]
+            [ 'buddhist' ],
+            [ 'chinese' ],
+            [ 'coptic' ],
+            [ 'dangi' ],
+            [ 'ethiopic' ],
+            [ 'generic' ],
+            [ 'gregorian' ],
+            [ 'hebrew' ],
+            [ 'indian' ],
+            [ 'islamic' ],
+            [ 'japanese' ],
+            [ 'persian' ],
+            [ 'roc' ]
 
-		];
-	}
+        ];
+    }
 }

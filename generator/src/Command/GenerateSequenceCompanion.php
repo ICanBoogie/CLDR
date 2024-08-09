@@ -59,7 +59,7 @@ final class GenerateSequenceCompanion extends Command
     private function render(
         string $methods,
     ): string {
-		$class = __CLASS__;
+        $class = __CLASS__;
 
         return <<<PHP
         <?php

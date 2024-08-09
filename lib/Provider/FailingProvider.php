@@ -12,8 +12,8 @@ use ICanBoogie\CLDR\ResourceNotFound;
  */
 final class FailingProvider implements Provider
 {
-	public function provide(string $path): array
-	{
-		throw new ResourceNotFound("Only warmed-up data is available, tried to read from: $path");
-	}
+    public function provide(string $path): array
+    {
+        throw new ResourceNotFound("Only warmed-up data is available, tried to read from: $path");
+    }
 }

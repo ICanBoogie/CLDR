@@ -12,16 +12,16 @@ use Throwable;
  */
 final class LocaleNotAvailable extends InvalidArgumentException implements Exception
 {
-	/**
-	 * @param string $locale_id
-	 *     A locale ID.
-	 */
+    /**
+     * @param string $locale_id
+     *     A locale ID.
+     */
     public function __construct(
-		public readonly string $locale_id,
-		string $message = null,
-		Throwable $previous = null
-	) {
-		$message ??= "Locale ID is not available: $locale_id";
+        public readonly string $locale_id,
+        string $message = null,
+        Throwable $previous = null
+    ) {
+        $message ??= "Locale ID is not available: $locale_id";
 
         parent::__construct($message, previous: $previous);
     }

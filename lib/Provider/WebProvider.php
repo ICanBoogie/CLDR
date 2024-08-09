@@ -25,56 +25,55 @@ use const CURLOPT_URL;
  */
 final class WebProvider implements Provider
 {
-	private CurlHandle $connection;
+    private CurlHandle $connection;
 
-	public function __construct(
-		private readonly UrlResolver $url_resolver = new UrlResolver()
-	) {
-	}
+    public function __construct(
+        private readonly UrlResolver $url_resolver = new UrlResolver()
+    ) {
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function provide(string $path): array
-	{
-		$connection = $this->obtain_connection();
-		$url = $this->url_resolver->resolve($path);
+    /**
+     * @inheritDoc
+     */
+    public function provide(string $path): array
+    {
+        $connection = $this->obtain_connection();
+        $url = $this->url_resolver->resolve($path);
 
-		curl_setopt($connection, CURLOPT_URL, $url);
+        curl_setopt($connection, CURLOPT_URL, $url);
 
-		$rc = curl_exec($connection);
+        $rc = curl_exec($connection);
 
-		$http_code = curl_getinfo($connection, CURLINFO_HTTP_CODE);
+        $http_code = curl_getinfo($connection, CURLINFO_HTTP_CODE);
 
-		if ($http_code != 200)
-		{
-			throw new ResourceNotFound("Unable to fetch '$path', 'GET $url' responds with $http_code");
-		}
+        if ($http_code != 200) {
+            throw new ResourceNotFound("Unable to fetch '$path', 'GET $url' responds with $http_code");
+        }
 
-		assert(is_string($rc));
+        assert(is_string($rc));
 
-		return json_decode($rc, true);
-	}
+        return json_decode($rc, true);
+    }
 
-	/**
-	 * Returns a reusable cURL connection.
-	 */
-	private function obtain_connection(): CurlHandle
-	{
-		return $this->connection ??= $this->create_connection();
-	}
+    /**
+     * Returns a reusable cURL connection.
+     */
+    private function obtain_connection(): CurlHandle
+    {
+        return $this->connection ??= $this->create_connection();
+    }
 
-	private function create_connection(): CurlHandle
-	{
-		$connection = curl_init();
+    private function create_connection(): CurlHandle
+    {
+        $connection = curl_init();
 
-		curl_setopt_array($connection, [
+        curl_setopt_array($connection, [
 
-			CURLOPT_FAILONERROR => true,
-			CURLOPT_RETURNTRANSFER => true
+            CURLOPT_FAILONERROR => true,
+            CURLOPT_RETURNTRANSFER => true
 
-		]);
+        ]);
 
-		return $connection;
-	}
+        return $connection;
+    }
 }

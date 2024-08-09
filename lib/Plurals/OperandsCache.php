@@ -7,19 +7,16 @@ namespace ICanBoogie\CLDR\Plurals;
  */
 final class OperandsCache
 {
-	/**
-	 * @var array<string, Operands>
-	 */
-	static private array $instances = [];
+    /**
+     * @param float|int|numeric-string $number
+     * @param callable():Operands $new
+     */
+    public static function get(float|int|string $number, callable $new): Operands
+    {
+        static $instances;
 
-	/**
-	 * @param float|int|numeric-string $number
-	 * @param callable():Operands $new
-	 */
-	static public function get(float|int|string $number, callable $new): Operands
-	{
-		$key = "number-$number";
+        $key = "number-$number";
 
-		return self::$instances[$key] ??= $new();
-	}
+        return $instances[$key] ??= $new();
+    }
 }

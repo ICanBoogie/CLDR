@@ -8,13 +8,13 @@ namespace ICanBoogie\CLDR;
  */
 final class DateTimeFormatId
 {
-	public static function from(string $id): self
-	{
-		return new self($id);
-	}
+    public static function from(string $id): self
+    {
+        return new self($id);
+    }
 
-	private function __construct(
-		public readonly string $id,
-	) {
-	}
+    private function __construct(
+        public readonly string $id,
+    ) {
+    }
 }

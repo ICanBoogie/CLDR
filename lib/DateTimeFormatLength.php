@@ -7,8 +7,8 @@ namespace ICanBoogie\CLDR;
  */
 enum DateTimeFormatLength: string
 {
-	case FULL = 'full';
-	case LONG = 'long';
-	case MEDIUM = 'medium';
-	case SHORT = 'short';
+    case FULL = 'full';
+    case LONG = 'long';
+    case MEDIUM = 'medium';
+    case SHORT = 'short';
 }

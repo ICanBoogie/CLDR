@@ -10,42 +10,42 @@ use PHPUnit\Framework\TestCase;
 
 final class UnitTest extends TestCase
 {
-	#[DataProvider('provide_test_properties')]
-	public function test_properties(string $unit, string $property, UnitLength $length, string $expected): void
-	{
-		$units = $this->getMockBuilder(Units::class)
-			->disableOriginalConstructor()
-			->onlyMethods([ 'name_for' ])
-			->getMock();
+    #[DataProvider('provide_test_properties')]
+    public function test_properties(string $unit, string $property, UnitLength $length, string $expected): void
+    {
+        $units = $this->getMockBuilder(Units::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods([ 'name_for' ])
+            ->getMock();
 
-		$units
-			->expects($this->once())
-			->method('name_for')
-			->with($unit, $length)
-			->willReturn($expected);
+        $units
+            ->expects($this->once())
+            ->method('name_for')
+            ->with($unit, $length)
+            ->willReturn($expected);
 
-		$this->assertSame($expected, (new Unit($units, $unit))->$property);
-	}
+        $this->assertSame($expected, (new Unit($units, $unit))->$property);
+    }
 
-	public static function provide_test_properties(): array
-	{
-		return [
+    public static function provide_test_properties(): array
+    {
+        return [
 
-			[ 'acceleration-g-force', 'name', UnitLength::LONG, "fois la gravitation terrestre" ],
-			[ 'acceleration-g-force', 'long_name', UnitLength::LONG, "fois la gravitation terrestre" ],
-			[ 'acceleration-g-force', 'short_name', UnitLength::SHORT, "G" ],
-			[ 'acceleration-g-force', 'narrow_name', UnitLength::NARROW, "G" ],
+            [ 'acceleration-g-force', 'name', UnitLength::LONG, "fois la gravitation terrestre" ],
+            [ 'acceleration-g-force', 'long_name', UnitLength::LONG, "fois la gravitation terrestre" ],
+            [ 'acceleration-g-force', 'short_name', UnitLength::SHORT, "G" ],
+            [ 'acceleration-g-force', 'narrow_name', UnitLength::NARROW, "G" ],
 
-		];
-	}
+        ];
+    }
 
-	public function test_to_string(): void
-	{
-		$unit = uniqid();
-		$units = $this->getMockBuilder(Units::class)
-			->disableOriginalConstructor()
-			->getMock();
+    public function test_to_string(): void
+    {
+        $unit = uniqid();
+        $units = $this->getMockBuilder(Units::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->assertSame($unit, (string) new Unit($units, $unit));
-	}
+        $this->assertSame($unit, (string)new Unit($units, $unit));
+    }
 }

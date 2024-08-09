@@ -9,15 +9,15 @@ namespace ICanBoogie\CLDR;
  */
 class LocalizedNumberFormatter extends LocalizedObject implements Formatter
 {
-	/**
-	 * Formats a number.
-	 *
-	 * @param float|int|numeric-string $number
-	 */
-	public function format(float|int|string $number, string $pattern = null): string
-	{
-		$numbers = $this->locale->numbers;
+    /**
+     * Formats a number.
+     *
+     * @param float|int|numeric-string $number
+     */
+    public function format(float|int|string $number, string $pattern = null): string
+    {
+        $numbers = $this->locale->numbers;
 
-		return $this->target->format($number, $pattern ?? $numbers->decimal_format, $numbers->symbols);
-	}
+        return $this->target->format($number, $pattern ?? $numbers->decimal_format, $numbers->symbols);
+    }
 }

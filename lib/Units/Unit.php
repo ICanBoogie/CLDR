@@ -20,47 +20,47 @@ use ICanBoogie\CLDR\Units;
  */
 final class Unit
 {
-	/**
-	 * @uses get_name
-	 * @uses get_long_name
-	 * @uses get_short_name
-	 * @uses get_narrow_name
-	 */
-	use AccessorTrait;
+    /**
+     * @uses get_name
+     * @uses get_long_name
+     * @uses get_short_name
+     * @uses get_narrow_name
+     */
+    use AccessorTrait;
 
-	private function get_name(): string
-	{
-		return $this->long_name;
-	}
+    private function get_name(): string
+    {
+        return $this->long_name;
+    }
 
-	private function get_long_name(): string
-	{
-		return $this->name_for(UnitLength::LONG);
-	}
+    private function get_long_name(): string
+    {
+        return $this->name_for(UnitLength::LONG);
+    }
 
-	private function get_short_name(): string
-	{
-		return $this->name_for(UnitLength::SHORT);
-	}
+    private function get_short_name(): string
+    {
+        return $this->name_for(UnitLength::SHORT);
+    }
 
-	private function get_narrow_name(): string
-	{
-		return $this->name_for(UnitLength::NARROW);
-	}
+    private function get_narrow_name(): string
+    {
+        return $this->name_for(UnitLength::NARROW);
+    }
 
-	public function __construct(
-		private readonly Units $units,
-		private readonly string $unit
-	) {
-	}
+    public function __construct(
+        private readonly Units $units,
+        private readonly string $unit
+    ) {
+    }
 
-	public function __toString(): string
-	{
-		return $this->unit;
-	}
+    public function __toString(): string
+    {
+        return $this->unit;
+    }
 
-	private function name_for(UnitLength $length): string
-	{
-		return $this->units->name_for($this->unit, $length);
-	}
+    private function name_for(UnitLength $length): string
+    {
+        return $this->units->name_for($this->unit, $length);
+    }
 }

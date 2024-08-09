@@ -50,136 +50,133 @@ use ICanBoogie\Accessor\AccessorTrait;
  */
 final class Calendar extends ArrayObject
 {
-	public const SHORTHANDS_REGEX = '#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#';
+    /**
+     * @uses get_datetime_formatter
+     * @uses get_date_formatter
+     * @uses get_time_formatter
+     */
+    use AccessorTrait;
 
-	public const WIDTH_ABBR = 'abbreviated';
-	public const WIDTH_NARROW = 'narrow';
-	public const WIDTH_SHORT = 'short';
-	public const WIDTH_WIDE = 'wide';
+    public const SHORTHANDS_REGEX = '#^(standalone_)?(abbreviated|narrow|short|wide)_(days|eras|months|quarters)$#';
 
-	public const ERA_NAMES = 'eraNames';
-	public const ERA_ABBR = 'eraAbbr';
-	public const ERA_NARROW = 'eraNarrow';
+    public const WIDTH_ABBR = 'abbreviated';
+    public const WIDTH_NARROW = 'narrow';
+    public const WIDTH_SHORT = 'short';
+    public const WIDTH_WIDE = 'wide';
 
-	public const CALENDAR_MONTHS = 'months';
-	public const CALENDAR_DAYS = 'days';
-	public const CALENDAR_QUARTERS = 'quarters';
-	public const CALENDAR_ERAS = 'eras';
+    public const ERA_NAMES = 'eraNames';
+    public const ERA_ABBR = 'eraAbbr';
+    public const ERA_NARROW = 'eraNarrow';
 
-	public const CONTEXT_FORMAT = 'format';
-	public const CONTEXT_STAND_ALONE = 'stand-alone';
+    public const CALENDAR_MONTHS = 'months';
+    public const CALENDAR_DAYS = 'days';
+    public const CALENDAR_QUARTERS = 'quarters';
+    public const CALENDAR_ERAS = 'eras';
 
-	/**
-	 * @uses get_datetime_formatter
-	 * @uses get_date_formatter
-	 * @uses get_time_formatter
-	 */
-	use AccessorTrait;
+    public const CONTEXT_FORMAT = 'format';
+    public const CONTEXT_STAND_ALONE = 'stand-alone';
 
-	/**
-	 * @var array<string, string>
-	 */
-	static private array $era_widths_mapping = [
+    /**
+     * @var array<string, string>
+     */
+    private static array $era_widths_mapping = [
 
-		self::WIDTH_ABBR => self::ERA_ABBR,
-		self::WIDTH_NARROW => self::ERA_NARROW,
-		self::WIDTH_SHORT => self::ERA_ABBR,
-		self::WIDTH_WIDE => self::ERA_NAMES
+        self::WIDTH_ABBR => self::ERA_ABBR,
+        self::WIDTH_NARROW => self::ERA_NARROW,
+        self::WIDTH_SHORT => self::ERA_ABBR,
+        self::WIDTH_WIDE => self::ERA_NAMES
 
-	];
+    ];
 
-	private DateTimeFormatter $datetime_formatter;
+    private DateTimeFormatter $datetime_formatter;
 
-	private function get_datetime_formatter(): DateTimeFormatter
-	{
-		return $this->datetime_formatter ??= new DateTimeFormatter($this);
-	}
+    private function get_datetime_formatter(): DateTimeFormatter
+    {
+        return $this->datetime_formatter ??= new DateTimeFormatter($this);
+    }
 
-	private DateFormatter $date_formatter;
+    private DateFormatter $date_formatter;
 
-	private function get_date_formatter(): DateFormatter
-	{
-		return $this->date_formatter ??= new DateFormatter($this);
-	}
+    private function get_date_formatter(): DateFormatter
+    {
+        return $this->date_formatter ??= new DateFormatter($this);
+    }
 
-	private TimeFormatter $time_formatter;
+    private TimeFormatter $time_formatter;
 
-	private function get_time_formatter(): TimeFormatter
-	{
-		return $this->time_formatter ??= new TimeFormatter($this);
-	}
+    private function get_time_formatter(): TimeFormatter
+    {
+        return $this->time_formatter ??= new TimeFormatter($this);
+    }
 
-	private readonly ContextTransforms $context_transforms;
+    private readonly ContextTransforms $context_transforms;
 
-	/**
-	 * @param array<string, mixed> $data
-	 */
-	public function __construct(
-		public readonly Locale $locale,
-		array $data
-	) {
-		$this->context_transforms = $locale->context_transforms;
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function __construct(
+        public readonly Locale $locale,
+        array $data
+    ) {
+        $this->context_transforms = $locale->context_transforms;
 
-		$data = $this->transform_data($data);
+        $data = $this->transform_data($data);
 
-		parent::__construct($data);
-	}
+        parent::__construct($data);
+    }
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
-	private array $shortcuts = [];
+    /**
+     * @phpstan-ignore-next-line
+     */
+    private array $shortcuts = [];
 
-	/**
-	 * @return mixed
-	 */
-	public function __get(string $property)
-	{
-		if (!preg_match(self::SHORTHANDS_REGEX, $property, $matches))
-		{
-			return $this->accessor_get($property);
-		}
+    /**
+     * @return mixed
+     */
+    public function __get(string $property)
+    {
+        if (!preg_match(self::SHORTHANDS_REGEX, $property, $matches)) {
+            return $this->accessor_get($property);
+        }
 
-		$make = function () use ($matches) {
-			[ , $standalone, $width, $type ] = $matches;
+        $make = function () use ($matches) {
+            [ , $standalone, $width, $type ] = $matches;
 
-			$data = $this[$type];
+            $data = $this[$type];
 
-			if ($type === self::CALENDAR_ERAS)
-			{
-				return $data[self::$era_widths_mapping[$width]];
-			}
+            if ($type === self::CALENDAR_ERAS) {
+                return $data[self::$era_widths_mapping[$width]];
+            }
 
-			$data = $data[$standalone ? self::CONTEXT_STAND_ALONE : self::CONTEXT_FORMAT];
+            $data = $data[$standalone ? self::CONTEXT_STAND_ALONE : self::CONTEXT_FORMAT];
 
-			if ($width === self::WIDTH_SHORT && empty($data[$width]))
-			{
-				$width = self::WIDTH_ABBR;
-			}
+            if ($width === self::WIDTH_SHORT && empty($data[$width])) {
+                $width = self::WIDTH_ABBR;
+            }
 
-			return $data[$width];
-		};
+            return $data[$width];
+        };
 
-		return $this->shortcuts[$property] ??= $make();
-	}
+        return $this->shortcuts[$property] ??= $make();
+    }
 
     /**
      * @see DateTimeFormatter::format
      */
-	public function format_datetime(
-		DateTimeInterface|int|string $datetime,
-		string|DateTimeFormatLength $pattern_or_length_or_skeleton
-	): string {
+    public function format_datetime(
+        DateTimeInterface|int|string $datetime,
+        string|DateTimeFormatLength $pattern_or_length_or_skeleton
+    ): string {
         return $this->get_datetime_formatter()->format($datetime, $pattern_or_length_or_skeleton);
     }
 
     /**
      * @see DateFormatter::format
      */
-	public function format_date(
-		DateTimeInterface|int|string $datetime,
-		string|DateTimeFormatLength $pattern_or_length_or_skeleton
-	): string {
+    public function format_date(
+        DateTimeInterface|int|string $datetime,
+        string|DateTimeFormatLength $pattern_or_length_or_skeleton
+    ): string {
         return $this->get_date_formatter()->format($datetime, $pattern_or_length_or_skeleton);
     }
 
@@ -187,213 +184,191 @@ final class Calendar extends ArrayObject
      * @see TimeFormatter::format
      */
     public function format_time(
-		DateTimeInterface|int|string $datetime,
-		string|DateTimeFormatLength $pattern_or_length_or_skeleton
-	): string {
+        DateTimeInterface|int|string $datetime,
+        string|DateTimeFormatLength $pattern_or_length_or_skeleton
+    ): string {
         return $this->get_time_formatter()->format($datetime, $pattern_or_length_or_skeleton);
     }
 
-	/**
-	 * Transforms calendar data according to context transforms rules.
-	 *
-	 * @param array<string, mixed> $data
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @uses transform_months
-	 * @uses transform_days
-	 * @uses transform_quarters
-	 */
-	private function transform_data(array $data): array
-	{
-		static $transformable = [
+    /**
+     * Transforms calendar data according to context transforms rules.
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     *
+     * @uses transform_months
+     * @uses transform_days
+     * @uses transform_quarters
+     */
+    private function transform_data(array $data): array
+    {
+        static $transformable = [
 
-			self::CALENDAR_MONTHS,
-			self::CALENDAR_DAYS,
-			self::CALENDAR_QUARTERS
+            self::CALENDAR_MONTHS,
+            self::CALENDAR_DAYS,
+            self::CALENDAR_QUARTERS
 
-		];
+        ];
 
-		foreach ($transformable as $name)
-		{
-			array_walk($data[$name], function(array &$data, string $context) use ($name): void {
+        foreach ($transformable as $name) {
+            array_walk($data[$name], function (array &$data, string $context) use ($name): void {
+                $is_stand_alone = self::CONTEXT_STAND_ALONE === $context;
 
-				$is_stand_alone = self::CONTEXT_STAND_ALONE === $context;
+                array_walk($data, function (array &$names, string $width) use ($name, $is_stand_alone): void {
+                    $names = $this->{'transform_' . $name}($names, $width, $is_stand_alone);
+                });
+            });
+        }
 
-				array_walk($data, function (array &$names, string $width) use ($name, $is_stand_alone): void {
+        if (isset($data[self::CALENDAR_ERAS])) {
+            array_walk($data[self::CALENDAR_ERAS], function (array &$names, string $width): void {
+                $names = $this->transform_eras($names, $width);
+            });
+        }
 
-					$names = $this->{ 'transform_' . $name }($names, $width, $is_stand_alone);
+        return $data;
+    }
 
-				});
+    /**
+     * Transforms month names according to context transforms rules.
+     *
+     * @param string[] $names
+     *
+     * @return string[]
+     */
+    private function transform_months(array $names, string $width, bool $standalone): array
+    {
+        return $this->transform_months_or_days(
+            $names,
+            $width,
+            $standalone,
+            ContextTransforms::USAGE_MONTH_STANDALONE_EXCEPT_NARROW
+        );
+    }
 
-			});
+    /**
+     * Transforms day names according to context transforms rules.
+     *
+     * @param string[] $names
+     *
+     * @return string[]
+     */
+    private function transform_days(array $names, string $width, bool $standalone): array
+    {
+        return $this->transform_months_or_days(
+            $names,
+            $width,
+            $standalone,
+            ContextTransforms::USAGE_DAY_STANDALONE_EXCEPT_NARROW
+        );
+    }
 
-		}
+    /**
+     * Transforms day names according to context transforms rules.
+     *
+     * @param string[] $names
+     *
+     * @return string[]
+     */
+    private function transform_months_or_days(array $names, string $width, bool $standalone, string $usage): array
+    {
+        if ($width === self::WIDTH_NARROW || !$standalone) {
+            return $names;
+        }
 
-		if (isset($data[self::CALENDAR_ERAS]))
-		{
-			array_walk($data[self::CALENDAR_ERAS], function(array &$names, string $width): void {
+        return $this->apply_transform(
+            $names,
+            $usage,
+            ContextTransforms::TYPE_STAND_ALONE
+        );
+    }
 
-				$names = $this->transform_eras($names, $width);
+    /**
+     * Transforms era names according to context transforms rules.
+     *
+     * @param string[] $names
+     *
+     * @return string[]
+     */
+    private function transform_eras(array $names, string $width): array
+    {
+        return match ($width) {
+            self::ERA_ABBR => $this->apply_transform(
+                $names,
+                ContextTransforms::USAGE_ERA_ABBR,
+                ContextTransforms::TYPE_STAND_ALONE
+            ),
+            self::ERA_NAMES => $this->apply_transform(
+                $names,
+                ContextTransforms::USAGE_ERA_NAME,
+                ContextTransforms::TYPE_STAND_ALONE
+            ),
+            self::ERA_NARROW => $this->apply_transform(
+                $names,
+                ContextTransforms::USAGE_ERA_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE
+            ),
+            default => $names,
+        };
+    }
 
-			});
-		}
+    /**
+     * Transforms quarters names according to context transforms rules.
+     *
+     * @param string[] $names
+     *
+     * @return string[]
+     */
+    private function transform_quarters(array $names, string $width, bool $standalone): array
+    {
+        if ($standalone) {
+            if ($width !== self::WIDTH_WIDE) {
+                return $names;
+            }
 
-		return $data;
-	}
+            return $this->apply_transform(
+                $names,
+                ContextTransforms::USAGE_QUARTER_STANDALONE_WIDE,
+                ContextTransforms::TYPE_STAND_ALONE
+            );
+        }
 
-	/**
-	 * Transforms month names according to context transforms rules.
-	 *
-	 * @param string[] $names
-	 *
-	 * @return string[]
-	 */
-	private function transform_months(array $names, string $width, bool $standalone): array
-	{
-		return $this->transform_months_or_days(
-			$names,
-			$width,
-			$standalone,
-			ContextTransforms::USAGE_MONTH_STANDALONE_EXCEPT_NARROW
-		);
-	}
+        return match ($width) {
+            self::WIDTH_ABBR => $this->apply_transform(
+                $names,
+                ContextTransforms::USAGE_QUARTER_ABBREVIATED,
+                ContextTransforms::TYPE_STAND_ALONE
+            ),
+            self::WIDTH_WIDE => $this->apply_transform(
+                $names,
+                ContextTransforms::USAGE_QUARTER_FORMAT_WIDE,
+                ContextTransforms::TYPE_STAND_ALONE
+            ),
+            self::WIDTH_NARROW => $this->apply_transform(
+                $names,
+                ContextTransforms::USAGE_QUARTER_NARROW,
+                ContextTransforms::TYPE_STAND_ALONE
+            ),
+            default => $names,
+        };
+        // @codeCoverageIgnore
+    }
 
-	/**
-	 * Transforms day names according to context transforms rules.
-	 *
-	 * @param string[] $names
-	 *
-	 * @return string[]
-	 */
-	private function transform_days(array $names, string $width, bool $standalone): array
-	{
-		return $this->transform_months_or_days(
-			$names,
-			$width,
-			$standalone,
-			ContextTransforms::USAGE_DAY_STANDALONE_EXCEPT_NARROW
-		);
-	}
+    /**
+     * Applies transformation to names.
+     *
+     * @param string[] $names
+     *
+     * @return string[]
+     */
+    private function apply_transform(array $names, string $usage, string $type): array
+    {
+        $context_transforms = $this->context_transforms;
 
-	/**
-	 * Transforms day names according to context transforms rules.
-	 *
-	 * @param string[] $names
-	 *
-	 * @return string[]
-	 */
-	private function transform_months_or_days(array $names, string $width, bool $standalone, string $usage): array
-	{
-		if ($width === self::WIDTH_NARROW || !$standalone)
-		{
-			return $names;
-		}
-
-		return $this->apply_transform(
-			$names,
-			$usage,
-			ContextTransforms::TYPE_STAND_ALONE
-		);
-	}
-
-	/**
-	 * Transforms era names according to context transforms rules.
-	 *
-	 * @param string[] $names
-	 *
-	 * @return string[]
-	 */
-	private function transform_eras(array $names, string $width): array
-	{
-		switch ($width)
-		{
-			case self::ERA_ABBR:
-
-				return $this->apply_transform(
-					$names,
-					ContextTransforms::USAGE_ERA_ABBR,
-					ContextTransforms::TYPE_STAND_ALONE
-				);
-
-			case self::ERA_NAMES:
-
-				return $this->apply_transform(
-					$names,
-					ContextTransforms::USAGE_ERA_NAME,
-					ContextTransforms::TYPE_STAND_ALONE
-				);
-
-			case self::ERA_NARROW:
-
-				return $this->apply_transform(
-					$names,
-					ContextTransforms::USAGE_ERA_NARROW,
-					ContextTransforms::TYPE_STAND_ALONE
-				);
-		}
-
-		return $names; // @codeCoverageIgnore
-	}
-
-	/**
-	 * Transforms quarters names according to context transforms rules.
-	 *
-	 * @param string[] $names
-	 *
-	 * @return string[]
-	 */
-	private function transform_quarters(array $names, string $width, bool $standalone): array
-	{
-		if ($standalone)
-		{
-			if ($width !== self::WIDTH_WIDE)
-			{
-				return $names;
-			}
-
-			return $this->apply_transform(
-				$names,
-				ContextTransforms::USAGE_QUARTER_STANDALONE_WIDE,
-				ContextTransforms::TYPE_STAND_ALONE
-			);
-		}
-
-		return match ($width) {
-			self::WIDTH_ABBR => $this->apply_transform(
-				$names,
-				ContextTransforms::USAGE_QUARTER_ABBREVIATED,
-				ContextTransforms::TYPE_STAND_ALONE
-			),
-			self::WIDTH_WIDE => $this->apply_transform(
-				$names,
-				ContextTransforms::USAGE_QUARTER_FORMAT_WIDE,
-				ContextTransforms::TYPE_STAND_ALONE
-			),
-			self::WIDTH_NARROW => $this->apply_transform(
-				$names,
-				ContextTransforms::USAGE_QUARTER_NARROW,
-				ContextTransforms::TYPE_STAND_ALONE
-			),
-			default => $names,
-		};
-		// @codeCoverageIgnore
-	}
-
-	/**
-	 * Applies transformation to names.
-	 *
-	 * @param string[] $names
-	 *
-	 * @return string[]
-	 */
-	private function apply_transform(array $names, string $usage, string $type): array
-	{
-		$context_transforms = $this->context_transforms;
-
-		return array_map(
-			static fn(string $str): string => $context_transforms->transform($str, $usage, $type),
-			$names
-		);
-	}
+        return array_map(
+            static fn(string $str): string => $context_transforms->transform($str, $usage, $type),
+            $names
+        );
+    }
 }

@@ -29,16 +29,16 @@ namespace ICanBoogie\CLDR;
  */
 final class DateFormatter extends DateTimeFormatter
 {
-	/**
-	 * Resolves length defined in `dateFormats` into a pattern.
-	 */
-	protected function resolve_pattern(
-		string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
-	): string {
-		if ($pattern_or_length_or_id instanceof DateTimeFormatLength) {
-			return $this->calendar['dateFormats'][$pattern_or_length_or_id->value];
-		}
+    /**
+     * Resolves length defined in `dateFormats` into a pattern.
+     */
+    protected function resolve_pattern(
+        string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
+    ): string {
+        if ($pattern_or_length_or_id instanceof DateTimeFormatLength) {
+            return $this->calendar['dateFormats'][$pattern_or_length_or_id->value];
+        }
 
-		return parent::resolve_pattern($pattern_or_length_or_id);
-	}
+        return parent::resolve_pattern($pattern_or_length_or_id);
+    }
 }

@@ -229,6 +229,7 @@ The project is continuously tested by [GitHub actions](https://github.com/ICanBo
 
 [![Tests](https://github.com/ICanBoogie/CLDR/actions/workflows/test.yml/badge.svg?branch=6.0)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Atest)
 [![Static Analysis](https://github.com/ICanBoogie/CLDR/actions/workflows/static-analysis.yml/badge.svg?branch=6.0)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Astatic-analysis)
+[![Code Style](https://github.com/ICanBoogie/CLDR/actions/workflows/code-style.yml/badge.svg?branch=6.0)](https://github.com/ICanBoogie/CLDR/actions?query=workflow%3Acode-style)
 
 
 

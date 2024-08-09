@@ -2,13 +2,11 @@
 
 namespace ICanBoogie\CLDR\Generator\Command;
 
-use ICanBoogie\CLDR\LocaleNotAvailable;
 use ICanBoogie\CLDR\Repository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Symfony\Component\VarExporter\VarExporter;
 
 use function ICanBoogie\CLDR\Generator\indent;
@@ -30,8 +28,8 @@ final class GenerateLocaleId extends Command
         $available_locales = $this->repository->available_locales;
 
         $contents = $this->render(
-            parent_locales: indent(VarExporter::export($parent_locales), 1),
-            available_locales: indent(VarExporter::export($available_locales), 1),
+            parent_locales: indent(VarExporter::export($parent_locales), 2),
+            available_locales: indent(VarExporter::export($available_locales), 2),
         );
 
         file_put_contents(self::GENERATED_FILE, $contents);
@@ -43,7 +41,7 @@ final class GenerateLocaleId extends Command
         string $parent_locales,
         string $available_locales,
     ): string {
-		$class = __CLASS__;
+        $class = __CLASS__;
 
         return <<<PHP
         <?php
@@ -97,7 +95,7 @@ final class GenerateLocaleId extends Command
              */
             public static function of(string \$value): self
             {
-            	static \$instances;
+                static \$instances;
 
                 self::assert_is_available(\$value);
 

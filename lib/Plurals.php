@@ -23,126 +23,126 @@ use function trim;
  */
 final class Plurals extends ArrayObject
 {
-	public const COUNT_ZERO = 'zero';
-	public const COUNT_ONE = 'one';
-	public const COUNT_TWO = 'two';
-	public const COUNT_FEW = 'few';
-	public const COUNT_MANY = 'many';
-	public const COUNT_OTHER = 'other';
+    public const COUNT_ZERO = 'zero';
+    public const COUNT_ONE = 'one';
+    public const COUNT_TWO = 'two';
+    public const COUNT_FEW = 'few';
+    public const COUNT_MANY = 'many';
+    public const COUNT_OTHER = 'other';
 
-	/**
-	 * @private
-	 */
-	public const RULE_COUNT_PREFIX = 'pluralRule-count-';
+    /**
+     * @private
+     */
+    public const RULE_COUNT_PREFIX = 'pluralRule-count-';
 
-	/**
-	 * @var array<string, array<self::COUNT_*, Rule>>
-	 *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
-	 */
-	private array $rules = [];
+    /**
+     * @var array<string, array<self::COUNT_*, Rule>>
+     *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
+     */
+    private array $rules = [];
 
-	/**
-	 * @var array<string, array<self::COUNT_*, Samples>>
-	 *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
-	 */
-	private array $samples = [];
+    /**
+     * @var array<string, array<self::COUNT_*, Samples>>
+     *     Where _key_ is a locale code and _value_ an array where _key_ is a rule count.
+     */
+    private array $samples = [];
 
-	/**
-	 * @param float|int|numeric-string $number
-	 *
-	 * @return self::COUNT_*
-	 */
-	public function rule_for(float|int|string $number, string $language): string
-	{
-		$rules = $this->rule_instances_for($language);
+    /**
+     * @param float|int|numeric-string $number
+     *
+     * @return self::COUNT_*
+     */
+    public function rule_for(float|int|string $number, string $language): string
+    {
+        $rules = $this->rule_instances_for($language);
 
-		foreach ($rules as $count => $rule) {
-			if ($rule->validate($number)) {
-				return $count;
-			}
-		}
+        foreach ($rules as $count => $rule) {
+            if ($rule->validate($number)) {
+                return $count;
+            }
+        }
 
-		return self::COUNT_OTHER;
-	}
+        return self::COUNT_OTHER;
+    }
 
-	/**
-	 * @return array<self::COUNT_*>
-	 */
-	public function rules_for(string $locale): array
-	{
-		return array_keys($this->rule_instances_for($locale));
-	}
+    /**
+     * @return array<self::COUNT_*>
+     */
+    public function rules_for(string $locale): array
+    {
+        return array_keys($this->rule_instances_for($locale));
+    }
 
-	/**
-	 * @return array<self::COUNT_*, Samples>
-	 */
-	public function samples_for(string $locale): array
-	{
-		return $this->samples[$locale] ??= $this->create_samples_for($locale);
-	}
+    /**
+     * @return array<self::COUNT_*, Samples>
+     */
+    public function samples_for(string $locale): array
+    {
+        return $this->samples[$locale] ??= $this->create_samples_for($locale);
+    }
 
-	/**
-	 * @return array<self::COUNT_*, Rule>
-	 */
-	private function rule_instances_for(string $language): array
-	{
-		return $this->rules[$language] ??= $this->create_rules_for($language);
-	}
+    /**
+     * @return array<self::COUNT_*, Rule>
+     */
+    private function rule_instances_for(string $language): array
+    {
+        return $this->rules[$language] ??= $this->create_rules_for($language);
+    }
 
-	/**
-	 * @return array<self::COUNT_*, Rule>
-	 */
-	private function create_rules_for(string $language): array
-	{
-		$rules = [];
-		$prefix_length = strlen(self::RULE_COUNT_PREFIX);
+    /**
+     * @return array<self::COUNT_*, Rule>
+     */
+    private function create_rules_for(string $language): array
+    {
+        $rules = [];
+        $prefix_length = strlen(self::RULE_COUNT_PREFIX);
 
-		/** @phpstan-ignore-next-line */
-		foreach ($this[$language] as $count => $rule_string) {
-			$count = substr($count, $prefix_length);
-			$rules[$count] = Rule::from($this->extract_rule($rule_string));
-		}
+        /** @phpstan-ignore-next-line */
+        foreach ($this[$language] as $count => $rule_string) {
+            $count = substr($count, $prefix_length);
+            $rules[$count] = Rule::from($this->extract_rule($rule_string));
+        }
 
-		/** @var array<self::COUNT_*, Rule> */
-		return $rules;
-	}
+        /** @var array<self::COUNT_*, Rule> */
+        return $rules;
+    }
 
-	private function extract_rule(string $rule_string): string
-	{
-		$rule = explode('@', $rule_string, 2);
-		$rule = array_shift($rule);
+    private function extract_rule(string $rule_string): string
+    {
+        $rule = explode('@', $rule_string, 2);
+        $rule = array_shift($rule);
 
-		return trim($rule);
-	}
+        return trim($rule);
+    }
 
-	/**
-	 * @return array<self::COUNT_*, Samples>
-	 */
-	private function create_samples_for(string $locale): array
-	{
-		$samples = [];
-		$prefix_length = strlen(self::RULE_COUNT_PREFIX);
-		$rules = $this[$locale];
+    /**
+     * @return array<self::COUNT_*, Samples>
+     */
+    private function create_samples_for(string $locale): array
+    {
+        $samples = [];
+        $prefix_length = strlen(self::RULE_COUNT_PREFIX);
+        $rules = $this[$locale];
 
-		assert(!is_null($rules));
+        assert(!is_null($rules));
 
-		foreach ($rules as $count => $rule_string) {
-			$count = substr($count, $prefix_length);
-			$samples[$count] = Samples::from($this->extract_samples($rule_string));
-		}
+        foreach ($rules as $count => $rule_string) {
+            $count = substr($count, $prefix_length);
+            $samples[$count] = Samples::from($this->extract_samples($rule_string));
+        }
 
-		/** @var array<self::COUNT_*, Samples> */
-		return $samples;
-	}
+        /** @var array<self::COUNT_*, Samples> */
+        return $samples;
+    }
 
-	private function extract_samples(string $rule_string): string
-	{
-		$pos = strpos($rule_string, '@');
+    private function extract_samples(string $rule_string): string
+    {
+        $pos = strpos($rule_string, '@');
 
-		if ($pos === false) {
-			return "";
-		}
+        if ($pos === false) {
+            return "";
+        }
 
-		return substr($rule_string, $pos);
-	}
+        return substr($rule_string, $pos);
+    }
 }
