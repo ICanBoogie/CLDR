@@ -5,6 +5,7 @@ namespace Test\ICanBoogie\CLDR;
 use ICanBoogie\CLDR\LocaleId;
 use ICanBoogie\CLDR\LocalizedTerritory;
 use ICanBoogie\CLDR\Territory;
+use ICanBoogie\CLDR\TerritoryCode;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -12,19 +13,19 @@ final class TerritoryTest extends TestCase
 {
 	public function test_get_info(): void
 	{
-		$territory = new Territory(get_repository(), 'FR');
+		$territory = new Territory(get_repository(), TerritoryCode::of('FR'));
 		$this->assertIsArray($territory->info);
 	}
 
 	public function test_get_containment(): void
 	{
-		$territory = new Territory(get_repository(), 'EU');
+		$territory = new Territory(get_repository(), TerritoryCode::of('EU'));
 		$this->assertIsArray($territory->containment);
 	}
 
 	public function test_is_containing(): void
 	{
-		$territory = new Territory(get_repository(), 'EU');
+		$territory = new Territory(get_repository(), TerritoryCode::of('EU'));
 
 		$this->assertTrue($territory->is_containing('FR'));
 		$this->assertFalse($territory->is_containing('TA'));
@@ -33,7 +34,7 @@ final class TerritoryTest extends TestCase
 	#[DataProvider('provide_test_get_currency')]
 	public function test_get_currency(string $expected, string $territory_code): void
 	{
-		$territory = new Territory(get_repository(), $territory_code);
+		$territory = new Territory(get_repository(), TerritoryCode::of($territory_code));
 		$actual = $territory->currency;
 
 		$this->assertEquals($expected, $actual?->code);
@@ -56,7 +57,7 @@ final class TerritoryTest extends TestCase
 	#[DataProvider('provide_test_currency_at')]
 	public function test_currency_at(string $expected, string $territory_code, mixed $date): void
 	{
-		$territory = new Territory(get_repository(), $territory_code);
+		$territory = new Territory(get_repository(), TerritoryCode::of($territory_code));
 		$this->assertEquals($expected, $territory->currency_at($date)?->code);
 	}
 
@@ -81,7 +82,7 @@ final class TerritoryTest extends TestCase
 	#[DataProvider('provide_test_get_language')]
 	public function test_get_language(string $expected, string $territory_code): void
 	{
-		$territory = new Territory(get_repository(), $territory_code);
+		$territory = new Territory(get_repository(), TerritoryCode::of($territory_code));
 		$this->assertSame($expected, $territory->language);
 	}
 
@@ -101,14 +102,14 @@ final class TerritoryTest extends TestCase
 
 	public function test_get_population(): void
 	{
-		$territory = new Territory(get_repository(), 'ES');
+		$territory = new Territory(get_repository(), TerritoryCode::of('ES'));
 		$this->assertNotEmpty($territory->population);
 	}
 
 	#[DataProvider('provide_test_name_as')]
 	public function test_name_as(string $expected, string $territory_code, string $locale_id): void
 	{
-		$territory = new Territory(get_repository(), $territory_code);
+		$territory = new Territory(get_repository(), TerritoryCode::of($territory_code));
 		$this->assertEquals($expected, $territory->name_as(LocaleId::of($locale_id)));
 		$this->assertEquals($expected, $territory->name_as($locale_id));
 	}
@@ -131,7 +132,7 @@ final class TerritoryTest extends TestCase
 	#[DataProvider('provide_test_get_name_as')]
 	public function test_get_name_as(string $expected, string $territory_code, string $locale_id): void
 	{
-		$territory = new Territory(get_repository(), $territory_code);
+		$territory = new Territory(get_repository(), TerritoryCode::of($territory_code));
 		$this->assertEquals($expected, $territory->{'name_as_' . $locale_id});
 	}
 
@@ -153,7 +154,7 @@ final class TerritoryTest extends TestCase
 	#[DataProvider('provide_test_get_property')]
 	public function test_get_property(string $expected, string $territory_code, string $property): void
 	{
-		$territory = new Territory(get_repository(), $territory_code);
+		$territory = new Territory(get_repository(), TerritoryCode::of($territory_code));
 		$this->assertEquals($expected, $territory->$property);
 	}
 
@@ -192,13 +193,13 @@ final class TerritoryTest extends TestCase
 	public function test_to_string(): void
 	{
 		$territory_code = 'US';
-		$territory = new Territory(get_repository(), $territory_code);
+		$territory = new Territory(get_repository(), TerritoryCode::of($territory_code));
 		$this->assertEquals($territory_code, (string)$territory);
 	}
 
 	public function test_localize(): void
 	{
-		$territory = new Territory(get_repository(), 'FR');
+		$territory = new Territory(get_repository(), TerritoryCode::of('FR'));
 		$actual = $territory->localized(LocaleId::of('fr'));
 
 		$this->assertInstanceOf(LocalizedTerritory::class, $actual);

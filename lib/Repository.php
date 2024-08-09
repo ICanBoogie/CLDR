@@ -158,7 +158,7 @@ final class Repository
 	}
 
 	/**
-	 * Formats a variable-length lists of scalars.
+	 * Formats variable-length lists of scalars.
 	 *
 	 * @param scalar[] $list
 	 *
@@ -169,17 +169,18 @@ final class Repository
 		return $this->list_formatter->format($list, $list_pattern);
 	}
 
-	private LocaleCollection $locales;
-
 	/**
-	 * @param string|LocaleId $locale_id
+	 * @param string|LocaleId $id
 	 *     A locale ID; for example, fr-BE.
 	 */
-	public function locale_for(string|LocaleId $locale_id): Locale
+	public function locale_for(string|LocaleId $id): Locale
 	{
-		$this->locales ??= new LocaleCollection($this);
+		if (!$id instanceof LocaleId)
+		{
+			$id = LocaleId::of($id);
+		}
 
-		return $this->locales->locale_for($locale_id);
+		return new Locale($this, $id);
 	}
 
 	/**
@@ -188,10 +189,9 @@ final class Repository
 	 */
 	public function territory_for(string|TerritoryCode $code): Territory
 	{
-		if ($code instanceof TerritoryCode) {
-			$code = $code->value;
-		} else {
-			TerritoryCode::assert_is_defined($code);
+		if (!$code instanceof TerritoryCode)
+		{
+			$code = TerritoryCode::of($code);
 		}
 
 		return new Territory($this, $code);

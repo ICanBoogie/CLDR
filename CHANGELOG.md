@@ -12,6 +12,7 @@
 
 - `LocaleId` is generated from the CLDR. It represents an available locale ID.
 - `LocaleNotAvailable` is thrown when a requested locale ID is not available.
+- `TerritoryCode` is generated from the CLDR. It represents a territory ID.
 - `Currency` is generated from the CLDR. It represents a currency, including fraction information.
 - Added the `Warmable` interface to features that can warm the CLDR cache.
 
@@ -23,8 +24,9 @@
 - `$cldr->locales['fr']` is replaced by `$cldr->locale_for('fr')`.
 - `$cldr->territories['FR']` is replaced by `$cldr->territory_for('FR')`.
 - `$cldr->currencies['USD']` is replaced by `Currency::of('USD')`.
-- Removed `Repository::$currencies`, use `Currency::CODES` instead.
+- Removed `Repository::$locales`, use `LocaleId` instead.
 - Removed `Repository::$territories`, use `TerritoryCode::CODES` instead.
+- Removed `Repository::$currencies`, use `Currency::CODES` instead.
 - Removed `Supplemental::$currency_data`, use `Currency` instead.
 - Removed `CurrencyData`, use `Currency` instead.
 - Removed `Locale::localize()` and repurposed the `Localizable` interface.

@@ -63,7 +63,7 @@ final class Territory implements Localizable
 	{
 		return $this->currencies ??= RegionCurrencies::from(
 			/** @phpstan-ignore-next-line */
-			$this->repository->supplemental['currencyData']['region'][$this->code]
+			$this->repository->supplemental['currencyData']['region'][$this->code->value]
 		);
 	}
 
@@ -141,13 +141,13 @@ final class Territory implements Localizable
 
 	public function __construct(
 		public readonly Repository $repository,
-		public readonly string $code
+		public readonly TerritoryCode $code,
 	) {
 	}
 
 	public function __toString(): string
 	{
-		return $this->code;
+		return $this->code->value;
 	}
 
 	/**
@@ -171,7 +171,7 @@ final class Territory implements Localizable
 	private function retrieve_from_supplemental(string $section): array
 	{
 		/** @phpstan-ignore-next-line */
-		return $this->repository->supplemental[$section][$this->code];
+		return $this->repository->supplemental[$section][$this->code->value];
 	}
 
 	/**
@@ -230,7 +230,7 @@ final class Territory implements Localizable
 		/** @phpstan-ignore-next-line */
 		$data = $this->repository->supplemental['weekData'][$which];
 
-		return $data[$code] ?? $data['001'];
+		return $data[$code->value] ?? $data['001'];
 	}
 
 	private function ensure_is_datetime(DateTimeInterface|string|null $datetime): DateTimeInterface
