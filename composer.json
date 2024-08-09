@@ -47,7 +47,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"ICanBoogie\\CLDR\\": "lib"
+			"ICanBoogie\\CLDR\\": "src"
 		}
 	},
 	"autoload-dev": {

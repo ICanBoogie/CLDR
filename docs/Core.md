@@ -125,7 +125,7 @@ echo $repository->locale_fr('fr')->context_transform(
 // Juin
 ```
 
-[Currency]: ../lib/Currency.php
-[Locale]: ../lib/Locale.php
-[Localizable]: ../lib/Localizable.php
-[Territory]: ../lib/Territory.php
+[Currency]: ../src/Currency.php
+[Locale]: ../src/Locale.php
+[Localizable]: ../src/Localizable.php
+[Territory]: ../src/Territory.php

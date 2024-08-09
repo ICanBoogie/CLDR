@@ -253,11 +253,11 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 
 [ICanBoogie]:                   https://icanboogie.org/
-[FileCache]:                    lib/Cache/FileCache.php
-[Provider]:                     lib/Provider.php
-[WebProvider]:                  lib/Provider/WebProvider.php
-[FailingProvider]:              lib/Provider/FailingProvider.php
-[Repository]:                   lib/Repository.php
+[FileCache]:                    src/Cache/FileCache.php
+[Provider]:                     src/Provider.php
+[WebProvider]:                  src/Provider/WebProvider.php
+[FailingProvider]:              src/Provider/FailingProvider.php
+[Repository]:                   src/Repository.php
 
 [2]:                            https://github.com/unicode-cldr
 [the cldr command]:             https://github.com/ICanBoogie/CLDR-CLI

@@ -8,10 +8,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('lib/Units/UnitsCompanion.php')]
+#[AsCommand('src/Units/UnitsCompanion.php')]
 final class GenerateUnitsCompanion extends Command
 {
-    private const GENERATED_FILE = 'lib/Units/UnitsCompanion.php';
+    private const GENERATED_FILE = 'src/Units/UnitsCompanion.php';
 
     public function __construct(
         private readonly Repository $repository

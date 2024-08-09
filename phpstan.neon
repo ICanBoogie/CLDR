@@ -1,15 +1,15 @@
 parameters:
   level: 8
   paths:
-    - lib
+    - src
     - generator
     - tests
   scanFiles:
   	- generator/generate
   excludePaths:
-    - lib/LocaleId.php
-    - lib/Units/SequenceCompanion.php
-    - lib/Units/UnitsCompanion.php
+    - src/LocaleId.php
+    - src/Units/SequenceCompanion.php
+    - src/Units/UnitsCompanion.php
   ignoreErrors:
     - '#get_.* is unused.#'
     - '#Method Test\\.*iterable type array#'

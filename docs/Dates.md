@@ -275,7 +275,7 @@ echo $ldt->as_short;         // 04/11/2013 20:21
 
 
 
-[Calendar]: ../lib/Calendar.php
-[DateTimeFormatter]: ../lib/DateTimeFormatter.php
-[LocalizedDateTime]: ../lib/LocalizedDateTime.php
-[TimeFormatter]: ../lib/TimeFormatter.php
+[Calendar]: ../src/Calendar.php
+[DateTimeFormatter]: ../src/DateTimeFormatter.php
+[LocalizedDateTime]: ../src/LocalizedDateTime.php
+[TimeFormatter]: ../src/TimeFormatter.php

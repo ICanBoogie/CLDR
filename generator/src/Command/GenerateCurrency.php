@@ -11,10 +11,10 @@ use Symfony\Component\VarExporter\VarExporter;
 
 use function ICanBoogie\CLDR\Generator\indent;
 
-#[AsCommand('lib/Currency.php')]
+#[AsCommand('src/Currency.php')]
 final class GenerateCurrency extends Command
 {
-    private const GENERATED_FILE = 'lib/Currency.php';
+    private const GENERATED_FILE = 'src/Currency.php';
 
     public function __construct(
         private readonly Repository $repository

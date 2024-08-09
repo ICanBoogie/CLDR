@@ -10,10 +10,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\VarExporter\VarExporter;
 use function ICanBoogie\CLDR\Generator\indent;
 
-#[AsCommand('lib/TerritoryCode.php')]
+#[AsCommand('src/TerritoryCode.php')]
 final class GenerateTerritoryCode extends Command
 {
-    private const GENERATED_FILE = 'lib/TerritoryCode.php';
+    private const GENERATED_FILE = 'src/TerritoryCode.php';
 
     public function __construct(
         private readonly Repository $repository

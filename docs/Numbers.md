@@ -235,6 +235,6 @@ $cldr->plurals->rule_for(2, 'ar');   // two
 
 
 
-[Locale]: ../lib/Locale.php
-[LocalizedNumberFormatter]: ../lib/LocalizedNumberFormatter.php
-[NumberFormatter]: ../lib/NumberFormatter.php
+[Locale]: ../src/Locale.php
+[LocalizedNumberFormatter]: ../src/LocalizedNumberFormatter.php
+[NumberFormatter]: ../src/NumberFormatter.php

@@ -58,27 +58,27 @@ GENERATE=./generator/generate
 
 .PHONY=generate
 generate: \
-	lib/Currency.php \
-	lib/LocaleId.php \
-	lib/Locale/HasContextTransforms.php \
-	lib/TerritoryCode.php \
-	lib/Units/SequenceCompanion.php \
-	lib/Units/UnitsCompanion.php
+	src/Currency.php \
+	src/LocaleId.php \
+	src/Locale/HasContextTransforms.php \
+	src/TerritoryCode.php \
+	src/Units/SequenceCompanion.php \
+	src/Units/UnitsCompanion.php
 
-lib/Currency.php: generator/src/Command/GenerateCurrency.php
+src/Currency.php: generator/src/Command/GenerateCurrency.php
 	$(GENERATE) $@
 
-lib/LocaleId.php: generator/src/Command/GenerateLocaleId.php
+src/LocaleId.php: generator/src/Command/GenerateLocaleId.php
 	$(GENERATE) $@
 
-lib/Locale/HasContextTransforms.php: generator/src/Command/GenerateHasContextTransforms.php
+src/Locale/HasContextTransforms.php: generator/src/Command/GenerateHasContextTransforms.php
 	$(GENERATE) $@
 
-lib/Units/SequenceCompanion.php: generator/src/Command/GenerateSequenceCompanion.php
+src/Units/SequenceCompanion.php: generator/src/Command/GenerateSequenceCompanion.php
 	$(GENERATE) $@
 
-lib/TerritoryCode.php: generator/src/Command/GenerateTerritoryCode.php
+src/TerritoryCode.php: generator/src/Command/GenerateTerritoryCode.php
 	$(GENERATE) $@
 
-lib/Units/UnitsCompanion.php: generator/src/Command/GenerateUnitsCompanion.php
+src/Units/UnitsCompanion.php: generator/src/Command/GenerateUnitsCompanion.php
 	$(GENERATE) $@

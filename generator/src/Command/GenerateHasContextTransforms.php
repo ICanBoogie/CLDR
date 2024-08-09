@@ -12,10 +12,10 @@ use Symfony\Component\VarExporter\VarExporter;
 
 use function ICanBoogie\CLDR\Generator\indent;
 
-#[AsCommand('lib/Locale/HasContextTransforms.php')]
+#[AsCommand('src/Locale/HasContextTransforms.php')]
 final class GenerateHasContextTransforms extends Command
 {
-    private const GENERATED_FILE = 'lib/Locale/HasContextTransforms.php';
+    private const GENERATED_FILE = 'src/Locale/HasContextTransforms.php';
 
     public function __construct(
         private readonly Repository $repository

@@ -87,4 +87,4 @@ echo $territory->localized('ja')->name;   // フランス
 
 
 
-[Territory]: ../lib/Territory.php
+[Territory]: ../src/Territory.php
