@@ -32,7 +32,6 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 		);
 
 		$this->assertStringSame($expected, $formatter->format($number, $currency_code));
-		$this->assertStringSame($expected, $formatter($number, $currency_code));
 	}
 
 	/**
@@ -74,11 +73,6 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 			$expected,
 			$formatter->format($number, $currency_code, $formatter::PATTERN_ACCOUNTING)
 		);
-
-		$this->assertStringSame(
-			$expected,
-			$formatter($number, $currency_code, $formatter::PATTERN_ACCOUNTING)
-		);
 	}
 
 	/**
@@ -103,11 +97,13 @@ final class LocalizedCurrencyFormatterTest extends TestCase
 
 	public function test_should_format_with_custom_pattern(): void
 	{
-		$formatter = new LocalizedCurrencyFormatter(
+		$sut = new LocalizedCurrencyFormatter(
 			$this->formatter,
 			locale_for('fr'),
 		);
 
-		$this->assertStringSame("€123,5", $formatter(123.45, 'EUR', '¤0.0'));
+		$actual = $sut->format(123.45, 'EUR', '¤0.0');
+
+		$this->assertStringSame("€123,5", $actual);
 	}
 }

@@ -116,15 +116,15 @@ use ICanBoogie\CLDR\DateTimeFormatter;
  */
 
 $datetime = '2013-11-02 22:23:45 UTC';
-$formatter = $calendar->datetime_formatter;
+$format = $calendar->datetime_formatter->format(...);
 
-echo $formatter($datetime, "MMM d, y");                    // November 2, 2013
-echo $formatter($datetime, "MMM d, y 'at' hh:mm:ss a");    // November 2, 2013 at 10:23:45 PM
-echo $formatter($datetime, $formatter::WIDHT_FULL);        // Saturday, November 2, 2013 at 10:23:45 PM UTC
-echo $formatter($datetime, $formatter::WIDHT_LONG);        // November 2, 2013 at 10:23:45 PM UTC
-echo $formatter($datetime, $formatter::WIDHT_MEDIUM);      // Nov 2, 2013, 10:23:45 PM
-echo $formatter($datetime, $formatter::WIDHT_SHORT);       // 11/2/13, 10:23 PM
-echo $formatter($datetime, DateTimeFormatId::from('Ehm')); // Sat 10:23 PM
+echo $format($datetime, "MMM d, y");                    // November 2, 2013
+echo $format($datetime, "MMM d, y 'at' hh:mm:ss a");    // November 2, 2013 at 10:23:45 PM
+echo $format($datetime, $formatter::WIDHT_FULL);        // Saturday, November 2, 2013 at 10:23:45 PM UTC
+echo $format($datetime, $formatter::WIDHT_LONG);        // November 2, 2013 at 10:23:45 PM UTC
+echo $format($datetime, $formatter::WIDHT_MEDIUM);      // Nov 2, 2013, 10:23:45 PM
+echo $format($datetime, $formatter::WIDHT_SHORT);       // 11/2/13, 10:23 PM
+echo $format($datetime, DateTimeFormatId::from('Ehm')); // Sat 10:23 PM
 ```
 
 
@@ -176,18 +176,18 @@ use ICanBoogie\CLDR\DateTimeFormatLength;
  */
 
 $datetime = '2013-11-05 21:22:23';
-$formatter = $calendar->datetime_formatter;
+$format = $calendar->datetime_formatter->format(...);
 
-$formatter($datetime, DateTimeFormatLength::FULL);
+$format($datetime, DateTimeFormatLength::FULL);
 // Tuesday, November 5, 2013
 
-$formatter($datetime, DateTimeFormatLength::LONG);
+$format($datetime, DateTimeFormatLength::LONG);
 // November 5, 2013
 
-$formatter($datetime, DateTimeFormatLength::MEDIUM);
+$format($datetime, DateTimeFormatLength::MEDIUM);
 // Nov 5, 2013
 
-$formatter($datetime, DateTimeFormatLength::SHORT);
+$format($datetime, DateTimeFormatLength::SHORT);
 // 11/5/13
 ```
 
@@ -237,9 +237,9 @@ use ICanBoogie\CLDR\DateTimeFormatLength;
  */
 
 $datetime = '2013-11-05 21:22:23 UTC';
-$formatter = $calendar->time_formatter;
+$format = $calendar->time_formatter->format(...);
 
-echo $formatter($datetime, DateTimeFormatLength::FULL);
+echo $format($datetime, DateTimeFormatLength::FULL);
 // 9:22:23 PM UTC
 ```
 

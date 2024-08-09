@@ -16,20 +16,7 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
 	 * Formats currency using localized conventions.
 	 *
 	 * @param float|int|numeric-string $number
-	 * @param string|Currency $currency
-	 */
-	public function __invoke(
-		float|int|string $number,
-		Currency|string $currency,
-		string $pattern = self::PATTERN_STANDARD
-	): string {
-		return $this->format($number, $currency, $pattern);
-	}
-
-	/**
-	 * Formats currency using localized conventions.
-	 *
-	 * @param float|int|numeric-string $number
+	 * @param string|Currency $currency A {@see Currency} or currency code.
 	 */
 	public function format(
 		float|int|string $number,

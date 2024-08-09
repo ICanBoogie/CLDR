@@ -13,7 +13,7 @@ final class ListFormatterTest extends TestCase
 	public function test_format(array $list, ListPattern $list_pattern, string $expected): void
 	{
 		$formatter = new ListFormatter();
-		$this->assertSame($expected, $formatter($list, $list_pattern));
+		$this->assertSame($expected, $formatter->format($list, $list_pattern));
 	}
 
 	public static function provide_test_format(): array

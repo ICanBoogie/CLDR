@@ -40,7 +40,7 @@ final class DateTimeFormatterTest extends TestCase
 	): void {
 		$formatter = self::$formatters[$locale_id];
 
-		$this->assertSame($expected, $formatter($datetime, $format));
+		$this->assertSame($expected, $formatter->format($datetime, $format));
 	}
 
 	/**
@@ -512,7 +512,7 @@ final class DateTimeFormatterTest extends TestCase
 		$result = $formatter->format($datetime, DateTimeFormatId::from($id));
 
 		$this->assertEquals($expected_result, $result);
-		$this->assertEquals($expected_result, $formatter($datetime, $pattern));
+		$this->assertEquals($expected_result, $formatter->format($datetime, $pattern));
 	}
 
 	/**

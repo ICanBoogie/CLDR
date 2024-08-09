@@ -14,17 +14,7 @@ use ICanBoogie\CLDR\Locale\ListPattern;
 class ListFormatter implements Formatter, Localizable
 {
 	/**
-	 * Formats a variable-length lists of scalars.
-	 *
-	 * @param scalar[] $list
-	 */
-	public function __invoke(array $list, ListPattern $list_pattern): string
-	{
-		return $this->format($list, $list_pattern);
-	}
-
-	/**
-	 * Formats a variable-length lists of scalars.
+	 * Formats variable-length lists of scalars.
 	 *
 	 * @param scalar[] $list
 	 */

@@ -142,20 +142,6 @@ class DateTimeFormatter implements Formatter
 	}
 
 	/**
-	 * Alias to the {@link format()} method.
-	 *
-	 * @param DateTimeInterface|mixed $datetime
-	 *
-	 * @throws \Exception
-	 */
-	public function __invoke(
-		$datetime,
-		string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
-	): string {
-		return $this->format($datetime, $pattern_or_length_or_id);
-	}
-
-	/**
 	 * Formats a date according to a pattern.
 	 *
 	 * @param DateTimeInterface|string|int $datetime

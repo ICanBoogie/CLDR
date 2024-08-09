@@ -30,6 +30,7 @@
 - Removed `Supplemental::$currency_data`, use `Currency` instead.
 - Removed `CurrencyData`, use `Currency` instead.
 - Removed `Locale::localize()` and repurposed the `Localizable` interface.
+- Removed `__invoke` on formatters, use `$formatter->format(...)` instead.
 
 ### Deprecated Features
 

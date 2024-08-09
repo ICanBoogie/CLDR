@@ -19,7 +19,7 @@ final class LocalizedListFormatterTest extends TestCase
 		$locale = locale_for($locale_id);
 		$this->assertNotNull($locale);
 		$lp = new LocalizedListFormatter(new ListFormatter(), $locale);
-		$this->assertSame($expected, $lp($list, $type));
+		$this->assertSame($expected, $lp->format($list, $type));
 	}
 
 	/**

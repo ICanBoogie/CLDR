@@ -5,7 +5,7 @@ namespace ICanBoogie\CLDR;
 use ICanBoogie\CLDR\Locale\ListPattern;
 
 /**
- * Formats a variable-length lists of things.
+ * Formats variable-length lists of things.
  *
  * @extends LocalizedObject<ListFormatter>
  *
@@ -14,17 +14,7 @@ use ICanBoogie\CLDR\Locale\ListPattern;
 class LocalizedListFormatter extends LocalizedObject implements Formatter
 {
 	/**
-	 * Formats a variable-length lists of scalars.
-	 *
-	 * @param scalar[] $list
-	 */
-	public function __invoke(array $list, ListType $type = ListType::STANDARD): string
-	{
-		return $this->format($list, $type);
-	}
-
-	/**
-	 * Formats a variable-length lists of scalars.
+	 * Formats variable-length lists of scalars.
 	 *
 	 * @param scalar[] $list
 	 */

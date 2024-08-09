@@ -12,19 +12,19 @@ namespace ICanBoogie\CLDR;
  *
  * $datetime = '2013-11-05 21:22:23';
  *
- * $formatter = new TimeFormatter($repository->locales['en']);
+ * $format = new TimeFormatter($repository->locales['en'])->format(...);
  *
- * echo $formatter($datetime, DateTimeFormatLength::FULL);   // 9:22:23 PM CET
- * echo $formatter($datetime, DateTimeFormatLength::LONG);   // 9:22:23 PM CET
- * echo $formatter($datetime, DateTimeFormatLength::MEDIUM); // 9:22:23 PM
- * echo $formatter($datetime, DateTimeFormatLength::SHORT);  // 9:22 PM
+ * echo $format($datetime, DateTimeFormatLength::FULL);   // 9:22:23 PM CET
+ * echo $format($datetime, DateTimeFormatLength::LONG);   // 9:22:23 PM CET
+ * echo $format($datetime, DateTimeFormatLength::MEDIUM); // 9:22:23 PM
+ * echo $format($datetime, DateTimeFormatLength::SHORT);  // 9:22 PM
  *
- * $formatter = new TimeFormatter($repository->locales['fr']);
+ * $format = new TimeFormatter($repository->locales['fr'])->format(...);
  *
- * echo $formatter($datetime, DateTimeFormatLength::FULL);   // 21:22:23 CET
- * echo $formatter($datetime, DateTimeFormatLength::LONG);   // 21:22:23 CET
- * echo $formatter($datetime, DateTimeFormatLength::MEDIUM); // 21:22:23
- * echo $formatter($datetime, DateTimeFormatLength::SHORT);  // 21:22
+ * echo $format($datetime, DateTimeFormatLength::FULL);   // 21:22:23 CET
+ * echo $format($datetime, DateTimeFormatLength::LONG);   // 21:22:23 CET
+ * echo $format($datetime, DateTimeFormatLength::MEDIUM); // 21:22:23
+ * echo $format($datetime, DateTimeFormatLength::SHORT);  // 21:22
  * ```
  */
 final class TimeFormatter extends DateTimeFormatter

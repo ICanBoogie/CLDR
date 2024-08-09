@@ -39,12 +39,4 @@ final class LocalizedNumberFormatterTest extends TestCase
 
 		];
 	}
-
-	public function test_invoke(): void
-	{
-		$formatter = new NumberFormatter();
-		$localized = new LocalizedNumberFormatter($formatter, locale_for('fr'));
-
-		$this->assertSame($localized->format(123456.78), $localized(123456.78));
-	}
 }

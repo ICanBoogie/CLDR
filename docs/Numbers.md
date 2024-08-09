@@ -110,9 +110,9 @@ $number_formatter = $repository->number_formatter
 # or
 $number_formatter = new NumberFormatter();
 
-echo $number_formatter(4123.37, "#,#00.#0");
+echo $number_formatter->format(4123.37, "#,#00.#0");
 // 4,123.37
-echo $number_formatter(.3789, "#0.#0 %");
+echo $number_formatter->format(.3789, "#0.#0 %");
 // 37.89 %
 ```
 
