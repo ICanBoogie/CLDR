@@ -30,17 +30,17 @@ final class LocaleTest extends TestCase
 
 	public static function setupBeforeClass(): void
 	{
-		self::$locale = new Locale(get_repository(), LocaleId::from('fr'));
+		self::$locale = new Locale(get_repository(), LocaleId::of('fr'));
 	}
 
 	public function test_get_code(): void
 	{
-		$this->assertEquals(LocaleId::from('fr'), self::$locale->id);
+		$this->assertEquals(LocaleId::of('fr'), self::$locale->id);
 	}
 
 	public function test_get_language(): void
 	{
-		$locale = new Locale(get_repository(), LocaleId::from('fr-BE'));
+		$locale = new Locale(get_repository(), LocaleId::of('fr-BE'));
 
 		$this->assertEquals('fr', $locale->language);
 	}
@@ -51,7 +51,7 @@ final class LocaleTest extends TestCase
 	#[DataProvider('provide_test_properties_instanceof')]
 	public function test_properties_instanceof(string $property, string $expected): void
 	{
-		$locale = new Locale(get_repository(), LocaleId::from('fr'));
+		$locale = new Locale(get_repository(), LocaleId::of('fr'));
 		$instance = $locale->$property;
 		$this->assertInstanceOf($expected, $instance);
 		$this->assertSame($instance, $locale->$property);
@@ -144,7 +144,7 @@ final class LocaleTest extends TestCase
 		return [
 
 			[ LocalizedObject::class, new \DateTime ],
-			[ LocalizedLocale::class, new Locale(get_repository(), LocaleId::from('fr')) ],
+			[ LocalizedLocale::class, new Locale(get_repository(), LocaleId::of('fr')) ],
 			[ LocalizedListFormatter::class, new ListFormatter() ],
 			[ LocalizedNumberFormatter::class, new NumberFormatter() ],
 			[ LocaleTest\LocalizedLocalizableSample::class, new LocalizableSample() ]

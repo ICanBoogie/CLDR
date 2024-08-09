@@ -17,9 +17,9 @@ class LocaleCollection extends AbstractCollection
 		public readonly Repository $repository
 	) {
 		parent::__construct(function (string $code): Locale {
-			LocaleId::assert_id_available($code);
+			LocaleId::assert_is_available($code);
 
-			return new Locale($this->repository, LocaleId::from($code));
+			return new Locale($this->repository, LocaleId::of($code));
 		});
 	}
 

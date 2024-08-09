@@ -29,16 +29,16 @@ final class LocaleIdTest extends TestCase
 		];
 	}
 
-	public function test_from_fail_on_unavailable_id(): void
+	public function test_of_fails_on_unavailable_id(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
-		LocaleId::from('fr-FR');
+		LocaleId::of('fr-FR');
 	}
 
-	public function test_from_using_parent(): void
+	public function test_of_use_parent(): void
 	{
-		$locale = LocaleId::from('en-AG');
+		$locale = LocaleId::of('en-AG');
 
 		$this->assertEquals('en-001', $locale->value);
 	}

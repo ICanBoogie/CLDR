@@ -47,7 +47,7 @@ final class LocaleCollectionTest extends TestCase
 	 */
 	public function should_fail_with_undefined_locale(): void
 	{
-		$this->expectExceptionMessage("Locale is not available: madonna.");
+		$this->expectExceptionMessage("Locale is not available: madonna");
 		$this->expectException(InvalidArgumentException::class);
 		self::$sut['madonna']; // @phpstan-ignore-line
 	}

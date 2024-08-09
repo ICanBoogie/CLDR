@@ -68,11 +68,12 @@ final class GenerateLocaleId extends Command
             /**
              * @throws InvalidArgumentException if the value is not one of the available locales.
              */
-            public static function assert_id_available(string \$value): void
+            public static function assert_is_available(string \$value): void
             {
                 self::is_available(\$value)
-                    or throw new InvalidArgumentException("Locale is not available: \$value.");
+                    or throw new InvalidArgumentException("Locale is not available: \$value");
             }
+
             /**
              * @var array<string, self>
              *     Where _key_ is a locale identifier.
@@ -89,9 +90,9 @@ final class GenerateLocaleId extends Command
              *
              * @throws InvalidArgumentException if the locale is not available.
              */
-            public static function from(string \$value): self
+            public static function of(string \$value): self
             {
-                self::assert_id_available(\$value);
+                self::assert_is_available(\$value);
 
                 if (isset(self::PARENT_LOCALES[\$value])) {
                     \$value = self::PARENT_LOCALES[\$value];
