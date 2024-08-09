@@ -56,8 +56,6 @@ final class GenerateLocaleId extends Command
 
         namespace ICanBoogie\CLDR;
 
-        use InvalidArgumentException;
-
         final class LocaleId
         {
             /**

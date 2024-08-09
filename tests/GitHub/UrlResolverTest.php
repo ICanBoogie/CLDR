@@ -24,12 +24,12 @@ final class UrlResolverTest extends TestCase
 
 			"annotations-derived/{locale}/annotations" => [
 				"annotations-derived/fr-CA/annotations",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-annotations-derived-modern/annotationsDerived/fr-CA/annotations.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-annotations-derived-full/annotationsDerived/fr-CA/annotations.json"
 			],
 
 			"annotations/{locale}/annotations" => [
 				"annotations/hi-Latn/annotations",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-annotations-modern/annotations/hi-Latn/annotations.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-annotations-full/annotations/hi-Latn/annotations.json"
 			],
 
 			"bcp47/calendar" => [
@@ -44,7 +44,7 @@ final class UrlResolverTest extends TestCase
 
 			"cal-buddhist/{locale}/ca-buddhist" => [
 				"cal-buddhist/de-BE/ca-buddhist",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-cal-buddhist-modern/main/de-BE/ca-buddhist.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-cal-buddhist-full/main/de-BE/ca-buddhist.json"
 			],
 
 			"core/supplemental/plurals" => [
@@ -64,32 +64,32 @@ final class UrlResolverTest extends TestCase
 
 			"dates/{locale}/ca-gregorian" => [
 				"dates/ko-KP/ca-gregorian",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-dates-modern/main/ko-KP/ca-gregorian.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-dates-full/main/ko-KP/ca-gregorian.json"
 			],
 
 			"dates/{locale}/dateFields" => [
 				"dates/ko-KP/dateFields",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-dates-modern/main/ko-KP/dateFields.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-dates-full/main/ko-KP/dateFields.json"
 			],
 
 			"localnames/{locale}/languages" => [
 				"localenames/fr-MA/languages",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-localenames-modern/main/fr-MA/languages.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-localenames-full/main/fr-MA/languages.json"
 			],
 
 			"misc/{locale}/listPatterns" => [
 				"misc/ms-SG/listPatterns",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-misc-modern/main/ms-SG/listPatterns.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-misc-full/main/ms-SG/listPatterns.json"
 			],
 
 			"numbers/{locale}/currencies" => [
 				"numbers/en-150/currencies",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-numbers-modern/main/en-150/currencies.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-numbers-full/main/en-150/currencies.json"
 			],
 
 			"numbers/{locale}/numbers" => [
 				"numbers/en-150/numbers",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-numbers-modern/main/en-150/numbers.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-numbers-full/main/en-150/numbers.json"
 			],
 
 			"rbnf/{language}" => [
@@ -99,12 +99,12 @@ final class UrlResolverTest extends TestCase
 
 			"segments/{language}/suppressions" => [
 				"segments/de/suppressions",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-segments-modern/segments/de/suppressions.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-segments-full/segments/de/suppressions.json"
 			],
 
 			"units/{locale}/units" => [
 				"units/pt-MO/units",
-				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-units-modern/main/pt-MO/units.json"
+				"https://raw.githubusercontent.com/unicode-org/cldr-json/$v/cldr-json/cldr-units-full/main/pt-MO/units.json"
 			],
 
 		];
