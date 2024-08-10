@@ -4,6 +4,7 @@ namespace ICanBoogie\CLDR;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use InvalidArgumentException;
 use RuntimeException;
 
 use function ceil;
@@ -67,68 +68,6 @@ class DateTimeFormatter implements Formatter
     ];
 
     /**
-     * Parses the datetime format pattern.
-     *
-     * @return array<string|array{0: string, 1: int}>
-     *     Where _value_ is either a literal or an array where `0` is a formatter method and `1` a length.
-     */
-    private static function tokenize(string $pattern): array
-    {
-        static $formats = [];
-
-        if (isset($formats[$pattern])) {
-            return $formats[$pattern];
-        }
-
-        $tokens = [];
-        $is_literal = false;
-        $literal = '';
-
-        for ($i = 0, $n = strlen($pattern); $i < $n; ++$i) {
-            $c = $pattern[$i];
-
-            if ($c === "'") {
-                if ($i < $n - 1 && $pattern[$i + 1] === "'") {
-                    $tokens[] = "'";
-                    $i++;
-                } else {
-                    if ($is_literal) {
-                        $tokens[] = $literal;
-                        $literal = '';
-                        $is_literal = false;
-                    } else {
-                        $is_literal = true;
-                        $literal = '';
-                    }
-                }
-            } else {
-                if ($is_literal) {
-                    $literal .= $c;
-                } else {
-                    for ($j = $i + 1; $j < $n; ++$j) {
-                        if ($pattern[$j] !== $c) {
-                            break;
-                        }
-                    }
-
-                    $l = $j - $i;
-                    $p = str_repeat($c, $l);
-
-                    $tokens[] = isset(self::$formatters[$c]) ? [ self::$formatters[$c], $l ] : $p;
-
-                    $i = $j - 1;
-                }
-            }
-        }
-
-        if ($literal) {
-            $tokens[] = $literal;
-        }
-
-        return $formats[$pattern] = $tokens;
-    }
-
-    /**
      * Pad a numeric value with zero on its left.
      */
     private static function numeric_pad(int $value, int $length = 2): string
@@ -181,16 +120,19 @@ class DateTimeFormatter implements Formatter
         $datetime,
         string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
     ): string {
-        $datetime = $this->ensure_datetime($datetime);
-        $datetime = new DateTimeAccessor($datetime);
+        $accessor = new DateTimeAccessor($this->ensure_datetime($datetime));
         $pattern = $this->resolve_pattern($pattern_or_length_or_id);
-        $tokens = self::tokenize($pattern);
+        $tokens = DateFormatPattern::tokenize($pattern);
 
         $rc = '';
 
         foreach ($tokens as $token) {
             if (is_array($token)) {  // a callback: method name, repeating chars
-                $token = $this->{$token[0]}($datetime, $token[1]);
+                [ $c, $l ] = $token;
+
+                $function = self::$formatters[$c] ??
+                    throw new InvalidArgumentException("Invalid date pattern character '$c' used in '$pattern'");
+                $token = $this->$function($accessor, $l);
             }
 
             $rc .= $token;
@@ -200,20 +142,11 @@ class DateTimeFormatter implements Formatter
     }
 
     /**
-     * Resolves the specified pattern, which can be a width, a skeleton or an actual pattern.
+     * Resolves the specified pattern, which can be a width, a skeleton, or an actual pattern.
      */
     protected function resolve_pattern(
         string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id
     ): string {
-        if (is_string($pattern_or_length_or_id) && $pattern_or_length_or_id[0] === ':') {
-            trigger_error(
-                "Prefixing date time format ids with ':' is no longer supported, use DateTimeFormatId instead",
-                E_USER_DEPRECATED
-            );
-
-            $pattern_or_length_or_id = DateTimeFormatId::from(substr($pattern_or_length_or_id, 1));
-        }
-
         if ($pattern_or_length_or_id instanceof DateTimeFormatLength) {
             $length = $pattern_or_length_or_id->value;
             $calendar = $this->calendar;
