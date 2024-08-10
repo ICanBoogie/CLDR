@@ -5,19 +5,19 @@ namespace ICanBoogie\CLDR;
 /**
  * A localized territory.
  *
- * @property-read string $name
- *     The localized name of the territory.
- *
  * @extends LocalizedObject<Territory>
  */
 class LocalizedTerritory extends LocalizedObject
 {
     /**
-     * @uses get_name
+     * @var string The localized name of the territory.
      */
-    protected function get_name(): string
+    public readonly string $name;
+
+    public function __construct(Territory $target, Locale $locale)
     {
-        /** @phpstan-ignore-next-line */
-        return $this->locale['territories'][$this->target->code->value];
+        $this->name = $locale['territories'][$target->code->value];
+
+        parent::__construct($target, $locale);
     }
 }

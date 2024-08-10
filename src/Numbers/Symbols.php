@@ -5,7 +5,7 @@ namespace ICanBoogie\CLDR\Numbers;
 /**
  * Defines the localized symbols that are commonly used when formatting numbers in a given locale.
  *
- * @see https://unicode.org/reports/tr35/tr35-numbers.html#Number_Symbols
+ * @link https://unicode.org/reports/tr35/tr35-numbers.html#Number_Symbols
  */
 final class Symbols
 {

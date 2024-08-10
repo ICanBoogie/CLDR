@@ -45,6 +45,8 @@ function create_provider(): Provider
         exit(1);
     }
 
+    $redis->flushAll();
+
     return $provider = new CachedProvider(
         new WebProvider(),
         new CacheCollection([

@@ -17,7 +17,6 @@ final class PluralsTest extends TestCase
 
     protected function setUp(): void
     {
-        // @phpstan-ignore-next-line
         $this->plurals = new Plurals(get_repository()->supplemental['plurals']);
     }
 

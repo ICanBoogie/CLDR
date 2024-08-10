@@ -2,9 +2,7 @@
 
 namespace ICanBoogie\CLDR;
 
-use DateTime;
 use DateTimeInterface;
-use ICanBoogie\PropertyNotDefined;
 
 /**
  * A localized date time.
@@ -34,14 +32,9 @@ use ICanBoogie\PropertyNotDefined;
  */
 final class LocalizedDateTime extends LocalizedObjectWithFormatter
 {
-    /**
-     * @inheritDoc
-     *
-     * @return DateTimeFormatter
-     */
-    protected function lazy_get_formatter(): Formatter
+    public function __construct(DateTimeInterface $target, Locale $locale)
     {
-        return $this->locale->calendar->datetime_formatter;
+        parent::__construct($target, $locale, $locale->calendar->datetime_formatter);
     }
 
     /**
@@ -51,65 +44,35 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
      */
     public function __get($property)
     {
-        if (str_starts_with($property, 'as_')) {
-            return $this->{'format_' . $property}();
-        }
-
-        try {
-            return parent::__get($property);
-        } catch (PropertyNotDefined) {
-            return $this->target->$property;
-        }
-    }
-
-    /**
-     * @param string $property
-     * @param mixed $value
-     */
-    public function __set($property, $value): void
-    {
-        $this->target->$property = $value;
-    }
-
-    /**
-     * @param string $method
-     * @param array<string, mixed> $arguments
-     *
-     * @return mixed
-     *
-     * @throws \Exception
-     */
-    public function __call($method, $arguments)
-    {
-        return $this->target->$method(...$arguments);
+        return match ($property) {
+            'as_full' => $this->format_as_full(),
+            'as_long' => $this->format_as_long(),
+            'as_medium' => $this->format_as_medium(),
+            'as_short' => $this->format_as_short(),
+            default => $this->target->$property,
+        };
     }
 
     public function __toString(): string
     {
-        $target = $this->target;
-
-        if (method_exists($target, __FUNCTION__)) {
-            return (string)$target;
-        }
-
         // `ATOM` is used instead of `ISO8601` because of a bug in the pattern
-        // @see http://php.net/manual/en/class.datetime.php#datetime.constants.iso8601
+        // @link https://php.net/manual/en/class.datetime.php#datetime.constants.iso8601
 
-        return $this->target->format(DateTime::ATOM);
+        return $this->target->format(DateTimeInterface::ATOM);
     }
 
     /**
-     * @inheritDoc
+     * @see DateTimeFormatter::format()
      *
      * @throws \Exception
      */
-    public function format(string|DateTimeFormatLength|DateTimeFormatId $pattern): string
+    public function format(string|DateTimeFormatLength|DateTimeFormatId $pattern_or_length_or_id): string
     {
-        return $this->formatter->format($this->target, $pattern);
+        return $this->formatter->format($this->target, $pattern_or_length_or_id);
     }
 
     /**
-     * Formats the instance according to the {@link DateTimeFormatLength::FULL} length.
+     * Formats the instance according to the {@see DateTimeFormatLength::FULL} length.
      */
     public function format_as_full(): string
     {
@@ -117,7 +80,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
     }
 
     /**
-     * Formats the instance according to the {@link DateTimeFormatLength::LONG} length.
+     * Formats the instance according to the {@see DateTimeFormatLength::LONG} length.
      */
     public function format_as_long(): string
     {
@@ -125,7 +88,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
     }
 
     /**
-     * Formats the instance according to the {@link DateTimeFormatLength::MEDIUM} length.
+     * Formats the instance according to the {@see DateTimeFormatLength::MEDIUM} length.
      */
     public function format_as_medium(): string
     {
@@ -133,7 +96,7 @@ final class LocalizedDateTime extends LocalizedObjectWithFormatter
     }
 
     /**
-     * Formats the instance according to the {@link DateTimeFormatLength::SHORT} length.
+     * Formats the instance according to the {@see DateTimeFormatLength::SHORT} length.
      */
     public function format_as_short(): string
     {

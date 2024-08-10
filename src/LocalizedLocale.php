@@ -5,19 +5,19 @@ namespace ICanBoogie\CLDR;
 /**
  * A localized locale.
  *
- * @property-read string $name
- *     The localized name of the locale.
- *
  * @extends LocalizedObject<Locale>
  */
 class LocalizedLocale extends LocalizedObject
 {
     /**
-     * @uses get_name
+     * @var string The localized name of the locale.
      */
-    protected function get_name(): string
+    public readonly string $name;
+
+    public function __construct(Locale $target, Locale $locale)
     {
-        /** @phpstan-ignore-next-line */
-        return $this->locale['languages'][$this->target->id->value];
+        $this->name = $locale['languages'][$target->id->value];
+
+        parent::__construct($target, $locale);
     }
 }

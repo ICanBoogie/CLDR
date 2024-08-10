@@ -5,7 +5,7 @@ namespace ICanBoogie\CLDR;
 /**
  * Spaces encoded in UTF-8
  *
- * @see https://www.fileformat.info/info/unicode/category/Zs/list.htm
+ * @link https://www.fileformat.info/info/unicode/category/Zs/list.htm
  */
 interface Spaces
 {

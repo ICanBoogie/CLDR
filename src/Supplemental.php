@@ -16,6 +16,8 @@ use Closure;
  *
  * echo $supplemental['calendarPreferenceData']['001']; // gregorian
  * </pre>
+ *
+ * @extends AbstractSectionCollection<string>
  */
 final class Supplemental extends AbstractSectionCollection implements Warmable
 {
@@ -55,7 +57,7 @@ final class Supplemental extends AbstractSectionCollection implements Warmable
 
     ];
 
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset(self::OFFSET_MAPPING[$offset]);
     }

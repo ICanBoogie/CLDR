@@ -19,55 +19,42 @@ use const STR_PAD_LEFT;
  */
 final class NumberPattern
 {
-    /**
-     * @var NumberPattern[]
-     */
-    private static array $instances = [];
-
     public static function from(string $pattern): NumberPattern
     {
-        if (isset(self::$instances[$pattern])) {
-            return self::$instances[$pattern];
-        }
+        static $instances;
 
+        return $instances[$pattern] ??= self::do_from($pattern);
+    }
+
+    private static function do_from(string $pattern): self
+    {
         $parsed_pattern = NumberPatternParser::parse($pattern);
 
-        return self::$instances[$pattern] = new self(
-            $pattern,
-            $parsed_pattern['positive_prefix'],
-            $parsed_pattern['positive_suffix'],
-            $parsed_pattern['negative_prefix'],
-            $parsed_pattern['negative_suffix'],
-            $parsed_pattern['multiplier'],
-            $parsed_pattern['decimal_digits'],
-            $parsed_pattern['max_decimal_digits'],
-            $parsed_pattern['integer_digits'],
-            $parsed_pattern['group_size1'],
-            $parsed_pattern['group_size2']
-        );
+        return new self($pattern, ...$parsed_pattern);
     }
 
     /**
      * @param string $pattern
      * @param string $positive_prefix
-     *     Prefix to positive number.
+     *     Prefix to a positive number.
      * @param string $positive_suffix
-     *     Suffix to positive number.
+     *     Suffix to a positive number.
      * @param string $negative_prefix
-     *     Prefix to negative number.
+     *     Prefix to a negative number.
      * @param string $negative_suffix
      *     Suffix to negative number.
      * @param int $multiplier
      *     100 for percent, 1000 for per mille.
      * @param int $decimal_digits
-     *     The number of required digits after decimal point. The string is padded with zeros if there is not enough
-     *     digits.
+     *     The number of required digits after the decimal point.
+     *     The string is padded with zeros if there aren't enough digits.
      *     `-1` means the decimal point should be dropped.
      * @param int $max_decimal_digits
-     *     The maximum number of digits after decimal point. Additional digits will be truncated.
+     *     The maximum number of digits after the decimal point.
+     *     Additional digits will be truncated.
      * @param int $integer_digits
-     *     The number of required digits before decimal point. The string is padded with zeros if there is not enough
-     *     digits.
+     *     The number of required digits before the decimal point.
+     *     The string is padded with zeros if there aren't enough digits.
      * @param int $group_size1
      *     The primary grouping size. `0` means no grouping.
      * @param int $group_size2
@@ -94,7 +81,7 @@ final class NumberPattern
     }
 
     /**
-     * Parse a number according to the pattern and return its integer and decimal parts.
+     * Parses a number according to the pattern and return its integer and decimal parts.
      *
      * @param float|int|numeric-string $number
      *
@@ -120,7 +107,7 @@ final class NumberPattern
     }
 
     /**
-     * Formats integer according to group pattern.
+     * Formats an integer according to a group pattern.
      */
     public function format_integer_with_group(int $integer, string $group_symbol): string
     {
@@ -138,14 +125,14 @@ final class NumberPattern
         $size = $group_size2 > 0 ? $group_size2 : $group_size1;
         $str1 = str_pad($str1, (int)((strlen($str1) + $size - 1) / $size) * $size, ' ', STR_PAD_LEFT);
 
-        return ltrim(implode($group_symbol, (array)str_split($str1, $size))) . $group_symbol . $str2;
+        return ltrim(implode($group_symbol, str_split($str1, $size))) . $group_symbol . $str2;
     }
 
     /**
      * Formats an integer with a decimal.
      *
      * @param int|string $integer
-     *     An integer, or a formatted integer as returned by {@link format_integer_with_group}.
+     *     An integer, or a formatted integer as returned by {@see format_integer_with_group}.
      */
     public function format_integer_with_decimal(int|string $integer, string $decimal, string $decimal_symbol): string
     {

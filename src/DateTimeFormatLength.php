@@ -3,7 +3,7 @@
 namespace ICanBoogie\CLDR;
 
 /**
- * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-dates.html#26-element-datetimeformats
+ * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-dates.html#26-element-datetimeformats
  */
 enum DateTimeFormatLength: string
 {

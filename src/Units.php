@@ -38,7 +38,6 @@ class Units
     public function __construct(
         public readonly Locale $locale
     ) {
-        /** @phpstan-ignore-next-line */
         $this->data = $locale['units'];
         $this->sequence = new Sequence($this);
     }
@@ -95,7 +94,7 @@ class Units
      *
      * @param float|int|numeric-string $number
      *
-     * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#compound-units
+     * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#compound-units
      */
     public function format_compound(
         float|int|string $number,
@@ -132,7 +131,7 @@ class Units
      *
      * @param array<string, int|float> $units_and_numbers
      *
-     * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#Unit_Sequences
+     * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#Unit_Sequences
      */
     public function format_sequence(array $units_and_numbers, UnitLength $length = self::DEFAULT_LENGTH): string
     {

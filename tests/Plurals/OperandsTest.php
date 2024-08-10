@@ -31,7 +31,7 @@ final class OperandsTest extends TestCase
     }
 
     /**
-     * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#table-plural-operand-examples
+     * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#table-plural-operand-examples
      */
     public static function provide_test_cases(): array
     {

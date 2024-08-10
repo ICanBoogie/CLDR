@@ -2,21 +2,21 @@
 
 namespace Test\ICanBoogie\CLDR;
 
-use ICanBoogie\CLDR\DateFormatPattern;
+use ICanBoogie\CLDR\DateFormatPatternParser;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-final class DateTimePatternTest extends TestCase
+final class DateTimePatternParserTest extends TestCase
 {
-    #[DataProvider("provide_tokenize")]
-    public function test_tokenize(string $pattern, array $expected): void
+    #[DataProvider("provide_parse")]
+    public function test_parse(string $pattern, array $expected): void
     {
-        $actual = DateFormatPattern::tokenize($pattern);
+        $actual = DateFormatPatternParser::parse($pattern);
 
         $this->assertEquals($expected, $actual);
     }
 
-    public static function provide_tokenize(): array
+    public static function provide_parse(): array
     {
         return [
 

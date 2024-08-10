@@ -2,8 +2,6 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\Accessor\AccessorTrait;
-
 /**
  * Representation of a localized object.
  *
@@ -11,12 +9,6 @@ use ICanBoogie\Accessor\AccessorTrait;
  */
 abstract class LocalizedObject
 {
-    /**
-     * @uses get_target
-     * @uses get_locale
-     */
-    use AccessorTrait;
-
     /**
      * @phpstan-param T $target The object to localize.
      */

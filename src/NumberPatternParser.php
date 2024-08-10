@@ -10,7 +10,20 @@ use function strrpos;
 use function substr;
 
 /**
- * @see http://unicode.org/reports/tr35/tr35-numbers.html#Number_Pattern_Character_Definitions
+ * @link https://unicode.org/reports/tr35/tr35-numbers.html#Number_Pattern_Character_Definitions
+ *
+ * @phpstan-type PatternArray array{
+ *      positive_prefix: string,
+ *      positive_suffix: string,
+ *      negative_prefix: string,
+ *      negative_suffix: string,
+ *      multiplier: int,
+ *      decimal_digits: int,
+ *      max_decimal_digits: int,
+ *      integer_digits: int,
+ *      group_size1: int,
+ *      group_size2: int
+ *  }
  */
 final class NumberPatternParser
 {
@@ -37,18 +50,9 @@ final class NumberPatternParser
     /**
      * Parses a given string pattern.
      *
-     * @return array{
-     *     positive_prefix: string,
-     *     positive_suffix: string,
-     *     negative_prefix: string,
-     *     negative_suffix: string,
-     *     multiplier: int,
-     *     decimal_digits: int,
-     *     max_decimal_digits: int,
-     *     integer_digits: int,
-     *     group_size1: int,
-     *     group_size2: int
-     * }
+     * @param string $pattern
+     *
+     * @return PatternArray
      */
     public static function parse(string $pattern): array
     {
@@ -64,18 +68,8 @@ final class NumberPatternParser
     }
 
     /**
-     * @param array{
-     *     positive_prefix: string,
-     *     positive_suffix: string,
-     *     negative_prefix: string,
-     *     negative_suffix: string,
-     *     multiplier: int,
-     *     decimal_digits: int,
-     *     max_decimal_digits: int,
-     *     integer_digits: int,
-     *     group_size1: int,
-     *     group_size2: int
-     * } $format
+     * @param string $pattern
+     * @param PatternArray $format
      */
     private static function parse_multiple_patterns(string &$pattern, array &$format): void
     {
@@ -98,18 +92,8 @@ final class NumberPatternParser
     }
 
     /**
-     * @param array{
-     *     positive_prefix: string,
-     *     positive_suffix: string,
-     *     negative_prefix: string,
-     *     negative_suffix: string,
-     *     multiplier: int,
-     *     decimal_digits: int,
-     *     max_decimal_digits: int,
-     *     integer_digits: int,
-     *     group_size1: int,
-     *     group_size2: int
-     * } $format
+     * @param string $pattern
+     * @param PatternArray $format
      */
     private static function parse_multiplier(string $pattern, array &$format): void
     {
@@ -121,18 +105,8 @@ final class NumberPatternParser
     }
 
     /**
-     * @param array{
-     *     positive_prefix: string,
-     *     positive_suffix: string,
-     *     negative_prefix: string,
-     *     negative_suffix: string,
-     *     multiplier: int,
-     *     decimal_digits: int,
-     *     max_decimal_digits: int,
-     *     integer_digits: int,
-     *     group_size1: int,
-     *     group_size2: int
-     * } $format
+     * @param string $pattern
+     * @param PatternArray $format
      */
     private static function parse_decimal_part(string &$pattern, array &$format): void
     {
@@ -154,18 +128,8 @@ final class NumberPatternParser
     }
 
     /**
-     * @param array{
-     *     positive_prefix: string,
-     *     positive_suffix: string,
-     *     negative_prefix: string,
-     *     negative_suffix: string,
-     *     multiplier: int,
-     *     decimal_digits: int,
-     *     max_decimal_digits: int,
-     *     integer_digits: int,
-     *     group_size1: int,
-     *     group_size2: int
-     * } $format
+     * @param string $pattern
+     * @param PatternArray $format
      */
     private static function parse_integer_part(string $pattern, array &$format): void
     {
@@ -178,18 +142,8 @@ final class NumberPatternParser
     }
 
     /**
-     * @param array{
-     *     positive_prefix: string,
-     *     positive_suffix: string,
-     *     negative_prefix: string,
-     *     negative_suffix: string,
-     *     multiplier: int,
-     *     decimal_digits: int,
-     *     max_decimal_digits: int,
-     *     integer_digits: int,
-     *     group_size1: int,
-     *     group_size2: int
-     * } $format
+     * @param string $pattern
+     * @param PatternArray $format
      */
     private static function parse_group_sizes(string $pattern, array &$format): void
     {

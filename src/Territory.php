@@ -26,7 +26,7 @@ use function in_array;
  * @property-read string $name_as_* The name of the territory in the specified language.
  * @property-read int $population The population of the territory.
  *
- * @see http://www.unicode.org/reports/tr35/tr35-numbers.html#Supplemental_Currency_Data
+ * @link https://www.unicode.org/reports/tr35/tr35-numbers.html#Supplemental_Currency_Data
  *
  * @implements Localizable<Territory, LocalizedTerritory>
  */
@@ -63,7 +63,6 @@ final class Territory implements Localizable
     private function get_currencies(): RegionCurrencies
     {
         return $this->currencies ??= RegionCurrencies::from(
-        /** @phpstan-ignore-next-line */
             $this->repository->supplemental['currencyData']['region'][$this->code->value]
         );
     }
@@ -155,9 +154,11 @@ final class Territory implements Localizable
     }
 
     /**
+     * @param string $property
+     *
      * @return mixed
      */
-    public function __get(string $property)
+    public function __get($property)
     {
         if (str_starts_with($property, 'name_as_')) {
             $locale_id = trim_prefix($property, 'name_as_');
@@ -174,7 +175,6 @@ final class Territory implements Localizable
      */
     private function retrieve_from_supplemental(string $section): array
     {
-        /** @phpstan-ignore-next-line */
         return $this->repository->supplemental[$section][$this->code->value];
     }
 
@@ -228,7 +228,6 @@ final class Territory implements Localizable
     private function resolve_week_data(string $which): string
     {
         $code = $this->code;
-        /** @phpstan-ignore-next-line */
         $data = $this->repository->supplemental['weekData'][$which];
 
         return $data[$code->value] ?? $data['001'];

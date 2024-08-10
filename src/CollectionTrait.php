@@ -2,7 +2,7 @@
 
 namespace ICanBoogie\CLDR;
 
-use ICanBoogie\OffsetNotWritable;
+use LogicException;
 
 /**
  * A trait for classes implementing collection.
@@ -13,20 +13,18 @@ trait CollectionTrait
      * @param string $offset
      * @param mixed $value
      *
-     * @throw OffsetNotWritable in attempt to set the offset.
+     * @throw LogicException in an attempt to set the offset.
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
-        throw new OffsetNotWritable(offset: $offset, container: $this);
+        throw new LogicException("Offset '$offset' is not writable");
     }
 
     /**
-     * @param string $offset
-     *
-     * @throw OffsetNotWritable in attempt to unset the offset.
+     * @throw LogicException in an attempt to unset the offset.
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
-        throw new OffsetNotWritable(offset: $offset, container: $this);
+        throw new LogicException("Offset '$offset' is not writable");
     }
 }

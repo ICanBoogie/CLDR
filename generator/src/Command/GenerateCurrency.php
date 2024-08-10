@@ -28,7 +28,6 @@ final class GenerateCurrency extends Command
          * @var string[] $codes
          *
          * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-numbers-full/main/en-001/currencies.json
-         * @phpstan-ignore-next-line
          */
         $codes = array_keys($this->repository->locale_for('en-001')['currencies']);
 
@@ -41,7 +40,6 @@ final class GenerateCurrency extends Command
          * }> $fractions
          *
          * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/currencyData.json
-         * @phpstan-ignore-next-line
          */
         $fractions = $this->repository->supplemental['currencyData']['fractions'];
 

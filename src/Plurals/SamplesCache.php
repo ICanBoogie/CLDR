@@ -9,7 +9,7 @@ final class SamplesCache
 {
     /**
      * @var array<string, Samples>
-     *     Where _key_ is a rule statement and _value_ a {@link Samples}.
+     *     Where _key_ is a rule statement and _value_ a {@see Samples}.
      */
     private static array $instances = [];
 

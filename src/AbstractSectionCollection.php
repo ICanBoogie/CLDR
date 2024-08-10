@@ -3,10 +3,12 @@
 namespace ICanBoogie\CLDR;
 
 use ArrayAccess;
-use ICanBoogie\OffsetNotDefined;
+use LogicException;
 
 /**
- * @implements ArrayAccess<string, array>
+ * @template TKey of array-key
+ *
+ * @implements ArrayAccess<TKey, mixed>
  */
 abstract class AbstractSectionCollection implements ArrayAccess
 {
@@ -17,7 +19,7 @@ abstract class AbstractSectionCollection implements ArrayAccess
     ) {
     }
 
-    abstract public function offsetExists($offset): bool;
+    abstract public function offsetExists(mixed $offset): bool;
 
     /**
      * @var array<string, array>
@@ -28,17 +30,14 @@ abstract class AbstractSectionCollection implements ArrayAccess
     private array $sections = [];
 
     /**
-     * @param string $offset
-     *
-     * @throws OffsetNotDefined
+     * @throws LogicException
      * @throws ResourceNotFound
      */
-    #[\ReturnTypeWillChange] // @phpstan-ignore-line
-    public function offsetGet(
-        $offset
-    ) {
+    #[\ReturnTypeWillChange]
+    public function offsetGet(mixed $offset)
+    {
         if (!$this->offsetExists($offset)) {
-            throw new OffsetNotDefined(offset: $offset, container: $this);
+            throw new LogicException("Offset '$offset' does not exist");
         }
 
         return $this->sections[$offset] ??= $this->repository->fetch(

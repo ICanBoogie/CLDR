@@ -18,28 +18,13 @@ namespace ICanBoogie\CLDR;
 abstract class LocalizedObjectWithFormatter extends LocalizedObject
 {
     /**
-     * @var TFormatter|null
+     * @phpstan-param TFormatter $formatter
      */
-    private $formatter;
-
-    /**
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        if ($property === 'formatter') {
-            return $this->formatter ??= $this->lazy_get_formatter();
-        }
-
-        return parent::__get($property);
+    public function __construct(
+        object $target,
+        Locale $locale,
+        public readonly Formatter $formatter,
+    ) {
+        parent::__construct($target, $locale);
     }
-
-    /**
-     * Returns the formatter used to format the target object.
-     *
-     * @return TFormatter
-     */
-    abstract protected function lazy_get_formatter(): Formatter;
 }

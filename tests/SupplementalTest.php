@@ -3,8 +3,7 @@
 namespace Test\ICanBoogie\CLDR;
 
 use ICanBoogie\CLDR\Supplemental;
-use ICanBoogie\OffsetNotDefined;
-use ICanBoogie\OffsetNotWritable;
+use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -63,7 +62,6 @@ final class SupplementalTest extends TestCase
 
     public function test_default_calendar(): void
     {
-        // @phpstan-ignore-next-line
         $this->assertArrayHasKey('001', self::$sut['calendarPreferenceData']);
     }
 
@@ -79,21 +77,21 @@ final class SupplementalTest extends TestCase
     public function test_should_throw_exception_when_getting_undefined_offset(): void
     {
         $s = self::$sut;
-        $this->expectException(OffsetNotDefined::class);
+        $this->expectException(LogicException::class);
         $s[uniqid()]; // @phpstan-ignore-line
     }
 
     public function test_should_throw_exception_in_attempt_to_set_offset(): void
     {
         $s = self::$sut;
-        $this->expectException(OffsetNotWritable::class);
+        $this->expectException(LogicException::class);
         $s['timeData'] = null;
     }
 
     public function test_should_throw_exception_in_attempt_to_unset_offset(): void
     {
         $s = self::$sut;
-        $this->expectException(OffsetNotWritable::class);
+        $this->expectException(LogicException::class);
         unset($s['timeData']);
     }
 

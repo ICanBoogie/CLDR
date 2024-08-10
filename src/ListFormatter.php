@@ -7,7 +7,7 @@ use ICanBoogie\CLDR\Locale\ListPattern;
 /**
  * Formats variable-length lists of things such as "Monday, Tuesday, Friday, and Saturday".
  *
- * @see http://www.unicode.org/reports/tr35/tr35-general.html#ListPatterns
+ * @link https://www.unicode.org/reports/tr35/tr35-general.html#ListPatterns
  *
  * @implements Localizable<ListFormatter, LocalizedListFormatter>
  */

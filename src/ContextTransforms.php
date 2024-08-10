@@ -8,7 +8,7 @@ use function mb_strtoupper;
 use function mb_substr;
 
 /**
- * @see http://unicode.org/reports/tr35/tr35-general.html#contextTransformUsage_type_attribute_values
+ * @link https://unicode.org/reports/tr35/tr35-general.html#contextTransformUsage_type_attribute_values
  */
 final class ContextTransforms
 {

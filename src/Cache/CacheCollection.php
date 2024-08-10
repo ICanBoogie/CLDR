@@ -5,7 +5,7 @@ namespace ICanBoogie\CLDR\Cache;
 use ICanBoogie\CLDR\Cache;
 
 /**
- * A collection of {@link Cache} instances.
+ * A collection of {@see Cache} instances.
  */
 final class CacheCollection implements Cache
 {

@@ -21,7 +21,7 @@ use function trim;
  *
  * @implements IteratorAggregate<string>
  *
- * @see http://unicode.org/reports/tr35/tr35-numbers.html#Samples
+ * @link https://unicode.org/reports/tr35/tr35-numbers.html#Samples
  */
 final class Samples implements IteratorAggregate
 {

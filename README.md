@@ -4,10 +4,10 @@
 [![Downloads](https://img.shields.io/packagist/dt/icanboogie/cldr.svg)](https://packagist.org/packages/icanboogie/cldr/stats)
 [![Code Quality](https://img.shields.io/scrutinizer/quality/g/ICanBoogie/CLDR/6.0)](https://scrutinizer-ci.com/g/ICanBoogie/CLDR/?branch=6.0)
 
-The __CLDR__ package helps internationalize your application by leveraging the data and conventions
-defined by the [Unicode Common Locale Data Repository](http://cldr.unicode.org/) (CLDR). It offers
-helpful locale information and data (such as locale names for territories, languages, days…) as well
-as formatters for numbers, currencies, dates and times, units, sequences, lists…
+The __CLDR__ package facilitates the internationalization of your application by leveraging the data
+and conventions established by the [Unicode Common Locale Data Repository][cldr] (CLDR). It provides
+valuable locale information such as names for territories, languages, days… as well as formatters
+for numbers, currencies, dates and times, units, sequences, and lists.
 
 > **Note**
 >
@@ -140,19 +140,19 @@ The documentation is divided into the following parts, mimicking [Unicode's docu
 
 ## Getting started
 
-The CLDR is represented by a [Repository][] instance. The repository accesses data through a
-[Provider][] instance. There are a few providers available in the package, as well as caching
-mechanisms. Picking the right provider depends on your needs: you might want to favor flexibility
-(during development) or predictability (in production).
+The [CLDR][cldr] is represented by a [Repository][] instance, which accesses data through a
+[Provider][] instance. The package offers several and caching mechanisms. Choosing the right
+provider depends on your requirements: you may prioritize flexibility during development or
+predictability in production.
 
 
 
 ### Favor flexibility
 
-[WebProvider][] offers the maximum flexibility: when required, data is retrieved from the JSON
-distribution [hosted on GitHub][2]. To avoid hitting the web with every request, it is recommended
-to use a collection of caches, each with its own strategy. For example, [FileCache][] stores the
-retrieved data as PHP files that can benefit from opcache.
+[WebProvider][] offers maximum flexibility by retrieving data from the JSON distribution [hosted on
+GitHub][2] as needed. To minimize web requests, it is advised to use a collection of caches, each
+with its own strategy. For example, [FileCache][] stores the retrieved data as PHP files, allowing
+it to benefit from opcache.
 
 The following example demonstrates how a repository can be instantiated:
 
@@ -186,9 +186,9 @@ $cldr = new Repository($provider);
 
 ### Favor predictability
 
-You might want to favor predictability and restrict the usage of the repository to a few locales and
-distribute them as part of your application on a read-only filesystem. You can warm up the CLDR
-cache during development and commit the files, or as a building step of your CI/CD pipeline.
+For greater predictability, consider limiting the repository's usage to a few specific locales and
+distributing them as part of your application. You can prepopulate the CLDR cache during development
+and commit the files, or incorporate this step into your CI/CD pipeline build process.
 
 Use [the cldr command][] to warm up the CLDR cache:
 
@@ -196,9 +196,8 @@ Use [the cldr command][] to warm up the CLDR cache:
 ./vendor/bin/cldr warm-up de en fr
 ```
 
-The following example demonstrates how a repository can be instantiated with a restrictive provider
-that uses warmed-up data only. With this configuration, the [RestrictedProvider][] throws an exception
-if the data is not available in the cache.
+The following example illustrates a setup to limit data access to the cache. [RestrictedProvider][]
+throws an exception in an attempt to retrieve data not available in the cache.
 
 ```php
 <?php
@@ -260,4 +259,5 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 [Repository]:                   src/Repository.php
 
 [2]:                            https://github.com/unicode-cldr
+[cldr]:                         http://cldr.unicode.org/
 [the cldr command]:             https://github.com/ICanBoogie/CLDR-CLI

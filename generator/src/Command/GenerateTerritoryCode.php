@@ -27,7 +27,6 @@ final class GenerateTerritoryCode extends Command
          * @var string[] $codes
          *
          * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-localenames-full/main/en-001/territories.json
-         * @phpstan-ignore-next-line
          */
         $codes = array_keys($this->repository->locale_for('en-001')['territories']);
         $codes = array_values(array_filter($codes, fn($code) => !str_contains($code, '-alt')));

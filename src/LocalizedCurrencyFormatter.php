@@ -39,7 +39,7 @@ class LocalizedCurrencyFormatter extends LocalizedObject implements Formatter
     /**
      * Resolves a pattern.
      *
-     * The special patterns {@link PATTERN_STANDARD} and {@link PATTERN_ACCOUNTING} are resolved
+     * The special patterns {@see PATTERN_STANDARD} and {@see PATTERN_ACCOUNTING} are resolved
      * from the currency formats.
      */
     private function resolve_pattern(string $pattern): string

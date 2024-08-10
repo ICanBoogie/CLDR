@@ -5,32 +5,36 @@ namespace ICanBoogie\CLDR;
 /**
  * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-dates.html#Date_Format_Patterns
  */
-final class DateFormatPattern
+final class DateFormatPatternParser
 {
     private const QUOTE = "'";
 
     /**
+     * Parses a date format pattern.
+     *
      * @param string $pattern
-     *     A date format pattern; for example, "yyyy.MM.dd G 'at' HH:mm:ss zzz".
+     *     A date format pattern; for example, "hh 'o''clock' a, zzzz".
      *
      * @return array<string|array{ string, int }>
      *     Where _value_ is either a literal or an array where `0` is a pattern character and `1` its length.
      */
-    public static function tokenize(string $pattern): array
+    public static function parse(string $pattern): array
     {
         static $cache = [];
 
-        return $cache[$pattern] ??= self::do_tokenize($pattern);
+        return $cache[$pattern] ??= self::do_parse($pattern);
     }
 
     /**
+     * Parses a date format pattern.
+     *
      * @param string $pattern
-     *     A date format pattern; for example, "yyyy.MM.dd G 'at' HH:mm:ss zzz".
+     *     A date format pattern; for example, "hh 'o''clock' a, zzzz".
      *
      * @return array<string|array{ string, int }>
      *     Where _value_ is either a literal or an array where `0` is a pattern character and `1` its length.
      */
-    private static function do_tokenize(string $pattern): array
+    private static function do_parse(string $pattern): array
     {
         $tokens = [];
         $is_literal = false;

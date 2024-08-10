@@ -21,7 +21,6 @@ final class GenerateSequenceCompanion extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // @phpstan-ignore-next-line
         $units = $this->repository->locale_for('en-001')['units']['long'];
         $methods = [];
 

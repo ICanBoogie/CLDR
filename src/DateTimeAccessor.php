@@ -8,54 +8,47 @@ use LogicException;
 /**
  * @property-read int $timestamp Unix timestamp.
  * @property-read int $year Year.
- * @property-read int $month Month of the year.
- * @property-read int $day Day of the month.
- * @property-read int $hour Hour of the day.
- * @property-read int $minute Minute of the hour.
- * @property-read int $second Second of the minute.
- * @property-read int $quarter Quarter of the year.
- * @property-read int $week Week of the year.
- * @property-read int $weekday Day of the week.
+ * @property-read int<1, 12> $month Month of the year.
+ * @property-read int<1, 31> $day Day of the month.
+ * @property-read int<0, 23> $hour Hour of the day.
+ * @property-read int<1, 59> $minute Minute of the hour.
+ * @property-read int<1, 59> $second Second of the minute.
+ * @property-read int<1, 4> $quarter Quarter of the year.
+ * @property-read int<1, 53> $week Week of the year.
+ * @property-read int<1, 7> $weekday Day of the week.
  * @property-read int $year_day Day of the year.
- *
- * @method string format(string $format)
  */
 class DateTimeAccessor
 {
     public function __construct(
-        private readonly DateTimeInterface $datetime
+        public readonly DateTimeInterface $delegate
     ) {
     }
 
-    /**
-     * @return mixed
-     */
-    public function __get(string $property)
+    public function __get(string $property): int
     {
-        $dt = $this->datetime;
+        $f = $this->delegate->format(...);
 
         return match ($property) {
-            'year' => (int)$dt->format('Y'),
-            'month' => (int)$dt->format('m'),
-            'day' => (int)$dt->format('d'),
-            'hour' => (int)$dt->format('H'),
-            'minute' => (int)$dt->format('i'),
-            'second' => (int)$dt->format('s'),
+            'year' => (int)$f('Y'),
+            'month' => (int)$f('m'),
+            'day' => (int)$f('d'),
+            'hour' => (int)$f('H'),
+            'minute' => (int)$f('i'),
+            'second' => (int)$f('s'),
             'quarter' => (int)floor(($this->month - 1) / 3) + 1,
-            'week' => (int)$dt->format('W'),
-            'year_day' => (int)$dt->format('z') + 1,
-            'weekday' => (int)$dt->format('w') ?: 7,
+            'week' => (int)$f('W'),
+            'year_day' => (int)$f('z') + 1,
+            'weekday' => (int)$f('w') ?: 7,
             default => throw new LogicException("Undefined property: $property"),
         };
     }
 
     /**
-     * @param mixed[] $params
-     *
-     * @return mixed
+     * @see DateTimeInterface::format
      */
-    public function __call(string $name, array $params)
+    public function format(string $pattern): string
     {
-        return $this->datetime->$name(...$params);
+        return $this->delegate->format($pattern);
     }
 }

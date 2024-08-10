@@ -7,20 +7,15 @@ use Throwable;
 /**
  * CLDR exceptions implement this interface so that they can be easily recognized.
  *
- * <pre>
- * try
- * {
+ * ```php
+ * try {
  *     // …
- * }
- * catch (\ICanBoogie\CLDR\Exception $e)
- * {
+ * } catch (\ICanBoogie\CLDR\Exception $e) {
  *     // a CLDR exception
- * }
- * catch (\Exception $e
- * {
+ * } catch (\Exception $e {
  *     // another type of exception
  * }
- * </pre>
+ * ```
  */
 interface Exception extends Throwable
 {

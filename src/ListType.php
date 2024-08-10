@@ -3,7 +3,7 @@
 namespace ICanBoogie\CLDR;
 
 /**
- * @see: https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#11-list-patterns
+ * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#11-list-patterns
  */
 enum ListType: string
 {

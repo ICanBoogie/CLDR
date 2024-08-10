@@ -9,7 +9,7 @@ use ICanBoogie\CLDR\Locale\ListPattern;
  *
  * @extends LocalizedObject<ListFormatter>
  *
- * @see https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#ListPatterns
+ * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-general.html#ListPatterns
  */
 class LocalizedListFormatter extends LocalizedObject implements Formatter
 {
@@ -20,7 +20,6 @@ class LocalizedListFormatter extends LocalizedObject implements Formatter
      */
     public function format(array $list, ListType $type = ListType::STANDARD): string
     {
-        /** @phpstan-ignore-next-line */
         $list_pattern = ListPattern::from($this->locale['listPatterns']["listPattern-type-$type->value"]);
 
         return $this->target->format($list, $list_pattern);

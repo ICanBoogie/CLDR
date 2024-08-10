@@ -35,7 +35,6 @@
 		"ext-curl": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
-		"icanboogie/common": "^6.0",
 		"icanboogie/accessor": "^6.0"
 	},
 	"require-dev": {

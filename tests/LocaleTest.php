@@ -15,7 +15,6 @@ use ICanBoogie\CLDR\Repository;
 use ICanBoogie\CLDR\Units;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Test\ICanBoogie\CLDR\LocaleTest\LocalizableSample;
 
 final class LocaleTest extends TestCase
 {
@@ -181,7 +180,6 @@ final class LocaleTest extends TestCase
     #[DataProvider("provide_context_transforms_availability")]
     public function test_context_transforms_availability(string $locale_id, bool $expected): void
     {
-        // @phpstan-ignore-next-line
         $actual = count(locale_for($locale_id)['contextTransforms']) > 0;
 
         $this->assertSame($expected, $actual);

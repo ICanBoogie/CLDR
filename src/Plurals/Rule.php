@@ -11,7 +11,7 @@ use function ICanBoogie\iterable_some;
 /**
  * Representation of plural samples.
  *
- * @see http://unicode.org/reports/tr35/tr35-72-numbers.html#Language_Plural_Rules
+ * @link https://unicode.org/reports/tr35/tr35-72-numbers.html#Language_Plural_Rules
  */
 final class Rule
 {

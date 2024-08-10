@@ -77,7 +77,6 @@ final class Repository
 
     private function get_plurals(): Plurals
     {
-        /** @phpstan-ignore-next-line */
         return $this->plurals ??= new Plurals($this->get_supplemental()['plurals']);
     }
 

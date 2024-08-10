@@ -15,7 +15,7 @@ use ICanBoogie\CLDR\Units;
  * @property-read string $as_short Short string representation.
  * @property-read string $as_narrow Narrow string representation.
  *
- * @see http://unicode.org/reports/tr35/tr35-general.html#Unit_Sequences
+ * @link https://unicode.org/reports/tr35/tr35-general.html#Unit_Sequences
  */
 final class Sequence
 {

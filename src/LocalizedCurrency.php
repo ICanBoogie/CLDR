@@ -6,26 +6,27 @@ namespace ICanBoogie\CLDR;
  * A localized currency.
  *
  * @extends LocalizedObjectWithFormatter<Currency, LocalizedCurrencyFormatter>
- *
- * @property-read string $name The localized name of the currency.
- * @property-read string $symbol The localized symbol of the currency.
  */
-class LocalizedCurrency extends LocalizedObjectWithFormatter
+final class LocalizedCurrency extends LocalizedObjectWithFormatter
 {
     /**
-     * @return LocalizedCurrencyFormatter
+     * @var string The localized name of the currency.
      */
-    protected function lazy_get_formatter(): Formatter
-    {
-        return $this->locale->currency_formatter;
-    }
+    public readonly string $name;
 
     /**
-     * @uses get_name
+     * @var string The localized symbol of the currency.
      */
-    protected function get_name(): string
+    public readonly string $symbol;
+
+    public function __construct(object $target, Locale $locale)
     {
-        return $this->name_for();
+        $l = $locale['currencies'][$target->code];
+        $this->name = $l['displayName'];
+        // Not all currencies have a symbol, we default to the currency code in those cases.
+        $this->symbol = $l['symbol'] ?? $target->code;
+
+        parent::__construct($target, $locale, $locale->currency_formatter);
     }
 
     /**
@@ -39,30 +40,15 @@ class LocalizedCurrency extends LocalizedObjectWithFormatter
 
         if ($count == 1) {
             $offset .= '-count-one';
-        } else {
-            if ($count) {
-                $offset .= '-count-other';
-            }
+        } elseif ($count) {
+            $offset .= '-count-other';
         }
 
-        /** @phpstan-ignore-next-line */
         return $this->locale['currencies'][$this->target->code][$offset];
     }
 
-    private string $symbol;
-
     /**
-     * Returns the localized symbol of the currency.
-     *
-     * @uses get_symbol
-     */
-    protected function get_symbol(): string
-    {
-        return $this->symbol ??= $this->locale['currencies'][$this->target->code]['symbol']; // @phpstan-ignore-line
-    }
-
-    /**
-     * Formats currency using localized conventions.
+     * Formats currency using locale's conventions.
      *
      * @param float|int|numeric-string $number
      */

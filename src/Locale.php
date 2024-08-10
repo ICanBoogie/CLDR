@@ -30,10 +30,21 @@ use function str_replace;
  * @property-read Units $units
  * @uses self::get_units()
  *
+ * @extends AbstractSectionCollection<string>
  * @implements Localizable<Locale, LocalizedLocale>
  */
 class Locale extends AbstractSectionCollection implements Localizable, Warmable
 {
+    /**
+     * @uses get_context_transforms
+     * @uses get_currency_formatter
+     * @uses get_calendar
+     * @uses get_calendars
+     * @uses get_language
+     * @uses get_list_formatter
+     * @uses get_number_formatter
+     * @uses get_units
+     */
     use AccessorTrait;
 
     /**
@@ -84,7 +95,6 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
         parent::__construct($repository);
     }
 
-    // @phpstan-ignore-next-line
     public function offsetGet($offset)
     {
         // Not all locales have context transforms
@@ -95,7 +105,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
         return parent::offsetGet($offset);
     }
 
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset(self::OFFSET_MAPPING[$offset]);
     }
@@ -148,7 +158,6 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
 
     private function get_numbers(): Numbers
     {
-        /** @phpstan-ignore-next-line */
         return $this->numbers ??= new Numbers($this, $this['numbers']);
     }
 
@@ -177,7 +186,6 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
 
     private function get_context_transforms(): ContextTransforms
     {
-        /** @phpstan-ignore-next-line */
         return $this->context_transforms ??= new ContextTransforms($this['contextTransforms']);
     }
 
@@ -198,7 +206,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
     }
 
     /**
-     * Formats a number using {@link $number_formatter}.
+     * Formats a number using {@see $number_formatter}.
      *
      * @param float|int $number
      *

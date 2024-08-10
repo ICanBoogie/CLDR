@@ -5,7 +5,7 @@ namespace Test\ICanBoogie\CLDR;
 use BadMethodCallException;
 use ICanBoogie\CLDR\Calendar;
 use ICanBoogie\CLDR\CalendarCollection;
-use ICanBoogie\OffsetNotWritable;
+use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -26,13 +26,13 @@ final class CalendarCollectionTest extends TestCase
 
     public function test_offsetSet(): void
     {
-        $this->expectException(OffsetNotWritable::class);
+        $this->expectException(LogicException::class);
         self::$collection['gregorian'] = null;
     }
 
     public function test_offsetUnset(): void
     {
-        $this->expectException(OffsetNotWritable::class);
+        $this->expectException(LogicException::class);
         unset(self::$collection['gregorian']);
     }
 

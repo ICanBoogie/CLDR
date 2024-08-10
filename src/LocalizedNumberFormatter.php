@@ -18,6 +18,6 @@ class LocalizedNumberFormatter extends LocalizedObject implements Formatter
     {
         $numbers = $this->locale->numbers;
 
-        return $this->target->format($number, $pattern ?? $numbers->decimal_format, $numbers->symbols);
+        return $this->target->format($number, $pattern ?? $numbers->standard_decimal_format, $numbers->symbols);
     }
 }

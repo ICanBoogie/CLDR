@@ -153,7 +153,7 @@ final class NumbersTest extends TestCase
         $numbers_data = $locale['numbers'];
         $numbers = new Numbers($locale, $numbers_data);
 
-        $this->assertEquals($expected, $numbers->decimal_format);
+        $this->assertEquals($expected, $numbers->standard_decimal_format);
     }
 
     /**
