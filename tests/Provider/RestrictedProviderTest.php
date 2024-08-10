@@ -2,21 +2,21 @@
 
 namespace Test\ICanBoogie\CLDR\Provider;
 
-use ICanBoogie\CLDR\Provider\FailingProvider;
+use ICanBoogie\CLDR\Provider\RestrictedProvider;
 use ICanBoogie\CLDR\ResourceNotFound;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group static
  */
-class FailingProviderTest extends TestCase
+class RestrictedProviderTest extends TestCase
 {
     public function test_provide(): void
     {
-        $sut = new FailingProvider();
+        $sut = new RestrictedProvider();
 
         $this->expectException(ResourceNotFound::class);
-        $this->expectExceptionMessageMatches("/Only warmed-up data is available/");
+        $this->expectExceptionMessageMatches("/Only cached data is available/");
 
         $sut->provide("foo");
     }

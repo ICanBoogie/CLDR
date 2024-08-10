@@ -197,7 +197,7 @@ Use [the cldr command][] to warm up the CLDR cache:
 ```
 
 The following example demonstrates how a repository can be instantiated with a restrictive provider
-that uses warmed-up data only. With this configuration, the [FailingProvider][] throws an exception
+that uses warmed-up data only. With this configuration, the [RestrictedProvider][] throws an exception
 if the data is not available in the cache.
 
 ```php
@@ -205,11 +205,11 @@ if the data is not available in the cache.
 
 use ICanBoogie\CLDR\Cache\FileCache;
 use ICanBoogie\CLDR\Provider\CachedProvider;
-use ICanBoogie\CLDR\Provider\FailingProvider;
+use ICanBoogie\CLDR\Provider\RestrictedProvider;
 use ICanBoogie\CLDR\Repository;
 
 $provider = new CachedProvider(
-    new FailingProvider(),
+    new RestrictedProvider(),
     new FileCache(FileCache::RECOMMENDED_DIR),
 );
 
@@ -256,7 +256,7 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 [FileCache]:                    src/Cache/FileCache.php
 [Provider]:                     src/Provider.php
 [WebProvider]:                  src/Provider/WebProvider.php
-[FailingProvider]:              src/Provider/FailingProvider.php
+[RestrictedProvider]:           src/Provider/RestrictedProvider.php
 [Repository]:                   src/Repository.php
 
 [2]:                            https://github.com/unicode-cldr
