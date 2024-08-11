@@ -28,7 +28,7 @@ provide magic properties to rapidly access days, eras, months and quarters:
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Locale $locale
+ * @var \ICanBoogie\CLDR\Core\Locale $locale
  */
 
 $calendar = $locale->calendars['gregorian'];
@@ -51,7 +51,7 @@ This works with days, eras, months, quarters and the following widths: `abbrevia
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar
+ * @var \ICanBoogie\CLDR\Dates\Calendar $calendar
  */
 
 $calendar->standalone_abbreviated_eras;
@@ -75,8 +75,6 @@ used.
 
 ```php
 <?php
-
-use ICanBoogie\CLDR\LocaleId;
 
 /**
  * @var ICanBoogie\CLDR\Repository $repository
@@ -108,11 +106,10 @@ used for the formatting. The datetime can be specified as an Unix timestamp, a s
 ```php
 <?php
 
-use ICanBoogie\CLDR\DateTimeFormatId;
-use ICanBoogie\CLDR\DateTimeFormatter;
+use ICanBoogie\CLDR\Dates\DateTimeFormatId;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar
+ * @var \ICanBoogie\CLDR\Dates\Calendar $calendar
  */
 
 $datetime = '2013-11-02 22:23:45 UTC';
@@ -138,12 +135,10 @@ Calendars provide a formatter for dates. A width or a pattern is used for the fo
 ```php
 <?php
 
-use ICanBoogie\CLDR\DateFormatter;
-use ICanBoogie\CLDR\DateTimeFormatLength;
-use ICanBoogie\CLDR\DateTimeFormatId;
+use ICanBoogie\CLDR\Dates\DateTimeFormatId;use ICanBoogie\CLDR\Dates\DateTimeFormatLength;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar
+ * @var \ICanBoogie\CLDR\Dates\Calendar $calendar
  */
 
 $datetime = '2013-11-04 20:21:22 UTC';
@@ -169,10 +164,10 @@ Alternatively, use can use a [DateTimeFormatter] instance:
 ```php
 <?php
 
-use ICanBoogie\CLDR\DateTimeFormatLength;
+use ICanBoogie\CLDR\Dates\DateTimeFormatLength;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar
+ * @var \ICanBoogie\CLDR\Dates\Calendar $calendar
  */
 
 $datetime = '2013-11-05 21:22:23';
@@ -202,11 +197,10 @@ Calendars provide a formatter for times. A width or a pattern is used for the fo
 ```php
 <?php
 
-use ICanBoogie\CLDR\TimeFormatter;
-use ICanBoogie\CLDR\DateTimeFormatLength;
+use ICanBoogie\CLDR\Dates\DateTimeFormatLength;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar
+ * @var \ICanBoogie\CLDR\Dates\Calendar $calendar
  */
 
 $datetime = '2013-11-05 21:22:23 UTC';
@@ -229,11 +223,10 @@ Alternatively, you can use a [TimeFormatter][] instance:
 ```php
 <?php
 
-use ICanBoogie\CLDR\TimeFormatter;
-use ICanBoogie\CLDR\DateTimeFormatLength;
+use ICanBoogie\CLDR\Dates\DateTimeFormatLength;
 
 /**
- * @var ICanBoogie\CLDR\Calendar $calendar
+ * @var \ICanBoogie\CLDR\Dates\Calendar $calendar
  */
 
 $datetime = '2013-11-05 21:22:23 UTC';
@@ -253,8 +246,7 @@ the `localize` method of the desired locale:
 ```php
 <?php
 
-use ICanBoogie\CLDR\LocaleId;
-use ICanBoogie\CLDR\LocalizedDateTime;
+use ICanBoogie\CLDR\Dates\LocalizedDateTime;
 
 /**
  * @var ICanBoogie\CLDR\Repository $repository
@@ -275,7 +267,7 @@ echo $ldt->as_short;         // 04/11/2013 20:21
 
 
 
-[Calendar]: ../src/Calendar.php
-[DateTimeFormatter]: ../src/DateTimeFormatter.php
-[LocalizedDateTime]: ../src/LocalizedDateTime.php
-[TimeFormatter]: ../src/TimeFormatter.php
+[Calendar]: ../src/Dates/Calendar.php
+[DateTimeFormatter]: ../src/Dates/DateTimeFormatter.php
+[LocalizedDateTime]: ../src/Dates/LocalizedDateTime.php
+[TimeFormatter]: ../src/Dates/TimeFormatter.php

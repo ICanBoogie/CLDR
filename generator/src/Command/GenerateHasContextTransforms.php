@@ -2,8 +2,8 @@
 
 namespace ICanBoogie\CLDR\Generator\Command;
 
+use ICanBoogie\CLDR\Provider\ResourceNotFound;
 use ICanBoogie\CLDR\Repository;
-use ICanBoogie\CLDR\ResourceNotFound;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,10 +12,10 @@ use Symfony\Component\VarExporter\VarExporter;
 
 use function ICanBoogie\CLDR\Generator\indent;
 
-#[AsCommand('src/Locale/HasContextTransforms.php')]
+#[AsCommand(self::GENERATED_FILE)]
 final class GenerateHasContextTransforms extends Command
 {
-    private const GENERATED_FILE = 'src/Locale/HasContextTransforms.php';
+    private const GENERATED_FILE = 'src/General/Transforms/HasContextTransforms.php';
 
     public function __construct(
         private readonly Repository $repository
@@ -63,9 +63,9 @@ final class GenerateHasContextTransforms extends Command
          * {@see \\$class}
          */
 
-        namespace ICanBoogie\CLDR\Locale;
+        namespace ICanBoogie\CLDR\General\Transforms;
 
-        use ICanBoogie\CLDR\LocaleId;
+        use ICanBoogie\CLDR\Core\LocaleId;
 
         final class HasContextTransforms
         {

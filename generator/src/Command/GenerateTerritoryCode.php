@@ -10,10 +10,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\VarExporter\VarExporter;
 use function ICanBoogie\CLDR\Generator\indent;
 
-#[AsCommand('src/TerritoryCode.php')]
+#[AsCommand(self::GENERATED_FILE)]
 final class GenerateTerritoryCode extends Command
 {
-    private const GENERATED_FILE = 'src/TerritoryCode.php';
+    private const GENERATED_FILE = 'src/Supplemental/Territory/TerritoryCode.php';
 
     public function __construct(
         private readonly Repository $repository
@@ -54,7 +54,7 @@ final class GenerateTerritoryCode extends Command
          * {@see \\$class}
          */
 
-        namespace ICanBoogie\CLDR;
+        namespace ICanBoogie\CLDR\Supplemental\Territory;
 
         /**
          * A territory code.
@@ -91,7 +91,7 @@ final class GenerateTerritoryCode extends Command
             }
 
             /**
-             * Returns a {@see CurrencyCode} of the specified code.
+             * Returns a {@see TerritoryCode} of the specified code.
              *
              * @param string \$code
              *     A currency code; for example, EUR.
@@ -109,7 +109,7 @@ final class GenerateTerritoryCode extends Command
 
             /**
              * @param string \$value
-             *     A territory value; for example, CA.
+             *     A territory code; for example, CA.
             */
             private function __construct(
                 public readonly string \$value,

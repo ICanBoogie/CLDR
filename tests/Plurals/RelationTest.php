@@ -2,8 +2,8 @@
 
 namespace Test\ICanBoogie\CLDR\Plurals;
 
-use ICanBoogie\CLDR\Plurals\Operands;
-use ICanBoogie\CLDR\Plurals\Relation;
+use ICanBoogie\CLDR\Supplemental\Plurals\Operands;
+use ICanBoogie\CLDR\Supplemental\Plurals\Relation;
 use PHPUnit\Framework\TestCase;
 
 /**

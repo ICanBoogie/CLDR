@@ -31,7 +31,7 @@ in the given locale.
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Locale $de
+ * @var \ICanBoogie\CLDR\Core\Locale $de
  */
 
 echo $de->numbers->default_numbering_system;
@@ -100,7 +100,7 @@ Alternatively, you format a number using a [NumberFormatter][] instance:
 ```php
 <?php
 
-use ICanBoogie\CLDR\NumberFormatter;
+use ICanBoogie\CLDR\Numbers\NumberFormatter;
 
 /**
  * @var ICanBoogie\CLDR\Repository $repository
@@ -127,8 +127,8 @@ Use the `format_number()` method of a [Locale][] to format a number using its co
 
 /**
  * @var ICanBoogie\CLDR\Repository $repository
- * @var ICanBoogie\CLDR\Locale $en
- * @var ICanBoogie\CLDR\Locale $fr
+ * @var \ICanBoogie\CLDR\Core\Locale $en
+ * @var \ICanBoogie\CLDR\Core\Locale $fr
  */
 
 echo $en->format_number(123456.78)
@@ -144,8 +144,8 @@ Alternatively, you can use a [LocalizedNumberFormatter][] instance:
 <?php
 
 /**
- * @var ICanBoogie\CLDR\Locale $en
- * @var ICanBoogie\CLDR\Locale $fr
+ * @var \ICanBoogie\CLDR\Core\Locale $en
+ * @var \ICanBoogie\CLDR\Core\Locale $fr
  */
 
 $localized_formatter = $en->number_formatter;
@@ -164,12 +164,12 @@ echo $localized_formatter->format(123456.78);
 ```php
 <?php
 
-use ICanBoogie\CLDR\Currency;
+use ICanBoogie\CLDR\Numbers\Currency;
 
 /**
  * @var ICanBoogie\CLDR\Repository $cldr
- * @var ICanBoogie\CLDR\Territory $territory
- * @var ICanBoogie\CLDR\Locale $locale
+ * @var \ICanBoogie\CLDR\Supplemental\Territory\Territory $territory
+ * @var \ICanBoogie\CLDR\Core\Locale $locale
  */
 
 $currency_code = 'EUR';
@@ -235,6 +235,6 @@ $cldr->plurals->rule_for(2, 'ar');   // two
 
 
 
-[Locale]: ../src/Locale.php
-[LocalizedNumberFormatter]: ../src/LocalizedNumberFormatter.php
-[NumberFormatter]: ../src/NumberFormatter.php
+[Locale]: ../src/Core/Locale.php
+[LocalizedNumberFormatter]: ../src/Numbers/NumberFormatterLocalized.php
+[NumberFormatter]: ../src/Numbers/NumberFormatter.php

@@ -71,8 +71,6 @@ the desired locale.
 ```php
 <?php
 
-use ICanBoogie\CLDR\LocaleId;
-
 /**
  * @var ICanBoogie\CLDR\Repository $repository
  */
@@ -87,4 +85,4 @@ echo $territory->localized('ja')->name;   // フランス
 
 
 
-[Territory]: ../src/Territory.php
+[Territory]: ../src/Supplemental/Territory/Territory.php

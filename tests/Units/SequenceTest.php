@@ -2,9 +2,9 @@
 
 namespace Test\ICanBoogie\CLDR\Units;
 
-use ICanBoogie\CLDR\UnitLength;
-use ICanBoogie\CLDR\Units;
-use ICanBoogie\CLDR\Units\Sequence;
+use ICanBoogie\CLDR\General\Units;
+use ICanBoogie\CLDR\General\Units\Sequence;
+use ICanBoogie\CLDR\General\Units\UnitLength;
 use PHPUnit\Framework\TestCase;
 
 final class SequenceTest extends TestCase

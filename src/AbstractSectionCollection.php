@@ -3,6 +3,7 @@
 namespace ICanBoogie\CLDR;
 
 use ArrayAccess;
+use ICanBoogie\CLDR\Provider\ResourceNotFound;
 use LogicException;
 
 /**

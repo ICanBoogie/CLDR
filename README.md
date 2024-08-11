@@ -20,7 +20,7 @@ for numbers, currencies, dates and times, units, sequences, and lists.
 ```php
 <?php
 
-use ICanBoogie\CLDR\Currency;
+use ICanBoogie\CLDR\Numbers\Currency;
 
 /* @var ICanBoogie\CLDR\Repository $repository */
 
@@ -54,7 +54,7 @@ echo $calendar->format_datetime($datetime, 'full'); // samedi 24 novembre 2018 �
 
 # Alternatively, you can localize a DateTimeInterface and get formatted dates of various lengths
 $datetime = new \DateTime('2013-11-04 20:21:22 UTC');
-$fr_datetime = new \ICanBoogie\CLDR\LocalizedDateTime($datetime, $fr);
+$fr_datetime = new \ICanBoogie\CLDR\Dates\LocalizedDateTime($datetime, $fr);
 echo $fr_datetime->as_full;                         // lundi 4 novembre 2013 à 20:21:22 UTC
 echo $fr_datetime->as_long;                         // 4 novembre 2013 à 20:21:22 UTC
 echo $fr_datetime->as_medium;                       // 4 nov. 2013 20:21:22

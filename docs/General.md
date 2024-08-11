@@ -28,8 +28,6 @@ units. [Many units are available](https://www.unicode.org/reports/tr35/tr35-72/t
 ```php
 <?php
 
-use ICanBoogie\CLDR\LocaleId;
-
 /* @var ICanBoogie\CLDR\Repository $cldr */
 
 $units = $cldr->locale_for('en')->units;
@@ -158,7 +156,7 @@ Alternatively, you can get a list formatter using the `list_formatter` property:
 ```php
 <?php
 
-/* @var ICanBoogie\CLDR\Locale $locate */
+/* @var \ICanBoogie\CLDR\Core\Locale $locate */
 
 $list_formatter = $locale->list_formatter;
 $list_formatter->format([ "Monday", "Tuesday", "Wednesday" ]);

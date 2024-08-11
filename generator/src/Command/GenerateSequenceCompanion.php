@@ -8,10 +8,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('src/Units/SequenceCompanion.php')]
+#[AsCommand(self::GENERATED_FILE)]
 final class GenerateSequenceCompanion extends Command
 {
-    private const GENERATED_FILE = 'src/Units/SequenceCompanion.php';
+    private const GENERATED_FILE = 'src/General/Units/SequenceCompanion.php';
 
     public function __construct(
         private readonly Repository $repository
@@ -69,7 +69,7 @@ final class GenerateSequenceCompanion extends Command
          * {@see \\$class}
          */
 
-        namespace ICanBoogie\CLDR\Units;
+        namespace ICanBoogie\CLDR\General\Units;
 
         /**
          * @internal

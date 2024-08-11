@@ -66,10 +66,10 @@ suitable _localizer_, and it helps if the instance to localize implements [Local
 ```php
 <?php
 
-/* @var ICanBoogie\CLDR\Locale $locale */
+/* @var \ICanBoogie\CLDR\Core\Locale $locale */
 
 $datetime = new \DateTime;
-$localized_datetime = new \ICanBoogie\CLDR\LocalizedDateTime($datetime, $locale);
+$localized_datetime = new \ICanBoogie\CLDR\Dates\LocalizedDateTime($datetime, $locale);
 ```
 
 Instances that can be localized usually implement the `localize()` method.
@@ -112,7 +112,7 @@ capitalization behavior for dates, date elements, names of languages/regions/cur
 ```php
 <?php
 
-use ICanBoogie\CLDR\ContextTransforms;
+use ICanBoogie\CLDR\General\Transforms\ContextTransforms;
 
 /* @var ICanBoogie\CLDR\Repository $repository */
 
@@ -125,7 +125,7 @@ echo $repository->locale_fr('fr')->context_transform(
 // Juin
 ```
 
-[Currency]: ../src/Currency.php
-[Locale]: ../src/Locale.php
-[Localizable]: ../src/Localizable.php
-[Territory]: ../src/Territory.php
+[Currency]: ../src/Numbers/Currency.php
+[Locale]: ../src/Core/Locale.php
+[Localizable]: ../src/Core/Localizable.php
+[Territory]: ../src/Supplemental/Territory/Territory.php

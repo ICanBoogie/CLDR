@@ -8,10 +8,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('src/Units/UnitsCompanion.php')]
+#[AsCommand(self::GENERATED_FILE)]
 final class GenerateUnitsCompanion extends Command
 {
-    private const GENERATED_FILE = 'src/Units/UnitsCompanion.php';
+    private const GENERATED_FILE = 'src/General/Units/UnitsCompanion.php';
 
     public function __construct(
         private readonly Repository $repository
@@ -72,7 +72,7 @@ final class GenerateUnitsCompanion extends Command
          * {@see \\$class}
          */
 
-        namespace ICanBoogie\CLDR\Units;
+        namespace ICanBoogie\CLDR\General\Units;
 
         /**
          * @internal

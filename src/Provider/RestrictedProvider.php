@@ -3,7 +3,6 @@
 namespace ICanBoogie\CLDR\Provider;
 
 use ICanBoogie\CLDR\Provider;
-use ICanBoogie\CLDR\ResourceNotFound;
 
 /**
  * A {@see Provider} that fails to provide any path.

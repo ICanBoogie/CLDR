@@ -3,8 +3,19 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
-use ICanBoogie\CLDR\Locale\ListPattern;
+use ICanBoogie\CLDR\Core\Locale;
+use ICanBoogie\CLDR\Core\LocaleId;
+use ICanBoogie\CLDR\General\Lists\ListFormatter;
+use ICanBoogie\CLDR\General\Lists\ListPattern;
+use ICanBoogie\CLDR\Numbers\CurrencyFormatter;
+use ICanBoogie\CLDR\Numbers\NumberFormatter;
+use ICanBoogie\CLDR\Numbers\NumberPattern;
 use ICanBoogie\CLDR\Numbers\Symbols;
+use ICanBoogie\CLDR\Provider\ResourceNotFound;
+use ICanBoogie\CLDR\Supplemental\Plurals;
+use ICanBoogie\CLDR\Supplemental\Supplemental;
+use ICanBoogie\CLDR\Supplemental\Territory\Territory;
+use ICanBoogie\CLDR\Supplemental\Territory\TerritoryCode;
 
 use function array_shift;
 use function explode;

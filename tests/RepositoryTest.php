@@ -2,18 +2,18 @@
 
 namespace Test\ICanBoogie\CLDR;
 
-use ICanBoogie\CLDR\CurrencyFormatter;
-use ICanBoogie\CLDR\ListFormatter;
-use ICanBoogie\CLDR\Locale\ListPattern;
-use ICanBoogie\CLDR\LocaleId;
-use ICanBoogie\CLDR\LocaleNotAvailable;
-use ICanBoogie\CLDR\NumberFormatter;
-use ICanBoogie\CLDR\Plurals;
+use ICanBoogie\CLDR\Core\LocaleId;
+use ICanBoogie\CLDR\Core\LocaleNotAvailable;
+use ICanBoogie\CLDR\General\Lists\ListFormatter;
+use ICanBoogie\CLDR\General\Lists\ListPattern;
+use ICanBoogie\CLDR\Numbers\CurrencyFormatter;
+use ICanBoogie\CLDR\Numbers\NumberFormatter;
 use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\Repository;
-use ICanBoogie\CLDR\Supplemental;
-use ICanBoogie\CLDR\TerritoryCode;
-use ICanBoogie\CLDR\TerritoryNotDefined;
+use ICanBoogie\CLDR\Supplemental\Plurals;
+use ICanBoogie\CLDR\Supplemental\Supplemental;
+use ICanBoogie\CLDR\Supplemental\Territory\TerritoryCode;
+use ICanBoogie\CLDR\Supplemental\Territory\TerritoryNotDefined;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

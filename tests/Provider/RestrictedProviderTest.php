@@ -2,8 +2,8 @@
 
 namespace Test\ICanBoogie\CLDR\Provider;
 
+use ICanBoogie\CLDR\Provider\ResourceNotFound;
 use ICanBoogie\CLDR\Provider\RestrictedProvider;
-use ICanBoogie\CLDR\ResourceNotFound;
 use PHPUnit\Framework\TestCase;
 
 /**

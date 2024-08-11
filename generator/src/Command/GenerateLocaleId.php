@@ -11,10 +11,10 @@ use Symfony\Component\VarExporter\VarExporter;
 
 use function ICanBoogie\CLDR\Generator\indent;
 
-#[AsCommand('src/LocaleId.php')]
+#[AsCommand(self::GENERATED_FILE)]
 final class GenerateLocaleId extends Command
 {
-    private const GENERATED_FILE = 'src/LocaleId.php';
+    private const GENERATED_FILE = 'src/Core/LocaleId.php';
 
     public function __construct(
         private readonly Repository $repository
@@ -52,7 +52,7 @@ final class GenerateLocaleId extends Command
          * {@see \\$class}
          */
 
-        namespace ICanBoogie\CLDR;
+        namespace ICanBoogie\CLDR\Core;
 
         final class LocaleId
         {
@@ -106,6 +106,10 @@ final class GenerateLocaleId extends Command
                 return \$instances[\$value] ??= new self(\$value);
             }
 
+            /**
+             * @param string \$value
+             *     A locale identifier; for example, fr-BE.
+             */
             private function __construct(
                 public readonly string \$value,
             ) {

@@ -1,0 +1,159 @@
+<?php
+
+namespace ICanBoogie\CLDR\Numbers;
+
+use function explode;
+use function preg_match;
+use function str_replace;
+use function strpos;
+use function strrpos;
+use function substr;
+
+/**
+ * @link https://unicode.org/reports/tr35/tr35-numbers.html#Number_Pattern_Character_Definitions
+ *
+ * @phpstan-type PatternArray array{
+ *      positive_prefix: string,
+ *      positive_suffix: string,
+ *      negative_prefix: string,
+ *      negative_suffix: string,
+ *      multiplier: int,
+ *      decimal_digits: int,
+ *      max_decimal_digits: int,
+ *      integer_digits: int,
+ *      group_size1: int,
+ *      group_size2: int
+ *  }
+ */
+final class NumberPatternParser
+{
+    public const PATTERN_REGEX = '/^(.*?)[#,\.0]+(.*?)$/';
+
+    /**
+     * @var array<string, int|string>
+     */
+    private static array $initial_format = [
+
+        'positive_prefix' => '',
+        'positive_suffix' => '',
+        'negative_prefix' => '',
+        'negative_suffix' => '',
+        'multiplier' => 1,
+        'decimal_digits' => 0,
+        'max_decimal_digits' => 0,
+        'integer_digits' => 0,
+        'group_size1' => 0,
+        'group_size2' => 0
+
+    ];
+
+    /**
+     * Parses a given string pattern.
+     *
+     * @param string $pattern
+     *
+     * @return PatternArray
+     */
+    public static function parse(string $pattern): array
+    {
+        $format = self::$initial_format;
+
+        self::parse_multiple_patterns($pattern, $format);
+        self::parse_multiplier($pattern, $format);
+        self::parse_decimal_part($pattern, $format);
+        self::parse_integer_part($pattern, $format);
+        self::parse_group_sizes($pattern, $format);
+
+        return $format;
+    }
+
+    /**
+     * @param string $pattern
+     * @param PatternArray $format
+     */
+    private static function parse_multiple_patterns(string &$pattern, array &$format): void
+    {
+        $patterns = explode(';', $pattern);
+
+        if (preg_match(self::PATTERN_REGEX, $patterns[0], $matches)) {
+            $format['positive_prefix'] = $matches[1];
+            $format['positive_suffix'] = $matches[2];
+        }
+
+        if (isset($patterns[1]) && preg_match(self::PATTERN_REGEX, $patterns[1], $matches)) {
+            $format['negative_prefix'] = $matches[1];
+            $format['negative_suffix'] = $matches[2];
+        } else {
+            $format['negative_prefix'] = '-' . $format['positive_prefix'];
+            $format['negative_suffix'] = $format['positive_suffix'];
+        }
+
+        $pattern = $patterns[0];
+    }
+
+    /**
+     * @param string $pattern
+     * @param PatternArray $format
+     */
+    private static function parse_multiplier(string $pattern, array &$format): void
+    {
+        if (str_contains($pattern, '%')) {
+            $format['multiplier'] = 100;
+        } elseif (str_contains($pattern, '‰')) {
+            $format['multiplier'] = 1000;
+        }
+    }
+
+    /**
+     * @param string $pattern
+     * @param PatternArray $format
+     */
+    private static function parse_decimal_part(string &$pattern, array &$format): void
+    {
+        $pos = strpos($pattern, '.');
+
+        if ($pos !== false) {
+            $pos2 = strrpos($pattern, '0');
+            $format['decimal_digits'] = $pos2 > $pos
+                ? $pos2 - $pos
+                : 0;
+
+            $pos3 = strrpos($pattern, '#');
+            $format['max_decimal_digits'] = $pos3 >= $pos2
+                ? $pos3 - $pos
+                : $format['decimal_digits'];
+
+            $pattern = substr($pattern, 0, $pos);
+        }
+    }
+
+    /**
+     * @param string $pattern
+     * @param PatternArray $format
+     */
+    private static function parse_integer_part(string $pattern, array &$format): void
+    {
+        $p = str_replace(',', '', $pattern);
+        $pos = strpos($p, '0');
+
+        $format['integer_digits'] = $pos !== false
+            ? strrpos($p, '0') - $pos + 1
+            : 0;
+    }
+
+    /**
+     * @param string $pattern
+     * @param PatternArray $format
+     */
+    private static function parse_group_sizes(string $pattern, array &$format): void
+    {
+        $p = str_replace('#', '0', $pattern);
+        $pos = strrpos($pattern, ',');
+
+        if ($pos !== false) {
+            $pos2 = strrpos(substr($p, 0, $pos), ',');
+            $format['group_size1'] = strrpos($p, '0') - $pos;
+            $format['group_size2'] = $pos2 !== false ? $pos - $pos2 - 1 : 0;
+        }
+    }
+}

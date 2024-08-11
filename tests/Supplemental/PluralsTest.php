@@ -1,0 +1,195 @@
+<?php
+
+namespace Test\ICanBoogie\CLDR\Supplemental;
+
+use ICanBoogie\CLDR\Supplemental\Plurals;
+use ICanBoogie\CLDR\Supplemental\Plurals\Samples;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Throwable;
+
+use function Test\ICanBoogie\CLDR\get_repository;
+
+/**
+ * @group plurals
+ */
+final class PluralsTest extends TestCase
+{
+    private Plurals $plurals;
+
+    protected function setUp(): void
+    {
+        $this->plurals = new Plurals(get_repository()->supplemental['plurals']);
+    }
+
+    #[DataProvider('provide_test_samples_for')]
+    public function test_samples_for(string $locale, array $expected_keys): void
+    {
+        $samples = $this->plurals->samples_for($locale);
+
+        $this->assertSame($expected_keys, array_keys($samples));
+        $this->assertContainsOnlyInstancesOf(Samples::class, $samples);
+    }
+
+    public static function provide_test_samples_for(): array
+    {
+        return [
+
+            [
+                'fr',
+                [
+
+                    Plurals::COUNT_ONE,
+                    Plurals::COUNT_MANY,
+                    Plurals::COUNT_OTHER
+
+                ]
+            ],
+
+            [
+                'ar',
+                [
+
+                    Plurals::COUNT_ZERO,
+                    Plurals::COUNT_ONE,
+                    Plurals::COUNT_TWO,
+                    Plurals::COUNT_FEW,
+                    Plurals::COUNT_MANY,
+                    Plurals::COUNT_OTHER
+
+                ]
+            ],
+
+            [
+                'bs',
+                [
+
+                    Plurals::COUNT_ONE,
+                    Plurals::COUNT_FEW,
+                    Plurals::COUNT_OTHER
+
+                ]
+            ],
+
+        ];
+    }
+
+    public function test_samples_should_be_the_same_for_the_same_locale(): void
+    {
+        $samples = $this->plurals->samples_for('fr');
+
+        $this->assertSame($samples, $this->plurals->samples_for('fr'));
+    }
+
+    #[DataProvider('provide_test_rules_for')]
+    public function test_rules_for(string $locale, array $expected_keys): void
+    {
+        $rules = $this->plurals->rules_for($locale);
+
+        $this->assertSame($expected_keys, $rules);
+    }
+
+    public static function provide_test_rules_for(): array
+    {
+        return [
+
+            [
+                'fr',
+                [
+
+                    Plurals::COUNT_ONE,
+                    Plurals::COUNT_MANY,
+                    Plurals::COUNT_OTHER
+
+                ]
+            ],
+
+            [
+                'ar',
+                [
+
+                    Plurals::COUNT_ZERO,
+                    Plurals::COUNT_ONE,
+                    Plurals::COUNT_TWO,
+                    Plurals::COUNT_FEW,
+                    Plurals::COUNT_MANY,
+                    Plurals::COUNT_OTHER
+
+                ]
+            ],
+
+            [
+                'bs',
+                [
+
+                    Plurals::COUNT_ONE,
+                    Plurals::COUNT_FEW,
+                    Plurals::COUNT_OTHER
+
+                ]
+            ],
+
+        ];
+    }
+
+    /**
+     * @param float|int|numeric-string $number
+     */
+    #[DataProvider('provide_test_rule_for')]
+    public function test_rule_for(float|int|string $number, string $locale, string $expected): void
+    {
+        $this->assertSame($expected, $this->plurals->rule_for($number, $locale));
+    }
+
+    public static function provide_test_rule_for(): array
+    {
+        return [
+
+            [ 0, 'ar', Plurals::COUNT_ZERO ],
+            [ 1, 'ar', Plurals::COUNT_ONE ],
+            [ 1.0, 'ar', Plurals::COUNT_ONE ],
+            [ '1.0000', 'ar', Plurals::COUNT_ONE ],
+            [ 2, 'ar', Plurals::COUNT_TWO ],
+            [ '2.0000', 'ar', Plurals::COUNT_TWO ],
+            [ 3, 'ar', Plurals::COUNT_FEW ],
+            [ 20, 'ar', Plurals::COUNT_MANY ],
+            [ 100000, 'ar', Plurals::COUNT_OTHER ],
+
+        ];
+    }
+
+    #[DataProvider('provide_test_rule_with_samples')]
+    public function test_rule_with_samples(string $locale): void
+    {
+        $plurals = $this->plurals;
+        $samples_per_count = $plurals->samples_for($locale);
+
+        foreach ($samples_per_count as $expected => $samples) {
+            foreach ($samples as $number) {
+                /** @var numeric-string $number */
+                $count = $plurals->rule_for($number, $locale);
+
+                try {
+                    $this->assertSame($expected, $count);
+                } catch (Throwable) {
+                    $this->fail("Expected `$expected` but got `$count` for number `$number` ($locale)");
+                }
+            }
+        }
+    }
+
+    public static function provide_test_rule_with_samples(): array
+    {
+        return [
+
+            [ 'az' ],
+            [ 'be' ],
+            [ 'br' ],
+            [ 'cy' ],
+            [ 'es' ],
+            [ 'fr' ],
+            [ 'naq' ],
+
+        ];
+    }
+}

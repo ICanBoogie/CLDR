@@ -2,7 +2,7 @@
 
 namespace Test\ICanBoogie\CLDR\Plurals;
 
-use ICanBoogie\CLDR\Plurals\Samples;
+use ICanBoogie\CLDR\Supplemental\Plurals\Samples;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

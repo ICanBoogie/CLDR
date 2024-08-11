@@ -2,9 +2,9 @@
 
 namespace Test\ICanBoogie\CLDR\Units;
 
-use ICanBoogie\CLDR\UnitLength;
-use ICanBoogie\CLDR\Units;
-use ICanBoogie\CLDR\Units\NumberPerUnit;
+use ICanBoogie\CLDR\General\Units;
+use ICanBoogie\CLDR\General\Units\NumberPerUnit;
+use ICanBoogie\CLDR\General\Units\UnitLength;
 use PHPUnit\Framework\TestCase;
 use Test\ICanBoogie\CLDR\StringHelpers;
 

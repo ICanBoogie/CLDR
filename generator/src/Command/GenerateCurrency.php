@@ -11,10 +11,10 @@ use Symfony\Component\VarExporter\VarExporter;
 
 use function ICanBoogie\CLDR\Generator\indent;
 
-#[AsCommand('src/Currency.php')]
+#[AsCommand(self::GENERATED_FILE)]
 final class GenerateCurrency extends Command
 {
-    private const GENERATED_FILE = 'src/Currency.php';
+    private const GENERATED_FILE = 'src/Numbers/Currency.php';
 
     public function __construct(
         private readonly Repository $repository
@@ -68,16 +68,17 @@ final class GenerateCurrency extends Command
          * {@see \\$class}
          */
 
-        namespace ICanBoogie\CLDR;
+        namespace ICanBoogie\CLDR\Numbers;
 
-        use ICanBoogie\CLDR\Supplemental\Fraction;
+        use ICanBoogie\CLDR\Core\Locale;
+        use ICanBoogie\CLDR\Core\Localizable;
 
         /**
          * Representation of a currency.
          *
          * @link https://www.unicode.org/reports/tr35/tr35-72/tr35-numbers.html#Currencies
          *
-         * @implements Localizable<Currency, LocalizedCurrency>
+         * @implements Localizable<Currency, CurrencyLocalized>
          */
         final class Currency implements Localizable
         {
@@ -189,9 +190,9 @@ final class GenerateCurrency extends Command
             /**
              * Returns a localized currency.
              */
-            public function localized(Locale \$locale): LocalizedCurrency
+            public function localized(Locale \$locale): CurrencyLocalized
             {
-                return new LocalizedCurrency(\$this, \$locale);
+                return new CurrencyLocalized(\$this, \$locale);
             }
         }
 

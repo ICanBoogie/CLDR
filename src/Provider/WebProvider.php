@@ -5,7 +5,6 @@ namespace ICanBoogie\CLDR\Provider;
 use CurlHandle;
 use ICanBoogie\CLDR\GitHub\UrlResolver;
 use ICanBoogie\CLDR\Provider;
-use ICanBoogie\CLDR\ResourceNotFound;
 
 use function curl_exec;
 use function curl_getinfo;
