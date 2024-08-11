@@ -16,7 +16,7 @@ use ICanBoogie\CLDR\Numbers\CurrencyFormatterLocalized;
 use ICanBoogie\CLDR\Numbers\NumberFormatterLocalized;
 use ICanBoogie\CLDR\Numbers\Numbers;
 use ICanBoogie\CLDR\Repository;
-use ICanBoogie\CLDR\Units\Units;
+use ICanBoogie\CLDR\Supplemental\Units\Units;
 use ICanBoogie\CLDR\Warmable;
 use WeakMap;
 

@@ -62,8 +62,8 @@ generate: \
 	src/General/Transforms/HasContextTransforms.php \
 	src/Numbers/CurrencyData.php \
 	src/Supplemental/Territory/TerritoryData.php \
-	src/Units/SequenceCompanion.php \
-	src/Units/UnitsCompanion.php
+	src/Supplemental/Units/SequenceCompanion.php \
+	src/Supplemental/Units/UnitsCompanion.php
 
 src/Core/LocaleData.php: generator/src/Command/GenerateLocaleData.php
 	$(GENERATE) $@
@@ -77,8 +77,8 @@ src/Numbers/CurrencyData.php: generator/src/Command/GenerateCurrencyData.php
 src/Supplemental/Territory/TerritoryData.php: generator/src/Command/GenerateTerritoryData.php
 	$(GENERATE) $@
 
-src/Units/SequenceCompanion.php: generator/src/Command/GenerateSequenceCompanion.php
+src/Supplemental/Units/SequenceCompanion.php: generator/src/Command/GenerateSequenceCompanion.php
 	$(GENERATE) $@
 
-src/Units/UnitsCompanion.php: generator/src/Command/GenerateUnitsCompanion.php
+src/Supplemental/Units/UnitsCompanion.php: generator/src/Command/GenerateUnitsCompanion.php
 	$(GENERATE) $@

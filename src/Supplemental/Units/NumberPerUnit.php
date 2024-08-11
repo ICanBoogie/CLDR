@@ -1,6 +1,6 @@
 <?php
 
-namespace ICanBoogie\CLDR\Units;
+namespace ICanBoogie\CLDR\Supplemental\Units;
 
 use ICanBoogie\Accessor\AccessorTrait;
 

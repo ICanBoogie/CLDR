@@ -1,10 +1,10 @@
 <?php
 
-namespace Test\ICanBoogie\CLDR\Units;
+namespace Test\ICanBoogie\CLDR\Supplemental\Units;
 
-use ICanBoogie\CLDR\Units\Sequence;
-use ICanBoogie\CLDR\Units\UnitLength;
-use ICanBoogie\CLDR\Units\Units;
+use ICanBoogie\CLDR\Supplemental\Units\Sequence;
+use ICanBoogie\CLDR\Supplemental\Units\UnitLength;
+use ICanBoogie\CLDR\Supplemental\Units\Units;
 use PHPUnit\Framework\TestCase;
 
 final class SequenceTest extends TestCase

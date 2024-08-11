@@ -1,6 +1,6 @@
 <?php
 
-namespace ICanBoogie\CLDR\Units;
+namespace ICanBoogie\CLDR\Supplemental\Units;
 
 use ICanBoogie\CLDR\Core\Locale;
 use ICanBoogie\CLDR\General\Lists\ListType;

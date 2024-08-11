@@ -1,10 +1,10 @@
 <?php
 
-namespace Test\ICanBoogie\CLDR\Units;
+namespace Test\ICanBoogie\CLDR\Supplemental\Units;
 
-use ICanBoogie\CLDR\Units\Unit;
-use ICanBoogie\CLDR\Units\UnitLength;
-use ICanBoogie\CLDR\Units\Units;
+use ICanBoogie\CLDR\Supplemental\Units\Unit;
+use ICanBoogie\CLDR\Supplemental\Units\UnitLength;
+use ICanBoogie\CLDR\Supplemental\Units\Units;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
