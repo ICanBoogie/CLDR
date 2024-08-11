@@ -6,7 +6,7 @@ use Closure;
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\AbstractSectionCollection;
 use ICanBoogie\CLDR\Dates\Calendar;
-use ICanBoogie\CLDR\Dates\CalendarCollection;
+use ICanBoogie\CLDR\Dates\CalendarId;
 use ICanBoogie\CLDR\General\Lists\ListFormatterLocalized;
 use ICanBoogie\CLDR\General\Lists\ListType;
 use ICanBoogie\CLDR\General\Transforms\ContextTransforms;
@@ -18,6 +18,7 @@ use ICanBoogie\CLDR\Numbers\NumberFormatterLocalized;
 use ICanBoogie\CLDR\Numbers\Numbers;
 use ICanBoogie\CLDR\Repository;
 use ICanBoogie\CLDR\Warmable;
+use WeakMap;
 
 use function str_replace;
 
@@ -26,8 +27,6 @@ use function str_replace;
  *
  * @property-read string $language Unicode language.
  * @uses self::get_language()
- * @property-read CalendarCollection $calendars The calendar collection of the locale.
- * @uses self::get_calendars()
  * @property-read Calendar $calendar The preferred calendar for this locale.
  * @uses self::get_calendar()
  * @property-read Numbers $numbers
@@ -52,7 +51,6 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
      * @uses get_context_transforms
      * @uses get_currency_formatter
      * @uses get_calendar
-     * @uses get_calendars
      * @uses get_language
      * @uses get_list_formatter
      * @uses get_number_formatter
@@ -105,6 +103,8 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
         Repository $repository,
         public readonly LocaleId $id
     ) {
+        $this->calendars = new WeakMap();
+
         parent::__construct($repository);
     }
 
@@ -153,18 +153,26 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
         return $language;
     }
 
-    private CalendarCollection $calendars;
-
-    private function get_calendars(): CalendarCollection
-    {
-        return $this->calendars ??= new CalendarCollection($this);
-    }
-
     private Calendar $calendar;
 
     private function get_calendar(): Calendar
     {
-        return $this->calendar ??= $this->get_calendars()['gregorian']; // TODO-20131101: use preferred data
+        /**
+         * @TODO-20131101: use preferred data
+         *
+         * @see https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/calendarPreferenceData.json
+         */
+        return $this->calendar ??= $this->calendar_for(CalendarId::GREGORIAN);
+    }
+
+    /**
+     * @var WeakMap<CalendarId, Calendar>
+     */
+    private WeakMap $calendars;
+
+    public function calendar_for(CalendarId $id): Calendar
+    {
+        return $this->calendars[$id] ??= new Calendar($this, $this["ca-" . $id->value]);
     }
 
     private Numbers $numbers;

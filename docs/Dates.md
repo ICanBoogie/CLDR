@@ -21,19 +21,21 @@ The documentation is divided into the following parts, mimicking [Unicode's docu
 
 ## Calendars
 
-Calendars are represented by a [Calendar][] instance, they can be accessed as arrays, and also
-provide magic properties to rapidly access days, eras, months and quarters:
+Calendars are represented by a [Calendar][] instance, they can be accessed as arrays and also
+provide magic properties to rapidly access days, eras, months, and quarters:
 
 ```php
 <?php
+
+use ICanBoogie\CLDR\Dates\CalendarId;
 
 /**
  * @var \ICanBoogie\CLDR\Core\Locale $locale
  */
 
-$calendar = $locale->calendars['gregorian'];
+$calendar = $locale->calendar_for(CalendarId::GREGORIAN);
 # or
-$calendar = $locale->calendar; // because "gregorian" is the default calendar for this locale
+$calendar = $locale->calendar; // because the gregorian is the default one for this locale
 
 $calender['days']['stand-alone']['abbreviated']
 # or

@@ -24,6 +24,7 @@
 - `$cldr->locales['fr']` is replaced by `$cldr->locale_for('fr')`.
 - `$cldr->territories['FR']` is replaced by `$cldr->territory_for('FR')`.
 - `$cldr->currencies['USD']` is replaced by `Currency::of('USD')`.
+- `Locale::$calendars` is replaced by `Locale::calendar_for()`.
 - Removed `Repository::$locales`, use `LocaleId` instead.
 - Removed `Repository::$territories`, use `TerritoryCode::CODES` instead.
 - Removed `Repository::$currencies`, use `Currency::CODES` instead.

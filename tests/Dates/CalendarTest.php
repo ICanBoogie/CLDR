@@ -4,6 +4,7 @@ namespace Test\ICanBoogie\CLDR\Dates;
 
 use ICanBoogie\CLDR\Core\Locale;
 use ICanBoogie\CLDR\Dates\Calendar;
+use ICanBoogie\CLDR\Dates\CalendarId;
 use ICanBoogie\CLDR\Dates\DateFormatter;
 use ICanBoogie\CLDR\Dates\DateTimeFormatLength;
 use ICanBoogie\CLDR\Dates\DateTimeFormatter;
@@ -20,7 +21,7 @@ final class CalendarTest extends TestCase
 
     public static function setupBeforeClass(): void
     {
-        self::$sut = locale_for('fr')->calendars['gregorian'];
+        self::$sut = locale_for('fr')->calendar_for(CalendarId::GREGORIAN);
     }
 
     #[DataProvider('provider_test_property_instanceof')]

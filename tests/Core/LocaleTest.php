@@ -5,7 +5,6 @@ namespace Test\ICanBoogie\CLDR\Core;
 use ICanBoogie\CLDR\Core\Locale;
 use ICanBoogie\CLDR\Core\LocaleId;
 use ICanBoogie\CLDR\Dates\Calendar;
-use ICanBoogie\CLDR\Dates\CalendarCollection;
 use ICanBoogie\CLDR\General\Lists\ListFormatterLocalized;
 use ICanBoogie\CLDR\General\Transforms\ContextTransforms;
 use ICanBoogie\CLDR\General\Units;
@@ -63,7 +62,6 @@ final class LocaleTest extends TestCase
         return [
 
             [ 'repository', Repository::class ],
-            [ 'calendars', CalendarCollection::class ],
             [ 'calendar', Calendar::class ],
             [ 'numbers', Numbers::class ],
             [ 'number_formatter', NumberFormatterLocalized::class ],

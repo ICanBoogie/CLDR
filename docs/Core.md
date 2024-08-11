@@ -43,15 +43,17 @@ default calendar of a locale.
 ```php
 <?php
 
+use ICanBoogie\CLDR\Dates\CalendarId;
+
 /* @var ICanBoogie\CLDR\Repository $repository */
 
 $locale = $repository->locale_for('fr');
 
 echo $locale['ca-gregorian']['days']['format']['wide']['sun'];         // dimanche
 # or using the calendar collection
-echo $locale->calendars['gregorian']['days']['format']['wide']['sun']; // dimanche
-# or because 'gregorian' is the default calendar for this locale
-echo $locale->calendar['days']['format']['wide']['sun'];               // dimanche
+echo $locale->calendar_for(CalendarId::GREGORIAN)['days']['format']['wide']['sun'];
+# or because the Gregorian calendar is the default for this locale
+echo $locale->calendar['days']['format']['wide']['sun'];
 ```
 
 
