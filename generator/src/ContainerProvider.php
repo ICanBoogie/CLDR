@@ -5,11 +5,11 @@ namespace ICanBoogie\CLDR\Generator;
 use ICanBoogie\CLDR\Cache\CacheCollection;
 use ICanBoogie\CLDR\Cache\FileCache;
 use ICanBoogie\CLDR\Cache\RuntimeCache;
-use ICanBoogie\CLDR\Generator\Command\GenerateCurrency;
+use ICanBoogie\CLDR\Generator\Command\GenerateCurrencyData;
 use ICanBoogie\CLDR\Generator\Command\GenerateHasContextTransforms;
-use ICanBoogie\CLDR\Generator\Command\GenerateLocaleId;
+use ICanBoogie\CLDR\Generator\Command\GenerateLocaleData;
 use ICanBoogie\CLDR\Generator\Command\GenerateSequenceCompanion;
-use ICanBoogie\CLDR\Generator\Command\GenerateTerritoryCode;
+use ICanBoogie\CLDR\Generator\Command\GenerateTerritoryData;
 use ICanBoogie\CLDR\Generator\Command\GenerateUnitsCompanion;
 use ICanBoogie\CLDR\Provider;
 use ICanBoogie\CLDR\Repository;
@@ -20,11 +20,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class ContainerProvider
 {
     private const COMMANDS = [
-        GenerateLocaleId::class,
+        GenerateLocaleData::class,
         GenerateHasContextTransforms::class,
-        GenerateCurrency::class,
+        GenerateCurrencyData::class,
         GenerateSequenceCompanion::class,
-        GenerateTerritoryCode::class,
+        GenerateTerritoryData::class,
         GenerateUnitsCompanion::class,
     ];
 

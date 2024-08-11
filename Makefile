@@ -58,23 +58,23 @@ GENERATE=./generator/generate
 
 .PHONY=generate
 generate: \
-	src/Core/LocaleId.php \
+	src/Core/LocaleData.php \
 	src/General/Transforms/HasContextTransforms.php \
-	src/Numbers/Currency.php \
-	src/Supplemental/Territory/TerritoryCode.php \
+	src/Numbers/CurrencyData.php \
+	src/Supplemental/Territory/TerritoryData.php \
 	src/Units/SequenceCompanion.php \
 	src/Units/UnitsCompanion.php
 
-src/Core/LocaleId.php: generator/src/Command/GenerateLocaleId.php
+src/Core/LocaleData.php: generator/src/Command/GenerateLocaleData.php
 	$(GENERATE) $@
 
 src/General/Transforms/HasContextTransforms.php: generator/src/Command/GenerateHasContextTransforms.php
 	$(GENERATE) $@
 
-src/Numbers/Currency.php: generator/src/Command/GenerateCurrency.php
+src/Numbers/CurrencyData.php: generator/src/Command/GenerateCurrencyData.php
 	$(GENERATE) $@
 
-src/Supplemental/Territory/TerritoryCode.php: generator/src/Command/GenerateTerritoryCode.php
+src/Supplemental/Territory/TerritoryData.php: generator/src/Command/GenerateTerritoryData.php
 	$(GENERATE) $@
 
 src/Units/SequenceCompanion.php: generator/src/Command/GenerateSequenceCompanion.php

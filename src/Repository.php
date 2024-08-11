@@ -4,6 +4,7 @@ namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
 use ICanBoogie\CLDR\Core\Locale;
+use ICanBoogie\CLDR\Core\LocaleData;
 use ICanBoogie\CLDR\Core\LocaleId;
 use ICanBoogie\CLDR\General\Lists\ListFormatter;
 use ICanBoogie\CLDR\General\Lists\ListPattern;
@@ -33,8 +34,6 @@ use function explode;
  * @uses self::get_list_formatter()
  * @property-read Plurals $plurals
  * @uses self::get_plurals()
- * @property-read string[] $available_locales
- * @uses self::get_available_locales()
  *
  * @link https://github.com/unicode-org/cldr-json/tree/45.0.0
  */
@@ -47,13 +46,18 @@ final class Repository
      * @uses get_list_formatter
      * @uses get_list_formatter
      * @uses get_plurals
-     * @uses get_available_locales
      */
     use AccessorTrait;
+
+    /**
+     * @var array<string>
+     */
+    public array $available_locales;
 
     public function __construct(
         public readonly Provider $provider
     ) {
+        $this->available_locales = LocaleData::AVAILABLE_LOCALES;
     }
 
     private Supplemental $supplemental;
@@ -89,21 +93,6 @@ final class Repository
     private function get_plurals(): Plurals
     {
         return $this->plurals ??= new Plurals($this->get_supplemental()['plurals']);
-    }
-
-    /**
-     * @var array<string>
-     */
-    private array $available_locales;
-
-    /**
-     * @return array<string>
-     *
-     * @throws ResourceNotFound
-     */
-    private function get_available_locales(): array
-    {
-        return $this->available_locales ??= $this->fetch('core/availableLocales', 'availableLocales/modern');
     }
 
     /**

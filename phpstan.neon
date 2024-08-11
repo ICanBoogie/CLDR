@@ -7,7 +7,6 @@ parameters:
   scanFiles:
   	- generator/generate
   excludePaths:
-    - src/LocaleId.php
     - src/Units/SequenceCompanion.php
     - src/Units/UnitsCompanion.php
   ignoreErrors:
