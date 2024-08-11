@@ -42,8 +42,8 @@ final class LocalizedLocaleTest extends TestCase
     public function test_localize(): void
     {
         $locale = new Locale(get_repository(), LocaleId::of('fr'));
-        $localized = $locale->localized(LocaleId::of('es'));
+        $localized = $locale->localized(LocaleId::of('ja'));
         $this->assertInstanceOf(LocaleLocalized::class, $localized);
-        $this->assertEquals("francés", $localized->name);
+        $this->assertEquals("フランス語", $localized->name);
     }
 }

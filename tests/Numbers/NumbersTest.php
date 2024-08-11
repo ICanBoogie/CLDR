@@ -97,20 +97,20 @@ final class NumbersTest extends TestCase
                 )
             ],
             [
-                'ru',
+                'ja',
                 new Symbols(
+                    '.',
                     ',',
-                    ' ',
                     ';',
                     '%',
                     '-',
                     '+',
-                    '≈',
+                    '約',
                     'E',
                     '×',
                     '‰',
                     '∞',
-                    'не число',
+                    'NaN',
                     '.',
                     ',',
                     ':'

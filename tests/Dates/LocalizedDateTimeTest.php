@@ -26,7 +26,7 @@ final class LocalizedDateTimeTest extends TestCase
 
         self::$localized_dates['en'] = new LocalizedDateTime($datetime, locale_for('en'));
         self::$localized_dates['fr'] = new LocalizedDateTime($datetime, locale_for('fr'));
-        self::$localized_dates['zh'] = new LocalizedDateTime($datetime, locale_for('zh'));
+        self::$localized_dates['ja'] = new LocalizedDateTime($datetime, locale_for('ja'));
     }
 
     public function test_get_target(): void
@@ -77,10 +77,10 @@ final class LocalizedDateTimeTest extends TestCase
             [ 'fr', DateTimeFormatLength::MEDIUM, "4 nov. 2013, 20:21:22" ],
             [ 'fr', DateTimeFormatLength::SHORT, "04/11/2013 20:21" ],
 
-            [ 'zh', DateTimeFormatLength::FULL, "2013年11月4日星期一 UTC 20:21:22" ],
-            [ 'zh', DateTimeFormatLength::LONG, "2013年11月4日 UTC 20:21:22" ],
-            [ 'zh', DateTimeFormatLength::MEDIUM, "2013年11月4日 20:21:22" ],
-            [ 'zh', DateTimeFormatLength::SHORT, "2013/11/4 20:21" ],
+            [ 'ja', DateTimeFormatLength::FULL, "2013年11月4日月曜日 20時21分22秒 UTC" ],
+            [ 'ja', DateTimeFormatLength::LONG, "2013年11月4日 20:21:22 UTC" ],
+            [ 'ja', DateTimeFormatLength::MEDIUM, "2013/11/04 20:21:22" ],
+            [ 'ja', DateTimeFormatLength::SHORT, "2013/11/04 20:21" ],
 
         ];
     }

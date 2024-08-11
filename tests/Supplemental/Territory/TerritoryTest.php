@@ -125,7 +125,7 @@ final class TerritoryTest extends TestCase
 
             [ "France", "FR", "fr" ],
             [ "France", "FR", "fr-BE" ],
-            [ "Francia", "FR", "it" ],
+            [ "Frankreich", "FR", "de" ],
             [ "フランス", "FR", "ja" ]
 
         ];
@@ -147,7 +147,7 @@ final class TerritoryTest extends TestCase
 
             [ "France", "FR", "fr" ],
             [ "France", "FR", "fr_BE" ],
-            [ "Francia", "FR", "it" ],
+            [ "Frankreich", "FR", "de" ],
             [ "フランス", "FR", "ja" ]
 
         ];
