@@ -11,12 +11,12 @@ use ICanBoogie\CLDR\General\Lists\ListFormatterLocalized;
 use ICanBoogie\CLDR\General\Lists\ListType;
 use ICanBoogie\CLDR\General\Transforms\ContextTransforms;
 use ICanBoogie\CLDR\General\Transforms\HasContextTransforms;
-use ICanBoogie\CLDR\General\Units;
 use ICanBoogie\CLDR\Numbers\Currency;
 use ICanBoogie\CLDR\Numbers\CurrencyFormatterLocalized;
 use ICanBoogie\CLDR\Numbers\NumberFormatterLocalized;
 use ICanBoogie\CLDR\Numbers\Numbers;
 use ICanBoogie\CLDR\Repository;
+use ICanBoogie\CLDR\Units\Units;
 use ICanBoogie\CLDR\Warmable;
 use WeakMap;
 

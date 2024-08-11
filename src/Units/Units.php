@@ -1,13 +1,9 @@
 <?php
 
-namespace ICanBoogie\CLDR\General;
+namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\CLDR\Core\Locale;
 use ICanBoogie\CLDR\General\Lists\ListType;
-use ICanBoogie\CLDR\General\Units\Sequence;
-use ICanBoogie\CLDR\General\Units\Unit;
-use ICanBoogie\CLDR\General\Units\UnitLength;
-use ICanBoogie\CLDR\General\Units\UnitsCompanion;
 use ICanBoogie\CLDR\Supplemental\Plurals;
 use ICanBoogie\CLDR\UTF8Helpers;
 use ICanBoogie\PropertyNotDefined;

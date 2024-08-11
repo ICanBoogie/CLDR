@@ -1,9 +1,8 @@
 <?php
 
-namespace ICanBoogie\CLDR\General\Units;
+namespace ICanBoogie\CLDR\Units;
 
 use ICanBoogie\Accessor\AccessorTrait;
-use ICanBoogie\CLDR\General\Units;
 
 /**
  * Representation of a unit.

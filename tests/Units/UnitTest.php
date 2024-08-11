@@ -2,9 +2,9 @@
 
 namespace Test\ICanBoogie\CLDR\Units;
 
-use ICanBoogie\CLDR\General\Units;
-use ICanBoogie\CLDR\General\Units\Unit;
-use ICanBoogie\CLDR\General\Units\UnitLength;
+use ICanBoogie\CLDR\Units\Unit;
+use ICanBoogie\CLDR\Units\UnitLength;
+use ICanBoogie\CLDR\Units\Units;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

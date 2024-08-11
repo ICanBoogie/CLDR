@@ -6,7 +6,7 @@
  * {@see \ICanBoogie\CLDR\Generator\Command\GenerateSequenceCompanion}
  */
 
-namespace ICanBoogie\CLDR\General\Units;
+namespace ICanBoogie\CLDR\Units;
 
 /**
  * @internal

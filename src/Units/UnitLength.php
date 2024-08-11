@@ -1,6 +1,6 @@
 <?php
 
-namespace ICanBoogie\CLDR\General\Units;
+namespace ICanBoogie\CLDR\Units;
 
 enum UnitLength: string
 {
