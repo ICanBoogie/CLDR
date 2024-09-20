@@ -159,7 +159,10 @@ class DateTimeFormatter implements Formatter
             return '';
         }
 
-        $era = ($datetime->year > 0) ? 1 : 0;
+        $era = match ($this->calendar->id) {
+            CalendarId::GREGORIAN => ($datetime->year > 0) ? 1 : 0,
+            default => 0,
+        };
 
         return match ($length) {
             1, 2, 3 => $this->calendar->abbreviated_eras[$era],

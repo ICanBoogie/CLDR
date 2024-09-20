@@ -38,7 +38,7 @@ final class Currency implements Localizable
     }
 
     /**
-     * Returns a {@see CurrencyCode} of the specified code.
+     * Returns the {@see Currency} of the specified code.
      *
      * @param string $code
      *     A currency code; for example, EUR.

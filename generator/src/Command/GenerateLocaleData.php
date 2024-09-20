@@ -24,12 +24,14 @@ final class GenerateLocaleData extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $parent_locales = $this->repository->supplemental['parentLocales'];
         $available_locales = $this->repository->fetch('core/availableLocales', 'availableLocales/full');
+        $parent_locales = $this->repository->supplemental['parentLocales'];
+        $likely_subtags = $this->repository->supplemental['likelySubtags'];
 
         $contents = $this->render(
             available_locales: indent(VarExporter::export($available_locales), 2),
             parent_locales: indent(VarExporter::export($parent_locales), 2),
+            likely_subtags: indent(VarExporter::export($likely_subtags), 2),
         );
 
         file_put_contents(self::GENERATED_FILE, $contents);
@@ -40,6 +42,7 @@ final class GenerateLocaleData extends Command
     public function render(
         string $available_locales,
         string $parent_locales,
+        string $likely_subtags,
     ): string {
         $class = __CLASS__;
 
@@ -71,6 +74,12 @@ final class GenerateLocaleData extends Command
              */
             public const PARENT_LOCALES =
         $parent_locales;
+
+            /**
+             * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/likelySubtags.json
+             */
+            public const LIKELY_SUBTAGS =
+        $likely_subtags;
 
             private function __construct()
             {

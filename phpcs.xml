@@ -16,6 +16,10 @@
         <exclude-pattern>tests/bootstrap.php</exclude-pattern>
     </rule>
     <rule ref="Generic.Files.LineLength.TooLong">
+        <exclude-pattern>src/Core/TransformLocaleExtensions.php</exclude-pattern>
         <exclude-pattern>tests/GitHub/UrlResolverTest.php</exclude-pattern>
+        <exclude-pattern>tests/Core/LanguageIdTest.php</exclude-pattern>
+        <exclude-pattern>tests/Core/LocaleIdTest.php</exclude-pattern>
+        <exclude-pattern>tests/Core/UnicodeLocaleExtensionsTest.php</exclude-pattern>
     </rule>
 </ruleset>

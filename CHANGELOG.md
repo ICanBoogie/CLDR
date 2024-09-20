@@ -17,6 +17,8 @@
   - `CalendarPreferenceData` provides calendar preferences per region. The method `preferred_calendar_for_region()` returns the preferred calendar for a region.
 - `LocaleNotAvailable` is thrown when a requested locale ID is not available.
 - Added the `Warmable` interface to features that can warm the CLDR cache.
+- Added `LanguageId` to represent a Unicode Language Identifier.
+- Added `LocaleId` to represent a Unicode Locale Identifier.
 
 ### Deprecated Features
 

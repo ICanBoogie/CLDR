@@ -33,14 +33,19 @@ final class TerritoryCode
     /**
      * Returns a {@see TerritoryCode} of the specified code.
      *
-     * @param string $code
+     * @param string|TerritoryCode $code
      *     A currency code; for example, EUR.
+     *     If a {@see TerritoryCode} instance if provided it is returned as is.
      *
      * @throws TerritoryNotDefined
      */
-    public static function of(string $code): self
+    public static function of(string|TerritoryCode $code): self
     {
         static $instances;
+
+        if ($code instanceof TerritoryCode) {
+            return $code;
+        }
 
         self::assert_is_defined($code);
 

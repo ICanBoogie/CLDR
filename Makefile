@@ -63,6 +63,7 @@ GENERATE=./generator/generate
 
 .PHONY=generate
 generate: \
+	src/BCP47/BCP47Data.php \
 	src/Core/LocaleData.php \
 	src/General/Transforms/HasContextTransforms.php \
 	src/Numbers/CurrencyData.php \
@@ -70,6 +71,9 @@ generate: \
 	src/Supplemental/Territory/TerritoryData.php \
 	src/Supplemental/Units/SequenceCompanion.php \
 	src/Supplemental/Units/UnitsCompanion.php
+
+src/BCP47/BCP47Data.php: generator/src/Command/GenerateBCP47Data.php
+	$(GENERATE) $@
 
 src/Core/LocaleData.php: generator/src/Command/GenerateLocaleData.php
 	$(GENERATE) $@

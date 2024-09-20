@@ -64,16 +64,6 @@ final class Supplemental extends AbstractSectionCollection implements Warmable
         return isset(self::OFFSET_MAPPING[$offset]);
     }
 
-    public function warm_up(Closure $progress): void
-    {
-        $progress("Warming up supplemental:");
-
-        foreach (array_keys(self::OFFSET_MAPPING) as $offset) {
-            $progress("- $offset");
-            $this->offsetGet($offset);
-        }
-    }
-
     protected function path_for(string $offset): string
     {
         return "core/supplemental/$offset";
@@ -82,5 +72,15 @@ final class Supplemental extends AbstractSectionCollection implements Warmable
     protected function data_path_for(string $offset): string
     {
         return "supplemental/" . self::OFFSET_MAPPING[$offset];
+    }
+
+    public function warm_up(Closure $progress): void
+    {
+        $progress("Warming up supplemental:");
+
+        foreach (array_keys(self::OFFSET_MAPPING) as $offset) {
+            $progress("- $offset");
+            $this->offsetGet($offset);
+        }
     }
 }

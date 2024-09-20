@@ -731,7 +731,7 @@ final class HasContextTransforms
      */
     public static function for_locale(LocaleId $locale_id): bool
     {
-        return self::HAS_CONTEXT_TRANSFORMS[$locale_id->value];
+        return self::HAS_CONTEXT_TRANSFORMS[$locale_id->available_id];
     }
 
     /**

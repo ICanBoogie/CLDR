@@ -81,7 +81,7 @@ final class Calendar extends ArrayObject
     /**
      * @var array<string, string>
      */
-    private static array $era_widths_mapping = [
+    private const ERA_WIDTHS_MAPPING = [
 
         self::WIDTH_ABBR => self::ERA_ABBR,
         self::WIDTH_NARROW => self::ERA_NARROW,
@@ -117,6 +117,7 @@ final class Calendar extends ArrayObject
      * @param array<string, mixed> $data
      */
     public function __construct(
+        public readonly CalendarId $id,
         public readonly Locale $locale,
         array $data
     ) {
@@ -147,7 +148,8 @@ final class Calendar extends ArrayObject
             $data = $this[$type];
 
             if ($type === self::CALENDAR_ERAS) {
-                return $data[self::$era_widths_mapping[$width]];
+                $eraWidth = self::ERA_WIDTHS_MAPPING[$width];
+                return $data[$eraWidth];
             }
 
             $data = $data[$standalone ? self::CONTEXT_STAND_ALONE : self::CONTEXT_FORMAT];

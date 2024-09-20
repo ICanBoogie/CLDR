@@ -16,6 +16,7 @@ use ICanBoogie\CLDR\Numbers\CurrencyFormatterLocalized;
 use ICanBoogie\CLDR\Numbers\NumberFormatterLocalized;
 use ICanBoogie\CLDR\Numbers\Numbers;
 use ICanBoogie\CLDR\Repository;
+use ICanBoogie\CLDR\Supplemental\CalendarPreferenceData;
 use ICanBoogie\CLDR\Supplemental\Units\Units;
 use ICanBoogie\CLDR\Warmable;
 use WeakMap;
@@ -128,7 +129,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
      */
     public function warm_up(Closure $progress): void
     {
-        $progress("Warming up locale '{$this->id->value}':");
+        $progress("Warming up locale '$this->id':");
 
         foreach (array_keys(self::OFFSET_MAPPING) as $offset) {
             $progress("- $offset");
@@ -138,31 +139,32 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
 
     protected function path_for(string $offset): string
     {
-        return str_replace('{locale}', $this->id->value, self::OFFSET_MAPPING[$offset][0]);
+        return str_replace('{locale}', $this->id->available_id, self::OFFSET_MAPPING[$offset][0]);
     }
 
     protected function data_path_for(string $offset): string
     {
-        return "main/{$this->id->value}/" . self::OFFSET_MAPPING[$offset][1];
+        return "main/{$this->id->available_id}/" . self::OFFSET_MAPPING[$offset][1];
     }
 
     private function get_language(): string
     {
-        [ $language ] = explode('-', $this->id->value, 2);
-
-        return $language;
+        return $this->id->language_id->language;
     }
 
     private Calendar $calendar;
 
     private function get_calendar(): Calendar
     {
+        $calendar_id = CalendarId::from($this->id->unicode_ext->calendar
+            ?? CalendarPreferenceData::preferred_calendar_for_region($this->id->final_region));
+
         /**
          * @TODO-20131101: use preferred data
          *
          * @see https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/supplemental/calendarPreferenceData.json
          */
-        return $this->calendar ??= $this->calendar_for(CalendarId::GREGORIAN);
+        return $this->calendar ??= $this->calendar_for($calendar_id);
     }
 
     /**
@@ -172,7 +174,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
 
     public function calendar_for(CalendarId $id): Calendar
     {
-        return $this->calendars[$id] ??= new Calendar($this, $this["ca-" . $id->value]);
+        return $this->calendars[$id] ??= new Calendar($id, $this, $this["ca-" . $id->value]);
     }
 
     private Numbers $numbers;

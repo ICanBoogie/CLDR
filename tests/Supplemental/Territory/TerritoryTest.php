@@ -112,7 +112,7 @@ final class TerritoryTest extends TestCase
     public function test_name_as(string $expected, string $territory_code, string $locale_id): void
     {
         $territory = new Territory(get_repository(), TerritoryCode::of($territory_code));
-        $this->assertEquals($expected, $territory->name_as(LocaleId::of($locale_id)));
+        $this->assertEquals($expected, $territory->name_as(LocaleId::from($locale_id)));
         $this->assertEquals($expected, $territory->name_as($locale_id));
     }
 
@@ -202,7 +202,7 @@ final class TerritoryTest extends TestCase
     public function test_localize(): void
     {
         $territory = new Territory(get_repository(), TerritoryCode::of('FR'));
-        $actual = $territory->localized(LocaleId::of('fr'));
+        $actual = $territory->localized(LocaleId::from('fr'));
 
         $this->assertInstanceOf(TerritoryLocalized::class, $actual);
     }

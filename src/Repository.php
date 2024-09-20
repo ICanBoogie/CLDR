@@ -3,6 +3,7 @@
 namespace ICanBoogie\CLDR;
 
 use ICanBoogie\Accessor\AccessorTrait;
+use ICanBoogie\CLDR\BCP47\BCP47;
 use ICanBoogie\CLDR\Core\Locale;
 use ICanBoogie\CLDR\Core\LocaleData;
 use ICanBoogie\CLDR\Core\LocaleId;
@@ -17,6 +18,7 @@ use ICanBoogie\CLDR\Supplemental\Plurals;
 use ICanBoogie\CLDR\Supplemental\Supplemental;
 use ICanBoogie\CLDR\Supplemental\Territory\Territory;
 use ICanBoogie\CLDR\Supplemental\Territory\TerritoryCode;
+use WeakMap;
 
 use function array_shift;
 use function explode;
@@ -26,6 +28,8 @@ use function explode;
  *
  * @property-read Supplemental $supplemental
  * @uses self::get_supplemental()
+ * @property-read BCP47 $bcp47
+ * @uses self::get_bcp47()
  * @property-read NumberFormatter $number_formatter
  * @uses self::get_number_formatter()
  * @property-read CurrencyFormatter $currency_formatter
@@ -41,6 +45,7 @@ final class Repository
 {
     /**
      * @uses get_supplemental
+     * @uses get_bcp47
      * @uses get_number_formatter
      * @uses get_currency_formatter
      * @uses get_list_formatter
@@ -58,6 +63,8 @@ final class Repository
         public readonly Provider $provider
     ) {
         $this->available_locales = LocaleData::AVAILABLE_LOCALES;
+        $this->locales = new WeakMap();
+        $this->territories = new WeakMap();
     }
 
     private Supplemental $supplemental;
@@ -65,6 +72,13 @@ final class Repository
     private function get_supplemental(): Supplemental
     {
         return $this->supplemental ??= new Supplemental($this);
+    }
+
+    private BCP47 $bcp47;
+
+    private function get_bcp47(): BCP47
+    {
+        return $this->bcp47 ??= new BCP47($this);
     }
 
     private NumberFormatter $number_formatter;
@@ -169,17 +183,25 @@ final class Repository
     }
 
     /**
+     * @var WeakMap<LocaleId, Locale>
+     */
+    private WeakMap $locales;
+
+    /**
      * @param string|LocaleId $id
      *     A locale ID; for example, fr-BE.
      */
     public function locale_for(string|LocaleId $id): Locale
     {
-        if (!$id instanceof LocaleId) {
-            $id = LocaleId::of($id);
-        }
+        $id = LocaleId::from($id);
 
-        return new Locale($this, $id);
+        return $this->locales[$id] ??= new Locale($this, $id);
     }
+
+    /**
+     * @var WeakMap<TerritoryCode, Territory>
+     */
+    private WeakMap $territories;
 
     /**
      * @param string|TerritoryCode $code
@@ -187,10 +209,8 @@ final class Repository
      */
     public function territory_for(string|TerritoryCode $code): Territory
     {
-        if (!$code instanceof TerritoryCode) {
-            $code = TerritoryCode::of($code);
-        }
+        $code = TerritoryCode::of($code);
 
-        return new Territory($this, $code);
+        return $this->territories[$code] ??= new Territory($this, $code);
     }
 }

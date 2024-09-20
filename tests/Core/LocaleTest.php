@@ -2,9 +2,11 @@
 
 namespace Test\ICanBoogie\CLDR\Core;
 
+use DateTimeImmutable;
 use ICanBoogie\CLDR\Core\Locale;
 use ICanBoogie\CLDR\Core\LocaleId;
 use ICanBoogie\CLDR\Dates\Calendar;
+use ICanBoogie\CLDR\Dates\DateTimeFormatLength;
 use ICanBoogie\CLDR\General\Lists\ListFormatterLocalized;
 use ICanBoogie\CLDR\General\Transforms\ContextTransforms;
 use ICanBoogie\CLDR\Numbers\CurrencyFormatterLocalized;
@@ -27,17 +29,17 @@ final class LocaleTest extends TestCase
 
     public static function setupBeforeClass(): void
     {
-        self::$locale = new Locale(get_repository(), LocaleId::of('fr'));
+        self::$locale = new Locale(get_repository(), LocaleId::from('fr'));
     }
 
     public function test_get_code(): void
     {
-        $this->assertEquals(LocaleId::of('fr'), self::$locale->id);
+        $this->assertEquals(LocaleId::from('fr'), self::$locale->id);
     }
 
     public function test_get_language(): void
     {
-        $locale = new Locale(get_repository(), LocaleId::of('fr-BE'));
+        $locale = new Locale(get_repository(), LocaleId::parse('fr-BE'));
 
         $this->assertEquals('fr', $locale->language);
     }
@@ -48,7 +50,7 @@ final class LocaleTest extends TestCase
     #[DataProvider('provide_test_properties_instanceof')]
     public function test_properties_instanceof(string $property, string $expected): void
     {
-        $locale = new Locale(get_repository(), LocaleId::of('fr'));
+        $locale = new Locale(get_repository(), LocaleId::from('fr'));
         $instance = $locale->$property;
         $this->assertInstanceOf($expected, $instance);
         $this->assertSame($instance, $locale->$property);
@@ -138,10 +140,10 @@ final class LocaleTest extends TestCase
         return [
 
             [ 'fr', "français" ],
-            [ LocaleId::of('fr'), "français" ],
+            [ LocaleId::from('fr'), "français" ],
             [ locale_for('fr'), "français" ],
             [ 'en', "French" ],
-            [ LocaleId::of('en'), "French" ],
+            [ LocaleId::from('en'), "French" ],
             [ locale_for('en'), "French" ],
 
         ];
@@ -151,7 +153,7 @@ final class LocaleTest extends TestCase
     {
         $this->assertStringSame(
             "123 456,78",
-            self::$locale->format_number(123456.78)
+            self::$locale->format_number(123456.78),
         );
     }
 
@@ -159,7 +161,7 @@ final class LocaleTest extends TestCase
     {
         $this->assertStringSame(
             "12 %",
-            self::$locale->format_percent(.1234)
+            self::$locale->format_percent(.1234),
         );
     }
 
@@ -167,7 +169,7 @@ final class LocaleTest extends TestCase
     {
         $this->assertStringSame(
             "123 456,78 €",
-            self::$locale->format_currency(123456.78, 'EUR')
+            self::$locale->format_currency(123456.78, 'EUR'),
         );
     }
 
@@ -175,7 +177,7 @@ final class LocaleTest extends TestCase
     {
         $this->assertSame(
             "lundi, mardi et mercredi",
-            self::$locale->format_list([ "lundi", "mardi", "mercredi" ])
+            self::$locale->format_list([ "lundi", "mardi", "mercredi" ]),
         );
     }
 
@@ -205,8 +207,8 @@ final class LocaleTest extends TestCase
             self::$locale->context_transform(
                 "juin",
                 ContextTransforms::USAGE_MONTH_FORMAT_EXCEPT_NARROW,
-                ContextTransforms::TYPE_STAND_ALONE
-            )
+                ContextTransforms::TYPE_STAND_ALONE,
+            ),
         );
     }
 
@@ -219,5 +221,23 @@ final class LocaleTest extends TestCase
         });
 
         $this->assertEquals(31, $n);
+    }
+
+    public function test_override_calendar_by_region(): void
+    {
+        $datetime = new DateTimeImmutable('2025-06-06 12:35:45');
+        $locale = locale_for('fr-AF');
+        $actual = $locale->calendar->format_date($datetime, DateTimeFormatLength::LONG);
+
+        $this->assertEquals('6 šahrivar 2025 A. P.', $actual);
+    }
+
+    public function test_override_calendar_by_extension(): void
+    {
+        $datetime = new DateTimeImmutable('2025-06-06 12:35:45');
+        $locale = locale_for('fr-FR-u-rg-AF');
+        $actual = $locale->calendar->format_date($datetime, DateTimeFormatLength::LONG);
+
+        $this->assertEquals('6 šahrivar 2025 A. P.', $actual);
     }
 }

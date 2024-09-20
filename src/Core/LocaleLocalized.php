@@ -16,7 +16,7 @@ class LocaleLocalized extends LocalizedObject
 
     public function __construct(Locale $target, Locale $locale)
     {
-        $this->name = $locale['languages'][$target->id->value];
+        $this->name = $locale['languages'][$target->id->available_id];
 
         parent::__construct($target, $locale);
     }
