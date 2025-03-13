@@ -17,7 +17,7 @@ class NumberFormatterLocalized extends LocalizedObject implements Formatter
      *
      * @param float|int|numeric-string $number
      */
-    public function format(float|int|string $number, string $pattern = null): string
+    public function format(float|int|string $number, ?string $pattern = null): string
     {
         $numbers = $this->locale->numbers;
 

@@ -37,7 +37,7 @@ final class CurrencyLocalized extends LocalizedObjectWithFormatter
      *
      * @param int|null $count Used for pluralization.
      */
-    public function name_for(int $count = null): string
+    public function name_for(?int $count = null): string
     {
         $offset = 'displayName';
 

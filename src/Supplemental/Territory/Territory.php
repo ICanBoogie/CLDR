@@ -189,7 +189,7 @@ final class Territory implements Localizable
      *
      * @throws Throwable
      */
-    public function currency_at(DateTimeInterface|string $date = null): ?Currency
+    public function currency_at(DateTimeInterface|string|null $date = null): ?Currency
     {
         $date = $this->ensure_is_datetime($date)->format('Y-m-d');
 

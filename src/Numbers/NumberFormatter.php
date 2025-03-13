@@ -27,7 +27,7 @@ final class NumberFormatter implements Formatter, Localizable
     public function format(
         float|int|string $number,
         NumberPattern|string $pattern,
-        Symbols $symbols = null,
+        ?Symbols $symbols = null,
     ): string {
         if (!$pattern instanceof NumberPattern) {
             $pattern = NumberPattern::from($pattern);

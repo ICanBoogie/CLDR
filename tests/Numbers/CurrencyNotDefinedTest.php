@@ -14,7 +14,7 @@ final class CurrencyNotDefinedTest extends TestCase
         string $currency_code,
         ?string $message,
         string $expected_message,
-        Exception $previous = null
+        ?Exception $previous = null
     ): void {
         $sut = new CurrencyNotDefined($currency_code, $message, $previous);
 

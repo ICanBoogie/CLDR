@@ -51,7 +51,7 @@ final class Number
      *     `$number` has no decimal separator. The fractional part is returned as a string to preserve '03' from
      *     '1.03'.
      */
-    public static function parse(float|int|string $number, int $precision = null): array
+    public static function parse(float|int|string $number, ?int $precision = null): array
     {
         if ($precision === null) {
             $precision = self::precision_from($number);

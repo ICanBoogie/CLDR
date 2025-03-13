@@ -19,8 +19,8 @@ final class LocaleNotAvailable extends InvalidArgumentException implements Excep
      */
     public function __construct(
         public readonly string $locale_id,
-        string $message = null,
-        Throwable $previous = null
+        ?string $message = null,
+        ?Throwable $previous = null
     ) {
         $message ??= "Locale ID is not available: $locale_id";
 

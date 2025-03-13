@@ -33,8 +33,8 @@ final class CurrencyFormatter implements Formatter, Localizable
     public function format(
         float|int|string $number,
         NumberPattern|string $pattern,
-        Symbols $symbols = null,
-        string $currencySymbol = self::DEFAULT_CURRENCY_SYMBOL
+        ?Symbols $symbols = null,
+        ?string $currencySymbol = self::DEFAULT_CURRENCY_SYMBOL
     ): string {
         return str_replace(
             self::DEFAULT_CURRENCY_SYMBOL,

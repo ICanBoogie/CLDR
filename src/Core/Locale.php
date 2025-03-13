@@ -233,7 +233,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
      *
      * @see NumberFormatterLocalized::format
      */
-    public function format_number(float|int|string $number, string $pattern = null): string
+    public function format_number(float|int|string $number, ?string $pattern = null): string
     {
         return $this->get_number_formatter()->format($number, $pattern);
     }
@@ -243,7 +243,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
      *
      * @see NumberFormatterLocalized::format
      */
-    public function format_percent(float|int|string $number, string $pattern = null): string
+    public function format_percent(float|int|string $number, ?string $pattern = null): string
     {
         return $this->get_number_formatter()->format(
             $number,
