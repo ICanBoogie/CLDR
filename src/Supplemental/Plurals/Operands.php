@@ -41,7 +41,7 @@ final class Operands
 
         [ $integer, $fractional ] = Number::parse($number);
 
-        $n = abs($number);
+        $n = abs($number + 0);
 
         if ($fractional === null || (int)$fractional === 0) {
             $n = (int)$n;
