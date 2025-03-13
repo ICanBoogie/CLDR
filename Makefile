@@ -45,6 +45,11 @@ test-container-82:
 	@-docker-compose run --rm app82 bash
 	@docker-compose down -v
 
+.PHONY: test-container-84
+test-container-84:
+	@-docker-compose run --rm app84 bash
+	@docker-compose down -v
+
 .PHONY: lint
 lint:
 	@XDEBUG_MODE=off phpcs -s

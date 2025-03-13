@@ -14,7 +14,7 @@ final class TerritoryNotDefinedTest extends TestCase
         string $territory_code,
         ?string $message,
         string $expected_message,
-        Exception $previous = null
+        ?Exception $previous = null
     ): void {
         $sut = new TerritoryNotDefined($territory_code, $message, $previous);
 

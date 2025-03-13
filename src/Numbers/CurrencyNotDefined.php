@@ -17,8 +17,8 @@ class CurrencyNotDefined extends InvalidArgumentException implements Exception
      */
     public function __construct(
         public readonly string $currency_code,
-        string $message = null,
-        Throwable $previous = null
+        ?string $message = null,
+        ?Throwable $previous = null
     ) {
         $message ??= "Currency code is not defined: $currency_code";
 
