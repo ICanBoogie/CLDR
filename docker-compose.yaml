@@ -34,5 +34,23 @@ services:
     - ~/.composer:/root/.composer:delegated
     working_dir: /app
 
+  app84:
+      build:
+          context: .
+          dockerfile: Dockerfile
+          args:
+              PHP_VERSION: '8.4'
+      environment:
+          PHP_IDE_CONFIG: 'serverName=icanboogie-cldr'
+          ICANBOOGIE_CLDR_REDIS_HOST: redis
+          ICANBOOGIE_CLDR_REDIS_PORT: 6379
+      depends_on:
+          - redis
+      volumes:
+          - .:/app:delegated
+          - ~/.composer:/root/.composer:delegated
+      working_dir: /app
+
+
   redis:
     image: redis:5-alpine
