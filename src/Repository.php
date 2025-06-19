@@ -35,7 +35,7 @@ use function explode;
  * @property-read Plurals $plurals
  * @uses self::get_plurals()
  *
- * @link https://github.com/unicode-org/cldr-json/tree/45.0.0
+ * @link https://github.com/unicode-org/cldr-json/tree/47.0.0
  */
 final class Repository
 {

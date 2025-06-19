@@ -27,7 +27,7 @@ final class GenerateCurrencyData extends Command
         /**
          * @var string[] $codes
          *
-         * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-numbers-full/main/en-001/currencies.json
+         * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-numbers-full/main/en-001/currencies.json
          */
         $codes = array_keys($this->repository->locale_for('en-001')['currencies']);
 
@@ -39,7 +39,7 @@ final class GenerateCurrencyData extends Command
          *     _cashDigits?: string
          * }> $fractions
          *
-         * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/currencyData.json
+         * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/supplemental/currencyData.json
          */
         $fractions = $this->repository->supplemental['currencyData']['fractions'];
 
@@ -77,13 +77,13 @@ final class GenerateCurrencyData extends Command
         final class CurrencyData
         {
             /**
-             * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
+             * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
              */
             public const CODES =
         $codes;
 
             /**
-             * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/currencyData.json
+             * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/supplemental/currencyData.json
              */
             public const FRACTIONS =
         $fractions;

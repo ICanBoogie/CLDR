@@ -11,7 +11,7 @@ for numbers, currencies, dates and times, units, sequences, and lists.
 
 > **Note**
 >
-> The package targets [CLDR version 45](https://github.com/unicode-org/cldr-json/tree/45.0.0); [Revision 72](https://www.unicode.org/reports/tr35/tr35-72/tr35.html).
+> The package targets [CLDR version 45](https://github.com/unicode-org/cldr-json/tree/47.0.0); [Revision 75](https://www.unicode.org/reports/tr35/tr35-75/tr35.html).
 
 
 

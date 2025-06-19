@@ -21,7 +21,7 @@ final class RuleTest extends TestCase
     }
 
     /**
-     * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/plurals.json
+     * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/supplemental/plurals.json
      *
      * @phpstan-ignore-next-line
      */

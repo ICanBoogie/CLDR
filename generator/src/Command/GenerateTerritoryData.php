@@ -26,10 +26,11 @@ final class GenerateTerritoryData extends Command
         /**
          * @var string[] $codes
          *
-         * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-localenames-full/main/en-001/territories.json
+         * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-localenames-full/main/en-001/territories.json
          */
         $codes = array_keys($this->repository->locale_for('en-001')['territories']);
         $codes = array_values(array_filter($codes, fn($code) => !str_contains($code, '-alt')));
+        $codes = array_map(fn ($v) => (string) $v, $codes);;
 
         $contents = $this->render(
             codes: indent(VarExporter::export($codes), 2),
@@ -63,7 +64,7 @@ final class GenerateTerritoryData extends Command
         final class TerritoryData
         {
             /**
-             * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-localenames-full/main/en-001/territories.json
+             * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-localenames-full/main/en-001/territories.json
              */
             public const CODES =
         $codes;

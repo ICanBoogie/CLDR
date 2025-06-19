@@ -160,7 +160,7 @@ class Locale extends AbstractSectionCollection implements Localizable, Warmable
         /**
          * @TODO-20131101: use preferred data
          *
-         * @see https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/calendarPreferenceData.json
+         * @see https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/supplemental/calendarPreferenceData.json
          */
         return $this->calendar ??= $this->calendar_for(CalendarId::GREGORIAN);
     }

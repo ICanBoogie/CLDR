@@ -15,7 +15,7 @@ namespace ICanBoogie\CLDR\Numbers;
 final class CurrencyData
 {
     /**
-     * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
+     * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-numbers-modern/main/en-001/currencies.json
      */
     public const CODES =
         [
@@ -328,7 +328,7 @@ final class CurrencyData
         ];
 
     /**
-     * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/currencyData.json
+     * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/supplemental/currencyData.json
      */
     public const FRACTIONS =
         [

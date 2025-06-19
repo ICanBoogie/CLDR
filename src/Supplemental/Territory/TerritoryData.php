@@ -15,7 +15,7 @@ namespace ICanBoogie\CLDR\Supplemental\Territory;
 final class TerritoryData
 {
     /**
-     * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-localenames-full/main/en-001/territories.json
+     * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-localenames-full/main/en-001/territories.json
      */
     public const CODES =
         [
@@ -41,15 +41,15 @@ final class TerritoryData
             '054',
             '057',
             '061',
-            142,
-            143,
-            145,
-            150,
-            151,
-            154,
-            155,
-            202,
-            419,
+            '142',
+            '143',
+            '145',
+            '150',
+            '151',
+            '154',
+            '155',
+            '202',
+            '419',
             'AC',
             'AD',
             'AE',
