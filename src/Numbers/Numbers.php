@@ -78,7 +78,7 @@ final class Numbers extends ArrayObject
     /**
      * @param array<string, mixed> $data
      *
-     * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-numbers-full/main/en-001/numbers.json
+     * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-numbers-full/main/en-001/numbers.json
      */
     public function __construct(
         public readonly Locale $locale,

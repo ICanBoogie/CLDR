@@ -9,7 +9,7 @@ use Throwable;
 /**
  * Exception thrown when a requested locale ID is not available.
  *
- * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/availableLocales.json
+ * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/availableLocales.json
  */
 final class LocaleNotAvailable extends InvalidArgumentException implements Exception
 {

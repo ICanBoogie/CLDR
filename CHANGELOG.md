@@ -2,7 +2,7 @@
 
 
 
-## v5.x to v6.0
+## v6.0.0
 
 ### New Requirements
 
@@ -12,9 +12,13 @@
 
 - `LocaleId` is generated from the CLDR. It represents an available locale ID.
 - `LocaleNotAvailable` is thrown when a requested locale ID is not available.
-- `TerritoryCode` is generated from the CLDR. It represents a territory ID.
-- `Currency` is generated from the CLDR. It represents a currency, including fraction information.
+- `TerritoryCodeData` is generated from the CLDR. It represents a territory ID.
+- `CurrencyData` is generated from the CLDR. It represents a currency, including fraction information.
 - Added the `Warmable` interface to features that can warm the CLDR cache.
+
+### Deprecated Features
+
+None
 
 ### Backward Incompatible Changes
 
@@ -33,19 +37,15 @@
 - Removed `Locale::localize()` and repurposed the `Localizable` interface.
 - Removed `__invoke` on formatters, use `$formatter->format(...)` instead.
 
-### Deprecated Features
-
-None
-
 ### Other Changes
 
-- Use CLDR 45.0.0.
+- Targets CLDR 47.0.0.
 - Some code is now generated from CLDR data, such as `Units` getters and methods, or `LocaleId`.
 - JSON data is stored as PHP instead of JSON to leverage opcache.
 
 
 
-## v4.x to v5.0
+## v5.0.0
 
 ### New Requirements
 
@@ -74,6 +74,10 @@ None
 	echo $euro_fraction->cash_rounding; // 0
 	```
 
+### Deprecated Features
+
+None
+
 ### Backward Incompatible Changes
 
 - `PathMapper` was replaced by `GitHub\UrlResolver`.
@@ -98,10 +102,6 @@ None
 
 - Renamed `Units::format_combination()` as `format_compound()` to [match the language used by Unicode](http://unicode.org/reports/tr35/tr35-general.html#compound-units).
 
-### Deprecated Features
-
-None
-
 ### Other Changes
 
 - Targets [CLDR v41](https://www.unicode.org/reports/tr35/tr35-72/tr35.html)
@@ -113,7 +113,7 @@ None
 
 
 
-## v3.x to v4.0
+## v4.0.0
 
 ### New Requirements
 
@@ -122,6 +122,16 @@ Requires PHP 7.1+
 ### New features
 
 None
+
+### Deprecated Features
+
+- The localized currency formatter no longer supports a `$symbols` parameter. If you need to
+  customize how a currency is formatted, create your own `Symbols` instance and use it with a
+  non-localized formatter e.g. `$repository->format_currency()`.
+
+- The localized list formatter no longer accepts a list pattern or a type, only a type. If you
+  need to customize how a list is formatted, create you own `ListPattern` instance and use it with
+  a non-localized formatter e.g. `$repository->format_list()`.
 
 ### Backward Incompatible Changes
 
@@ -198,16 +208,6 @@ None
 	echo $units->volume_liter(12.345)->per($units->duration_hour)->as_short;
 	```
 
-### Deprecated Features
-
-- The localized currency formatter no longer supports a `$symbols` parameter. If you need to
-  customize how a currency is formatted, create your own `Symbols` instance and use it with a
-  non-localized formatter e.g. `$repository->format_currency()`.
-
-- The localized list formatter no longer accepts a list pattern or a type, only a type. If you
-  need to customize how a list is formatted, create you own `ListPattern` instance and use it with
-  a non-localized formatter e.g. `$repository->format_list()`.
-
 ### Other Changes
 
 - Compatible with PHP 8.1+
@@ -226,11 +226,11 @@ None
 
 None
 
-### Backward Incompatible Changes
+### Deprecated Features
 
 None
 
-### Deprecated Features
+### Backward Incompatible Changes
 
 None
 

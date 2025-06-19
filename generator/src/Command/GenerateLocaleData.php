@@ -61,13 +61,13 @@ final class GenerateLocaleData extends Command
         final class LocaleData
         {
             /**
-             * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/availableLocales.json
+             * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/availableLocales.json
              */
             public const AVAILABLE_LOCALES =
         $available_locales;
 
             /**
-             * @link https://github.com/unicode-org/cldr-json/blob/45.0.0/cldr-json/cldr-core/supplemental/parentLocales.json
+             * @link https://github.com/unicode-org/cldr-json/blob/47.0.0/cldr-json/cldr-core/supplemental/parentLocales.json
              */
             public const PARENT_LOCALES =
         $parent_locales;
