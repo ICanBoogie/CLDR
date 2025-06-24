@@ -14,7 +14,6 @@ services:
     - redis
     volumes:
     - .:/app:delegated
-    - ~/.composer:/root/.composer:delegated
     working_dir: /app
 
   app82:
@@ -31,7 +30,6 @@ services:
     - redis
     volumes:
     - .:/app:delegated
-    - ~/.composer:/root/.composer:delegated
     working_dir: /app
 
   app84:
@@ -48,9 +46,7 @@ services:
           - redis
       volumes:
           - .:/app:delegated
-          - ~/.composer:/root/.composer:delegated
       working_dir: /app
-
 
   redis:
     image: redis:5-alpine

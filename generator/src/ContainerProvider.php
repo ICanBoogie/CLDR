@@ -5,6 +5,7 @@ namespace ICanBoogie\CLDR\Generator;
 use ICanBoogie\CLDR\Cache\CacheCollection;
 use ICanBoogie\CLDR\Cache\FileCache;
 use ICanBoogie\CLDR\Cache\RuntimeCache;
+use ICanBoogie\CLDR\Generator\Command\GenerateCalendarPreferenceData;
 use ICanBoogie\CLDR\Generator\Command\GenerateCurrencyData;
 use ICanBoogie\CLDR\Generator\Command\GenerateHasContextTransforms;
 use ICanBoogie\CLDR\Generator\Command\GenerateLocaleData;
@@ -20,9 +21,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class ContainerProvider
 {
     private const COMMANDS = [
-        GenerateLocaleData::class,
-        GenerateHasContextTransforms::class,
+        GenerateCalendarPreferenceData::class,
         GenerateCurrencyData::class,
+        GenerateHasContextTransforms::class,
+        GenerateLocaleData::class,
         GenerateSequenceCompanion::class,
         GenerateTerritoryData::class,
         GenerateUnitsCompanion::class,

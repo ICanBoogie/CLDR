@@ -66,6 +66,7 @@ generate: \
 	src/Core/LocaleData.php \
 	src/General/Transforms/HasContextTransforms.php \
 	src/Numbers/CurrencyData.php \
+	src/Supplemental/CalendarPreferenceData.php \
 	src/Supplemental/Territory/TerritoryData.php \
 	src/Supplemental/Units/SequenceCompanion.php \
 	src/Supplemental/Units/UnitsCompanion.php
@@ -77,6 +78,9 @@ src/General/Transforms/HasContextTransforms.php: generator/src/Command/GenerateH
 	$(GENERATE) $@
 
 src/Numbers/CurrencyData.php: generator/src/Command/GenerateCurrencyData.php
+	$(GENERATE) $@
+
+src/Supplemental/CalendarPreferenceData.php: generator/src/Command/GenerateCalendarPreferenceData.php
 	$(GENERATE) $@
 
 src/Supplemental/Territory/TerritoryData.php: generator/src/Command/GenerateTerritoryData.php

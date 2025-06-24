@@ -10,10 +10,12 @@
 
 ### New features
 
-- `LocaleId` is generated from the CLDR. It represents an available locale ID.
+- Some classes are now generated from the CLDR to provide commonly used data as static PHP code:
+  - `LocaleData` provides available locales and parent locales.
+  - `TerritoryData` provides territory codes.
+  - `CurrencyData` provides currency codes and fractions information.
+  - `CalendarPreferenceData` provides calendar preferences per region. The method `preferred_calendar_for_region()` returns the preferred calendar for a region.
 - `LocaleNotAvailable` is thrown when a requested locale ID is not available.
-- `TerritoryCodeData` is generated from the CLDR. It represents a territory ID.
-- `CurrencyData` is generated from the CLDR. It represents a currency, including fraction information.
 - Added the `Warmable` interface to features that can warm the CLDR cache.
 
 ### Deprecated Features
@@ -29,11 +31,10 @@ None
 - `$cldr->territories['FR']` is replaced by `$cldr->territory_for('FR')`.
 - `$cldr->currencies['USD']` is replaced by `Currency::of('USD')`.
 - `Locale::$calendars` is replaced by `Locale::calendar_for()`.
-- Removed `Repository::$locales`, use `LocaleId` instead.
+- Removed `Repository::$locales`, use `LocaleData::AVAILABLE_LOCALES` instead.
 - Removed `Repository::$territories`, use `TerritoryCode::CODES` instead.
 - Removed `Repository::$currencies`, use `Currency::CODES` instead.
-- Removed `Supplemental::$currency_data`, use `Currency` instead.
-- Removed `CurrencyData`, use `Currency` instead.
+- Removed `Supplemental::$currency_data`, use `CurrencyData::CODES` instead.
 - Removed `Locale::localize()` and repurposed the `Localizable` interface.
 - Removed `__invoke` on formatters, use `$formatter->format(...)` instead.
 
